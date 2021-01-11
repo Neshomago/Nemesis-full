@@ -1,0 +1,78 @@
+<div class="table boxform">
+
+    <form class="create-form" #testForm="ngForm" (ngSubmit)="saveClient()">
+
+      <table class="full-width" cellspacing="0">
+        <tr>
+        <td colspan="2">
+          <h1 class="h1-form">CREATE NEW Client</h1>
+        </td>
+        </tr>
+      </table>
+      <!-- {{ClientsData | json}} -->
+      <table>
+              <tr>
+                  <td>
+                      <mat-label>Name</mat-label>
+                      <input class="full-width" name="ClientName" type="text" id="ClientName" matInput [(ngModel)]="ClientsData.ClientName">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-label>SurName</mat-label>
+                        <input class="full-width" name="ClientSurname" type="text" id="ClientSurname" matInput [(ngModel)]="ClientsData.ClientSurname">
+                      </td>
+                  </tr>
+
+                <tr>
+                    <td>
+                        <mat-label>ClientFiscal</mat-label>
+                        <input class="full-width" matInput type="text" placeholder="0924496896001" name="ClientFiscal" id="ClientFiscal" [(ngModel)]="ClientsData.ClientFiscal">
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-label>ClientContact</mat-label>
+                        <input class="full-width" matInput type="text" placeholder="Ex. San Francisco" name="ClientContact" id="ClientContact" [(ngModel)]="ClientsData.ClientContact">
+                    </td>
+                    
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-label>ClientContactAddress</mat-label>
+                        <input class="full-width" matInput type="text" name="ClientContactAddress" id="ClientContactAddress" [(ngModel)]="ClientsData.ClientContactAddress">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-label>ClientContactEmail</mat-label>
+                        <input class="full-width" matInput type="text" name="ClientContactEmail" id="ClientContactEmail" [(ngModel)]="ClientsData.ClientContactEmail">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-label>ClientContactPhone</mat-label>
+                        <input class="full-width" type="text" matInput name="ClientContactPhone" id="ClientContactPhone" [(ngModel)]="ClientsData.ClientContactPhone">
+                    </td>
+                </tr>
+                
+        </table>
+<table class="full-width" cellspacing="0">
+    <tr>
+        <td class="boton-form-centrado">
+            <button mat-raised-button class="cancel" routerLink="/agency"><span class="material-icons">
+                clear</span>Cancel</button>
+            </td>
+            <td>
+                <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">done</span> Save</button>
+            </td>
+        </tr>    
+    </table>
+</form>
+</div>

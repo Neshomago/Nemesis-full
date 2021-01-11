@@ -1,0 +1,42 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list class="background-nemesis">
+      <a mat-list-item routerLink="/main"><span class="material-icons">home</span> Home</a>
+      <a mat-list-item routerLink="/contact"><span class="material-icons">contacts</span>Contacts</a>
+      <a mat-list-item routerLink="/customers"><span class="material-icons">person_pin</span>Clients</a>
+      <a mat-list-item routerLink="/tickets"><span class="material-icons">local_play</span>Ticketing</a>
+      <a mat-list-item routerLink="/agency"><span class="material-icons">store_mall_directory</span>Agency</a>
+      <a mat-list-item routerLink="/warehouse"><span class="material-icons">home_work</span>Warehouse</a>
+    </mat-nav-list>
+    <mat-nav-list>
+      <div><a mat-list-item href="/config">
+        <span class="material-icons">miscellaneous_services</span>Settings</a></div>
+    </mat-nav-list>
+    <mat-nav-list>
+      <div>
+        <a mat-list-item routerLink="/clients">Test Insert Data</a></div>
+    </mat-nav-list>
+    <div class="background-nemesis" style="display: flex; opacity: 0.3;"> 
+      <img src="../assets/img/logo-nemesisw.png" height="180">
+    </div>  
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <img src="../assets/img/logo-nemesisfull.png" height="50">
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

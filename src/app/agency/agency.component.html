@@ -1,0 +1,33 @@
+<h1>Agency</h1>
+<div class="table">
+<router-outlet></router-outlet>
+    <table class="full-width table-stripped table-hover">
+        <thead>
+            <th>Agency Name</th>
+            <th>Agency Contacts</th>
+            <th>Certification</th>
+            <th>Manager ID</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dataItem of AgencyList">
+                <td>
+                    <table>
+                        <tr><td class="Agency-name">{{dataItem.name}}</td></tr>
+                        <tr><td class="sm-address">{{dataItem.address}}</td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td class="Agency-name">{{dataItem.phone}}</td></tr>
+                        <tr><td class="sm-address">{{dataItem.email}}</td></tr>
+                    </table>
+                </td>
+                <td class="Agency-name">{{dataItem.certification}}</td>
+                <td class="Agency-name">{{dataItem.managerId}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="botonflotante">
+     <a routerLink="/create-agency">+</a>
+    </div>
+</div>

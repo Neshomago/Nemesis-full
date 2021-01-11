@@ -1,0 +1,71 @@
+<div class="table boxform">
+    <form #ticketForm="ngForm" (ngSubmit)="saveTicket()">
+          <table class="full-width" cellspacing="0">
+            <tr>
+              <td colspan="2">
+                <h1 class="h1-form">CREATE NEW TICKET</h1>
+              </td>
+              </tr>
+        <tr>
+          <td><mat-form-field class="full-width" >
+            <label for="type">Request Type:</label>
+                <select class="full-width" id="type" name="type" [(ngModel)]="ticketModel.type">
+                  <option value="INS">INSTALATION</option>
+                  <option value="INT">INTEGRATION</option>
+                  <option value="MAN">MAINTENANCE</option>
+                  <option value="DIS">UNINSTALL</option>
+                  <option value="SUP">SUPPORT</option>
+                  <option value="IND">INTEGRATION DELIVERY</option>
+                  <option value="MND">MAINTENANCE DELIVERY</option>
+                </select></mat-form-field>
+          </td>
+          <td><mat-form-field class="full-width" >
+            <label for="priority">Priority:</label>
+            <select class="full-width" name="priority" id="priority" [(ngModel)]="ticketModel.priority">
+              <option value="LOW">Low Priority</option>
+              <option value="NORMAL">Normal</option>
+              <option value="HIGH">High Priority</option>
+            </select></mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><mat-form-field class="full-width" >
+            <mat-label for="code">Ticket Code</mat-label>
+            <input class="full-width" id="code" name="code" type="text" [(ngModel)]="ticketModel.code">
+          </mat-form-field></td>
+        </tr>
+        <tr>
+          <td><mat-form-field class="full-width" >
+            <label for="customerId">Client</label>
+            <input class="full-width" id="customerId" name="customerId" type="text" [(ngModel)]="ticketModel.customerId">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="full-width" >
+            <label for="agencyId">Agency</label>
+            <input class="full-width" id="agencyId" name="agencyId" type="text" [(ngModel)]="ticketModel.agencyId">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr class="full-width">
+          <td colspan="2">
+            <label for="description" >Details</label>
+            <textarea class="full-width" name="description" id="description" rows="3" [(ngModel)]="ticketModel.description"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="boton-form-centrado">
+          <button mat-raised-button class="cancel" routerLink="/tickets"><span class="material-icons">
+            clear</span>Cancel</button>
+          </td>
+        <td>
+          <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">
+            done
+            </span> Save</button>
+        </td>
+    
+    
+        </tr>
+      </table>
+      </form>
+      </div>

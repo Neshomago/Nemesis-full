@@ -1,0 +1,26 @@
+<!-- {{TicketList | json}} -->
+<h1>Ticketing</h1>
+<div class="table">
+<router-outlet></router-outlet>
+    <table class="full-width table-stripped table-hover">
+        <thead>
+            <th>Status</th>
+            <th>Ticket Code</th>
+            <th>Customer Id</th>
+            <th>Request Type</th>
+            <th>Priority</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dataItem of TicketList">
+                <td>{{dataItem.status}}</td>
+                <td class="Agency-name">{{dataItem.code}}</td>
+                <td class="sm-address">{{dataItem.customerId}}</td>
+                <td class="Agency-name">{{dataItem.type}}</td>
+                <td class="Agency-name">{{dataItem.priority}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="botonflotante">
+     <a routerLink="/create-ticket">+</a>
+    </div>
+</div>
