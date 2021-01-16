@@ -1,68 +1,77 @@
 <div class="boxformcreate">
   <div class="forminmargin">
-    <h1 class="h1-form">New Contact</h1>
+    <h1 class="h1-form">New Nemesis User</h1>
+    <form #contactForm="ngForm" (ngSubmit)="saveContact()">
     <p>
+      
       <mat-form-field class="full-width">
         <mat-label>Name</mat-label>
-        <input matInput placeholder="First Name" ngModel>
+        <input matInput id="name" name="name" placeholder="First Name" [(ngModel)]="contactModel.name" required>
       </mat-form-field>
     </p>
     <p><mat-form-field class="full-width">
       <mat-label>Surname</mat-label>
-      <input matInput placeholder="Surname" ngModel>
+      <input matInput id="surname" name="surname" placeholder="Surname" [(ngModel)]="contactModel.surname">
     </mat-form-field>
   </p>
   <p>
     <mat-form-field class="full-width">
       <mat-label>Fiscal Code</mat-label>
-      <input matInput placeholder="Fiscal Code" ngModel>
+      <input matInput id="FiscalCode" name="FiscalCode" placeholder="Fiscal Code" [(ngModel)]="contactModel.taxCode">
     </mat-form-field>
   </p>
   <h2>Contact Customer</h2>
   <p>
     <mat-form-field class="full-width">
-      <mat-label>Contact Customer</mat-label>
-      <input matInput placeholder="Fiscal Code" ngModel>
+      <mat-label>Customer</mat-label>
+      <input matInput placeholder="Customer" [(ngModel)]="contactModel.customerId">
     </mat-form-field>
   </p>
   <p>
     <mat-form-field class="full-width">
       <mat-label>Contact Address</mat-label>
-      <input matInput placeholder="Fiscal Code" ngModel>
+      <input matInput id="Address" name="Address" placeholder="Address" [(ngModel)]="contactModel.address">
     </mat-form-field>
   </p>
-  <p>
+  <!-- <p>
     <mat-form-field class="full-width">
       <mat-label>Contact Email</mat-label>
-      <input matInput placeholder="Fiscal Code" ngModel>
+      <input matInput placeholder="Fiscal Code" [formControlName]="phone">
     </mat-form-field>
-  </p>
+  </p> -->
   <p>
     <mat-form-field class="full-width">
       <mat-label>Contact Phone</mat-label>
-      <input matInput placeholder="Fiscal Code" ngModel>
+      <input matInput id="Phone" name="Phonr" placeholder="Phone" [(ngModel)]="contactModel.phone">
     </mat-form-field>
   </p>
   <h2>Role</h2>
   <div>
-  <section class="checksection">
+    <section id="user" name="user" class="checksection" [(ngModel)]="contactModel.user">
       <mat-checkbox class="checkleftmargin">Administrator</mat-checkbox>
       <mat-checkbox class="checkleftmargin">Techinician</mat-checkbox>
       <mat-checkbox class="checkleftmargin">Customer</mat-checkbox>
       <mat-checkbox class="checkleftmargin">Warehouse</mat-checkbox>
     </section>
+    <!-- <input type="checkbox" id="user" name="user" value="ADMIN" [(ngModel)]="contactModel.user"><label for="user">Administrator</label>
+    <input type="checkbox" id="user" name="user" value="TECH" [(ngModel)]="contactModel.user"><label for="user">Technician</label>
+    <input type="checkbox" id="user" name="user" value="CUSTOMER" [(ngModel)]="contactModel.user"><label for="user">Customer</label>
+    <input type="checkbox" id="user" name="user" value="WAREHOUSE" [(ngModel)]="contactModel.user"><label for="user">Warehouse</label> -->
   </div>
+  {{contactModel | json}}
   <p></p>
   <div class="btncenter">
     <div>
       <button mat-raised-button class="cancel" routerLink="/contacts"><span class="material-icons">clear</span>Cancel</button>
     </div>
     <div>
-      <button mat-raised-button class="savebtn" type="submit" (click)="saveContact()" ><span class="material-icons">done</span> Save</button>
+      <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">done</span> Save</button>
     </div>
   </div>
+</form>
 </div>
 </div>
+
 <!-- 
   
   <div class="table boxform">

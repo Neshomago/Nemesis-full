@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from 'src/app/shared.service';
+import {CustomerService} from 'src/app/services/customer.service';
 import { FormBuilder, Validators} from '@angular/forms';
 
 @Component({
@@ -9,7 +9,7 @@ import { FormBuilder, Validators} from '@angular/forms';
 })
 export class CustomersComponent implements OnInit {
 
-  constructor( private customerService: SharedService,  private fb:FormBuilder) { }
+  constructor( private customerService: CustomerService,  private fb:FormBuilder) { }
 
   CustomerList: any =[];
 

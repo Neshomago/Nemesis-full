@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from 'src/app/shared.service';
+import {TicketService} from 'src/app/services/ticket.service';
+import {AgencyService} from 'src/app/services/agency.service';
+
 
 @Component({
   selector: 'app-tickets',
@@ -8,9 +10,10 @@ import {SharedService} from 'src/app/shared.service';
 })
 export class TicketsComponent implements OnInit {
 
-  constructor(private service:SharedService) { }
+  constructor(private service:TicketService, private agencyService: AgencyService) { }
 
   TicketList:any=[];
+  AgencyList:any=[];
 
   ngOnInit(): void {
     this.refreshTicketList();
@@ -20,7 +23,10 @@ export class TicketsComponent implements OnInit {
     this.service.getTicketList().subscribe(data => 
       {
        this.TicketList=data; 
-      })
+      }),
+    this.agencyService.getAgencyList().subscribe(agency=>
+      {
+        this.AgencyList = agency;
+      });
   }
-
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from 'src/app/shared.service';
+import { UsersService} from 'src/app/services/users.service';
 import { FormBuilder, Validators} from '@angular/forms';
 
 @Component({
@@ -9,7 +9,7 @@ import { FormBuilder, Validators} from '@angular/forms';
 })
 export class ContactComponent implements OnInit {
 
-  constructor(private contactService:SharedService, private fb:FormBuilder) { }
+  constructor(private contactService: UsersService, private fb:FormBuilder) { }
 
   Contact:any = [];
 

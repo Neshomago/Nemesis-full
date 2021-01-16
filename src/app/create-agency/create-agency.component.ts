@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs';
-import {Agency} from 'src/app/agency';
-import { SharedService } from '../shared.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AgencyService } from '../services/agency.service';
+import { Agency } from 'src/app/agency';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-agency',
@@ -14,14 +11,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CreateAgencyComponent implements OnInit {
 
-  // agencyForm = this.fb.group(
-  //   {
-  //     name: null,
-  //   }
-  // );
-  agencyModel = new Agency ('','','','','','','','','','',1);
+  agencyModel = new Agency ('','','','','','','',1,'','AgencytestID','USERTEST');
 
-  constructor(private agencyService:SharedService, private fb:FormBuilder, private _snackBar:MatSnackBar) { }
+  constructor(private agencyService:AgencyService, 
+    private router:Router, 
+    private _snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -29,9 +23,10 @@ export class CreateAgencyComponent implements OnInit {
   addAgency(){
     this.agencyService.addAgency(this.agencyModel).subscribe(
       (data) => { console.log('Agency Registered', data);
-      this._snackBar.open("Agency Registered Succesfully", "OK", { duration:3500, panelClass: "success",}); },
+                  this._snackBar.open("Agency Registered Succesfully", "OK", { duration:3500, panelClass: "success",});
+                  this.router.navigateByUrl("/agency"); },
       error => { console.log('Failed to Register Agency', error);
-      this._snackBar.open("Failed to Register the Agency", "OK", { duration:3500, panelClass: "error",}); }
+                  this._snackBar.open("Failed to Register the Agency", "OK", { duration:3500, panelClass: "error",}); },
       )
       console.warn(this.agencyModel);
     }

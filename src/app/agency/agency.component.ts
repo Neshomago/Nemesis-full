@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from 'src/app/shared.service';
+import {AgencyService} from 'src/app/services/agency.service';
 
 
 @Component({
@@ -10,16 +10,19 @@ import {SharedService} from 'src/app/shared.service';
 export class AgencyComponent implements OnInit {
   AgencyList:any=[];
 
-  constructor(private agencyService: SharedService) { }
+  constructor(private service: AgencyService) { }
 
   ngOnInit(): void {
     this.refreshAgencyList();
   }
 
   refreshAgencyList(){
-    this.agencyService.getAgencyList().subscribe(data => 
+    this.service.getAgencyList().subscribe(data => 
       {
        this.AgencyList = data; 
       })
   }
+
+  
+
 }

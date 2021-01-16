@@ -10,8 +10,8 @@
             <tr *ngFor="let dataItem of CustomerList">
                 <td>
                     <table>
-                        <tr><td class="Agency-name">{{dataItem.name}}</td></tr>
-                        <tr><td class="sm-address">{{dataItem.email}}</td><td class="sm-address">{{dataItem.phone}}</td></tr>
+                        <tr><td class="Agency-name"><strong></strong>{{dataItem.name}}</td></tr>
+                        <tr><td class="sm-address">{{dataItem.email}} | {{dataItem.phone}}</td></tr>
                     </table>
                 </td>
                 <td class="Agency-name">{{dataItem.vat}}</td>
@@ -19,7 +19,33 @@
             </tr>
         </tbody>
     </table>
-    <div class="botonflotante">
-     <a routerLink="/create-customer">+</a>
+
+    <div style="position: fixed; right: 40px; bottom: 30px;">
+        <button mat-fab routerLink="/create-customer"><mat-icon>add</mat-icon></button>
     </div>
 </div>
+
+<!-- <div class="full-width forminmargin">
+    <div>
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="CustomerList" matSort>-->
+
+                <!-- Costumer Column -->
+                <!-- <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container> -->
+
+                <!-- Customer VAT Column -->
+                <!-- <ng-container matColumnDef="progress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer VAT </th>
+                    <td mat-cell *matCellDef="let row"> {{row.vat}} </td>
+                </ng-container>
+        </table>
+    </div>
+</div> -->

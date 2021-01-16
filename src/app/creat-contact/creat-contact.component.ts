@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import { from } from 'rxjs';
+import { MatSnackBar} from '@angular/material/snack-bar';
 import { Contact } from '../contact';
-import { SharedService } from '../shared.service';
+import { UsersService } from '../services/users.service';
+
 
 @Component({
   selector: 'app-creat-contact',
@@ -11,7 +11,10 @@ import { SharedService } from '../shared.service';
 })
 export class CreatContactComponent implements OnInit {
 
-  constructor(private _snackBar:MatSnackBar, private contactService: SharedService) { }
+
+  userRole: Array<String> = ['ADMIN', 'TECH', 'CUSTOMER', 'WAREHOUSE'];
+
+  constructor(private _snackBar:MatSnackBar, private contactService: UsersService) { }
 
   contactModel = new Contact('','','','','','','','',1);
 
@@ -19,7 +22,7 @@ export class CreatContactComponent implements OnInit {
   }
 
   addContact(){
-    this.contactService.addAgency(this.contactModel).subscribe(
+    this.contactService.addContact(this.contactModel).subscribe(
       (data) => { console.log('Contact Registered', data);
       this._snackBar.open("Contact Registered Succesfully", "OK", { duration:3500, panelClass: "success",}); },
       error => { console.log('Failed to Register Contact', error);

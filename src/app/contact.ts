@@ -1,5 +1,4 @@
 export class Contact {
-    //public id?:number;
     constructor(
         public name:string,
         public surname:string,
@@ -10,5 +9,6 @@ export class Contact {
         public customerId:string,
         public ids:string,
         public version:number,
+        public id?:number,
         ){}
 }

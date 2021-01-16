@@ -12,36 +12,36 @@ import { from } from 'rxjs';
 })
 export class ClientsComponent implements OnInit {
 
-  ClientsData = new Clients('','','','','','','');
-  ClientsList:any=[];
+  // ClientsData = new Clients('','','','','','','');
+  // ClientsList:any=[];
 
-  PruebaData = new Prueba(1,'');
-  PruebaList:any=[];
+  // PruebaData = new Prueba(1,'');
+  // PruebaList:any=[];
 
   constructor(private clientService:SharedService, ) { }
   
-  addClient_method(){
-    this.clientService.addClients(this.ClientsData).subscribe(
-      data => console.log('Client Registered', data),
-      error => console.log('Failed to Register Client', error)
-    )
-  }
+  // addClient_method(){
+  //   this.clientService.addClients(this.ClientsData).subscribe(
+  //     data => console.log('Client Registered', data),
+  //     error => console.log('Failed to Register Client', error)
+  //   )
+  // }
   
-  saveClient(){
-    this.addClient_method();
-  }
+  // saveClient(){
+  //   this.addClient_method();
+  // }
   
     ngOnInit(): void {
-      this.refreshClientsList();
+      // this.refreshClientsList();
       // this.refreshPruebaList();
     }
 
-    refreshClientsList(){
-      this.clientService.getClientsList().subscribe(data => 
-        {
-         this.ClientsList=data; 
-        })
-    }
+    // refreshClientsList(){
+    //   this.clientService.getClientsList().subscribe(data => 
+    //     {
+    //      this.ClientsList=data; 
+    //     })
+    // }
 }
 
 

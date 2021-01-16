@@ -5,22 +5,43 @@
     <table class="full-width table-stripped table-hover">
         <thead>
             <th>Status</th>
-            <th>Ticket Code</th>
-            <th>Customer Id</th>
-            <th>Request Type</th>
-            <th>Priority</th>
+            <th>Ticket Agency</th>
+            <th>Details</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
         </thead>
         <tbody>
-            <tr *ngFor="let dataItem of TicketList">
-                <td>{{dataItem.status}}</td>
-                <td class="Agency-name">{{dataItem.code}}</td>
-                <td class="sm-address">{{dataItem.customerId}}</td>
-                <td class="Agency-name">{{dataItem.type}}</td>
-                <td class="Agency-name">{{dataItem.priority}}</td>
-            </tr>
+            <tr *ngFor="let dataItem of TicketList" style="cursor: pointer;">
+                    <td>
+                        <div>
+                            <button [ngStyle]="{'border':'none','border-radius':'5px','width':'50px','height':'30px','margin':'10px 0px 5px 0px', 'color':'white','background-color': dataItem.status === 'RESOLVED'?'green':'red'}"><span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
+                        </div>
+                        <div class="xs-text" [ngStyle]="{'color': dataItem.priority === 'HIGH'?'red':'black'}">
+                            Priority: {{dataItem.priority}}
+                        </div>
+                    </td>
+                    <td class="med-text">{{dataItem.agencyId}}</td>
+                    <td class="med-text">{{dataItem.description}}</td>
+                    <td class="med-text">{{dataItem.creationDate}}</td>
+                    <td>
+                        <div class="example-button-container">
+                            <button mat-icon-button color="secondary" [routerLink]="['/viewticket/', dataItem.id, 'view']"><mat-icon>edit</mat-icon></button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="example-button-container">
+                            <button mat-icon-button color="warn" (click)="deleteTicket(dataItem.id)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                    </td>
+                </tr>
         </tbody>
     </table>
-    <div class="botonflotante">
-     <a routerLink="/create-ticket">+</a>
+    <div style="position: fixed; right: 40px; bottom: 30px;">
+        <button mat-fab routerLink="/create-ticket"><mat-icon>add</mat-icon></button>
     </div>
+    <!--        
+            <div class="botonflotante">
+             <a routerLink="/create-ticket">+</a>
+    </div> -->
 </div>

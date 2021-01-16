@@ -1,6 +1,5 @@
 export class Customer {
         constructor(
-            // public id:number,
             public name:string,
             public address:string,
             public vat:string,
@@ -8,5 +7,6 @@ export class Customer {
             public phone:string,
             public ids:string,
             public version:number,
+            public id?:number,
             ){}
 }

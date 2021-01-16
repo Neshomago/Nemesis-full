@@ -1,16 +1,11 @@
-<p>create-customer works!</p>
 <div class="boxformcreate">
-<div class="forminmargin">
-
-  <form class="create-form" [formGroup]="customerform" #customerForm="ngForm" (ngSubmit)="saveCustomer()">
-    
-    <div>
-      <h1 class="h1-form">CREATE NEW CLIENT</h1>
-    </div>
+<div class="forminmargin">  
+    <h1 class="h1-form">CREATE NEW CUSTOMER</h1>
+  <form #customerForm="ngForm" (ngSubmit)="saveCustomer()">
       <p>
         <mat-form-field class="full-width" >
           <mat-label>Name</mat-label>
-          <input name="name" id="name" matInput [(ngModel)]="customerModel.name">
+          <input name="name" id="name" matInput [(ngModel)]="customerModel.name" required>
         </mat-form-field>
       </p>
       
@@ -31,7 +26,7 @@
       <p>
         <mat-form-field class="full-width">
           <mat-label>Email</mat-label>
-          <input class="full-width" matInput placeholder="mail@mail.com" type="email" name="email" id="email" [(ngModel)]="customerModel.email">
+          <input class="full-width" matInput placeholder="mail@mail.com" type="email" name="email" id="email" [(ngModel)]="customerModel.email" required>
         </mat-form-field>
       </p>
 
