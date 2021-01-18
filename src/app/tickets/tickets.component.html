@@ -21,9 +21,16 @@
                             Priority: {{dataItem.priority}}
                         </div>
                     </td>
-                    <td class="med-text">{{dataItem.agencyId}}</td>
+                    <td class="med-text">
+                        <!-- <span style="visibility: hidden;"> -->
+                            {{dataItem.agencyId}}
+                        <!-- </span> -->
+                        <!-- <tr *ngFor="let agency of AgencyList">
+                                {{agency.name}}
+                        </tr> -->
+                    </td>
                     <td class="med-text">{{dataItem.description}}</td>
-                    <td class="med-text">{{dataItem.creationDate}}</td>
+                    <td class="med-text">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
                     <td>
                         <div class="example-button-container">
                             <button mat-icon-button color="secondary" [routerLink]="['/viewticket/', dataItem.id, 'view']"><mat-icon>edit</mat-icon></button>
@@ -40,8 +47,4 @@
     <div style="position: fixed; right: 40px; bottom: 30px;">
         <button mat-fab routerLink="/create-ticket"><mat-icon>add</mat-icon></button>
     </div>
-    <!--        
-            <div class="botonflotante">
-             <a routerLink="/create-ticket">+</a>
-    </div> -->
 </div>

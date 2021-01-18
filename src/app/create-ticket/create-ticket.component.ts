@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService} from '../services/ticket.service';
-import { AgencyService} from '../services/agency.service';
 import { Tickets} from '../tickets';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar} from '@angular/material/snack-bar';
 
-import { from, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-ticket',
@@ -15,38 +13,37 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class CreateTicketComponent implements OnInit {
 
-  
-  customerId = 'USER000582147ee7db00';
-
-  filteredAgencies: Observable<any[]> | undefined;
-  
-  // ticketModel = new Tickets('TEST','','', new Date() ,'OPEN','','','','',1,'');
+  customerId = 'CUSTOME581785f34f4f3';
+  //filteredAgencies: Observable<any[]> | undefined;
 
     ticketModel: Tickets = {
-    createdBy: '',
+    createdBy: 'CUSTOME581785f34f4f3',
     type: '',
-    customerId: '',
-    status:'',
+    customerId: 'CUSTOME581785f34f4f3',
+    //creationDate: new Date(),
+    status:'OPENED',
     priority:'',
     agencyId:'',
     description:'',
-    ids: '',
+    ids: '789461',
     version: 1,
-    creationDate: new Date(),
-    code:'',
+    // code:'',
   }
   
-  constructor(private ticketService:TicketService, private _snackBar:MatSnackBar, private agencyService:AgencyService) { }
+  constructor(private ticketService:TicketService, private _snackBar:MatSnackBar, private router:Router) { }
   
   ngOnInit(): void {
-    this.filteredAgencies = this.myControl.valueChanges.pipe(startWith(''),map(value=> this._filter(value)))
+    this.getAgencyName();
+
+
+    // this.filteredAgencies = this.myControl.valueChanges.pipe(startWith(''),map(value=> this._filter(value)))
  
   }
   myControl = new FormControl();
-  AgencyList: any[] =[];
+  AgencyList: any = [];
 
   getAgencyName(){
-    this.agencyService.getAgency(this.AgencyList.push()).subscribe(agency => {
+    this.ticketService.getAgencyName(this.customerId).subscribe(agency => {
       this.AgencyList = agency;
     })
 
@@ -55,21 +52,22 @@ export class CreateTicketComponent implements OnInit {
   addTicket(){
     this.ticketService.addTicket(this.ticketModel).subscribe(
       (data) => { console.log('Ticket Registered', data);
-      this._snackBar.open("Ticket Registered Succesfully", "OK", { duration:3500, panelClass: "success",}); },
+      this._snackBar.open("Ticket Registered Succesfully", "OK", { duration:3500, panelClass: "success",});
+      this.router.navigateByUrl("/viewticket/"); },
       (error) => { console.log('Failed to Register Ticket', error);
       this._snackBar.open("Failed to Register Ticket", "OK", { duration:3500, panelClass: "error",}); },
     )
     console.warn(this.ticketModel);
   }
 
-  //filter string request
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.AgencyList.filter( option => option.toLowerCase().includes(filterValue));
-  }
-
   saveTicket(){
     this.addTicket();
   }
+
+  //filter string request
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.AgencyList.filter( option => option.toLowerCase().includes(filterValue));
+  // }
 }

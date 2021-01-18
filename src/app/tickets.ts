@@ -20,13 +20,13 @@ export interface Tickets {
  createdBy:string;
  type:string;
  customerId:string;
- creationDate:Date;
+ //creationDate:Date;
  status:string;
  priority:string;
  agencyId:string;
  description:string;
  ids:string;
  version:number;
- code:string;
+//  code:string;
  id?:number;
 }

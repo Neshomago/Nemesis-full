@@ -8,10 +8,11 @@ import {AgencyService} from 'src/app/services/agency.service';
   styleUrls: ['./agency.component.scss']
 })
 export class AgencyComponent implements OnInit {
-  AgencyList:any=[];
-
+  
   constructor(private service: AgencyService) { }
-
+  
+  AgencyList:any=[];
+  
   ngOnInit(): void {
     this.refreshAgencyList();
   }

@@ -12,12 +12,12 @@ export class AgencyService {
 
   constructor(private http:HttpClient) { }
   
-  getAgency(id:number):Observable<any>{
-    return this.http.get<any[]>(APIUrl+'/agency/'+id);
+  getAgency(name:string):Observable<any>{
+    return this.http.get<any[]>(APIUrl+'/agency/'+name);
   }
 
   getAgencyList():Observable<any>{
-    return this.http.get<any[]>(APIUrl + '/agency');
+    return this.http.get<any[]>(APIUrl + '/agencies');
   }
 
   addAgency(val:any): Observable<any>{

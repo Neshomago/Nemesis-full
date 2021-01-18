@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AgencyService } from '../services/agency.service';
-import { Agency } from 'src/app/agency';
+import { Agency } from '../agency';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router} from '@angular/router';
 
@@ -11,7 +11,19 @@ import { Router} from '@angular/router';
 })
 export class CreateAgencyComponent implements OnInit {
 
-  agencyModel = new Agency ('','','','','','','',1,'','AgencytestID','USERTEST');
+  agencyModel: Agency = {
+    name:'',
+    address:'',
+    managerId:'',
+    customerId:'USER000582147ee7db00',
+    vat:'',
+    email:'',
+    phone:'',
+    certification:'',
+    version:1,
+    moreInfo:'',
+    ids:'',    
+  } //('','','','','','','',1,'','AgencytestID','USERTEST');
 
   constructor(private agencyService:AgencyService, 
     private router:Router, 

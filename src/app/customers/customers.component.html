@@ -1,29 +1,35 @@
-<h1>Customers</h1>
-<div class="table">
-<router-outlet></router-outlet>
-    <table class="full-width table-stripped table-hover">
-        <thead>
-            <th>Customer Name</th>
-            <th>Customer VAT</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let dataItem of CustomerList">
-                <td>
-                    <table>
-                        <tr><td class="Agency-name"><strong></strong>{{dataItem.name}}</td></tr>
-                        <tr><td class="sm-address">{{dataItem.email}} | {{dataItem.phone}}</td></tr>
-                    </table>
-                </td>
-                <td class="Agency-name">{{dataItem.vat}}</td>
-                <td class="Agency-name">{{dataItem.managerId}}</td>
-            </tr>
-        </tbody>
-    </table>
+<h1>Clients</h1>
+<div class="table-responsive">
 
-    <div style="position: fixed; right: 40px; bottom: 30px;">
-        <button mat-fab routerLink="/create-customer"><mat-icon>add</mat-icon></button>
+    <div class="table">
+        <router-outlet></router-outlet>
+        <table class="full-width table-stripped table-hover">
+            <thead>
+                <th>Customer Name</th>
+                <th>Customer VAT</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dataItem of CustomerList">
+                    <td>
+                        <table>
+                            <tr><td class="Agency-name"><strong></strong>{{dataItem.name}}</td></tr>
+                            <tr><td class="med-text"><span class="material-icons" style="font-size: 13px;">mail_outline</span>{{dataItem.email}} | <span class="material-icons" style="font-size: 13px;">phone</span>{{dataItem.phone}}</td></tr>
+                        </table>
+                    </td>
+                    <td class="Agency-name">{{dataItem.vat}}</td>
+                    <td class="Agency-name">{{dataItem.managerId}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div style="position: fixed; right: 40px; bottom: 30px;">
+            <button mat-fab routerLink="/create-customer"><mat-icon>add</mat-icon></button>
+        </div>
     </div>
 </div>
+    <div>
+        <footer>&nbsp;</footer>
+    </div>
 
 <!-- <div class="full-width forminmargin">
     <div>

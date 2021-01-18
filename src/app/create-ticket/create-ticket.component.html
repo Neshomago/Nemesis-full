@@ -1,50 +1,59 @@
 <div class="boxformcreate">
   <div class="forminmargin">
     <h1 class="h1-form">CREATE NEW TICKET</h1>
+    {{ticketModel | json}}
     <form #ticketForm="ngForm" (ngSubmit)="saveTicket()">
       <p>
         <mat-form-field class="full-width" >
           <mat-label>Request Type:</mat-label>
-          <select matNativeControl id="type" name="type" [(ngModel)]="ticketModel.type">
-            <option value="INS">INSTALATION</option>
-            <option value="INT">INTEGRATION</option>
-            <option value="MAN">MAINTENANCE</option>
-            <option value="DIS">UNINSTALL</option>
-            <option value="SUP">SUPPORT</option>
-            <option value="IND">INTEGRATION DELIVERY</option>
-            <option value="MND">MAINTENANCE DELIVERY</option>
-          </select>
+          <mat-select matNativeControl id="type" name="type" [(ngModel)]="ticketModel.type">
+            <mat-option value="INS">INSTALATION</mat-option>
+            <mat-option value="INT">INTEGRATION</mat-option>
+            <mat-option value="MAN">MAINTENANCE</mat-option>
+            <mat-option value="DIS">UNINSTALL</mat-option>
+            <mat-option value="SUP">SUPPORT</mat-option>
+            <mat-option value="IND">INTEGRATION DELIVERY</mat-option>
+            <mat-option value="MND">MAINTENANCE DELIVERY</mat-option>
+          </mat-select>
         </mat-form-field>
       </p>
       
       <p>
         <mat-form-field class="full-width" >
           <mat-label>Priority:</mat-label>
-          <select matNativeControl name="priority" id="priority" [(ngModel)]="ticketModel.priority">
-            <option value="LOW">Low Priority</option>
-            <option value="NORMAL">Normal</option>
-            <option value="HIGH">High Priority</option>
-          </select>
+          <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="ticketModel.priority">
+            <mat-option value="LOW">Low Priority</mat-option>
+            <mat-option value="NORMAL">Normal</mat-option>
+            <mat-option value="HIGH">High Priority</mat-option>
+          </mat-select>
         </mat-form-field>
       </p>
       
-      <p>
+      <!-- <p>
         <mat-form-field class="full-width" >
           <mat-label>Ticket Code</mat-label>
           <input matInput id="code" name="code" type="text" [(ngModel)]="ticketModel.code">
             </mat-form-field>
-          </p>
+          </p> -->
           <p>
             <mat-form-field class="full-width" >
               <mat-label>Agency</mat-label>
-              <input matInput id="agencyId" name="agencyId" type="text" [formControl]="myControl" [(ngModel)]="ticketModel.agencyId" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let agency of filteredAgencies | async" [value]="agency">
-                  {{agency}}
+              <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="ticketModel.agencyId">
+                <mat-option *ngFor="let agency of AgencyList" [value]="agency.id">
+                  {{agency.name}}
+                  <!-- <table>
+                    <tr>
+                      <td>{{agency.managerId}} / {{agency.certification}} - {{agency.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>{{agency.address}}</td>
+                    </tr>
+                  </table> -->
                 </mat-option>
-              </mat-autocomplete>
+              </mat-select>
             </mat-form-field>
           </p>
+
           <p>
             <mat-form-field class="full-width">
               <mat-label>Details</mat-label>
@@ -53,7 +62,7 @@
           </p>
           <input type="hidden" name="status" id="status" [(ngModel)]="ticketModel.status">
           <input type="hidden" name="createdBy" id="createdBy" [(ngModel)]="ticketModel.createdBy">
-          <input type="hidden" name="creationDate" id="creationDate" [(ngModel)]="ticketModel.creationDate">
+          <!-- <input type="hidden" name="creationDate" id="creationDate" [(ngModel)]="ticketModel.creationDate"> -->
 
           <div class="btncenter">
             <div>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SharedService } from '../shared.service';
 
 
 const APIUrl = "http://127.0.0.1:5000";
@@ -11,7 +10,7 @@ const APIUrl = "http://127.0.0.1:5000";
 })
 export class CustomerService {
 
-  constructor(private shared:SharedService, private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
   
 
   getCustomerList():Observable<any>{

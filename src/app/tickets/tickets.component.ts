@@ -29,4 +29,9 @@ export class TicketsComponent implements OnInit {
         this.AgencyList = agency;
       });
   }
+
+
+  deleteTicket(id: string){
+
+  }
 }
