@@ -8,14 +8,15 @@
             <th>Ticket Agency</th>
             <th>Details</th>
             <th>Date</th>
-            <th></th>
-            <th></th>
         </thead>
         <tbody>
-            <tr *ngFor="let dataItem of TicketList" style="cursor: pointer;">
+            <tr *ngFor="let dataItem of TicketList; let i = index" 
+            [class.active]="i == currentIndex"
+            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['/viewticket/',dataItem.id]" style="cursor: pointer;">
                     <td>
                         <div>
-                            <button [ngStyle]="{'border':'none','border-radius':'5px','width':'50px','height':'30px','margin':'10px 0px 5px 0px', 'color':'white','background-color': dataItem.status === 'RESOLVED'?'green':'red'}"><span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
+                            <button [ngStyle]="{'border':'none','border-radius':'5px','width':'50px','height':'30px','margin':'10px 0px 5px 0px', 'color':'white','background-color': dataItem.status === 'RESOLVED'?'green':'red'}">
+                                <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <div class="xs-text" [ngStyle]="{'color': dataItem.priority === 'HIGH'?'red':'black'}">
                             Priority: {{dataItem.priority}}
@@ -31,16 +32,17 @@
                     </td>
                     <td class="med-text">{{dataItem.description}}</td>
                     <td class="med-text">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
-                    <td>
+                    <!-- <td>
                         <div class="example-button-container">
                             <button mat-icon-button color="secondary" [routerLink]="['/viewticket/', dataItem.id, 'view']"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button color="secondary" routerLink="/viewticket/"><mat-icon>edit</mat-icon></button>
                         </div>
-                    </td>
-                    <td>
+                    </td> -->
+                    <!-- <td>
                         <div class="example-button-container">
                             <button mat-icon-button color="warn" (click)="deleteTicket(dataItem.id)"><mat-icon>delete</mat-icon></button>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
         </tbody>
     </table>

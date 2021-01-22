@@ -1,20 +1,3 @@
-// export class Agency {
-//     constructor (
-//         public name:string,
-//         public address:string,
-//         public managerId:string,
-//         public vat:string,
-//         public email:string,
-//         public phone:string,
-//         public certification:string, 
-//         public version:number,
-//         public moreInfo?:string,
-//         public ids?:string,
-//         public customerId?:string,
-//         //public id?:number,
-//         ){}
-// }
-
 export interface Agency {
     
     name:string;
@@ -31,5 +14,3 @@ export interface Agency {
     id?:number;
     
 }
-
-export declare type agencyName = Agency[];

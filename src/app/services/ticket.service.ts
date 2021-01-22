@@ -36,6 +36,23 @@ export class TicketService {
   getAgencyName(customerId:string):Observable<any>{
     return this.http.get<any[]>(APIUrl + '/agency/'+customerId);
   }
+
+  getTicketIso(id:any): Observable<any>{
+    return this.http.get(`${APIUrl}/ticket/${id}`);
+  }
+
+  getTicketAgency(agencyid:any): Observable<any>{
+    return this.http.get(`${APIUrl}/agency/${agencyid}`);
+  }
+
+  getAgencyList():Observable<any>{
+    return this.http.get<any[]>(APIUrl + '/agencies');
+  }
+
+  getTagList():Observable<any>{
+    return this.http.get<any[]>(APIUrl + '/tags');
+  }
+
 }
 
 

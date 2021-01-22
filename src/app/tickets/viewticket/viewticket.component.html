@@ -1,44 +1,79 @@
-<p>viewticket works!</p>
-<div class="forminmargin">
-    <mat-card class="example-card">
-        <mat-card-header>
-          <div class=""><span class="material-icons">receipt</span></div>
-          <mat-card-title>Created Ticket</mat-card-title>
-          <mat-card-subtitle>Date: </mat-card-subtitle>
-        </mat-card-header>
-        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
-        <mat-card-content>
-            <div>
-                <h2>Ticket Data</h2>
-                <mat-list color="primary">
-                    <mat-list-item>Ticket ID: </mat-list-item>
-                    <mat-list-item>Code: </mat-list-item>
-                    <mat-list-item>Creation Date: </mat-list-item>
-                    <mat-list-item>Created by: </mat-list-item>
-                    <mat-list-item>Ticket type: </mat-list-item>
-                    <mat-list-item>Priority: </mat-list-item>
-                </mat-list>
-            </div>
-            <div>
-                <h2>Agency</h2>
-                <mat-list>
-                    <mat-list-item>Agency name: </mat-list-item>
-                    <mat-list-item>Shop code: </mat-list-item>
-                    <mat-list-item>AAMS Code: </mat-list-item>
-                    <mat-list-item>Address: </mat-list-item>
-                    <mat-list-item>Phone: </mat-list-item>
-                    <mat-list-item>Email: </mat-list-item>
-                </mat-list>
-            </div>
-            <div>
-                <h2>Additional Information: </h2>
-                <p> </p>
-            </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="accent">EDIT TICKET</button>
-          <button mat-raised-button color="warn">ABORT TICKET</button>
-        </mat-card-actions>
-      </mat-card>
+<div style="background-color: whitesmoke; margin: 0;">
+    <div class="forminmargin">
+        <div>
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title>Created Ticket</mat-card-title>
+                  <mat-card-subtitle >Date: {{theTicket.creationDate}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+                <mat-card-content>
+                    <div>
+                        <p></p>
+                        <h2>Ticket Data</h2>
+                        <mat-list color="primary" >
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.id">Ticket ID: {{theTicket.id}}</mat-list-item>
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.code">Code: {{theTicket.code}}</mat-list-item>
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.creationDate">Creation Date: {{theTicket.creationDate}}</mat-list-item>
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.createdBy">Created by: {{theTicket.createdBy}}</mat-list-item>
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.type">Ticket type: {{theTicket.type}}</mat-list-item>
+                            <mat-list-item style="color: black;" (ngModel)="theTicket.priority">Priority: {{theTicket.priority}}</mat-list-item>
+                        </mat-list>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <p></p>
+                        <h2>agencyData</h2>
+                                <!-- <mat-list>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.agencyId">agencyData name: {{agencyData.id}}<div>| {{agencyData.name}}</div></mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.managerId">Shop code: {{agencyData.managerId}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.certification">AAMS Code: {{agencyData.certification}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.address">Address: {{agencyData.address}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.phone">Phone: {{agencyData.phone}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="agencyData.email">Email: {{agencyData.email}}</mat-list-item>
+                                </mat-list> -->
+                    </div>
+                    <div style="border-top: 1px dotted gray;">
+                        <h2>Additional Information: </h2>
+                        <p>{{theTicket.description}}</p>
+                    </div>
+                </mat-card-content>
+            <mat-divider></mat-divider>
+                <mat-card-actions>
+                </mat-card-actions>
+            </mat-card>
+            <ng-container>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+            </ng-container>
 
+            <!-- <div>
+                <mat-form-field class="full-width">
+                    <mat-card class="row">
+                        <mat-card-title>Adittional Equipment: </mat-card-title>
+                        <mat-select matNativeControl name="id" class="col">
+                            <mat-option *ngFor="let tag of tagsData" (value)="tagsData">{{tagsData}}</mat-option>
+                        </mat-select>
+                        <mat-chip class="col-6">
+                            <mat-chip-list></mat-chip-list>
+                        </mat-chip>
+                    <input matInput class="col">
+                </mat-card>
+            </mat-form-field>
+        </div> -->
+
+        <additionalequipment></additionalequipment>
+        
+        <div style="display: flex; flex-direction: row; justify-content:space-evenly; padding: 20px;">
+            <div>
+                <button mat-raised-button color="accent">EDIT TICKET</button>
+            </div>
+                <div>
+                    <button mat-raised-button color="warn">ABORT TICKET</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

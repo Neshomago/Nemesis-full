@@ -41,6 +41,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { ViewticketComponent } from './tickets/viewticket/viewticket.component';
 import { EditComponent } from './tickets/edit/edit.component';
+import {MatChipsModule} from '@angular/material/chips';
+import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { EditComponent } from './tickets/edit/edit.component';
     HomeComponent,
     ViewticketComponent,
     EditComponent,
+    AdditionalequipmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +89,7 @@ import { EditComponent } from './tickets/edit/edit.component';
     MatCardModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatChipsModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],

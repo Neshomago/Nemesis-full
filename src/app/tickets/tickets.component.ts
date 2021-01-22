@@ -14,6 +14,8 @@ export class TicketsComponent implements OnInit {
 
   TicketList:any=[];
   AgencyList:any=[];
+  currentTicket = null;
+  currentIndex = -1;
 
   ngOnInit(): void {
     this.refreshTicketList();
@@ -30,6 +32,16 @@ export class TicketsComponent implements OnInit {
       });
   }
 
+  refresh():void{
+    this.refreshTicketList();
+    this.currentTicket = null;
+    this.currentIndex = -1;
+  }
+
+  setCurrentTicket(ticket:any, index:any): void{
+    this.currentTicket = ticket;
+    this.currentIndex = index;
+  }
 
   deleteTicket(id: string){
 

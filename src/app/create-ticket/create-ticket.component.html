@@ -1,7 +1,6 @@
 <div class="boxformcreate">
   <div class="forminmargin">
     <h1 class="h1-form">CREATE NEW TICKET</h1>
-    {{ticketModel | json}}
     <form #ticketForm="ngForm" (ngSubmit)="saveTicket()">
       <p>
         <mat-form-field class="full-width" >
@@ -29,26 +28,20 @@
         </mat-form-field>
       </p>
       
-      <!-- <p>
+      <p>
         <mat-form-field class="full-width" >
           <mat-label>Ticket Code</mat-label>
           <input matInput id="code" name="code" type="text" [(ngModel)]="ticketModel.code">
-            </mat-form-field>
-          </p> -->
+        </mat-form-field>
+      </p>
           <p>
             <mat-form-field class="full-width" >
               <mat-label>Agency</mat-label>
               <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="ticketModel.agencyId">
                 <mat-option *ngFor="let agency of AgencyList" [value]="agency.id">
-                  {{agency.name}}
-                  <!-- <table>
-                    <tr>
-                      <td>{{agency.managerId}} / {{agency.certification}} - {{agency.name}}</td>
-                    </tr>
-                    <tr>
-                      <td>{{agency.address}}</td>
-                    </tr>
-                  </table> -->
+                  <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
+                  <br><span style="color: darkgrey; font-size: smaller;">{{agency.address}}</span>
+                  </div>
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -62,7 +55,6 @@
           </p>
           <input type="hidden" name="status" id="status" [(ngModel)]="ticketModel.status">
           <input type="hidden" name="createdBy" id="createdBy" [(ngModel)]="ticketModel.createdBy">
-          <!-- <input type="hidden" name="creationDate" id="creationDate" [(ngModel)]="ticketModel.creationDate"> -->
 
           <div class="btncenter">
             <div>

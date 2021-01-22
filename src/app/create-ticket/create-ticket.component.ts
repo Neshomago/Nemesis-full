@@ -14,20 +14,18 @@ import { Router} from '@angular/router';
 export class CreateTicketComponent implements OnInit {
 
   customerId = 'CUSTOME581785f34f4f3';
-  //filteredAgencies: Observable<any[]> | undefined;
 
-    ticketModel: Tickets = {
+  ticketModel: Tickets = {
     createdBy: 'CUSTOME581785f34f4f3',
     type: '',
     customerId: 'CUSTOME581785f34f4f3',
-    //creationDate: new Date(),
     status:'OPENED',
     priority:'',
     agencyId:'',
     description:'',
     ids: '789461',
     version: 1,
-    // code:'',
+    code:'',
   }
   
   constructor(private ticketService:TicketService, private _snackBar:MatSnackBar, private router:Router) { }
@@ -53,7 +51,7 @@ export class CreateTicketComponent implements OnInit {
     this.ticketService.addTicket(this.ticketModel).subscribe(
       (data) => { console.log('Ticket Registered', data);
       this._snackBar.open("Ticket Registered Succesfully", "OK", { duration:3500, panelClass: "success",});
-      this.router.navigateByUrl("/viewticket/"); },
+      this.router.navigateByUrl("/tickets"); },
       (error) => { console.log('Failed to Register Ticket', error);
       this._snackBar.open("Failed to Register Ticket", "OK", { duration:3500, panelClass: "error",}); },
     )
