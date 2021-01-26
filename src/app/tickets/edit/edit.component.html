@@ -1,1 +1,85 @@
 <p>edit works!</p>
+
+<div style="background-color: whitesmoke; margin: 0;">
+    <div class="forminmargin">
+        <div *ngFor="let theTicket of theTicketData">
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title>Created Ticket</mat-card-title>
+                  <mat-card-subtitle >Date: {{theTicket.creationDate}}</mat-card-subtitle>
+                  <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
+                      Ticket Status:
+                      <div>
+                          <button [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}">
+                              <span style="display: none; width: 100px;">{{theTicket.status}}</span>{{theTicket.type}}</button>
+                      </div>
+                  </div>
+                  <div style="padding-left: 20px; padding-right: 20px;">
+                    Techinician Asigned: 
+                    <mat-form-field class="full-width" >
+                        <mat-label>Agency</mat-label>
+                        <mat-select matNativeControl name="priority" id="priority">
+                          <mat-option>Option Technician</mat-option>
+                          <mat-option>Option Technician 2</mat-option>
+                          <mat-option>Option Technician 3</mat-option>
+                          <mat-option>Option Technician 4</mat-option>
+                          <mat-option>Option Technician 5</mat-option>
+                          <!-- *ngFor="let tech of TechnicianList">
+                            <div style="line-height: 12px; font-weight: 400;">{{tech.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
+                            <br><span style="color: darkgrey; font-size: smaller;">{{tech.id}}</span>
+                            </div>
+                        </mat-option>
+                        -->
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                </mat-card-header>
+            <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div>
+                        <div>
+                            <p></p>
+                            <h2>Ticket Data</h2>
+                            <mat-list color="primary" >
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.id">Ticket ID: {{theTicket.id}}</mat-list-item>
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.code">Code: {{theTicket.code}}</mat-list-item>
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.creationDate">Creation Date: {{theTicket.creationDate}}</mat-list-item>
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.createdBy">Created by: {{theTicket.createdBy}}</mat-list-item>
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.type">Ticket type: {{theTicket.type}}</mat-list-item>
+                                <mat-list-item style="color: black;" (ngModel)="theTicket.priority">Priority: {{theTicket.priority}}</mat-list-item>
+                            </mat-list>
+                        </div>
+
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <p></p>
+                        <h2>agencyData</h2>
+                                <mat-list>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.agencyId">agencyData name: {{theTicket.id}}<div>| {{theTicket.name}}</div></mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.managerId">Shop code: {{theTicket.managerId}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.certification">AAMS Code: {{theTicket.certification}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.address">Address: {{theTicket.address}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.phone">Phone: {{theTicket.phone}}</mat-list-item>
+                                    <mat-list-item style="color: black;" (ngModel)="theTicket.email">Email: {{theTicket.email}}</mat-list-item>
+                                </mat-list>
+                    </div>
+                    <div style="border-top: 1px dotted gray;">
+                        <div>
+                            <h2>Additional Information:</h2>
+                        </div>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <input matInput autofocus type="text" name="description" id="description" [(ngModel)]="theTicket.description" value="{{theTicket.description}}" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <ng-container style="padding-top: 20px;">
+                <mat-divider></mat-divider>
+            </ng-container>
+        <additionalequipment></additionalequipment>
+        </div>
+    </div>
+</div>

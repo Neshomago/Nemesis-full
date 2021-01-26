@@ -30,4 +30,8 @@ export class UsersService {
   deleteContact(val:any): Observable<any>{
     return this.http.delete(APIUrl + '/contact/delete',val);
   }
+
+  getTechnicianList(): Observable<any>{
+    return this.http.get<any[]>(APIUrl + '/techn');
+  }
 }

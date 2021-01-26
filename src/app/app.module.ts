@@ -43,6 +43,7 @@ import { ViewticketComponent } from './tickets/viewticket/viewticket.component';
 import { EditComponent } from './tickets/edit/edit.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
+import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { AdditionalequipmentComponent } from './additionalequipment/additionaleq
     ViewticketComponent,
     EditComponent,
     AdditionalequipmentComponent,
+    TestingcompoComponent,
   ],
   imports: [
     BrowserModule,

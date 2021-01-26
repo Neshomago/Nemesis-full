@@ -11,9 +11,11 @@ import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { HomeComponent } from './home/home.component';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
+import { TestingcompoComponent } from './testingcompo/testingcompo.component';
+import { EditComponent } from './tickets/edit/edit.component';
 
 const routes: Routes = [
-  { path: '', redirectTo:'home', pathMatch:'full' },
+  { path: '', redirectTo:'main', pathMatch:'full' },
   { path:'main', component: HomeComponent},
   { path: 'agency', component:AgencyComponent},
   { path: 'customers', component:CustomersComponent},
@@ -24,7 +26,9 @@ const routes: Routes = [
   { path: 'create-contact', component:CreatContactComponent},
   { path: 'create-ticket', component:CreateTicketComponent},
   { path: 'create-customer', component:CreateCustomerComponent},
-  { path: 'additional', component:AdditionalequipmentComponent}
+  { path: 'additional', component:AdditionalequipmentComponent},
+  { path:'edit-ticket/:id', component: EditComponent},
+  { path:'testing', component:TestingcompoComponent},
 ];
 
 @NgModule({

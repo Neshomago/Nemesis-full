@@ -1,6 +1,7 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Component, OnInit} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
+import {FormControl} from '@angular/forms';
+import { TicketService } from '../services/ticket.service';
 
 export interface Fruit {
   name: string;
@@ -11,38 +12,35 @@ export interface Fruit {
   templateUrl: './additionalequipment.component.html',
   styleUrls: ['./additionalequipment.component.scss']
 })
-export class AdditionalequipmentComponent{
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: Fruit[] = [
-    {name: 'Lemon'},
-    {name: 'Lime'},
-    {name: 'Apple'},
-  ];
+export class AdditionalequipmentComponent implements OnInit{
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+  showEdit:boolean = false;
+  selectbyname: any = [];
+  selectedItemdescription: any = [];
+  tagSelected: string | undefined;
+  tags: any = [];
+  allestimentoControl= new FormControl;
 
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.fruits.push({name: value.trim()});
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
+  constructor(
+    private service:TicketService,
+  ) {
+    
+  }
+  ngOnInit(): void {
+    this.getTags();
   }
 
-  remove(fruit: Fruit): void {
-    const index = this.fruits.indexOf(fruit);
+  getTags(){
+    return this.service.getTagList().subscribe(
+      tag => this.tags = tag
+    )
+  }
 
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
+  toogleEdit(){
+    this.showEdit=!this.showEdit
+  }
+
+  saveAllestimento(){
+
   }
 }

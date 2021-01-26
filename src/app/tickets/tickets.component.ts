@@ -42,8 +42,4 @@ export class TicketsComponent implements OnInit {
     this.currentTicket = ticket;
     this.currentIndex = index;
   }
-
-  deleteTicket(id: string){
-
-  }
 }
