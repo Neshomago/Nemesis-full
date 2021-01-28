@@ -2,10 +2,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
-
-export interface Fruit {
-  name: string;
-}
+import { Equipment } from '../interfaces/equipmentadditional.model';
 
 @Component({
   selector: 'additionalequipment',
@@ -20,20 +17,35 @@ export class AdditionalequipmentComponent implements OnInit{
   tagSelected: string | undefined;
   tags: any = [];
   allestimentoControl= new FormControl;
+  equipment = new Equipment()
+  tagsarray: any =[];
 
   constructor(
     private service:TicketService,
-  ) {
-    
-  }
+  ) {}
+
   ngOnInit(): void {
     this.getTags();
+    this.tagsarray.push(this.equipment);
   }
 
   getTags(){
-    return this.service.getTagList().subscribe(
-      tag => this.tags = tag
-    )
+    this.service.getTagList().subscribe(
+      data => this.tags = data
+    );
+  }
+
+  addItem(){
+    this.equipment = new Equipment();
+    this.tagsarray.push(this.equipment);
+  }
+
+  removeItem(index:any){
+    this.tagsarray.splice(index);
+  }
+
+  onsubmit(){
+
   }
 
   toogleEdit(){

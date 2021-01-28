@@ -44,6 +44,8 @@ import { EditComponent } from './tickets/edit/edit.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
+import { EquipmententryComponent } from './equipmententry/equipmententry.component';
+import {MatStepperModule} from '@angular/material/stepper'; 
 
 
 @NgModule({
@@ -64,6 +66,7 @@ import { TestingcompoComponent } from './testingcompo/testingcompo.component';
     EditComponent,
     AdditionalequipmentComponent,
     TestingcompoComponent,
+    EquipmententryComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +95,7 @@ import { TestingcompoComponent } from './testingcompo/testingcompo.component';
     MatCheckboxModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatStepperModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],

@@ -4,60 +4,50 @@
             <div class="col">
                 <mat-card-title>Adittional Equipment: </mat-card-title>
             </div>
+            <div class="col-auto">
+                <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+            </div>
             <div class="col-md-3 ms-md-auto">
                 <button mat-icon-button><mat-icon>save</mat-icon>Save changes</button>
             </div>
         </div>
-        <div class="row">
-            <!-- <div class="col-sm">
-                <mat-form-field class="full-width">
-                    <mat-select matNativeControl id="selection" name="selection">
-                        <mat-option value="name">By Name</mat-option>
-                        <mat-option value="tag">By Tag</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div> -->
-            <div class="col-md-3 ms-md-auto">
-                <button mat-icon-button><mat-icon>add</mat-icon>Add Item</button>
-            </div>
-            <div class="col-sm-3">
-                <mat-form-field class="full-width">
-                    <mat-label>Qty.</mat-label>
-                    <input matInput type="number" />
-                </mat-form-field>
-            </div>
-            <div class="col-6">
-                <mat-form-field class="full-width">
-                    <mat-select matNativeControl id="description" name="description" multiple>
-                        <mat-option *ngFor="let tag of tags" value="{{tag.description}}">{{tag.description}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-                    <!-- <mat-form-field>
-                        <mat-select matNativeControl id="array" name="array" multiple>
-                            <mat-option *ngFor="let tag of tags" value="{{tag.name}}">{{tag.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
 
-        <!-- <div>
-            <button mat-icon-button><mat-icon>add</mat-icon></button>
-        </div> -->
-        <mat-form-field class="full-width">
-            <mat-select matNativeControl name="tags" id="tags">
-                <mat-option>None</mat-option>
-                <mat-optgroup label="Installation">
-                    <mat-option value="PC">New Pc Installation</mat-option>
-                    <mat-option value="wos">Windows 10 OS</mat-option>
-                    <mat-option value="ofi">Office 365</mat-option>
-                </mat-optgroup>
-                <mat-optgroup label="Uninstall">
-                    <mat-option value="pcu">PC Uninstall</mat-option>
-                    <mat-option value="wosu">Windows Operating System Unistall</mat-option>
-                    <mat-option value="ofu">Microsoft Office Uninstall</mat-option>
-                            </mat-optgroup>
-            </mat-select>
-            </mat-form-field>
+        <div class="container" #equipment>
+            <div>
+                <div> 
+                    <div class="row" *ngFor="let obj of tagsarray; let i = index" >
+                        <div class="col-auto">
+                            <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                        </div>
+                        <div class="col-auto">
+                            <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                        <div class="col-auto">
+                            <mat-form-field class="full-width">
+                                <mat-select matNativeControl id="selection" name="selection">
+                                    <mat-option value="name">By Name</mat-option>
+                                    <mat-option value="tag">By Tag</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="col-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>Qty.</mat-label>
+                                <input matInput type="number" name="quantity{{i}}" ngModel="equipment.quantity" value=1/>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-auto">
+                            <mat-form-field class="full-width">
+                                <mat-select matNativeControl name="item{{i}}" multiple>
+                                    <mat-option *ngFor="let tag of tags" [value]="tags.id">{{tags.id}} | {{tags.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
 </mat-card>
 </div>
 

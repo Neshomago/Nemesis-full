@@ -1,5 +1,17 @@
+
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
+        <mat-vertical-stepper [linear]="isLinear" #stepper>
+            <!-- <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}"></div>
+                        <mat-select name="" id="" [(value)]="theTicket.status">
+                            <mat-option>NONE</mat-option>
+                            <mat-option value="OPENED">OPENED</mat-option>
+                            <mat-option value="MANAGING">MANAGING</mat-option>
+                            <mat-option value="RESOLVED">RESOLVED</mat-option>
+                            <mat-option value="ABORTED">ABORTED</mat-option>
+                        </mat-select>   -->
+        <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Ticket general Information</ng-template>
         <div *ngFor="let theTicket of theTicketData; let i = index" [class.active]="i == currentIndex">
             <mat-card class="example-card">
                 <mat-card-header>
@@ -9,30 +21,12 @@
                       Ticket Status:
                       <div>
                           <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}">
-                            <mat-select name="" id="" [(value)]="theTicket.status">
-                                <mat-option>NONE</mat-option>
-                                <mat-option value="OPENED">OPENED</mat-option>
-                                <mat-option value="MANAGING">MANAGING</mat-option>
-                                <mat-option value="RESOLVED">RESOLVED</mat-option>
-                                <mat-option value="ABORTED">ABORTED</mat-option>
-                            </mat-select>  
+                            <div>
+                                {{theTicket.status}}
+                            </div>
                               <!-- <span style="display: flex; width: 100px; align-content: center;">{{theTicket.status}}</span> -->
                             </div>
                       </div>
-                  </div>
-                  <div style="padding-left: 20px; padding-right: 20px;">
-                    Techinician Asigned: 
-                    <mat-form-field class="full-width">
-                        <mat-label>Technicians</mat-label>
-                        <mat-select matNativeControl name="priority" id="priority">
-                          <mat-option>None</mat-option>
-                          <mat-option>Option Technician 2</mat-option>
-                          <mat-option *ngFor="let tech of TechnicianList" [value]="tech.username">
-                            <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.username}}</div>
-                        </mat-option>
-                       
-                        </mat-select>
-                      </mat-form-field>
                   </div>
                 </mat-card-header>
             <mat-divider></mat-divider>
@@ -96,20 +90,54 @@
                 <mat-divider></mat-divider>
             </ng-container>
         </div>
-        <additionalequipment></additionalequipment>
-    </div>
-    <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
-        <!-- <div style="padding-bottom: 20px;">
-            <button mat-fab (click)="setCurrentTicket(theTicketData.id)" [routerLink]="['/edit-ticket/',theTicketData.id]"><mat-icon>edit-row</mat-icon></button>
-        </div> -->
-        <div style="padding-bottom: 20px;">
-            <button mat-fab (click)="showEquipment()"><mat-icon>edit</mat-icon></button>
-            <button mat-fab (click)="showEquipment()"><mat-icon>edit</mat-icon></button>
-            <!-- [routerLink]="['/edit-ticket/',theTicketData.id] -->
-        </div>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Aditional Equipment to select</ng-template>
         <div>
-            <button mat-fab color="warn" routerLink="/create-ticket"><mat-icon>close</mat-icon></button>
+            <additionalequipment></additionalequipment>
         </div>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup">
+            <ng-template matStepLabel>Serialization of Equipment</ng-template>
+        <div>
+            <additionalequipment></additionalequipment>
+        </div>
+        </mat-step>
+
+        <mat-step [stepControl]="fourthFormGroup">
+            <ng-template matStepLabel>Technician Assigned</ng-template>
+            <div>
+                <mat-card-title>Techinician Asigned: </mat-card-title>
+                    <mat-form-field class="full-width">
+                        <mat-label>Technicians</mat-label>
+                        <mat-select matNativeControl name="priority" id="priority">
+                          <mat-option>None</mat-option>
+                          <mat-option>Option Technician 2</mat-option>
+                          <mat-option *ngFor="let tech of TechnicianList" [value]="tech.username">
+                            <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.username}}</div>
+                        </mat-option>
+                       
+                        </mat-select>
+                      </mat-form-field>
+            </div>
+            </mat-step>
+
+
+    </mat-vertical-stepper>
     </div>
-    
+</div>
+
+<div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
+    <!-- <div style="padding-bottom: 20px;">
+        <button mat-fab (click)="setCurrentTicket(theTicketData.id)" [routerLink]="['/edit-ticket/',theTicketData.id]"><mat-icon>edit-row</mat-icon></button>
+    </div> -->
+    <div style="padding-bottom: 20px;">
+        <button mat-fab (click)="showEquipment()"><mat-icon>edit</mat-icon></button>
+        <!-- [routerLink]="['/edit-ticket/',theTicketData.id] -->
+    </div>
+    <div>
+        <button mat-fab color="warn" routerLink="/create-ticket"><mat-icon>close</mat-icon></button>
+    </div>
 </div>

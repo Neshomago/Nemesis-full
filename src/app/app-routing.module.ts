@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 import { EditComponent } from './tickets/edit/edit.component';
+import { EquipmententryComponent } from './equipmententry/equipmententry.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'additional', component:AdditionalequipmentComponent},
   { path:'edit-ticket/:id', component: EditComponent},
   { path:'testing', component:TestingcompoComponent},
+  { path:'equipmententry', component:EquipmententryComponent},
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { from, Observable } from 'rxjs';
 import { AgencyService } from 'src/app/services/agency.service';
 import { viewTicketdata } from '../viewticket/viewticket';
@@ -17,19 +18,41 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ViewticketComponent implements OnInit {
   id: number | undefined;
   showEdit:boolean = false;
+  
+  isLinear = false;
+  firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
+  thirdFormGroup!: FormGroup;
+  fourthFormGroup!: FormGroup;
+
+
   theTicketData : any = [];
   TechnicianList: any = [];
 
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
-    private router:Router) { }
+    private router:Router,
+    private _formBuilder: FormBuilder) { }
 
 
 
   ngOnInit(): void {
      this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
      this.Technicians_List();
+
+     this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
+    this.fourthFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   getTicketIndividual(id:any):any{

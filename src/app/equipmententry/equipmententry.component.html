@@ -1,0 +1,39 @@
+<!-- <form (ngSubmit)="onsubmit()"> -->
+
+<div class="container" #equipment>
+    <div>
+        <div> 
+            <div class="row" *ngFor="let obj of tagsarray; let i = index" >
+                <!-- <div class="col-sm">
+                    <mat-form-field class="full-width">
+                        <mat-select matNativeControl id="selection" name="selection">
+                            <mat-option value="name">By Name</mat-option>
+                            <mat-option value="tag">By Tag</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+                <div class="col-auto">
+                    <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                </div>
+                <div class="col-auto">
+                    <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                </div>
+                
+                <div class="col-3">
+                    <mat-form-field class="full-width">
+                        <mat-label>Qty.</mat-label>
+                        <input matInput type="number" name="quantity{{i}}" ngModel="equipment.quantity" value=1/>
+                    </mat-form-field>
+                </div>
+                <div class="col-auto">
+                    <mat-form-field class="full-width">
+                        <mat-select matNativeControl id="item" name="item{{i}}" multiple>
+                            <mat-option *ngFor="let tag of tags" value="{{tags.id}}">{{tags.id}} | {{tags.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+    <!-- </form> -->
