@@ -33,31 +33,89 @@
                 <mat-card-content>
                     <div>
                         <div>
-                            <p></p>
                             <h2>Ticket Data</h2>
-                            <mat-list color="primary" >
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.id">Ticket ID: {{theTicket.id}}</mat-list-item>
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.code">Code: {{theTicket.code}}</mat-list-item>
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.creationDate">Creation Date: {{theTicket.creationDate}}</mat-list-item>
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.createdBy">Created by: {{theTicket.createdBy}}</mat-list-item>
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.type">Ticket type: {{theTicket.type}}</mat-list-item>
-                                <mat-list-item style="color: black;" (ngModel)="theTicket.priority">Priority: {{theTicket.priority}}</mat-list-item>
-                            </mat-list>
+                            <div color="primary" >
+                                <table>
+                                    <tr>
+                                        <td colspan="1" style="width: 150px;">Ticket ID</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theTicket.id}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">Code</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theTicket.code}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">Creation Date</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theTicket.creationDate}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">Created by</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theTicket.createdBy}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">Ticket type</td>
+                                        <td >:</td>
+                                        <td colspan="1">{{theTicket.type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1">Priority</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theTicket.priority}}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
                     <mat-divider></mat-divider>
                     <div>
-                        <p></p>
-                        <h2>agencyData</h2>
-                                <mat-list>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.agencyId">agencyData name: {{theTicket.id}}<div>| {{theTicket.name}}</div></mat-list-item>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.managerId">Shop code: {{theTicket.managerId}}</mat-list-item>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.certification">AAMS Code: {{theTicket.certification}}</mat-list-item>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.address">Address: {{theTicket.address}}</mat-list-item>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.phone">Phone: {{theTicket.phone}}</mat-list-item>
-                                    <mat-list-item style="color: black;" (ngModel)="theTicket.email">Email: {{theTicket.email}}</mat-list-item>
-                                </mat-list>
+                        <h2>Agency Information</h2>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td colspan="1" style="width: 150px;">Agency Name</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.id}} | {{theTicket.name}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">AAMS Code</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.certification}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">Address</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.address}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">Phone</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.phone}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">Email</td>
+                                            <td >:</td>
+                                            <td colspan="1">{{theTicket.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">Shop Code</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.managerId}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                     </div>
                     <div style="border-top: 1px dotted gray;">
                         <div>
@@ -102,7 +160,7 @@
         <mat-step [stepControl]="thirdFormGroup">
             <ng-template matStepLabel>Serialization of Equipment</ng-template>
         <div>
-            <additionalequipment></additionalequipment>
+            <app-equipmententry></app-equipmententry>
         </div>
         </mat-step>
 
@@ -123,9 +181,17 @@
                       </mat-form-field>
             </div>
             </mat-step>
-
-
     </mat-vertical-stepper>
+    <div style="height: 20px;"></div>
+    <div class="container">
+        <div class="row">
+            <button mat-raised-button>CREATE DDT</button>
+        </div>
+        <div style="height: 20px;"></div>
+        <div class="row">
+            <button mat-raised-button>ABORT TICKET</button>
+        </div>
+    </div>
     </div>
 </div>
 

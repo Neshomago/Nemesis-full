@@ -45,7 +45,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 import { EquipmententryComponent } from './equipmententry/equipmententry.component';
-import {MatStepperModule} from '@angular/material/stepper'; 
+import {MatStepperModule} from '@angular/material/stepper';
+import { ViewComponent } from './contact/view/view.component'; 
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     AdditionalequipmentComponent,
     TestingcompoComponent,
     EquipmententryComponent,
+    ViewComponent,
   ],
   imports: [
     BrowserModule,

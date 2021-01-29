@@ -321,30 +321,11 @@ font-weight: 100;
   border-radius: 0px 20px 20px 0px;
   box-shadow: 0px 1px 4px black;
 }
-// ul li a:hover{
-//   color: white;
-// }
 
-// ul li a:active{
-//   color: white;
-// }
-// ul li{
-//   list-style-type: none;
-//   display: block;
-//   text-decoration: none;
-//   color: white;
-//   padding-top: 10px;
-//   padding-bottom: 10px;
-// }
 
-.menusidenav {
- text-decoration: none;
-}
+.menusidenav { text-decoration: none;}
 
-.menusidenav a:hover{
-display: block;
-
-}
+.menusidenav a:hover{ display: block;}
 
 #nav ul li a{
   color: white;
@@ -424,4 +405,26 @@ snack-bar-container.notification simple-snack-bar{
   margin: 10px 0px 5px 0px;
   color:white;
   background-color:dodgerblue;
+}
+
+.step1done > .circle1{
+background-color: green;
+}
+
+.step2done > .circle1, .circle2{
+  background-color: green;
+  }
+
+.step3done > .circle1, .circle2, .circle3{
+background-color: green;
+}
+
+.step4done > .circle1, .circle2, .circle3, .circle4{
+  background-color: green;
+}
+.circle1, .circle2, .circle3, .circle4{
+width: 5px;
+height: 5px;
+border-radius: 50%;
+background-color: #b1b1b1;
 }

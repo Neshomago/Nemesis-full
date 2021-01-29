@@ -8,7 +8,10 @@
             <th>Contact Data</th>
         </thead>
         <tbody>
-            <tr *ngFor="let dataItem of Contact">
+            <tr *ngFor="let dataItem of Contact; let i = index"
+            >
+            <!-- [class.active]="i == currentIndex"
+            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['/viewticket/',dataItem.id]" style="cursor: pointer;" -->
                 <td>
                     <table>
                         <tr><td class="Agency-name">{{dataItem.name}} {{dataItem.surname}}</td></tr>
