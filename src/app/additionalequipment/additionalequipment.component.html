@@ -8,9 +8,10 @@
                 <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
             </div>
             <div class="col-md-3 ms-md-auto">
-                <button mat-icon-button><mat-icon>save</mat-icon>Save changes</button>
+                <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
             </div>
         </div>
+        {{additionals | json}}
 
         <div class="container" #equipment>
             <div>
@@ -22,25 +23,25 @@
                         <div class="col-auto">
                             <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                         </div>
-                        <div class="col-auto">
+                        <!-- <div class="col-auto">
                             <mat-form-field class="full-width">
                                 <mat-select matNativeControl id="selection" name="selection">
                                     <mat-option value="name">By Name</mat-option>
                                     <mat-option value="tag">By Tag</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         
-                        <div class="col-3">
+                        <!-- <div class="col-3">
                             <mat-form-field class="full-width">
                                 <mat-label>Qty.</mat-label>
-                                <input matInput type="number" name="quantity{{i}}" ngModel="equipment.quantity" value=1/>
+                                <input matInput type="number" name="quantity{{i}}" [(ngModel)]="additionals.quantity" value=1/>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="col-auto">
                             <mat-form-field class="full-width">
-                                <mat-select matNativeControl name="item{{i}}" multiple>
-                                    <mat-option *ngFor="let tag of tags" [value]="tags.id">{{tags.id}} | {{tags.name}}</mat-option>
+                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="additionals.item">
+                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name">{{tag.id}} | {{tag.name}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

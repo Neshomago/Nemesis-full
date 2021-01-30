@@ -1,43 +1,41 @@
 <!-- <form (ngSubmit)="onsubmit()"> -->
 
 <div class="container" #equipment>
-    <div>
-        <div> 
-            <div class="row" *ngFor="let obj of tagsarray; let i = index" >
-                <!-- <div class="col-sm">
+    <div class="row">
+        <div *ngFor="let obj of tagsarray; let i = index" >
+            <!-- <div class="col-sm">
+                <mat-form-field class="full-width">
+                    <mat-select matNativeControl id="selection" name="selection">
+                        <mat-option value="name">By Name</mat-option>
+                        <mat-option value="tag">By Tag</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <!-- <div class="col-auto">
+                <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+            </div> -->
+            <div *ngFor="let tag of tags" >
+            <div class="col">
+                <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+            </div>
+            
+            <!-- <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Qty.</mat-label>
+                    <input matInput type="number" name="quantity{{i}}" [(ngModel)]="tag.quantity" value=1/>
+                </mat-form-field>
+            </div> -->
+            <div class="col">
                     <mat-form-field class="full-width">
-                        <mat-select matNativeControl id="selection" name="selection">
-                            <mat-option value="name">By Name</mat-option>
-                            <mat-option value="tag">By Tag</mat-option>
-                        </mat-select>
+                        <input matInput matInput type="text" name="item{{i}}" [(ngModel)]="tag.item"/>
                     </mat-form-field>
-                </div> -->
-                <div class="col-auto">
-                    <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
-                </div>
-                <div class="col-auto">
-                    <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
-                </div>
-                
-                <div class="col-3">
-                    <mat-form-field class="full-width">
-                        <mat-label>Qty.</mat-label>
-                        <input matInput type="number" name="quantity{{i}}" ngModel="equipment.quantity" value=1/>
-                    </mat-form-field>
-                </div>
-                <div class="col-auto">
-                    <div *ngFor="let tag of tags" >
-                        <mat-form-field class="full-width">
-                            <input matInput matInput type="text" name="item{{i}}" ngModel="equipment.name{{i}}"/>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-auto">
+            </div>
+            <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Serial Number</mat-label>
-                        <input matInput type="text" name="serial{{i}}" (ngModel)="equipment.serial"/>
+                        <input matInput type="text" name="serial{{i}}" [(ngModel)]="tag.item_serial"/>
                     </mat-form-field>
-                </div>
+            </div>
             </div>
         </div>
     </div>

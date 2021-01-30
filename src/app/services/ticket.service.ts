@@ -46,11 +46,24 @@ export class TicketService {
   }
 
   getAgencyList():Observable<any>{
-    return this.http.get<any[]>(APIUrl + '/agencies');
+    // return this.http.get<any[]>(APIUrl + '/agencies');
+    return this.http.get<any[]>(APIUrl + '/agenciesperclient');
   }
+
+  // getAgencyListClient():Observable<any>{
+  //   return this.http.get<any[]>(APIUrl + '/agenciesperclient');
+  // }
 
   getTagList():Observable<any>{
     return this.http.get<any[]>(APIUrl + '/tags');
+  }
+
+  addequipment(val: any): Observable<any>{
+    return this.http.post(APIUrl + '/ticket-equip', val);
+  }
+
+  get_equipment(): Observable<any>{
+    return this.http.get(APIUrl+'/ticket-equipment')
   }
 
 }

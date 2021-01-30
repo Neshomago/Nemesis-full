@@ -22,7 +22,7 @@ export class EquipmententryComponent implements OnInit {
   }
 
   getTags(){
-    this.service.getTagList().subscribe(
+    this.service.get_equipment().subscribe(
       (tag) => this.tags = tag
     )
   }

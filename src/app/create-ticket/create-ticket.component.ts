@@ -15,7 +15,7 @@ export class CreateTicketComponent implements OnInit {
 
   customerId = 'CUSTOME581785f34f4f3';
 
-  ticketModel: Tickets = {
+    ticketModel: Tickets = {
     createdBy: 'CUSTOME581785f34f4f3',
     type: '',
     customerId: 'CUSTOME581785f34f4f3',
