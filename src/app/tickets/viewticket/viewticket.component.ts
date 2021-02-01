@@ -68,6 +68,11 @@ export class ViewticketComponent implements OnInit {
   }
  
 
+  get getallestimento(){
+    return this.allestimento.get('items') as FormArray;
+  }
+
+
   theTicketData : any = [];
   
   getTicketIndividual(id:any):any{
