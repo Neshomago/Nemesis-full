@@ -1,4 +1,10 @@
-<h1>Clients</h1>
+<div class="filterboxes">
+    &nbsp;
+    <mat-form-field class="col-12" appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="Search the customer">
+    </mat-form-field>
+</div>
 <div class="table-responsive">
 
     <div class="table">
@@ -9,7 +15,10 @@
                 <th>Customer VAT</th>
             </thead>
             <tbody>
-                <tr *ngFor="let dataItem of CustomerList">
+                <tr *ngFor="let dataItem of CustomerList; let i = index"
+                [class.active]="i == currentIndex"
+                (clic)="setCurrentCustomer(dataItem, i)" [routerLink]="['/viewcustomer/',dataItem.id]" style="cursor: pointer;"
+                >
                     <td>
                         <table>
                             <tr><td class="Agency-name"><strong></strong>{{dataItem.name}}</td></tr>
@@ -30,28 +39,3 @@
     <div>
         <footer>&nbsp;</footer>
     </div>
-
-<!-- <div class="full-width forminmargin">
-    <div>
-        <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-        </mat-form-field>
-    </div>
-    <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="CustomerList" matSort>-->
-
-                <!-- Costumer Column -->
-                <!-- <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name </th>
-                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-                </ng-container> -->
-
-                <!-- Customer VAT Column -->
-                <!-- <ng-container matColumnDef="progress">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer VAT </th>
-                    <td mat-cell *matCellDef="let row"> {{row.vat}} </td>
-                </ng-container>
-        </table>
-    </div>
-</div> -->

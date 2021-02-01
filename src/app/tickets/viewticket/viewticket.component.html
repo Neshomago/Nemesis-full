@@ -206,7 +206,7 @@
                             <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
                         </div>
                     </div>
-                    <form formGroup="allestimento">
+                    <!-- <form formGroup="allestimento">
                         <div>
                             <div>
                                 <div>
@@ -220,7 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
             
                     <div class="container">
                         <div>
@@ -282,15 +282,15 @@
                 </div>
                     <div class="row">
                         <div *ngFor="let obj of tagsarray; let i = index" >
-                            <div *ngFor="let tag of unserialTags" >
+                            <div *ngFor="let tag of unserialTags | slice:0:4; let indice = index">
                                 <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                                     <mat-form-field class="col-3">
-                                        <input matInput matInput type="text" name="item{{i}}" [(ngModel)]="tag.item" disabled/>
+                                        <input matInput matInput type="text" name="item{{i}}" [ngModel]="tag.item" disabled/>
                                     </mat-form-field>
                                     &nbsp;
                                     <mat-form-field class="col-6">
                                         <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{i}}" [(ngModel)]="tag.item_serial"/>
+                                        <input matInput type="text" name="serial{{i}}" />
                                     </mat-form-field>
 
                             </div>

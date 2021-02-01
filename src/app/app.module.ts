@@ -46,10 +46,12 @@ import { AdditionalequipmentComponent } from './additionalequipment/additionaleq
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 import { EquipmententryComponent } from './equipmententry/equipmententry.component';
 import {MatStepperModule} from '@angular/material/stepper';
-import { ViewComponent } from './contact/view/view.component'; 
+import { ViewComponent } from './contact/view/view.component';
+import { ViewcustomerComponent } from './customers/view/viewcustomer.component'; 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditcustomerComponent } from './customers/edit/editcustomer.component';
 
 
 @NgModule({
@@ -72,6 +74,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     TestingcompoComponent,
     EquipmententryComponent,
     ViewComponent,
+    ViewcustomerComponent,
+    EditcustomerComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,8 @@ import { AdditionalequipmentComponent } from './additionalequipment/additionaleq
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 import { EditComponent } from './tickets/edit/edit.component';
 import { EquipmententryComponent } from './equipmententry/equipmententry.component';
+import { ViewcustomerComponent } from './customers/view/viewcustomer.component';
+import { EditcustomerComponent } from './customers/edit/editcustomer.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
@@ -27,6 +29,8 @@ const routes: Routes = [
   { path: 'create-contact', component:CreatContactComponent},
   { path: 'create-ticket', component:CreateTicketComponent},
   { path: 'create-customer', component:CreateCustomerComponent},
+  { path: 'viewcustomer/:id', component:ViewcustomerComponent},
+  { path:'edit-customer/:id', component: EditcustomerComponent},
   { path: 'additional', component:AdditionalequipmentComponent},
   { path:'edit-ticket/:id', component: EditComponent},
   { path:'testing', component:TestingcompoComponent},

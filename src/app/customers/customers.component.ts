@@ -13,6 +13,10 @@ export class CustomersComponent implements OnInit {
 
   CustomerList: any =[];
 
+  currentCustomer = null;
+  currentIndex = -1;
+
+
   ngOnInit(): void {
   this.refreshCustomerList();    
   }
@@ -23,6 +27,11 @@ export class CustomersComponent implements OnInit {
         this.CustomerList = data
       }
     );
+  }
+
+  setCurrentCustomer(customer:any, index:any): void{
+    this.currentCustomer = customer;
+    this.currentIndex = index;
   }
 
 }

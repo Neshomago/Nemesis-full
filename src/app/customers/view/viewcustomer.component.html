@@ -1,0 +1,92 @@
+
+<div style="background-color: whitesmoke; margin: 0;">
+    <div class="forminmargin">
+        <div *ngFor="let theCustomer of theCustomerData; let i = index">
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title>Customer Information</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div>
+                        <div>
+                            <div color="primary" >
+                                <table>
+                                    <tr>
+                                        <td colspan="1" style="width: 150px;">Customer Id</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theCustomer.id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" style="width: 150px;">Customer Name</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theCustomer.name}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">IVA</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theCustomer.vat}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <ng-container style="padding-top: 20px;">
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <h2>Customer Contact</h2>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td colspan="1" style="width: 150px;">Address</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theCustomer.address}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">Email</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theCustomer.email}}</td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">Phone</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theCustomer.phone}}</td>
+                                        </tr>
+    
+                                    </table>
+                                </div>
+                    </div>
+                  
+                </mat-card-content>
+            </mat-card>
+            <ng-container style="padding-top: 20px;">
+                <mat-divider></mat-divider>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
+    <div style="padding-bottom: 20px;">
+        <button mat-fab [routerLink]="['/edit-ticket/', theCustomerData.id]"><mat-icon>edit-row</mat-icon></button>
+    </div>
+    <div style="padding-bottom: 20px;">
+        <button mat-fab
+        #tooltip="matTooltip"
+          matTooltip="Save changes"
+        ><mat-icon>save</mat-icon></button>
+    <!-- [routerLink]="['/edit-ticket/', theCustomerData.id]" -->
+    </div>
+    <div>
+        <button mat-fab color="warn" routerLink="/create-ticket"
+        #tooltip="matTooltip"
+        matTooltip="Return to List without changes">
+        <mat-icon>close</mat-icon></button>
+    </div>
+</div>
