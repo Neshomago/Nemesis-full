@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { from, Observable } from 'rxjs';
 import { AgencyService } from 'src/app/services/agency.service';
 import { viewTicketdata } from '../viewticket/viewticket';
@@ -26,7 +26,8 @@ export class ViewticketComponent implements OnInit {
   secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup;
   fourthFormGroup!: FormGroup;
-
+  
+  allestimento!: FormGroup;
   
   constructor(private service:TicketService,
     private usersService: UsersService,
@@ -38,17 +39,25 @@ export class ViewticketComponent implements OnInit {
     
     
     ngOnInit(): void {
+
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
       this.Technicians_List();
       this.getTags();
       this.getUnserializedItems();
       this.tagsarray.push(this.equipment);
+
+      this.allestimento = this._formBuilder.group({
+        items: this._formBuilder.array([
+          this._formBuilder.group({item: ['']})
+        ])
+      });
+    
       
-      this.firstFormGroup = this._formBuilder.group({
+    this.firstFormGroup = this._formBuilder.group({
         firstCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      secondCtrl: ['', Validators.required],
     });
     this.thirdFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
@@ -57,6 +66,7 @@ export class ViewticketComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });
   }
+ 
 
   theTicketData : any = [];
   
@@ -119,19 +129,23 @@ export class ViewticketComponent implements OnInit {
       this.currentTicket = ticket;
       this.currentIndex = index;
     }
-
+    
+    additionals: Equipment = {
+      item: '',
+      quantity:'1',
+      ticketId: undefined
+    }
+  
   tagsarray: any =[];
   equipment = new Equipment()
-  additionals: Equipment = {
-    item: '',
-    quantity:'1',
-    ticketId: undefined
-  }
-
+  
   addItem(){
         this.equipment = new Equipment();
         this.tagsarray.push(this.equipment);
   }
+
+
+
 
   saveEquipment(){
     this.service.addequipment(this.additionals).subscribe(
@@ -149,7 +163,8 @@ export class ViewticketComponent implements OnInit {
   }
 
   removeItem(index:any){
-    this.tagsarray.splice(index);
+    // this.tagsarray.splice(index);
+    this.tagsarray.removeAt(index);
   }
 
   updateTicket(){

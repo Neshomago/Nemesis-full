@@ -33,7 +33,14 @@
                 <mat-card-content>
                     <div>
                         <div>
-                            <h2>Ticket Data</h2>
+                            <h2>Ticket Data
+                                <button mat-icon-button *ngIf="!showEdit" (click)="toogleEdit()" style="color:orange;">
+                                    <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                </button>
+                                <button mat-icon-button *ngIf="showEdit" (click)="toogleEdit()" style="color:orange;">
+                                    <mat-icon style="font-size: 18px;">west</mat-icon>
+                                </button>
+                            </h2>
                             <div color="primary" >
                                 <table>
                                     <tr>
@@ -60,16 +67,52 @@
                                         <td colspan="1">{{theTicket.createdBy}}</td>
                                     </tr>
 
-                                    <tr>
-                                        <td colspan="1">Ticket type</td>
-                                        <td >:</td>
-                                        <td colspan="1">{{theTicket.type}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="1">Priority</td>
-                                        <td>:</td>
-                                        <td colspan="1">{{theTicket.priority}}</td>
-                                    </tr>
+                                    <div *ngIf="!showEdit">
+                                        <tr>
+                                            <td colspan="1">Ticket type</td>
+                                            <td >:</td>
+                                            <td colspan="1">{{theTicket.type}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">Priority</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.priority}}</td>
+                                        </tr>
+                                    </div>
+                                    <div *ngIf="showEdit">
+                                        <tr>
+                                            <td colspan="1">Ticket type</td>
+                                            <td >:</td>
+                                            <td>
+                                                <mat-form-field>
+                                                    <mat-label>Request Type:</mat-label>
+                                                    <mat-select matNativeControl id="type" name="type" [(ngModel)]="theTicket.type">
+                                                      <mat-option value="INS">INSTALATION</mat-option>
+                                                      <mat-option value="INT">INTEGRATION</mat-option>
+                                                      <mat-option value="MAN">MAINTENANCE</mat-option>
+                                                      <mat-option value="DIS">UNINSTALL</mat-option>
+                                                      <mat-option value="SUP">SUPPORT</mat-option>
+                                                      <mat-option value="IND">INTEGRATION DELIVERY</mat-option>
+                                                      <mat-option value="MND">MAINTENANCE DELIVERY</mat-option>
+                                                    </mat-select>
+                                                  </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">Priority</td>
+                                            <td>:</td>
+                                            <td>
+                                                <mat-form-field>
+                                                    <mat-label>Priority:</mat-label>
+                                                    <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="theTicket.priority">
+                                                      <mat-option value="LOW">Low Priority</mat-option>
+                                                      <mat-option value="NORMAL">Normal</mat-option>
+                                                      <mat-option value="HIGH">High Priority</mat-option>
+                                                    </mat-select>
+                                                  </mat-form-field>
+                                            </td>
+                                        </tr>
+                                    </div>
                                 </table>
                             </div>
                         </div>
@@ -120,12 +163,6 @@
                     <div style="border-top: 1px dotted gray;">
                         <div>
                             <h2>Additional Information:
-                                <button mat-icon-button *ngIf="!showEdit" (click)="toogleEdit()">
-                                    <mat-icon>edit</mat-icon> Edit
-                                </button>
-                                <button mat-icon-button *ngIf="showEdit" (click)="toogleEdit()">
-                                    <mat-icon>west</mat-icon>
-                                </button>
                                 <!--
                                 <button mat-icon-button *ngIf="showEdit" (click)="toogleEdit()">
                                     <mat-icon>save-alt</mat-icon>
@@ -169,8 +206,23 @@
                             <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
                         </div>
                     </div>
+                    <form formGroup="allestimento">
+                        <div>
+                            <div>
+                                <div>
+                                    <input type="text" formControlName="item"/>
+                                    <div class="col-auto">
+                                        <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button  mat-icon-button (click)="removeItem()"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
             
-                    <div class="container" #equipment>
+                    <div class="container">
                         <div>
                             <div> 
                                 <div class="row" *ngFor="let obj of tagsarray; let i = index" >
@@ -197,8 +249,8 @@
                                     </div> -->
                                     <div class="col-auto">
                                         <mat-form-field class="full-width">
-                                            <mat-select matNativeControl name="item{{i}}" [(ngModel)]="additionals.item">
-                                                <mat-option *ngFor="let tag of newtags" [value]="tag.name">{{tag.id}} | {{tag.name}}</mat-option>
+                                            <mat-select matNativeControl name="item{{i}}">
+                                                <mat-option *ngFor="let tag of newtags" [value]="tag.name"> {{tag.name}}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -221,9 +273,9 @@
                     <div class="col">
                         <mat-card-title>Equipment Serialization: </mat-card-title>
                     </div>
-                    <div class="col-auto">
+                    <!-- <div class="col-auto">
                         <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
-                    </div>
+                    </div> -->
                     <div class="col-md-3 ms-md-auto">
                         <button mat-icon-button (click)="saveSerials()"><mat-icon>save</mat-icon>Save changes</button>
                     </div>
@@ -310,10 +362,16 @@
         <button mat-fab (click)="setCurrentTicket(theTicketData.id)" [routerLink]="['/edit-ticket/',theTicketData.id]"><mat-icon>edit-row</mat-icon></button>
     </div> -->
     <div style="padding-bottom: 20px;">
-        <button mat-fab (click)="updateTicket()"><mat-icon>edit</mat-icon></button>
+        <button mat-fab (click)="updateTicket()"
+        #tooltip="matTooltip"
+          matTooltip="Save changes"
+        ><mat-icon>save</mat-icon></button>
         <!-- [routerLink]="['/edit-ticket/',theTicketData.id] -->
     </div>
     <div>
-        <button mat-fab color="warn" routerLink="/create-ticket"><mat-icon>close</mat-icon></button>
+        <button mat-fab color="warn" routerLink="/create-ticket"
+        #tooltip="matTooltip"
+        matTooltip="Return to List without changes"
+        ><mat-icon>close</mat-icon></button>
     </div>
 </div>

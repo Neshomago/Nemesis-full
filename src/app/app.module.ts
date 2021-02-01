@@ -49,6 +49,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { ViewComponent } from './contact/view/view.component'; 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTooltipModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],

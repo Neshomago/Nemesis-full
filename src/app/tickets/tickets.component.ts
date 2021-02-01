@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TicketService} from 'src/app/services/ticket.service';
 import {AgencyService} from 'src/app/services/agency.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -16,6 +17,11 @@ export class TicketsComponent implements OnInit {
   AgencyList:any=[];
   currentTicket = null;
   currentIndex = -1;
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
 
   ngOnInit(): void {
     this.refreshTicketList();
