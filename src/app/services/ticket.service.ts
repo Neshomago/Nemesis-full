@@ -46,7 +46,6 @@ export class TicketService {
   }
 
   getAgencyList():Observable<any>{
-    // return this.http.get<any[]>(APIUrl + '/agencies');
     return this.http.get<any[]>(APIUrl + '/agenciesperclient');
   }
 

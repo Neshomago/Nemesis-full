@@ -44,7 +44,7 @@ export class ViewticketComponent implements OnInit {
       this.Technicians_List();
       this.getTags();
       this.getUnserializedItems();
-      this.tagsarray.push(this.equipment);
+      //this.tagsarray.push(this.equipment);
 
       this.allestimento = this._formBuilder.group({
         items: this._formBuilder.array([
@@ -138,29 +138,37 @@ export class ViewticketComponent implements OnInit {
     additionals: Equipment = {
       item: '',
       quantity:'1',
-      ticketId: undefined
+      ticketId: this.currentTicket,
     }
   
+  equipment_no = 0; //contador de objetos a grabar
   tagsarray: any =[];
   equipment = new Equipment()
   
-  addItem(){
-        this.equipment = new Equipment();
-        this.tagsarray.push(this.equipment);
+  addItem(){//método para añadir item en el viewticket.html de Additional Equipment
+    const equipment = new Equipment();
+    this.tagsarray.push(equipment);
+    console.log(equipment);
+    console.log(this.tagsarray);
+    console.warn();
+    this.equipment_no++; //contador incrementando para saber cuantas veces grabar
+    console.log(this.equipment_no);
   }
-
-
-
-
+  
   saveEquipment(){
-    this.service.addequipment(this.additionals).subscribe(
-      (data) => { console.log('Equipment added', data);
-        this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
-        },
-        (error) => { console.log('Failed to add equipment', error);
-        this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
-      )
-      console.warn(this.equipment);
+    let i=0;
+    while(i < this.equipment_no){//Condicion para grabar cada item del arreglo
+      this.service.addequipment(this.tagsarray[i]).subscribe(
+        (data) => { console.log('Equipment added', data);
+          this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+          },
+          (error) => { console.log('Failed to add equipment', error);
+          this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+        )
+        console.warn(this.equipment);
+        i++;
+      }
+      console.log();
   }
 
   toogleEdit(){

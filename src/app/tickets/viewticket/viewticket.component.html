@@ -2,14 +2,6 @@
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
         <mat-vertical-stepper [linear]="isLinear" #stepper>
-            <!-- <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}"></div>
-                        <mat-select name="" id="" [(value)]="theTicket.status">
-                            <mat-option>NONE</mat-option>
-                            <mat-option value="OPENED">OPENED</mat-option>
-                            <mat-option value="MANAGING">MANAGING</mat-option>
-                            <mat-option value="RESOLVED">RESOLVED</mat-option>
-                            <mat-option value="ABORTED">ABORTED</mat-option>
-                        </mat-select>   -->
         <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>Ticket general Information</ng-template>
         <div *ngFor="let theTicket of theTicketData; let i = index" [class.active]="i == currentIndex">
@@ -21,10 +13,9 @@
                       Ticket Status:
                       <div>
                           <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}">
-                            <div>
+                            <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
                                 {{theTicket.status}}
                             </div>
-                              <!-- <span style="display: flex; width: 100px; align-content: center;">{{theTicket.status}}</span> -->
                             </div>
                       </div>
                   </div>
@@ -67,7 +58,7 @@
                                         <td colspan="1">{{theTicket.createdBy}}</td>
                                     </tr>
 
-                                    <div *ngIf="!showEdit">
+                                    <ng-container *ngIf="!showEdit">
                                         <tr>
                                             <td colspan="1">Ticket type</td>
                                             <td >:</td>
@@ -78,8 +69,8 @@
                                             <td>:</td>
                                             <td colspan="1">{{theTicket.priority}}</td>
                                         </tr>
-                                    </div>
-                                    <div *ngIf="showEdit">
+                                    </ng-container>
+                                    <ng-container *ngIf="showEdit">
                                         <tr>
                                             <td colspan="1">Ticket type</td>
                                             <td >:</td>
@@ -112,7 +103,7 @@
                                                   </mat-form-field>
                                             </td>
                                         </tr>
-                                    </div>
+                                    </ng-container>
                                 </table>
                             </div>
                         </div>
@@ -162,18 +153,12 @@
                     </div>
                     <div style="border-top: 1px dotted gray;">
                         <div>
-                            <h2>Additional Information:
-                                <!--
-                                <button mat-icon-button *ngIf="showEdit" (click)="toogleEdit()">
-                                    <mat-icon>save-alt</mat-icon>
-                                </button> -->
-                            </h2>
+                            <h2>Additional Information:</h2>
                         </div>
                         <div>
                             <ng-container class="full-width">
                                 <mat-list>
                                     <mat-list-item style="color: black;" *ngIf="!showEdit" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item>
-                                    <!-- <mat-list-item style="color: black;" *ngIf="!showEdit" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item> -->
                                 </mat-list>
                                 <input matInput type="text" name="description" id="description" *ngIf="showEdit" [(ngModel)]="theTicket.description" value="{{theTicket.description}}" autofocus />
                             </ng-container>
@@ -206,23 +191,9 @@
                             <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
                         </div>
                     </div>
-                    <!-- <form formGroup="allestimento">
-                        <div>
-                            <div>
-                                <div>
-                                    <input type="text" formControlName="item"/>
-                                    <div class="col-auto">
-                                        <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
-                                    </div>
-                                    <div class="col-auto">
-                                        <button  mat-icon-button (click)="removeItem()"><mat-icon>delete</mat-icon></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> -->
             
                     <div class="container">
+                        
                         <div>
                             <div> 
                                 <div class="row" *ngFor="let obj of tagsarray; let i = index" >
@@ -232,29 +203,15 @@
                                     <div class="col-auto">
                                         <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                                     </div>
-                                    <!-- <div class="col-auto">
-                                        <mat-form-field class="full-width">
-                                            <mat-select matNativeControl id="selection" name="selection">
-                                                <mat-option value="name">By Name</mat-option>
-                                                <mat-option value="tag">By Tag</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div> -->
-                                    
-                                    <!-- <div class="col-3">
-                                        <mat-form-field class="full-width">
-                                            <mat-label>Qty.</mat-label>
-                                            <input matInput type="number" name="quantity{{i}}" [(ngModel)]="additionals.quantity" value=1/>
-                                        </mat-form-field>
-                                    </div> -->
                                     <div class="col-auto">
                                         <mat-form-field class="full-width">
-                                            <mat-select matNativeControl name="item{{i}}">
+                                            <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
                                                 <mat-option *ngFor="let tag of newtags" [value]="tag.name"> {{tag.name}}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
+                                {{tagsarray | json}}
                             </div>
                         </div>
                     </div>  
@@ -285,7 +242,7 @@
                             <div *ngFor="let tag of unserialTags | slice:0:4; let indice = index">
                                 <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                                     <mat-form-field class="col-3">
-                                        <input matInput matInput type="text" name="item{{i}}" [ngModel]="tag.item" disabled/>
+                                        <input matInput type="text" name="item{{i}}" disabled/>
                                     </mat-form-field>
                                     &nbsp;
                                     <mat-form-field class="col-6">

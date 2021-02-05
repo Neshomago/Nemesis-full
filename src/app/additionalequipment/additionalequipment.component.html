@@ -1,4 +1,4 @@
-<div style="padding-top: 20px;">
+<!-- <div style="padding-top: 20px;">
     <mat-card class="full-width">
         <div class="row">
             <div class="col">
@@ -11,7 +11,6 @@
                 <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
             </div>
         </div>
-        {{additionals | json}}
 
         <div class="container" #equipment>
             <div>
@@ -23,21 +22,13 @@
                         <div class="col-auto">
                             <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                         </div>
-                        <!-- <div class="col-auto">
-                            <mat-form-field class="full-width">
-                                <mat-select matNativeControl id="selection" name="selection">
-                                    <mat-option value="name">By Name</mat-option>
-                                    <mat-option value="tag">By Tag</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div> -->
                         
-                        <!-- <div class="col-3">
+                        <div class="col-3">
                             <mat-form-field class="full-width">
                                 <mat-label>Qty.</mat-label>
                                 <input matInput type="number" name="quantity{{i}}" [(ngModel)]="additionals.quantity" value=1/>
                             </mat-form-field>
-                        </div> -->
+                        </div>
                         <div class="col-auto">
                             <mat-form-field class="full-width">
                                 <mat-select matNativeControl name="item{{i}}" [(ngModel)]="additionals.item">
@@ -52,4 +43,4 @@
 </mat-card>
 </div>
 
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->

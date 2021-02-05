@@ -21,7 +21,7 @@
                 >
                     <td>
                         <table>
-                            <tr><td class="Agency-name"><strong></strong>{{dataItem.name}}</td></tr>
+                            <tr><td class="Agency-name"><strong>{{dataItem.name}}</strong></td></tr>
                             <tr><td class="med-text"><span class="material-icons" style="font-size: 13px;">mail_outline</span>{{dataItem.email}} | <span class="material-icons" style="font-size: 13px;">phone</span>{{dataItem.phone}}</td></tr>
                         </table>
                     </td>
@@ -32,7 +32,10 @@
         </table>
         
         <div style="position: fixed; right: 40px; bottom: 30px;">
-            <button mat-fab routerLink="/create-customer"><mat-icon>add</mat-icon></button>
+            <button mat-fab routerLink="/create-customer"
+            #tooltip="matTooltip"
+            matTooltip="Create New Customer"
+            ><mat-icon>add</mat-icon></button>
         </div>
     </div>
 </div>

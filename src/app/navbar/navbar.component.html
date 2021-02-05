@@ -5,12 +5,12 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list class="background-nemesis">
-      <a mat-list-item routerLink="/main"><span class="material-icons" style="padding-right: 20px;">home</span> Home</a>
-      <a mat-list-item routerLink="/contact"><span class="material-icons" style="padding-right: 20px;">contacts</span>Users</a>
-      <a mat-list-item routerLink="/customers"><span class="material-icons" style="padding-right: 20px;">person_pin</span>Clients</a>
-      <a mat-list-item routerLink="/tickets"><span class="material-icons" style="padding-right: 20px;">local_play</span>Ticketing</a>
-      <a mat-list-item routerLink="/agency"><span class="material-icons" style="padding-right: 20px;">store_mall_directory</span>Agency</a>
-      <a mat-list-item routerLink="/warehouse"><span class="material-icons" style="padding-right: 20px;">home_work</span>Warehouse</a>
+      <a mat-list-item routerLink="/main" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >home</span> Home</a>
+      <a mat-list-item routerLink="/contact" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >contacts</span>Users</a>
+      <a mat-list-item routerLink="/customers" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >person_pin</span>Clients</a>
+      <a mat-list-item routerLink="/tickets" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >local_play</span>Ticketing</a>
+      <a mat-list-item routerLink="/agency" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >store_mall_directory</span>Agency</a>
+      <a mat-list-item routerLink="/warehouse" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;">home_work</span>Warehouse</a>
     </mat-nav-list>
     <mat-nav-list>
       <div><a mat-list-item href="/config">
