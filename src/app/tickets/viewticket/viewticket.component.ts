@@ -8,6 +8,7 @@ import { TicketService } from '../../services/ticket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Ticket_equipment } from 'src/app/tickets';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class ViewticketComponent implements OnInit {
   fourthFormGroup!: FormGroup;
   
   allestimento!: FormGroup;
-  
+  ticketId: any = 42;
+
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
@@ -38,19 +40,19 @@ export class ViewticketComponent implements OnInit {
     
     
     
-    ngOnInit(): void {
+    public ngOnInit(): void {
 
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
       this.Technicians_List();
       this.getTags();
       this.getUnserializedItems();
-      //this.tagsarray.push(this.equipment);
+      this.allestimentoTicketList(this.id);
 
-      this.allestimento = this._formBuilder.group({
-        items: this._formBuilder.array([
-          this._formBuilder.group({item: ['']})
-        ])
-      });
+      // this.allestimento = this._formBuilder.group({
+      //   items: this._formBuilder.array([
+      //     this._formBuilder.group({item: ['']})
+      //   ])
+      // });
     
       
     this.firstFormGroup = this._formBuilder.group({
@@ -67,12 +69,6 @@ export class ViewticketComponent implements OnInit {
     });
   }
  
-
-  get getallestimento(){
-    return this.allestimento.get('items') as FormArray;
-  }
-
-
   theTicketData : any = [];
   
   getTicketIndividual(id:any):any{
@@ -102,7 +98,7 @@ export class ViewticketComponent implements OnInit {
     this.usersService.getTechnicianList().subscribe(
       data => this.TechnicianList = data
       );
-    }
+  }
 
 
   // Unserialized Items methods
@@ -112,7 +108,7 @@ export class ViewticketComponent implements OnInit {
     this.service.get_equipment().subscribe(
       (tag) => this.unserialTags = tag
       )
-    }
+  }
 
   addUnserializedItem(){
       this.equipment = new Equipment();
@@ -127,26 +123,27 @@ export class ViewticketComponent implements OnInit {
 
   }
 
-    currentTicket = null;
-    currentIndex = -1;
+  currentTicket = null;
+  currentIndex = -1;
+  ticketinView: any;
     
-    setCurrentTicket(ticket:any, index:any): void{
-      this.currentTicket = ticket;
-      this.currentIndex = index;
-    }
-    
-    additionals: Equipment = {
-      item: '',
-      quantity:'1',
-      ticketId: this.currentTicket,
-    }
-  
+  setCurrentTicket(ticket:any, index:any): void{
+    this.currentTicket = ticket;
+    this.currentIndex = index;
+  }
+
   equipment_no = 0; //contador de objetos a grabar
-  tagsarray: any =[];
-  equipment = new Equipment()
+  tagsarray: any = [];
+  equipment = new Equipment();
+  allestimentoEdit: Boolean = true;
+  viewAllestimento: Boolean = true;
   
-  addItem(){//método para añadir item en el viewticket.html de Additional Equipment
-    const equipment = new Equipment();
+  addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
+    const equipment = {
+      item: '',
+      quantity: 1,
+      ticketId: id,
+    };
     this.tagsarray.push(equipment);
     console.log(equipment);
     console.log(this.tagsarray);
@@ -156,19 +153,25 @@ export class ViewticketComponent implements OnInit {
   }
   
   saveEquipment(){
-    let i=0;
-    while(i < this.equipment_no){//Condicion para grabar cada item del arreglo
-      this.service.addequipment(this.tagsarray[i]).subscribe(
+    this.tagsarray.forEach((element: any) => {
+      this.service.addequipment(element).subscribe(
         (data) => { console.log('Equipment added', data);
-          this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
-          },
-          (error) => { console.log('Failed to add equipment', error);
-          this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
-        )
-        console.warn(this.equipment);
-        i++;
-      }
-      console.log();
+        this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+      },
+      (error) => { console.log('Failed to add equipment', error);
+      this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+      )
+      console.warn(element);  
+    });
+    this.allestimentoEdit = false;
+  }
+
+
+  equipmentArrayData: any = [];
+  allestimentoTicketList(ticketId:any){
+    this.service.getTicketEquipmentList(this.ticketId).subscribe(
+      data => {this.equipmentArrayData = data}
+    );
   }
 
   toogleEdit(){
@@ -176,8 +179,7 @@ export class ViewticketComponent implements OnInit {
   }
 
   removeItem(index:any){
-    // this.tagsarray.splice(index);
-    this.tagsarray.removeAt(index);
+    this.tagsarray.splice(index);
   }
 
   updateTicket(){

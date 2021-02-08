@@ -180,67 +180,88 @@
             <!-- <additionalequipment></additionalequipment> -->
 
                 <mat-card class="full-width">
-                    <div class="row">
-                        <div class="col">
+                    <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
+
+                        <div class="row">
+                            <div class="col">
                             <mat-card-title>Adittional Equipment: </mat-card-title>
                         </div>
-                        <div class="col-auto">
-                            <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                        <div class="col-auto" *ngIf="theTicket2.version == 1">
+                            <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
                         </div>
                         <div class="col-md-3 ms-md-auto">
                             <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
                         </div>
                     </div>
-            
+
                     <div class="container">
                         
                         <div>
-                            <div> 
-                                <div class="row" *ngFor="let obj of tagsarray; let i = index" >
-                                    <div class="col-auto">
-                                        <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                            <div>
+                                <ng-container *ngIf="theTicket2.version === 1">
+                                    <div class="row" *ngFor="let obj of tagsarray; let i = index" >
+                                        <div class="col-auto">
+                                            <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <mat-form-field class="full-width">
+                                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
+                                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name"> {{tag.name}}</mat-option>
+                                                </mat-select>
+                                                <!-- <input type="text" (ngModel)="obj.ticketId" [value]="theTicket2.id"/>{{theTicket2.id}} -->
+                                                <input type="text" (ngModel)="obj.ticketId" value="{{theTicket2.id}}"/>
+                                            </mat-form-field>
+                                        </div>
+                                        {{obj | json}}
                                     </div>
-                                    <div class="col-auto">
-                                        <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                </ng-container>
+                                <ng-container *ngIf="theTicket2.version != 1">
+                                    <div>
+                                        <h2>Items Selected</h2>
+                                                <div *ngFor="let allestimentoItems of equipmentArrayData">
+                                                    <div> Name: {{allestimentoItems.item}}
+                                                    </div>
+                                                </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <mat-form-field class="full-width">
-                                            <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
-                                                <mat-option *ngFor="let tag of newtags" [value]="tag.name"> {{tag.name}}</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                {{tagsarray | json}}
+                                </ng-container>
+                                 
                             </div>
                         </div>
                     </div>  
-            </mat-card>
-
-        </div>
+                </div>
+                </mat-card>
+                
+            </div>
         </mat-step>
 
         <!-- PASO 3 -->
         <mat-step [stepControl]="thirdFormGroup">
             <ng-template matStepLabel>Serialization of Equipment</ng-template>
-        <div>
-            <!-- <app-equipmententry></app-equipmententry> -->
+            <div>
+                <!-- <app-equipmententry></app-equipmententry> -->
             <mat-card class="full-width">
-                <div class="row">
-                    <div class="col">
-                        <mat-card-title>Equipment Serialization: </mat-card-title>
-                    </div>
-                    <!-- <div class="col-auto">
-                        <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
-                    </div> -->
-                    <div class="col-md-3 ms-md-auto">
-                        <button mat-icon-button (click)="saveSerials()"><mat-icon>save</mat-icon>Save changes</button>
-                    </div>
-                </div>
+                <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
+
                     <div class="row">
-                        <div *ngFor="let obj of tagsarray; let i = index" >
-                            <div *ngFor="let tag of unserialTags | slice:0:4; let indice = index">
-                                <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                        <div class="col">
+                            <mat-card-title>Equipment Serialization: </mat-card-title>
+                        </div>
+                        <!-- <div class="col-auto">
+                            <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
+                        </div> -->
+                        <div class="col-md-3 ms-md-auto">
+                            <button mat-icon-button (click)="saveSerials()"><mat-icon>save</mat-icon>Save changes</button>
+                        </div>
+                    </div>
+                    <!-- <ng-container *ngIf="theTicket2.version != 1"> -->
+                        
+                        <div class="row">
+                            <div *ngFor="let obj of tagsarray; let i = index" >
+                                <div *ngFor="let tag of unserialTags | slice:0:4; let indice = index">
+                                    <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                                     <mat-form-field class="col-3">
                                         <input matInput type="text" name="item{{i}}" disabled/>
                                     </mat-form-field>
@@ -249,14 +270,16 @@
                                         <mat-label>Serial Number</mat-label>
                                         <input matInput type="text" name="serial{{i}}" />
                                     </mat-form-field>
-
+                                    
+                                </div>
                             </div>
-                        </div>
-                    </div>    
-            </mat-card>
-        </div>
+                        </div>    
+                    <!-- </ng-container> -->
+                </div>
+                </mat-card>
+            </div>
         </mat-step>
-
+        
         <!-- PASO 4 -->
         <mat-step [stepControl]="fourthFormGroup">
             <ng-template matStepLabel>Technician Assigned</ng-template>

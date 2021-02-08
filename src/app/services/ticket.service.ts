@@ -58,11 +58,15 @@ export class TicketService {
   }
 
   addequipment(val: any): Observable<any>{
-    return this.http.post(APIUrl + '/ticket-equip', val);
+    return this.http.post(`${APIUrl}/ticket-equip/`,val);
   }
 
   get_equipment(): Observable<any>{
     return this.http.get(APIUrl+'/ticket-equipment')
+  }
+
+  getTicketEquipmentList(ticketId:any): Observable<any>{
+    return this.http.get<any>(APIUrl + `/equipmentList/${ticketId}`);
   }
 
 }
