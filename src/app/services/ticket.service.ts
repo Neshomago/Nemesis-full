@@ -69,6 +69,14 @@ export class TicketService {
     return this.http.get<any>(APIUrl + `/equipmentList/${ticketId}`);
   }
 
+  updateTicketVersion(id:any, val:any): Observable<any>{
+    return this.http.put(`${APIUrl}/ticket/update/${id}`,val);
+  }
+
+  assign_technician(val:any): Observable<any>{
+    return this.http.put(APIUrl+'/ticket/technicianassign/',val)
+  }
+
 }
 
 

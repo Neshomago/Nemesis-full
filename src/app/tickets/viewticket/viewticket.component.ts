@@ -9,12 +9,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Ticket_equipment } from 'src/app/tickets';
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 
 @Component({
   selector: 'app-viewticket',
   templateUrl: './viewticket.component.html',
-  styleUrls: ['./viewticket.component.scss']
+  styleUrls: ['./viewticket.component.scss'],
+  providers: [DatePipe]
 })
 
 
@@ -36,9 +39,10 @@ export class ViewticketComponent implements OnInit {
     private route:ActivatedRoute,
     private router:Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar) { }
-    
-    
+    private _snackBar: MatSnackBar,
+    private datePipe: DatePipe) { 
+      // this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd');
+    }
     
     public ngOnInit(): void {
 
@@ -46,15 +50,12 @@ export class ViewticketComponent implements OnInit {
       this.Technicians_List();
       this.getTags();
       this.getUnserializedItems();
-      this.allestimentoTicketList(this.id);
+      this.allestimentoTicketList(this.ticketId);
 
-      // this.allestimento = this._formBuilder.group({
-      //   items: this._formBuilder.array([
-      //     this._formBuilder.group({item: ['']})
-      //   ])
-      // });
-    
-      
+      //datePipe
+
+
+    //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
         firstCtrl: ['', Validators.required]
     });
@@ -99,6 +100,26 @@ export class ViewticketComponent implements OnInit {
       data => this.TechnicianList = data
       );
   }
+
+  events = '';
+
+  addVisitDate(event: MatDatepickerInputEvent<Date>) {
+    return this.events = (`${event.value}`);
+  }
+  
+  technicalVisitDate: any = new Date();
+  TechnicianModel: any = {
+    tech_assign: '',
+  assigned_Date: this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
+  version: 4,
+  }
+
+  technicianAssignedtoTicket(){
+  this.service.assign_technician(this.TechnicianModel).subscribe(
+    (data) => { this.TechnicianModel = data,
+      console.log(data);
+    });
+}
 
 
   // Unserialized Items methods
@@ -168,10 +189,22 @@ export class ViewticketComponent implements OnInit {
 
 
   equipmentArrayData: any = [];
-  allestimentoTicketList(ticketId:any){
-    this.service.getTicketEquipmentList(this.ticketId).subscribe(
+  allestimentoTicketList(id: any){
+    this.service.getTicketEquipmentList(id).subscribe(
       data => {this.equipmentArrayData = data}
     );
+  }
+
+  ticketVersion =[];
+  updateTicketVersion1(id: any){
+    const version = {
+      version: 2,
+      ticketId: id
+    }
+    this.service.updateTicketVersion(id, version).subscribe(
+      data => { this.ticketVersion = data;
+        console.log('Version updated')    }
+    )
   }
 
   toogleEdit(){
@@ -179,7 +212,7 @@ export class ViewticketComponent implements OnInit {
   }
 
   removeItem(index:any){
-    this.tagsarray.splice(index);
+    this.tagsarray.splice(index, 1);
   }
 
   updateTicket(){
