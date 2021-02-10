@@ -174,7 +174,7 @@
         </mat-step>
 
         <!-- PASO 2 -->
-        <mat-step [stepControl]="secondFormGroup">
+        <mat-step [stepControl]="secondFormGroup" (click)="allestimentoTicketList(theTicketData.id)">
             <ng-template matStepLabel>Aditional Equipment to select</ng-template>
         <div>
             <!-- <additionalequipment></additionalequipment> -->
@@ -190,7 +190,7 @@
                             <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
                         </div>
                         <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version == 1">
-                            <button mat-icon-button (click)="saveEquipment()" (click)="updateTicketVersion1(theTicket2.id)"><mat-icon>save</mat-icon>Save changes</button>
+                            <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
                         </div>
                     </div>
 
@@ -229,7 +229,7 @@
                                             Advice: The Items must be serialized in order to get support.
                                         </h3>
                                     </div>
-                                    <button mat-raised-button (click)="updateTicket()"
+                                    <button mat-raised-button (click)="updateTicketStatus(theTicket2.id)"
                                     #tooltip="matTooltip"
                                       matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
@@ -258,26 +258,34 @@
                             <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
                         </div> -->
                         <div class="col-md-3 ms-md-auto">
-                            <button mat-icon-button (click)="saveSerials()"><mat-icon>save</mat-icon>Save changes</button>
+                            <!-- <button mat-icon-button (click)="saveSerials()"> -->
+                                <mat-icon>save</mat-icon>
+                                <!-- Save changes</button> -->
                         </div>
                     </div>
                     <!-- <ng-container *ngIf="theTicket2.version != 1"> -->
                         
                         <div class="row">
-                            <div *ngFor="let obj of tagsarray; let i = index" >
-                                <div *ngFor="let tag of unserialTags | slice:0:4; let indice = index">
-                                    <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                            <!-- <div *ngFor="let obj of tagsarray; let i = index" > -->
+                                <div *ngFor="let tag of unserialTags; let indice = index">
+                                    <button  mat-icon-button (click)="removeItem(indice)"><mat-icon>delete</mat-icon></button>
                                     <mat-form-field class="col-3">
-                                        <input matInput type="text" name="item{{i}}" disabled/>
+                                        <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
                                     </mat-form-field>
                                     &nbsp;
-                                    <mat-form-field class="col-6">
+                                    <mat-form-field class="col-auto">
                                         <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{i}}" />
+                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial"/>
                                     </mat-form-field>
-                                    
+                                    &nbsp;
+                                    <mat-form-field class="col-auto">
+                                        <mat-label>Warehouse and existencies</mat-label>
+                                        <mat-select matNativeControl name="stock{{indice}}" [(ngModel)]="tag.warehouseId">
+                                            <mat-option *ngFor="let tag of newtags" [value]="tag.warehouseId"> {{tag.warehouseId}} | {{tag.warehouseName}} {{tag.quantity}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div>    
                     <!-- </ng-container> -->
                 </div>
@@ -346,7 +354,7 @@
         <button mat-fab (click)="setCurrentTicket(theTicketData.id)" [routerLink]="['/edit-ticket/',theTicketData.id]"><mat-icon>edit-row</mat-icon></button>
     </div> -->
     <div style="padding-bottom: 20px;">
-        <button mat-fab (click)="updateTicket()"
+        <button mat-fab (click)="updateTicketStatus(theTicketData.id)"
         #tooltip="matTooltip"
           matTooltip="Save changes"
         ><mat-icon>save</mat-icon></button>

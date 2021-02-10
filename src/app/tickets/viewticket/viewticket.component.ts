@@ -32,25 +32,23 @@ export class ViewticketComponent implements OnInit {
   fourthFormGroup!: FormGroup;
   
   allestimento!: FormGroup;
-  ticketId: any = 42;
 
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
-    private router:Router,
     private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
     private datePipe: DatePipe) { 
-      // this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd');
     }
     
     public ngOnInit(): void {
 
+      const ticketId = this.route.snapshot.paramMap.get('id');
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
       this.Technicians_List();
       this.getTags();
-      this.getUnserializedItems();
-      this.allestimentoTicketList(this.ticketId);
+      this.allestimentoTicketList(ticketId);
+      this.getUnserializedItems(ticketId);
 
       //datePipe
 
@@ -124,13 +122,13 @@ export class ViewticketComponent implements OnInit {
 
   // Unserialized Items methods
   unserialTags: any = [];
-  UnserializedTags = [];
-  getUnserializedItems(){
-    this.service.get_equipment().subscribe(
-      (tag) => this.unserialTags = tag
-      )
-  }
-
+  getUnserializedItems(id:any){
+    this.service.getTicketEquipmentList(id).subscribe(
+      (tag) => { this.unserialTags = tag }
+      );
+    }
+    
+    UnserializedTags = [];
   addUnserializedItem(){
       this.equipment = new Equipment();
       this.tagsarray.push(this.equipment);
@@ -185,25 +183,31 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.allestimentoEdit = false;
+    this.refreshPage();
   }
 
+  refreshPage() {
+    window.location.reload();
+   }
 
   equipmentArrayData: any = [];
-  allestimentoTicketList(id: any){
-    this.service.getTicketEquipmentList(id).subscribe(
+  allestimentoTicketList(ticketId: any){
+    this.service.getTicketEquipmentList(ticketId).subscribe(
       data => {this.equipmentArrayData = data}
     );
   }
 
   ticketVersion =[];
-  updateTicketVersion1(id: any){
+  updateTicketStatus(id: any){
     const version = {
       version: 2,
+      status: 'MANAGING',
       ticketId: id
     }
     this.service.updateTicketVersion(id, version).subscribe(
-      data => { this.ticketVersion = data;
-        console.log('Version updated')    }
+      (data) => { this.ticketVersion = data;
+        this._snackBar.open("Ticket has been taken in charge.", "OK", { duration:3500, panelClass: "success",});
+        console.log('Ticket has been taken in charge. Status updated')    }
     )
   }
 
@@ -215,8 +219,9 @@ export class ViewticketComponent implements OnInit {
     this.tagsarray.splice(index, 1);
   }
 
-  updateTicket(){
-
+  ticketStatus = []
+  updateTicket(id:any){
+    // this.service.updateTicket
   }
 
   deleteTicket(id:number){

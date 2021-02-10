@@ -66,15 +66,19 @@ export class TicketService {
   }
 
   getTicketEquipmentList(ticketId:any): Observable<any>{
-    return this.http.get<any>(APIUrl + `/equipmentList/${ticketId}`);
+    return this.http.get<any>(`${APIUrl}/equipmentList/${ticketId}`);
   }
 
   updateTicketVersion(id:any, val:any): Observable<any>{
-    return this.http.put(`${APIUrl}/ticket/update/${id}`,val);
+    return this.http.post(`${APIUrl}/ticket/version/${id}`,val);
   }
 
   assign_technician(val:any): Observable<any>{
-    return this.http.put(APIUrl+'/ticket/technicianassign/',val)
+    return this.http.post(APIUrl+'/ticket/technicianassign/',val)
+  }
+
+  getWarehouseNameQuantity(): Observable<any>{
+    return this.http.get<any>(APIUrl+'/warehousestock');
   }
 
 }
