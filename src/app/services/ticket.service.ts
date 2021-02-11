@@ -73,12 +73,16 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticket/version/${id}`,val);
   }
 
-  assign_technician(val:any): Observable<any>{
-    return this.http.post(APIUrl+'/ticket/technicianassign/',val)
+  saveSerialsOfItems(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket-serial/${id}`,val);
+  }
+
+  assign_technician(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket/technicianassign/${id}`,val);
   }
 
   getWarehouseNameQuantity(): Observable<any>{
-    return this.http.get<any>(APIUrl+'/warehousestock');
+    return this.http.get<any>(`${APIUrl}/ticketwarehouse`);
   }
 
 }
