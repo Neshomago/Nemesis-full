@@ -70,7 +70,7 @@ export class TicketService {
   }
 
   updateTicketVersion(id:any, val:any): Observable<any>{
-    return this.http.post(`${APIUrl}/ticket/version/${id}`,val);
+    return this.http.post(`${APIUrl}/ticketv/${id}`,val);
   }
 
   saveSerialsOfItems(id:any, val:any): Observable<any>{

@@ -52,6 +52,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditcustomerComponent } from './customers/edit/editcustomer.component';
+import { MassiveticketsComponent } from './tickets/massivetickets/massivetickets.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import { EditcustomerComponent } from './customers/edit/editcustomer.component';
     ViewComponent,
     ViewcustomerComponent,
     EditcustomerComponent,
+    MassiveticketsComponent,
   ],
+  entryComponents: [MassiveticketsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -108,6 +112,7 @@ import { EditcustomerComponent } from './customers/edit/editcustomer.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],

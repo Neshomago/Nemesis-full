@@ -25,10 +25,10 @@
                     <div>
                         <div>
                             <h2>Ticket Data
-                                <button mat-icon-button *ngIf="!showEdit" (click)="toogleEdit()" style="color:orange;">
+                                <button mat-icon-button *ngIf="!showEdit1" (click)="toogleEditstep1()" style="color:orange;">
                                     <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                 </button>
-                                <button mat-icon-button *ngIf="showEdit" (click)="toogleEdit()" style="color:orange;">
+                                <button mat-icon-button *ngIf="showEdit1" (click)="toogleEditstep1()" style="color:orange;">
                                     <mat-icon style="font-size: 18px;">west</mat-icon>
                                 </button>
                             </h2>
@@ -58,7 +58,7 @@
                                         <td colspan="1">{{theTicket.createdBy}}</td>
                                     </tr>
 
-                                    <ng-container *ngIf="!showEdit">
+                                    <ng-container *ngIf="!showEdit1">
                                         <tr>
                                             <td colspan="1">Ticket type</td>
                                             <td >:</td>
@@ -70,7 +70,7 @@
                                             <td colspan="1">{{theTicket.priority}}</td>
                                         </tr>
                                     </ng-container>
-                                    <ng-container *ngIf="showEdit">
+                                    <ng-container *ngIf="showEdit1">
                                         <tr>
                                             <td colspan="1">Ticket type</td>
                                             <td >:</td>
@@ -158,9 +158,9 @@
                         <div>
                             <ng-container class="full-width">
                                 <mat-list>
-                                    <mat-list-item style="color: black;" *ngIf="!showEdit" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item>
+                                    <mat-list-item style="color: black;" *ngIf="!showEdit1" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item>
                                 </mat-list>
-                                <input matInput type="text" name="description" id="description" *ngIf="showEdit" [(ngModel)]="theTicket.description" value="{{theTicket.description}}" autofocus />
+                                <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="theTicket.description" value="{{theTicket.description}}" autofocus />
                             </ng-container>
                         </div>
 
@@ -174,7 +174,7 @@
         </mat-step>
 
         <!-- PASO 2 -->
-        <mat-step [stepControl]="secondFormGroup" (click)="allestimentoTicketList(theTicketData.id)">
+        <mat-step [stepControl]="secondFormGroup">
             <ng-template matStepLabel>Aditional Equipment to select</ng-template>
         <div>
             <!-- <additionalequipment></additionalequipment> -->
@@ -184,21 +184,30 @@
 
                         <div class="row">
                             <div class="col">
-                            <mat-card-title>Adittional Equipment: </mat-card-title>
+                            <h2>Adittional Equipment: 
+                                <span *ngIf="theTicket2.version > 1">
+                                    <button mat-icon-button *ngIf="!showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                                        <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                    </button>
+                                    <button mat-icon-button *ngIf="showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                                        <mat-icon style="font-size: 18px;">west</mat-icon>
+                                    </button>
+                                </span>
+                            </h2>
                         </div>
-                        <div class="col-auto" *ngIf="theTicket2.version == 1">
-                            <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
-                        </div>
-                        <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version == 1">
-                            <button mat-icon-button (click)="saveEquipment()"><mat-icon>save</mat-icon>Save changes</button>
-                        </div>
+                            <div class="col-auto" *ngIf="theTicket2.version >= 1">
+                                <button mat-icon-button (click)="addItem(theTicket2.id)" *ngIf="showEdit2"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version >= 1">
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id); saveEquipment()" *ngIf="showEdit2"><mat-icon>save</mat-icon>Save changes</button>
+                            </div>
                     </div>
 
                     <div class="container">
                         
                         <div>
                             <div>
-                                <ng-container *ngIf="theTicket2.version === 1">
+                                <ng-container *ngIf="theTicket2.version == 1 ">
                                     <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
                                             <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
@@ -206,12 +215,15 @@
                                         <div class="col-auto">
                                             <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-6">
                                             <mat-form-field class="full-width">
                                                 <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
                                                     <mat-option *ngFor="let tag of newtags" [value]="tag.name">
                                                         <div class="full-width" style="line-height: 11px;">
-                                                            {{tag.name}} 
+                                                            <span style="color: darkgrey;">{{tag.description}}</span> - {{tag.name}}  &nbsp;
+                                                        </div>
+                                                        <div>
+                                                            <input style="display: none;" type="text" name="serial{{i}}" [(ngModel)]="obj.item_serial" [value]="tag.description" />
                                                         </div>
                                                         <div class="col-auto" *ngIf="tag.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
                                                             <span style="font-size: 13px;" class="material-icons">done</span> Good Stock: {{tag.isStack}} Units
@@ -226,31 +238,68 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <!-- <ng-container style="font-size: 11px; color: grey;">
-                                            <span>Items on stock: <div>{{tag.isStack}}</div></span>
-                                        </ng-container>
-                                        <div *ngIf="tag.isStack <= tag.minimumStack"><i class="fas fa-exclamation-triangle"></i></div> -->
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="theTicket2.version >= 2">
+                                <ng-container *ngIf="theTicket2.version > 1">
                                     <div>
-                                        <h2>Items Selected</h2>
-                                                <div *ngFor="let allestimentoItems of equipmentArrayData">
-                                                    <div> Name: {{allestimentoItems.item}}
-                                                    </div>
-                                                </div>
-                                    </div>
-                                    &nbsp;
-                                    <ng-container *ngIf="theTicket2.version === 1">
-                                        <div>
-                                            <h3>
-                                                Advice: The Items must be serialized in order to get support.
-                                            </h3>
+                                        <h2>Current Items</h2>
+                                        <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
+                                            <div class="col-auto">
+                                                <button mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                            </div>
+                                            <mat-form-field class="col-1">
+                                                <input matInput value="{{i+1}}" disabled/>
+                                            </mat-form-field>
+                                            <mat-form-field class="col-auto">
+                                                <input matInput value="{{allestimentoItems.item}}" [disabled]="!showEdit2" />
+                                            </mat-form-field>
                                         </div>
-                                        <button mat-raised-button (click)="updateTicketStatus2(theTicket2.id)"
-                                        #tooltip="matTooltip"
-                                          matTooltip="Change status of the ticket">Take in charge</button>
-                                    </ng-container>
+                                    </div>
+                                    <div class="row" *ngFor="let obj of tagsarray; let i = index" >
+                                        <div class="col-auto">
+                                            <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                        </div>
+                                        <div class="col-6">
+                                            <mat-form-field class="full-width">
+                                                <div>
+                                                    
+                                                </div>
+                                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
+                                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name">
+                                                        <div class="full-width" style="line-height: 11px;">
+                                                            <span style="color: darkgrey;">{{tag.description}}</span> - {{tag.name}}  &nbsp;
+                                                        </div>
+                                                        <div>
+                                                            <input style="display: none;" type="text" name="serial{{i}}" [(ngModel)]="obj.item_serial" [value]="tag.description" />
+                                                        </div>
+                                                        <div class="col-auto" *ngIf="tag.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">done</span> Good Stock: {{tag.isStack}} Units
+                                                        </div>
+                                                        <div *ngIf="tag.isStack < 20 && tag.isStack > 5" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">info</span> Low stock: {{tag.isStack}} Units
+                                                        </div>    
+                                                        <div *ngIf="tag.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">report</span> Stock: {{tag.isStack}} Units
+                                                        </div>
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="theTicket2.version == 2">
+                                    <div>
+                                        <h3>
+                                            Advice: The Items must be serialized in order to get support.
+                                        </h3>
+                                    </div>
+                                    <button mat-raised-button (click)="updateTicketStatus2(theTicket2.id)"
+                                    #tooltip="matTooltip"
+                                    matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
                             </div>
                         </div>
@@ -268,51 +317,58 @@
                 <!-- <app-equipmententry></app-equipmententry> -->
             <mat-card class="full-width">
                 <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
-                    <div *ngFor="let tag of unserialTags; let indice = index">
-
+                    
                     <div class="row">
                         <div class="col">
-                            <mat-card-title>Equipment Serialization: </mat-card-title>
+                            <h2>Equipment Serialization: 
+                                <span *ngIf="theTicket2.version >= 3">
+                                    <button mat-icon-button *ngIf="!showEdit3" (click)="toogleEditstep3()" style="color:orange;">
+                                        <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                    </button>
+                                    <button mat-icon-button *ngIf="showEdit3" (click)="toogleEditstep3()" style="color:orange;">
+                                        <mat-icon style="font-size: 18px;">west</mat-icon>
+                                    </button>
+                                </span>
+                            </h2>
+                            <div class="col">
+                                <button mat-icon-button (click)="theTicket2.id" (click)="saveSerials(tag.id)">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                            </div>
                         </div>
                         <!-- <div class="col-auto">
                             <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
                         </div> -->
-                        <div class="col-md-3 ms-md-auto">
-                            <button mat-icon-button (click)="theTicket2.id" (click)="saveSerials(tag.id)">
-                                <mat-icon>save</mat-icon>
-                                Save changes</button>
+                    </div>
+                    <div *ngFor="let tag of unserialTags; let indice = index">
+                                
+                        <div class="row">
+                                
+                                <button  mat-icon-button (click)="removeItem(indice)"><mat-icon>delete</mat-icon></button>
+                                <mat-form-field class="col">
+                                    <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
+                                </mat-form-field>
+                                &nbsp;
+                                <mat-form-field class="col">
+                                    <mat-label>Serial Number</mat-label>
+                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial"/>
+                                </mat-form-field>
+                                &nbsp;
+                                
+                                <mat-form-field class="col">
+                                    <mat-label>Warehouse</mat-label>
+                                    <mat-select matNativeControl  name="stock{{indice}}" [(ngModel)]="tag.warehouseId">
+                                        <mat-option *ngFor="let stock of warehouseData; let i = index" [(value)]="stock.id">{{stock.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                &nbsp;
+                                {{tag | json}}
+                                <!-- <mat-form-field class="col-9">
+                                    <mat-label>Notes for the item:</mat-label>
+                                    <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
+                                </mat-form-field> -->
                         </div>
                     </div>
-                    <!-- <ng-container *ngIf="theTicket2.version != 1"> -->
-                        
-                        <div class="row">
-                            
-                                    <button  mat-icon-button (click)="removeItem(indice)"><mat-icon>delete</mat-icon></button>
-                                    <mat-form-field class="col-3">
-                                        <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
-                                    </mat-form-field>
-                                    &nbsp;
-                                    <mat-form-field class="col-auto">
-                                        <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial"/>
-                                    </mat-form-field>
-                                    &nbsp;
-                                    
-                                    <mat-form-field class="col-auto">
-                                        <mat-label>Warehouse</mat-label>
-                                        <mat-select matNativeControl  name="stock{{indice}}" [(ngModel)]="tag.warehouseId">
-                                            <mat-option *ngFor="let stock of warehouseData; let i = index" [(value)]="stock.id">{{stock.name}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                    {{tag | json}}
-                                    <!-- <mat-form-field class="col-9">
-                                        <mat-label>Notes for the item:</mat-label>
-                                        <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
-                                    </mat-form-field> -->
-                                </div>
-                            
-                        </div>    
-                    <!-- </ng-container> -->
                 </div>
                 </mat-card>
             </div>
@@ -322,8 +378,17 @@
         <mat-step [stepControl]="fourthFormGroup">
             <ng-template matStepLabel>Technician Assigned</ng-template>
             <mat-card>
-                <mat-card-title>Technician Assigned: </mat-card-title>
                 <div class="container" *ngFor="let ticket of theTicketData; let i = index">
+                <mat-card-title>Technician Assigned: 
+                    <span *ngIf="ticket.version >= 3">
+                        <button mat-icon-button *ngIf="!showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                            <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                        </button>
+                        <button mat-icon-button *ngIf="showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                            <mat-icon style="font-size: 18px;">west</mat-icon>
+                        </button>
+                    </span>
+                </mat-card-title>
                     <ng-container *ngIf="ticket.version === 3">
 
                         <mat-form-field class="col-6">
@@ -345,17 +410,17 @@
                         &nbsp;
                         <mat-form-field class="col-3">
                             <mat-label>Choose a date</mat-label>
-                                <!-- <input matInput [matDatepicker]="picker" 
-                                    value="date.value" [(ngModel)]="TechnicianModel.assigned_Date">
+                                <input matInput [matDatepicker]="picker" 
+                                    value="date.value" [(ngModel)]="TechnicianModel.assignedDate">
                                     <mat-datepicker-toggle matSuffix [for]="picker" (click)="picker.open()"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker> -->
-                                    <!-- </mat-form-field>
-                                        <mat-form-field> -->
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                        <!-- <mat-form-field>
                                             <mat-label>Time Picker</mat-label>
-                                            <input matInput type="date" placeholder="Visit date">
-                                        </mat-form-field>
+                                            <input matInput type="datetime-local" placeholder="Visit date" value="date.value" [(ngModel)]="TechnicianModel.assignedDate">
+                                        </mat-form-field> -->
                                         
-                                        <!-- {{TechnicianModel | json}} -->
+                                        {{TechnicianModel | json}}
                             <hr>
                             <div class="col">                  
                                 <button mat-raised-button (click)="technicianAssignedtoTicket(ticket.id)">Date visit</button>
@@ -420,9 +485,9 @@
         /*[routerLink]="['/edit-ticket/',theTicketData.id] --
     </div>-->
     <div>
-        <button mat-fab color="warn" routerLink="/create-ticket"
+        <button mat-fab color="accent" routerLink="/tickets"
         #tooltip="matTooltip"
-        matTooltip="Return to List without changes"
-        ><mat-icon>close</mat-icon></button>
+        matTooltip="Return to Ticket list"
+        ><mat-icon>assignment_return</mat-icon></button>
     </div>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {TicketService} from 'src/app/services/ticket.service';
 import {AgencyService} from 'src/app/services/agency.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MassiveticketsComponent } from './massivetickets/massivetickets.component';
 
 
 @Component({
@@ -11,7 +13,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class TicketsComponent implements OnInit {
 
-  constructor(private service:TicketService, private agencyService: AgencyService) { }
+  constructor(private service:TicketService, private agencyService: AgencyService,
+    public dialog:MatDialog) { }
 
   TicketList:any=[];
   AgencyList:any=[];
@@ -47,5 +50,9 @@ export class TicketsComponent implements OnInit {
   setCurrentTicket(ticket:any, index:any): void{
     this.currentTicket = ticket;
     this.currentIndex = index;
+  }
+
+  openDialogExcelBox(){
+    this.dialog.open(MassiveticketsComponent);
   }
 }

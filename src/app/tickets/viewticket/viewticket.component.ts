@@ -23,7 +23,10 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export class ViewticketComponent implements OnInit {
   id: number | undefined;
-  showEdit = false;
+  showEdit1 = false;
+  showEdit2 = false;
+  showEdit3 = false;
+  showEdit4 = false;
   
   isLinear = false;
   firstFormGroup!: FormGroup;
@@ -32,6 +35,14 @@ export class ViewticketComponent implements OnInit {
   fourthFormGroup!: FormGroup;
   
   allestimento!: FormGroup;
+
+
+  technicalVisitDate:any = new Date();
+  TechnicianModel: any = {
+  tech_assign: '',
+  assignedDate: this.technicalVisitDate,
+  version: 4,
+  }
 
   constructor(private service:TicketService,
     private usersService: UsersService,
@@ -50,9 +61,6 @@ export class ViewticketComponent implements OnInit {
       this.allestimentoTicketList(ticketId);
       this.getUnserializedItems(ticketId);
       this.getWarehouseStock();
-
-      //datePipe
-
 
     //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
@@ -104,21 +112,16 @@ export class ViewticketComponent implements OnInit {
 
   }
   
-  technicalVisitDate: any = Date();
-  TechnicianModel: any = {
-  tech_assign: '',
-  assignedDate: this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
-  version: 4,
-  }
 
   technicianAssignedtoTicket(id:any){
+  this.updateTicketStatus4(id);
+
   this.service.assign_technician(id,this.TechnicianModel).subscribe(
     (data) => { 
       this.TechnicianModel = data;
       this._snackBar.open("Technician Assigned Succesfully", "OK", { duration:3500, panelClass: "success",});
       console.log(data);
     });
-    this.updateTicketStatus4(id);
     this.refreshPage();
 }
 
@@ -161,7 +164,6 @@ export class ViewticketComponent implements OnInit {
         console.warn(element);  
       });
       this.allestimentoEdit = false;
-      this.refreshPage();
   }
 
   currentTicket = null;
@@ -182,6 +184,7 @@ export class ViewticketComponent implements OnInit {
   addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
     const equipment = {
       item: '',
+      item_description:'',
       quantity: 1,
       ticketId: id,
     };
@@ -192,6 +195,11 @@ export class ViewticketComponent implements OnInit {
     // console.log(this.equipment_no);
   }
   
+  allestimento_save(ticketId:any){
+    this.updateTicketStatus2(ticketId);
+    this.saveEquipment();
+  }
+
   saveEquipment(){
     this.tagsarray.forEach((element: any) => {
       this.service.addequipment(element).subscribe(
@@ -207,22 +215,9 @@ export class ViewticketComponent implements OnInit {
     this.refreshPage();
   }
 
-  ticketVersion2 =[];
-  updateTicketStatus2(id: any){
-    const version = {
-      version: 2,
-      status: 'MANAGING',
-      ticketId: id
-    };
-    this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.ticketVersion2 = data;
-        console.log('Ticket has updated to continur in step 3');}
-    );
-  }
 
-  refreshPage() {
-    window.location.reload();
-   }
+
+  refreshPage() {window.location.reload();}
 
   equipmentArrayData: any = [];
   allestimentoTicketList(ticketId: any){
@@ -232,11 +227,21 @@ export class ViewticketComponent implements OnInit {
   }
 
   ticketVersion =[];
+  updateTicketStatus2(id: any){
+    const version = {
+      version: 2,
+      status: 'MANAGING',
+    };
+    this.service.updateTicketVersion(id, version).subscribe(
+      (data) => { this.ticketVersion = data;
+        console.log('Ticket has updated to continue in step 3');}
+    );
+  }
+
   updateTicketStatus3(id: any){
     const version = {
       version: 3,
       status: 'MANAGING',
-      ticketId: id
     }
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.ticketVersion = data;
@@ -249,7 +254,6 @@ export class ViewticketComponent implements OnInit {
     const version = {
       version: 4,
       status: 'WORKING',
-      ticketId: id
     }
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.ticketVersion = data;
@@ -258,17 +262,18 @@ export class ViewticketComponent implements OnInit {
     )
   }
 
-  toogleEdit(){
-    this.showEdit = !this.showEdit;
-  }
+  toogleEditstep1(){ this.showEdit1 = !this.showEdit1;}
 
-  removeItem(index:any){
-    this.tagsarray.splice(index, 1);
-  }
+  toogleEditstep2(){this.showEdit2 = !this.showEdit2;}
+
+  toogleEditstep3(){this.showEdit3 = !this.showEdit3;}
+
+  toogleEditstep4(){this.showEdit4 = !this.showEdit4;}
+
+  removeItem(index:any){this.tagsarray.splice(index, 1); }
 
   ticketStatus = []
   updateTicket(id:any){
-    // this.service.updateTicket
   }
 
   deleteTicket(id:number){
