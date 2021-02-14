@@ -55,7 +55,9 @@
                                             <td colspan="1">Code</td>
                                             <td>:</td>
                                             <td colspan="1">
-                                                {{theTicket.code}}
+                                               <mat-form-field>
+                                                   <input matInput placeholder="Code" [value]="theTicket.code" [(ngModel)]="theTicket.code"/>
+                                               </mat-form-field>
                                             </td>
                                         </tr>
                                     </ng-container>
@@ -147,36 +149,6 @@
                                                     </mat-form-field>
                                                 </td>
                                             </tr>
-                                            <!-- <tr>
-                                                <td colspan="1">AAMS Code</td>
-                                                <td>:</td>
-                                                <td colspan="1">{{agency.certification}}</td>
-                                            </tr>
-                                            
-                                            
-                                            <tr>
-                                                <td colspan="1">Address</td>
-                                                <td>:</td>
-                                                <td colspan="1">{{agency.address}}</td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td colspan="1">Phone</td>
-                                                <td>:</td>
-                                                <td colspan="1">{{agency.phone}}</td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td colspan="1">Email</td>
-                                                <td >:</td>
-                                                <td colspan="1">{{agency.email}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="1">Shop Code</td>
-                                            <td>:</td>
-                                            <td colspan="1">{{agency.managerId}}</td> -->
-                                        <!-- </tr>
-                                        </div> -->
                                         </ng-container>
                                         <ng-container *ngIf="!showEdit1">
                                             <tr>
@@ -312,18 +284,38 @@
                                     <div>
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
-                                            <div class="col-auto">
-                                                <button mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                            <div class="col-1">
+                                                <button mat-icon-button (click)="deleteOneItemEquipment(allestimentoItems.id) ;removeItem(i)"><mat-icon>delete</mat-icon></button>
                                             </div>
                                             <mat-form-field class="col-1">
-                                                <input matInput value="{{i+1}}" disabled/>
+                                                <input matInput value="{{i+1}} + {{allestimentoItems.id}}" disabled/>
                                             </mat-form-field>
                                             <mat-form-field class="col-auto">
                                                 <input matInput value="{{allestimentoItems.item}}" [disabled]="!showEdit2" />
                                             </mat-form-field>
+                                            <mat-form-field class="col-auto" *ngIf="showEdit2">
+                                                <mat-label>Replace with: </mat-label>
+                                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="allestimentoItems.item">
+                                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name">
+                                                        <div class="full-width" style="line-height: 11px;">
+                                                            <span style="color: darkgrey;">{{tag.description}}</span> - {{tag.name}}  &nbsp;
+                                                        </div>
+                                                        <div class="col-auto" *ngIf="tag.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">done</span> Good Stock: {{tag.isStack}} Units
+                                                        </div>
+                                                        <div *ngIf="tag.isStack < 20 && tag.isStack > 5" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">info</span> Low stock: {{tag.isStack}} Units
+                                                        </div>    
+                                                        <div *ngIf="tag.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
+                                                            <span style="font-size: 13px;" class="material-icons">report</span> Stock: {{tag.isStack}} Units
+                                                        </div>
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            {{allestimentoItems | json}}
                                         </div>
                                     </div>
-                                    <div class="row" *ngFor="let obj of tagsarray; let i = index" >
+                                    <!-- <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
                                             <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
                                         </div>
@@ -355,8 +347,9 @@
                                                     </mat-option>
                                                 </mat-select>
                                             </mat-form-field>
+                                            {{obj | json}}
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </ng-container>
 
                                 <ng-container *ngIf="theTicket2.version == 2">
@@ -385,7 +378,6 @@
                 <!-- <app-equipmententry></app-equipmententry> -->
             <mat-card class="full-width">
                 <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
-                    
                     <div class="row">
                         <div class="col">
                             <h2>Equipment Serialization: 
@@ -398,23 +390,12 @@
                                     </button>
                                 </span>
                             </h2>
-                            <div class="col-md-3 ms-md-auto">
-                                <button mat-icon-button (click)="theTicket2.id" (click)="updateTicketStatus3(theTicket2.id); saveSerials(theTicket2.id)">
-                                    <mat-icon>save</mat-icon>
-                                </button>
-                            </div>
                         </div>
-                        <!-- <div class="col-auto">
-                            <button mat-icon-button (click)="addItem()"><mat-icon>add</mat-icon></button>
-                        </div> -->
                     </div>
                     <div *ngFor="let tag of unserialTags; let indice = index">
-                                
+                      
                         <div class="row">
                                 
-                                <!-- <button  mat-icon-button (click)="removeItem(indice)"> -->
-                                    <!-- <mat-icon>label</mat-icon> -->
-                                <!-- </button> -->
                                 <div class="col-auto">•</div>
                                 <mat-form-field class="col-auto">
                                     <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
@@ -422,23 +403,28 @@
                                 &nbsp;
                                 <mat-form-field class="col">
                                     <mat-label>Serial Number</mat-label>
-                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial"/>
+                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" required/>
                                 </mat-form-field>
                                 &nbsp;
-                                
-                                <!-- <mat-form-field class="col">
-                                    <mat-label>Warehouse</mat-label>
-                                    <mat-select matNativeControl  name="stock{{indice}}" [(ngModel)]="tag.warehouseId">
-                                        <mat-option *ngFor="let stock of warehouseData; let i = index" [(value)]="stock.id">{{stock.name}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field> -->
-                                &nbsp;
+                                <button mat-icon-button (click)="theTicket2.id" (click)="saveSerials(tag.id)">
+                                    <mat-icon>done</mat-icon>
+                                </button>
                                 <!-- <mat-form-field class="col-9">
                                     <mat-label>Notes for the item:</mat-label>
                                     <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
                                 </mat-form-field> -->
+                                {{tag | json}}
                         </div>
                     </div>
+                    <button mat-raised-button (click)="updateTicketStatus3(theTicket2.id); saveSerials()"
+                                    #tooltip="matTooltip"
+                                    matTooltip="Save serials, proceed to assign Technician">Save Serials</button>
+                    <!-- <div class="col-md-3 ms-md-auto">
+                        <button mat-icon-button (click)="theTicket2.id" (click)="saveSerials(tag.id)">
+                            <mat-icon>accept</mat-icon>
+                        </button>
+                    </div> -->
+                    <br>
                 </div>
                 </mat-card>
             </div>

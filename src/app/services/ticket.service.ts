@@ -26,7 +26,7 @@ export class TicketService {
   }
 
   updateTicket(id:any, val:any): Observable<any>{
-    return this.http.put(APIUrl + '/ticket/update/'+id, val);
+    return this.http.post(APIUrl + '/ticket/update/'+id, val);
   }
 
   deleteTicket(val:any): Observable<any>{
@@ -59,6 +59,14 @@ export class TicketService {
 
   addequipment(val: any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket-equip/`,val);
+  }
+
+  updateEquipment(id:any,val:any):Observable<any>{
+    return this.http.post(`${APIUrl}/ticket-equip/update/${id}`,val);
+  }
+
+  deleteItemEquipment(id:any):Observable<any>{
+    return this.http.delete(`${APIUrl}/ticket-equip/${id}`);
   }
 
   get_equipment(): Observable<any>{

@@ -54,8 +54,11 @@ export class ViewticketComponent implements OnInit {
     
     public ngOnInit(): void {
 
+      // initialize the current ticket ID
       const ticketId = this.route.snapshot.paramMap.get('id');
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
+      
+      //Load from database all the fields required according to each step
       this.Technicians_List();
       this.getTags();
       this.allestimentoTicketList(ticketId);
@@ -78,6 +81,7 @@ export class ViewticketComponent implements OnInit {
     });
   }
  
+  // Getting General Ticket Information
   theTicketData : any = [];
   getTicketIndividual(id:any):any{
     this.service.getTicketIso(id).subscribe((data)=> {
@@ -89,10 +93,11 @@ export class ViewticketComponent implements OnInit {
     );
   }
   
-  updateAdditionalInformation(id: any){
-    this.service.updateTicket(id).subscribe(
-      data=>this.theTicketData.description = data)
-  }
+  //
+  // updateAdditionalInformation(id: any){
+  //   this.service.updateTicket(id).subscribe(
+  //     data=>this.theTicketData.description = data)
+  // }
 
   newtags: any = [];
   getTags(){
@@ -153,9 +158,11 @@ export class ViewticketComponent implements OnInit {
   }
   
 
-  saveSerials(ticketId:any){
-      this.unserialTags.forEach((element: any) => {
-        this.service.saveSerialsOfItems(ticketId, element).subscribe(
+  saveSerials(id: any){
+    let unserial = this.unserialTags.length;
+
+      unserial.forEach((element: any) => {
+        this.service.saveSerialsOfItems(id, element).subscribe(
           (data) => { console.log('Equipment added', data);
           this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
         },
@@ -164,7 +171,7 @@ export class ViewticketComponent implements OnInit {
         )
         console.warn(element);  
       });
-      this.allestimentoEdit = false;
+      this.refreshPage();
   }
 
   currentTicket = null;
@@ -216,8 +223,6 @@ export class ViewticketComponent implements OnInit {
     this.refreshPage();
   }
 
-
-
   refreshPage() {window.location.reload();}
 
   equipmentArrayData: any = [];
@@ -227,6 +232,8 @@ export class ViewticketComponent implements OnInit {
     );
   }
 
+
+  // Updating Ticket Version on each step
   ticketVersion =[];
   updateTicketStatus2(id: any){
     const version = {
@@ -263,6 +270,7 @@ export class ViewticketComponent implements OnInit {
     )
   }
 
+  //Toggle Edition fields in Html view
   toogleEditstep1(){ this.showEdit1 = !this.showEdit1;}
 
   toogleEditstep2(){this.showEdit2 = !this.showEdit2;}
@@ -273,10 +281,12 @@ export class ViewticketComponent implements OnInit {
 
   removeItem(index:any){this.tagsarray.splice(index, 1); }
 
-  theTicket = []
+  //
+  theTicket: any = [];
   updateTicket(id:any){
     const theTicket =
     {
+      code:'',
       type:'',
       priority:'',
       agencyId:undefined,
@@ -294,9 +304,20 @@ export class ViewticketComponent implements OnInit {
     }
   }
 
+  deleteOneItemEquipment(id:number){
+    this.service.deleteItemEquipment(id).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+
   customerId = 'CUSTOME581785f34f4f3';
   AgencyList: any = [];
-
   getAgencyName(){
     this.service.getAgencyName(this.customerId).subscribe(agency => {
       this.AgencyList = agency;

@@ -35,20 +35,20 @@ export class EditComponent implements OnInit {
   //id: number
 
     
-  UpdateTicket(){
-    this.ticketService.updateTicket(this.ticketModel).subscribe(
-      (data) => { console.log('Ticket Updated Successfully', data);
-      this._snackBar.open("Ticket Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
-      this.router.navigateByUrl("/tickets"); },
-      (error) => { console.log('Failed to Update Ticket', error);
-      this._snackBar.open("Failed to Update Ticket", "OK", { duration:3500, panelClass: "error",}); },
-    )
-    console.warn(this.ticketModel);
-  }
+  // UpdateTicket(){
+  //   this.ticketService.updateTicket(this.ticketModel).subscribe(
+  //     (data) => { console.log('Ticket Updated Successfully', data);
+  //     this._snackBar.open("Ticket Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+  //     this.router.navigateByUrl("/tickets"); },
+  //     (error) => { console.log('Failed to Update Ticket', error);
+  //     this._snackBar.open("Failed to Update Ticket", "OK", { duration:3500, panelClass: "error",}); },
+  //   )
+  //   console.warn(this.ticketModel);
+  // }
   
-  saveTicket(){
-    this.UpdateTicket();
-  }
+  // saveTicket(){
+  //   this.UpdateTicket();
+  // }
 
   getTicketIndividual(id:any):any{
     this.ticketService.getTicketIso(id).subscribe((data)=> {
