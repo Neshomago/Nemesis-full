@@ -61,6 +61,7 @@ export class ViewticketComponent implements OnInit {
       this.allestimentoTicketList(ticketId);
       this.getUnserializedItems(ticketId);
       this.getWarehouseStock();
+      this.getAgencyName();
 
     //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
@@ -272,14 +273,35 @@ export class ViewticketComponent implements OnInit {
 
   removeItem(index:any){this.tagsarray.splice(index, 1); }
 
-  ticketStatus = []
+  theTicket = []
   updateTicket(id:any){
+    const theTicket =
+    {
+      type:'',
+      priority:'',
+      agencyId:undefined,
+      description: ''
+    }
+    this.service.updateTicket(id, theTicket).subscribe(
+      (data) => { this.theTicket = data;
+      console.log('Ticket has had some changes. Updated')}
+    );
   }
 
   deleteTicket(id:number){
     if (confirm('Are you sure you want to abort the ticket?')){
 
     }
+  }
+
+  customerId = 'CUSTOME581785f34f4f3';
+  AgencyList: any = [];
+
+  getAgencyName(){
+    this.service.getAgencyName(this.customerId).subscribe(agency => {
+      this.AgencyList = agency;
+    })
+
   }
 
 }

@@ -25,8 +25,8 @@ export class TicketService {
     return this.http.post(APIUrl + '/ticket/add',val);
   }
 
-  updateTicket(val:any): Observable<any>{
-    return this.http.put(APIUrl + '/ticket/update',val);
+  updateTicket(id:any, val:any): Observable<any>{
+    return this.http.put(APIUrl + '/ticket/update/'+id, val);
   }
 
   deleteTicket(val:any): Observable<any>{

@@ -73,6 +73,7 @@
 
     <table class="full-width table-stripped table-hover">
         <thead>
+            <th>Ticket Id</th>
             <th>Status</th>
             <th>Ticket Agency</th>
             <th>Details</th>
@@ -81,22 +82,27 @@
         <tbody>
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
-            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['/viewticket/',dataItem.id]" style="cursor: pointer;">
+            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['viewticket/',dataItem.id]" style="cursor: pointer;">
+                <td class="col-1 ">
+                        {{dataItem.id}}
+                </td>
                     <td class="row">
                         <div class="col-auto">
                             <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;">
-                            <div [ngClass]="{'step1done': dataItem.version === 1}">
-                                <div class="circle1">
-                                </div>
-                                <div class="circle2" [ngClass]="{'step2done':dataItem.version === 2}">
-                                </div>
-                                <div class="circle3" [ngClass]="{'step3done':dataItem.version === 3}">
-                                </div>
-                                <div class="circle4" [ngClass]="{'step4done':dataItem.version === 4}">
-                                </div>
+                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
+                                <div class="circle1"></div>
+                            </div>
+                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
+                                <div class="circle2"></div>
+                            </div>
+                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4}">
+                                <div class="circle3"></div>
+                            </div>
+                            <div [ngClass]="{'step4done':dataItem.version == 4}">
+                                <div class="circle4"></div>
                             </div>
                         </div>
                     </td>
@@ -127,7 +133,7 @@
         </div>
     </div>
     <div>
-        <button mat-fab routerLink="/create-ticket"
+        <button mat-fab [routerLink]="['/create-ticket']"
         #tooltip="matTooltip"
         matTooltip="Generate New Ticket"
         ><mat-icon>add</mat-icon></button>

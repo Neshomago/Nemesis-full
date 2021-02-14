@@ -374,6 +374,8 @@ snack-bar-container.notification simple-snack-bar{
   font-weight: 300;
 }
 
+
+/* Tickets badges styles*/
 .TicketResolved{
   border:none;
   border-radius:5px;
@@ -412,22 +414,25 @@ snack-bar-container.notification simple-snack-bar{
   height:30px;
   margin: 10px 0px 5px 0px;
   color:white;
-  background-color:dodgerblue;
+  // background-color:dodgerblue;
+  background-color:gold;
 }
 
+
+/* tickets steps circles colors */
 .step1done > .circle1{
 background-color: green;
 }
 
-.step2done > .circle1, .circle2{
+.step2done > .circle2{
   background-color: green;
   }
 
-.step3done > .circle1, .circle2, .circle3{
+.step3done > .circle3{
 background-color: green;
 }
 
-.step4done > .circle1, .circle2, .circle3, .circle4{
+.step4done > .circle4{
   background-color: green;
 }
 .circle1, .circle2, .circle3, .circle4{
