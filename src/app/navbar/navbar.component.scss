@@ -24,10 +24,17 @@
   width: 200px;
   background-image: linear-gradient(90deg, #29323c,#485563);
   border-radius: 0px 0px 20px 0px;
+  box-shadow: 1px 0px 10px #1f262ebd;
 }
 
 .sidenav .mat-toolbar {
   background-image: linear-gradient(#ffb347,#ffcc33)/*inherit*/;
+}
+
+.border_nav_low{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: dashed 0.5px #485563;
 }
 
 .mat-toolbar.mat-primary {
@@ -45,13 +52,45 @@
 
 .logged_in{
   color:aliceblue;
+  font-size: x-large;
+  font-weight: 100;
+  padding-top: 10px;
+}
+
+.logged_in_below{
+  color:aliceblue;
+  font-size: small;
+  font-weight: 100;
+}
+
+.logout > a{
+  color: aliceblue;
+  font-size: medium;
+  font-weight: 400;
+  text-decoration: none;
+  transition: .4s ease-out;
+}
+
+.logout > a:hover{
+  color: aliceblue;
+  font-size: medium;
+  font-weight: 400;
+  text-decoration: none;
+  background-color: #e2e6eb6e;
+  transition: .4s ease-out;
+  border-radius: 10px;
+  padding: 3px;
 }
 
 .user_circle{
-  margin: 50%;
-  margin-top: 20px;
   border-radius: 50%;
   width: 80px;
   height: 80px;
   background-color: bisque;
+  margin: auto;
+  padding-top: 15px;
+}
+
+.mat-drawer-side {
+  border-right: none /*solid 1px rgba(0,0,0,.12)*/;
 }

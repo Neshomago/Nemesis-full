@@ -4,14 +4,22 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <!-- <mat-toolbar>Menu</mat-toolbar> -->
-    <div class="logged_in">
+    <div class="border_nav_low">
       <div>
-        <div class="user_circle"></div>
-        <div class="text-center">User Name: user.id</div>
+        <div class="align-self-center">
+          <div class="user_circle"></div>
+        </div>
+        <div class="text-center logged_in">user.name</div>
 
       </div>
-      <div class="text-center">Roles: <span></span>-User.role-</div>
-      <div class="text-center">Sign out</div>
+      <div class="text-center logged_in_below">Roles: <span></span>-User.role-</div>
+      <div class="text-center logout">
+        <a href="">Sign out
+          <span class="material-icons" style="font-size: 16px;">
+            logout
+          </span>
+        </a>
+      </div>
     </div>
     <mat-nav-list class="background-nemesis">
       <a mat-list-item routerLink="/main" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >home</span> Home</a>
