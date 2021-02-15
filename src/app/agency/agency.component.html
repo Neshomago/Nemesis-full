@@ -21,18 +21,18 @@
             >
                 <td>
                     <table>
-                        <tr><td class="Agency-name">{{dataItem.name}}</td></tr>
-                        <tr><td class="sm-address">{{dataItem.address}}</td></tr>
+                        <tr><td class="customer-name" style="font-weight: 400;">{{dataItem.name}}</td></tr>
+                        <tr><td class="Agency-below">{{dataItem.address}}</td></tr>
                     </table>
                 </td>
                 <td>
                     <table>
-                        <tr><td class="Agency-name">{{dataItem.phone}}</td></tr>
-                        <tr><td class="sm-address">{{dataItem.email}}</td></tr>
+                        <tr><td class="customer-name"><span class="material-icons" style="font-size: 12px; vertical-align: middle;">phone</span>{{dataItem.phone}}</td></tr>
+                        <tr><td class="Agency-below"><span class="material-icons" style="font-size: 12px; vertical-align: middle;"> mail_outline</span>{{dataItem.email}}</td></tr>
                     </table>
                 </td>
-                <td class="Agency-name">{{dataItem.certification}}</td>
-                <td class="Agency-name">{{dataItem.managerId}}</td>
+                <td class="customer-name">{{dataItem.certification}}</td>
+                <td class="customer-name">{{dataItem.managerId}}</td>
             </tr>
         </tbody>
     </table>

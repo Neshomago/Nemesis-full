@@ -33,12 +33,7 @@
       <input matInput id="Address" name="Address" placeholder="Address" [(ngModel)]="contactModel.address">
     </mat-form-field>
   </p>
-  <!-- <p>
-    <mat-form-field class="full-width">
-      <mat-label>Contact Email</mat-label>
-      <input matInput placeholder="Fiscal Code" [formControlName]="phone">
-    </mat-form-field>
-  </p> -->
+  
   <p>
     <mat-form-field class="full-width">
       <mat-label>Contact Phone</mat-label>
@@ -62,7 +57,7 @@
   <p></p>
   <div class="btncenter">
     <div>
-      <button mat-raised-button class="cancel" routerLink="/contacts"><span class="material-icons">clear</span>Cancel</button>
+      <button mat-raised-button class="cancel" [routerLink]="['/contacts']"><span class="material-icons">clear</span>Cancel</button>
     </div>
     <div>
       <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">done</span> Save</button>

@@ -4,7 +4,7 @@
         <div *ngFor="let theAgency of theAgencyData; let i = index">
             <mat-card class="example-card">
                 <mat-card-header>
-                  <mat-card-title>Customer Information</mat-card-title>
+                  <mat-card-title>Agency Information</mat-card-title>
                 </mat-card-header>
                 <mat-divider></mat-divider>
                 <mat-card-content>
@@ -13,20 +13,30 @@
                             <div color="primary" >
                                 <table>
                                     <tr>
-                                        <td colspan="1" style="width: 150px;">Customer Id</td>
+                                        <td colspan="1" style="width: 150px;">Agency Id</td>
                                         <td>:</td>
                                         <td colspan="1">{{theAgency.id}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" style="width: 150px;">Customer Name</td>
+                                        <td colspan="1" style="width: 150px;">Agency Name</td>
                                         <td>:</td>
                                         <td colspan="1">{{theAgency.name}}</td>
                                     </tr>
-
                                     <tr>
-                                        <td colspan="1">IVA</td>
+                                        <td colspan="1" style="width: 150px;">VAT Number</td>
                                         <td>:</td>
                                         <td colspan="1">{{theAgency.vat}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" style="width: 150px;">Manager ID</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theAgency.managerId}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="1">Certification Code</td>
+                                        <td>:</td>
+                                        <td colspan="1">{{theAgency.certification}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -38,7 +48,7 @@
                     </ng-container>
                     <mat-divider></mat-divider>
                     <div>
-                        <h2>Customer Contact</h2>
+                        <h2>Agency Contacts</h2>
                                 <div>
                                     <table>
                                         <tr>
@@ -57,6 +67,17 @@
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
                                             <td colspan="1">{{theAgency.phone}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="1">Customer Id</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theAgency.customerId}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">More Info</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theAgency.moreInfo}}</td>
                                         </tr>
     
                                     </table>
