@@ -16,13 +16,25 @@ import { EditComponent } from './tickets/edit/edit.component';
 import { EquipmententryComponent } from './equipmententry/equipmententry.component';
 import { ViewcustomerComponent } from './customers/view/viewcustomer.component';
 import { EditcustomerComponent } from './customers/edit/editcustomer.component';
+import { ViewagencyComponent } from './agency/viewagency/viewagency.component';
+import { ViewComponent } from './contact/view/view.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
   { path:'main', component: HomeComponent},
-  { path: 'agency', component:AgencyComponent},
-  { path: 'customers', component:CustomersComponent},
-  { path: 'contact', component:ContactComponent},
+  { path: 'agency', children:[
+    {path: '', component:AgencyComponent},
+    {path:'viewagency/:id',component:ViewagencyComponent},
+  ]},
+  { path: 'customers', children:[
+    { path: '', component:CustomersComponent},
+    { path: 'viewcustomer/:id', component:ViewcustomerComponent},
+  ]},
+  { path: 'contact',children:[
+    {path:'',component:ContactComponent},
+    {path:'viewcontact/:id', component:ViewComponent},
+
+  ]},
   { path: 'tickets', children: [
     { path:'', component:TicketsComponent},
     { path: 'viewticket/:id', component:ViewticketComponent},
@@ -31,7 +43,6 @@ const routes: Routes = [
   { path: 'create-agency', component:CreateAgencyComponent},
   { path: 'create-contact', component:CreatContactComponent},
   { path: 'create-customer', component:CreateCustomerComponent},
-  { path: 'viewcustomer/:id', component:ViewcustomerComponent},
   { path:'edit-customer/:id', component: EditcustomerComponent},
   { path: 'additional', component:AdditionalequipmentComponent},
   { path:'edit-ticket/:id', component: EditComponent},

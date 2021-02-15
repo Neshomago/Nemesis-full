@@ -34,4 +34,8 @@ export class UsersService {
   getTechnicianList(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/techn');
   }
+
+  getContactIso(id:any): Observable<any>{
+    return this.http.get(`${APIUrl}/contactiso/${id}`);
+  }
 }

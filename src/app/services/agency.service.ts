@@ -32,5 +32,9 @@ export class AgencyService {
     return this.http.delete(APIUrl + '/agency/delete',val);
   }
 
+  getAgencyIso(id:any): Observable<any>{
+    return this.http.get(`${APIUrl}/agencyiso/${id}`);
+  }
+
 
 }

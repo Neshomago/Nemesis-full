@@ -13,6 +13,10 @@ export class ContactComponent implements OnInit {
 
   Contact:any = [];
 
+  currentUser = null;
+  currentIndex = -1;
+
+
   ngOnInit(): void {
     this.refreshContactList();
   }
@@ -24,4 +28,10 @@ export class ContactComponent implements OnInit {
       }
     );
   }
+
+  setCurrentUser(user:any, index:any): void{
+    this.currentUser = user;
+    this.currentIndex = index;
+  }
+
 }

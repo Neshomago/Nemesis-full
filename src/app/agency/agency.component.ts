@@ -12,7 +12,11 @@ export class AgencyComponent implements OnInit {
   constructor(private service: AgencyService) { }
   
   AgencyList:any=[];
+
+  currentAgency = null;
+  currentIndex = -1;
   
+
   ngOnInit(): void {
     this.refreshAgencyList();
   }
@@ -24,6 +28,9 @@ export class AgencyComponent implements OnInit {
       })
   }
 
-  
+  setCurrentAgency(agency:any, index:any): void{
+    this.currentAgency = agency;
+    this.currentIndex = index;
+  }
 
 }

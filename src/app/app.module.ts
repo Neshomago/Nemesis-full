@@ -54,6 +54,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditcustomerComponent } from './customers/edit/editcustomer.component';
 import { MassiveticketsComponent } from './tickets/massivetickets/massivetickets.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ViewagencyComponent } from './agency/viewagency/viewagency.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ViewcustomerComponent,
     EditcustomerComponent,
     MassiveticketsComponent,
+    ViewagencyComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [

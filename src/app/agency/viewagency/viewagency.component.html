@@ -1,10 +1,10 @@
 
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
-        <div *ngFor="let theUser of theUserData; let i = index">
+        <div *ngFor="let theAgency of theAgencyData; let i = index">
             <mat-card class="example-card">
                 <mat-card-header>
-                  <mat-card-title>User Information</mat-card-title>
+                  <mat-card-title>Customer Information</mat-card-title>
                 </mat-card-header>
                 <mat-divider></mat-divider>
                 <mat-card-content>
@@ -13,20 +13,20 @@
                             <div color="primary" >
                                 <table>
                                     <tr>
-                                        <td colspan="1" style="width: 150px;">User Id</td>
+                                        <td colspan="1" style="width: 150px;">Customer Id</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theUser.id}}</td>
+                                        <td colspan="1">{{theAgency.id}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" style="width: 150px;">User Name</td>
+                                        <td colspan="1" style="width: 150px;">Customer Name</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theUser.name}}</td>
+                                        <td colspan="1">{{theAgency.name}}</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="1">IVA</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theUser.vat}}</td>
+                                        <td colspan="1">{{theAgency.vat}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -44,19 +44,19 @@
                                         <tr>
                                             <td colspan="1" style="width: 150px;">Address</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theUser.address}}</td>
+                                            <td colspan="1">{{theAgency.address}}</td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Email</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theUser.email}}</td>
+                                            <td colspan="1">{{theAgency.email}}</td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theUser.phone}}</td>
+                                            <td colspan="1">{{theAgency.phone}}</td>
                                         </tr>
     
                                     </table>
@@ -74,14 +74,14 @@
 
 <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
     <div style="padding-bottom: 20px;">
-        <button mat-fab [routerLink]="['/edit-ticket/', theUserData.id]"><mat-icon>edit-row</mat-icon></button>
+        <button mat-fab [routerLink]="['/edit-ticket/', theAgencyData.id]"><mat-icon>edit-row</mat-icon></button>
     </div>
     <div style="padding-bottom: 20px;">
         <button mat-fab
         #tooltip="matTooltip"
           matTooltip="Save changes"
         ><mat-icon>save</mat-icon></button>
-    <!-- [routerLink]="['/edit-ticket/', theUserData.id]" -->
+    <!-- [routerLink]="['/edit-ticket/', theAgencyData.id]" -->
     </div>
     <div>
         <button mat-fab color="warn" routerLink="/create-ticket"

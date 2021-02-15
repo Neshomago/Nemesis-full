@@ -5,39 +5,38 @@
       <input matInput placeholder="Search the customer">
     </mat-form-field>
 </div>
-<div class="table-responsive">
-
-    <div class="table">
+<div class="table">
         <router-outlet></router-outlet>
-        <table class="full-width table-stripped table-hover">
-            <thead>
-                <th>Customer Name</th>
-                <th>Customer VAT</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let dataItem of CustomerList; let i = index"
-                [class.active]="i == currentIndex"
-                (clic)="setCurrentCustomer(dataItem, i)" [routerLink]="['/viewcustomer/',dataItem.id]" style="cursor: pointer;"
-                >
-                    <td>
-                        <table>
-                            <tr><td class="Agency-name"><strong>{{dataItem.name}}</strong></td></tr>
-                            <tr><td class="med-text"><span class="material-icons" style="font-size: 13px;">mail_outline</span>{{dataItem.email}} | <span class="material-icons" style="font-size: 13px;">phone</span>{{dataItem.phone}}</td></tr>
-                        </table>
-                    </td>
-                    <td class="Agency-name">{{dataItem.vat}}</td>
-                    <td class="Agency-name">{{dataItem.managerId}}</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div style="position: fixed; right: 40px; bottom: 30px;">
-            <button mat-fab routerLink="/create-customer"
-            #tooltip="matTooltip"
-            matTooltip="Create New Customer"
-            ><mat-icon>add</mat-icon></button>
-        </div>
-    </div>
+    <table class="full-width table-stripped table-hover">
+        <thead>
+            <th>Customer Name</th>
+            <th>Customer VAT</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dataItem of CustomerList; let i = index"
+            [class.active]="i == currentIndex"
+            (click)="setCurrentCustomer(dataItem, i)" [routerLink]="['viewcustomer/',dataItem.id]" style="cursor: pointer;"
+            >
+                <td>
+                    <table>
+                        <tr><td class="Agency-name"><strong>{{dataItem.name}}</strong></td></tr>
+                        <tr><td class="med-text"><span class="material-icons" style="font-size: 13px;">mail_outline</span>{{dataItem.email}} | <span class="material-icons" style="font-size: 13px;">phone</span>{{dataItem.phone}}</td></tr>
+                    </table>
+                </td>
+                <td class="Agency-name">{{dataItem.vat}}</td>
+                <td class="Agency-name">{{dataItem.managerId}}</td>
+            </tr>
+        </tbody>
+    </table>        
+</div>
+<div>
+    <span style="display: none;">END OF CUSTOMER LIST</span>&nbsp;
+</div>
+<div style="position: fixed; right: 40px; bottom: 30px;">
+    <button mat-fab routerLink="/create-customer"
+    #tooltip="matTooltip"
+    matTooltip="Create New Customer"
+    ><mat-icon>add</mat-icon></button>
 </div>
     <div>
         <footer>&nbsp;</footer>
