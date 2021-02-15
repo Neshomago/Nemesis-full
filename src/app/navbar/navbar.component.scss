@@ -42,3 +42,16 @@
 .active-link{
   background-image: linear-gradient(90deg, rgba(255, 181, 79, 0),#ffcc33) !important;
 }
+
+.logged_in{
+  color:aliceblue;
+}
+
+.user_circle{
+  margin: 50%;
+  margin-top: 20px;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  background-color: bisque;
+}

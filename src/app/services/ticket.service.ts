@@ -10,9 +10,10 @@ const APIUrl = "http://127.0.0.1:5000";
   providedIn: 'root'
 })
 export class TicketService {
-
+  
   constructor(private http:HttpClient) { }
-
+  
+  //Main ticket Info - Step 1 of the Ticket
   getTicket(id:any):Observable<any>{
     return this.http.get<any[]>(APIUrl+`/tickets/${id}`);
   }
@@ -85,14 +86,20 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticket-serial/${id}`,val);
   }
 
+  
+  getWarehouseNameQuantity(): Observable<any>{
+    return this.http.get<any>(`${APIUrl}/ticketwarehouse`);
+  }
+  
+  //Step 4 Assign Technician
   assign_technician(id:any, val:any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket/technicianassign/${id}`,val);
   }
 
-  getWarehouseNameQuantity(): Observable<any>{
-    return this.http.get<any>(`${APIUrl}/ticketwarehouse`);
+  update_technician(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket/technicianupdate/${id}`,val);
   }
-
+  
 }
 
 

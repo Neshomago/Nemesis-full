@@ -40,7 +40,7 @@ export class ViewticketComponent implements OnInit {
   technicalVisitDate:any = new Date();
   TechnicianModel: any = {
   tech_assign: '',
-  assignedDate: this.technicalVisitDate,
+  assignedDate: this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
   version: 4,
   }
 
@@ -89,15 +89,8 @@ export class ViewticketComponent implements OnInit {
       console.log(data);
     },
     error =>{console.log(error);
-    }
-    );
+    });
   }
-  
-  //
-  // updateAdditionalInformation(id: any){
-  //   this.service.updateTicket(id).subscribe(
-  //     data=>this.theTicketData.description = data)
-  // }
 
   newtags: any = [];
   getTags(){
@@ -112,16 +105,9 @@ export class ViewticketComponent implements OnInit {
       data => this.TechnicianList = data
       );
   }
-
-  events = '';
-  addVisitDate() {
-
-  }
   
 
   technicianAssignedtoTicket(id:any){
-  this.updateTicketStatus4(id);
-
   this.service.assign_technician(id,this.TechnicianModel).subscribe(
     (data) => { 
       this.TechnicianModel = data;
@@ -146,22 +132,27 @@ export class ViewticketComponent implements OnInit {
       );
       console.log(this.warehouseData);
     }
-  
-  //   UnserializedTags = [];
-  // addUnserializedItem(){
-  //     this.equipment = new Equipment();
-  //     this.tagsarray.push(this.equipment);
+
+  // saveSerials(id: any){
+  //   this.unserialTags.forEach((element: any) => {
+  //       this.service.saveSerialsOfItems(id, element).subscribe(
+  //         (data) => { console.log('Equipment added', data);
+  //         this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
+  //       },
+  //       (error) => { console.log('Failed to add equipment', error);
+  //       this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
+  //       )
+  //       console.warn(element);  
+  //     });
   // }
-  
-  removeUnserializedItem(index:any){
-      this.tagsarray.splice(index);
-  }
-  
 
   saveSerials(id: any){
-    let unserial = this.unserialTags.length;
 
-      unserial.forEach((element: any) => {
+    const element ={
+      item_serial: '',
+      ticketId: id
+    }
+
         this.service.saveSerialsOfItems(id, element).subscribe(
           (data) => { console.log('Equipment added', data);
           this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
@@ -170,8 +161,6 @@ export class ViewticketComponent implements OnInit {
         this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
         )
         console.warn(element);  
-      });
-      this.refreshPage();
   }
 
   currentTicket = null;
@@ -219,7 +208,7 @@ export class ViewticketComponent implements OnInit {
       )
       console.warn(element);  
     });
-    this.allestimentoEdit = false;
+    // this.allestimentoEdit = false;
     this.refreshPage();
   }
 
@@ -315,6 +304,15 @@ export class ViewticketComponent implements OnInit {
     )
   }
 
+  updateTechnician(id:any){
+    this.service.assign_technician(id,this.TechnicianModel).subscribe(
+      (data) => { 
+        this.TechnicianModel = data;
+        this._snackBar.open("Technician Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+        console.log(data);
+      });
+      this.refreshPage();
+  }
 
   customerId = 'CUSTOME581785f34f4f3';
   AgencyList: any = [];

@@ -3,7 +3,16 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <!-- <mat-toolbar>Menu</mat-toolbar> -->
+    <div class="logged_in">
+      <div>
+        <div class="user_circle"></div>
+        <div class="text-center">User Name: user.id</div>
+
+      </div>
+      <div class="text-center">Roles: <span></span>-User.role-</div>
+      <div class="text-center">Sign out</div>
+    </div>
     <mat-nav-list class="background-nemesis">
       <a mat-list-item routerLink="/main" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >home</span> Home</a>
       <a mat-list-item routerLink="/contact" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >contacts</span>Users</a>
