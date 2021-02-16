@@ -40,7 +40,7 @@ export class ViewticketComponent implements OnInit {
   technicalVisitDate:any = new Date();
   TechnicianModel: any = {
   tech_assign: '',
-  assignedDate: this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
+  assignedDate: this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
   version: 5,
   }
 
@@ -66,6 +66,7 @@ export class ViewticketComponent implements OnInit {
       this.getUnserializedItems(ticketId);
       this.getWarehouseStock();
       this.getAgencyName();
+      this.getTicketInfotoUpdate(ticketId);
 
     //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
@@ -106,7 +107,6 @@ export class ViewticketComponent implements OnInit {
       data => this.TechnicianList = data
       );
   }
-  
 
   technicianAssignedtoTicket(id:any){
   this.service.assign_technician(id,this.TechnicianModel).subscribe(
@@ -188,11 +188,6 @@ export class ViewticketComponent implements OnInit {
     this.tagsarray.push(equipment);
     console.log(this.tagsarray);
   }
-  
-  // allestimento_save(ticketId:any){
-  //   this.updateTicketStatus2(ticketId);
-  //   this.saveEquipment();
-  // }
 
   saveEquipment(){
     this.tagsarray.forEach((element: any) => {
@@ -206,20 +201,6 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.allestimentoEdit = false;
-    this.refreshPage();
-  }
-
-  saveEquipmentArray(){
-    for (const index in this.tagsarray){
-      this.service.addequipment(this.tagsarray[index]).subscribe(
-        (data) => { console.log('Equipment added', data);
-        this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
-      },
-      (error) => { console.log('Failed to add equipment', error);
-      this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
-      )
-      console.warn(this.tagsarray[index]);  
-    };
     this.refreshPage();
   }
 
@@ -256,7 +237,8 @@ export class ViewticketComponent implements OnInit {
       (data) => { this.ticketVersion = data;
         this._snackBar.open("Ticket has been updated. Continue in step 4.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket has been taken in charge. Status updated')    }
-    )
+    );
+    this.refreshPage();
   }
 
   updateTicketStatus4(id: any){
@@ -284,20 +266,30 @@ export class ViewticketComponent implements OnInit {
   removeItem(index:any){this.tagsarray.splice(index, 1); }
 
   //
-  theTicket: any = [];
-  updateTicket(id:any){
-    const theTicket =
-    {
-      code:'',
-      type:'',
-      priority:'',
-      agencyId:undefined,
-      description: ''
-    }
-    this.service.updateTicket(id, theTicket).subscribe(
-      (data) => { this.theTicket = data;
-      console.log('Ticket has had some changes. Updated')}
+  theTicketUpdate: any = [];
+
+  getTicketInfotoUpdate(id:any){
+    this.service.getTickettoUpdate(id).subscribe(
+      data => { this.theTicketUpdate = data;
+      console.warn(this.theTicketUpdate)}
     );
+  }
+
+  updateTicket(id:any){
+    // const theTicket =
+    // {
+    //   code:'',
+    //   type:'',
+    //   priority:'',
+    //   agencyId:undefined,
+    //   description: ''
+    // }
+    this.service.updateTicket(id, this.theTicketUpdate).subscribe(
+      (data) => { this.theTicketUpdate = data;
+      console.log('Ticket has had some changes. Updated');
+      console.log(this.theTicketUpdate);
+      this._snackBar.open("Ticket Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+      });
   }
 
   tickStatus ={ status:'ABORTED'};

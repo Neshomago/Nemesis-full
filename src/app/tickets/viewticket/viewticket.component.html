@@ -5,6 +5,7 @@
         <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>Ticket general Information</ng-template>
         <div *ngFor="let theTicket of theTicketData; let i = index" [class.active]="i == currentIndex">
+        <div *ngFor="let editTicket of theTicketUpdate; let i = index" [class.active]="i == currentIndex">
             <mat-card class="example-card">
                 <mat-card-header>
                   <mat-card-title>Created Ticket</mat-card-title>
@@ -12,7 +13,7 @@
                   <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
                       Ticket Status:
                       <div>
-                          <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED'}">
+                          <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED' || 'WORKING'}">
                             <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
                                 {{theTicket.status}}
                             </div>
@@ -56,7 +57,7 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                <mat-form-field>
-                                                   <input matInput placeholder="Code" [value]="theTicket.code" [(ngModel)]="theTicket.code"/>
+                                                   <input matInput placeholder="Code" [value]="editTicket.code" [(ngModel)]="editTicket.code"/>
                                                </mat-form-field>
                                             </td>
                                         </tr>
@@ -93,7 +94,7 @@
                                             <td>
                                                 <mat-form-field>
                                                     <mat-label>Request Type:</mat-label>
-                                                    <mat-select matNativeControl id="type" name="type" [(ngModel)]="theTicket.type">
+                                                    <mat-select matNativeControl id="type" name="type" [(ngModel)]="editTicket.type">
                                                       <mat-option value="INS">INSTALATION</mat-option>
                                                       <mat-option value="INT">INTEGRATION</mat-option>
                                                       <mat-option value="MAN">MAINTENANCE</mat-option>
@@ -111,7 +112,7 @@
                                             <td>
                                                 <mat-form-field>
                                                     <mat-label>Priority:</mat-label>
-                                                    <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="theTicket.priority">
+                                                    <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="editTicket.priority">
                                                       <mat-option value="LOW">Low Priority</mat-option>
                                                       <mat-option value="NORMAL">Normal</mat-option>
                                                       <mat-option value="HIGH">High Priority</mat-option>
@@ -131,24 +132,57 @@
                                 <div>
                                     <table>
                                         <ng-container *ngIf="showEdit1">
-                                            <!-- <div *ngFor="let agency of AgencyList | slice:0:1; let i = index"> -->
-
                                                 <tr>
                                                     <td colspan="1">Agency Name</td>
-                                                <td >:</td>
-                                                <td colspan="1">
-                                                    <mat-form-field class="full-width" >
-                                                        <mat-label>Select new Agency</mat-label>
-                                                        <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="theTicket.agencyId">
-                                                            <mat-option *ngFor="let agency of AgencyList" [(value)]="agency.id">
-                                                                <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
-                                                                    <br><span style="color: darkgrey; font-size: smaller;">{{agency.address}}</span>
-                                                                </div>
-                                                            </mat-option>
-                                                        </mat-select>
-                                                    </mat-form-field>
-                                                </td>
+                                                    <td >:</td>
+                                                    <td colspan="1">
+                                                        <mat-form-field class="full-width" >
+                                                            <mat-label>Select new Agency</mat-label>
+                                                            <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="editTicket.agencyId">
+                                                                <mat-option *ngFor="let agency of AgencyList" [value]="agency.id">
+                                                                    <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
+                                                                        <br><span style="color: darkgrey; font-size: smaller;">{{agency.address}}</span>
+                                                                    </div>
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            <tr>
+                                                <td colspan="1" style="width: 150px;">Agency Name</td>
+                                                <td>:</td>
+                                                <td colspan="1">{{theTicket.name}}</td>
                                             </tr>
+        
+                                            <tr>
+                                                <td colspan="1">AAMS Code</td>
+                                                <td>:</td>
+                                                <td colspan="1">{{theTicket.certification}}</td>
+                                            </tr>
+                                            
+                                            
+                                            <tr>
+                                            <td colspan="1">Address</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.address}}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td colspan="1">Phone</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.phone}}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td colspan="1">Email</td>
+                                            <td >:</td>
+                                            <td colspan="1">{{theTicket.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">Shop Code</td>
+                                            <td>:</td>
+                                            <td colspan="1">{{theTicket.managerId}}</td>
+                                        </tr>
                                         </ng-container>
                                         <ng-container *ngIf="!showEdit1">
                                             <tr>
@@ -199,7 +233,7 @@
                                 <mat-list>
                                     <mat-list-item style="color: black;" *ngIf="!showEdit1" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item>
                                 </mat-list>
-                                <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="theTicket.description" value="{{theTicket.description}}" autofocus />
+                                <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="editTicket.description" value="{{editTicket.description}}" autofocus />
                             </ng-container>
                         </div>
 
@@ -210,6 +244,7 @@
             <ng-container style="padding-top: 20px;">
                 <mat-divider></mat-divider>
             </ng-container>
+        </div>
         </div>
         </mat-step>
 
@@ -296,7 +331,7 @@
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
                                             <div class="col-1">
-                                                <button mat-icon-button (click)="deleteOneItemEquipment(allestimentoItems.id) ;removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                                <button mat-icon-button (click)="deleteOneItemEquipment(allestimentoItems.id); removeItem(i)"><mat-icon>delete</mat-icon></button>
                                             </div>
 
                                             <mat-form-field class="col-auto">
@@ -332,7 +367,7 @@
                                             Advice: The Items must be serialized in order to get support.
                                         </h3>
                                     </div>
-                                    <button mat-raised-button (click)="updateTicketStatus3(theTicket2.id)"
+                                    <button mat-raised-button (click)="updateTicketStatus3(theTicket2.id);"
                                     #tooltip="matTooltip"
                                     matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
@@ -340,9 +375,7 @@
                                     <div class="alert alert-info">
                                             Advice: The Items are in serialization process.
                                     </div>
-                                    <button mat-raised-button (click)="updateTicketStatus2(theTicket2.id)"
-                                    #tooltip="matTooltip"
-                                    matTooltip="Change status of the ticket" disabled>Take in charge</button>
+                                    <button mat-raised-button disabled>Take in charge</button>
                                 </ng-container>
                             </div>
                         </div>
@@ -439,7 +472,7 @@
               <mat-card-title>Technician Assigned:
                 <span >
                   <button mat-icon-button style="color:orange;">
-                    <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                    <mat-icon style="font-size: 18px;" (click)="toogleEditstep4()">edit</mat-icon> Edit
                   </button>
                   <button mat-icon-button style="color:orange;">
                     <mat-icon style="font-size: 18px;">west</mat-icon>
@@ -465,10 +498,10 @@
                             class="material-icons" style="font-size: 12px;">
                             event_available
                           </span>Available</div>
-                        <div *ngIf="tech.IsAvailable === 0" style="color: gray;"><span class="material-icons"
+                        <!-- <div *ngIf="tech.IsAvailable === 0" style="color: gray;"><span class="material-icons"
                             style="font-size: 12px;">
                             event_busy
-                          </span>Not Available</div>
+                          </span>Not Available</div> -->
                       </div>
                     </mat-option>
                   </mat-select>
@@ -498,21 +531,17 @@
                           {{ticket.tech_assign}}
                       </div>
 
-                      <div *ngIf="showEdit2">
+                      <div *ngIf="showEdit4">
                           <mat-form-field class="col-auto">
                             <mat-label>Replace Technician with:</mat-label>
                             <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="TechnicianModel.tech_assign">
                               <mat-option>None</mat-option>
-                              <mat-option *ngFor="let tech of TechnicianList" [value]="tech.username">
+                              <mat-option *ngFor="let tech of TechnicianList" [(value)]="tech.username">
                                 <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.username}} |
                                   <div *ngIf="tech.IsAvailable === 1" style="color: green; font-weight: 500;"><span
                                       class="material-icons" style="font-size: 12px;">
                                       event_available
                                     </span>Available</div>
-                                  <div *ngIf="tech.IsAvailable === 0" style="color: gray;"><span class="material-icons"
-                                      style="font-size: 12px;">
-                                      event_busy
-                                    </span>Not Available</div>
                                 </div>
                               </mat-option>
                             </mat-select>
@@ -572,3 +601,5 @@
         ><mat-icon>assignment_return</mat-icon></button>
     </div>
 </div>
+
+<!-- ViewTicket corregido allestimento -->

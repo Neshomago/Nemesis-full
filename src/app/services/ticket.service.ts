@@ -26,20 +26,25 @@ export class TicketService {
     return this.http.post(APIUrl + '/ticket/add',val);
   }
 
-  updateTicket(id:any, val:any): Observable<any>{
-    return this.http.post(APIUrl + '/ticket/update/'+id, val);
-  }
-
+  
   deleteTicket(id:any, val:any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket/abort/${id}`, val);
   }
-
+  
   getAgencyName(customerId:string):Observable<any>{
     return this.http.get<any[]>(APIUrl + '/agency/'+customerId);
   }
-
+  
   getTicketIso(id:any): Observable<any>{
     return this.http.get(`${APIUrl}/ticket/${id}`);
+  }
+  
+  getTickettoUpdate(id:any): Observable<any>{
+    return this.http.get(`${APIUrl}/ticket2up/${id}`);
+  }
+  
+  updateTicket(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket/update/${id}`, val);
   }
 
   getTicketAgency(agencyid:any): Observable<any>{
