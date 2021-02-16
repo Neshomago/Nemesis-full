@@ -5,7 +5,7 @@ import { AgencyService } from 'src/app/services/agency.service';
 import { viewTicketdata } from '../viewticket/viewticket';
 import { UsersService } from 'src/app/services/users.service';
 import { TicketService } from '../../services/ticket.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Ticket_equipment } from 'src/app/tickets';
@@ -41,12 +41,13 @@ export class ViewticketComponent implements OnInit {
   TechnicianModel: any = {
   tech_assign: '',
   assignedDate: this.technicalVisitDate = this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
-  version: 4,
+  version: 5,
   }
 
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
+    private router: Router,
     private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
     private datePipe: DatePipe) { 
@@ -133,26 +134,8 @@ export class ViewticketComponent implements OnInit {
       console.log(this.warehouseData);
     }
 
-  // saveSerials(id: any){
-  //   this.unserialTags.forEach((element: any) => {
-  //       this.service.saveSerialsOfItems(id, element).subscribe(
-  //         (data) => { console.log('Equipment added', data);
-  //         this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
-  //       },
-  //       (error) => { console.log('Failed to add equipment', error);
-  //       this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
-  //       )
-  //       console.warn(element);  
-  //     });
-  // }
-
   saveSerials(id: any){
-
-    const element ={
-      item_serial: '',
-      ticketId: id
-    }
-
+    this.unserialTags.forEach((element: any) => {
         this.service.saveSerialsOfItems(id, element).subscribe(
           (data) => { console.log('Equipment added', data);
           this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
@@ -161,7 +144,25 @@ export class ViewticketComponent implements OnInit {
         this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
         )
         console.warn(element);  
+      });
   }
+
+  // saveSerials(id: any){
+
+  //   const element ={
+  //     item_serial: '',
+  //     ticketId: id
+  //   }
+
+  //       this.service.saveSerialsOfItems(id, element).subscribe(
+  //         (data) => { console.log('Equipment added', data);
+  //         this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
+  //       },
+  //       (error) => { console.log('Failed to add equipment', error);
+  //       this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
+  //       )
+  //       console.warn(element);  
+  // }
 
   currentTicket = null;
   currentIndex = -1;
@@ -181,21 +182,17 @@ export class ViewticketComponent implements OnInit {
   addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
     const equipment = {
       item: '',
-      item_description:'',
       quantity: 1,
       ticketId: id,
     };
     this.tagsarray.push(equipment);
-    console.log(equipment);
     console.log(this.tagsarray);
-    // this.equipment_no++; //contador incrementando para saber cuantas veces grabar
-    // console.log(this.equipment_no);
   }
   
-  allestimento_save(ticketId:any){
-    this.updateTicketStatus2(ticketId);
-    this.saveEquipment();
-  }
+  // allestimento_save(ticketId:any){
+  //   this.updateTicketStatus2(ticketId);
+  //   this.saveEquipment();
+  // }
 
   saveEquipment(){
     this.tagsarray.forEach((element: any) => {
@@ -208,7 +205,21 @@ export class ViewticketComponent implements OnInit {
       )
       console.warn(element);  
     });
-    // this.allestimentoEdit = false;
+    this.allestimentoEdit = false;
+    this.refreshPage();
+  }
+
+  saveEquipmentArray(){
+    for (const index in this.tagsarray){
+      this.service.addequipment(this.tagsarray[index]).subscribe(
+        (data) => { console.log('Equipment added', data);
+        this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+      },
+      (error) => { console.log('Failed to add equipment', error);
+      this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+      )
+      console.warn(this.tagsarray[index]);  
+    };
     this.refreshPage();
   }
 
@@ -231,7 +242,8 @@ export class ViewticketComponent implements OnInit {
     };
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.ticketVersion = data;
-        console.log('Ticket has updated to continue in step 3');}
+        this._snackBar.open("Ticket has been updated. Continue in step 3.", "OK", { duration:3500, panelClass: "success",});
+        console.log('Ticket has been updated. Continue in step 3');}
     );
   }
 
@@ -242,7 +254,7 @@ export class ViewticketComponent implements OnInit {
     }
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.ticketVersion = data;
-        this._snackBar.open("Ticket has been taken in charge.", "OK", { duration:3500, panelClass: "success",});
+        this._snackBar.open("Ticket has been updated. Continue in step 4.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket has been taken in charge. Status updated')    }
     )
   }
@@ -251,12 +263,13 @@ export class ViewticketComponent implements OnInit {
     const version = {
       version: 4,
       status: 'WORKING',
-    }
+    };
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.ticketVersion = data;
-        this._snackBar.open("Ticket is now Working status.", "OK", { duration:3500, panelClass: "success",});
+        this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket is now been worked. Status updated')    }
-    )
+    );
+    this.refreshPage();
   }
 
   //Toggle Edition fields in Html view
@@ -287,11 +300,16 @@ export class ViewticketComponent implements OnInit {
     );
   }
 
+  tickStatus ={ status:'ABORTED'};
   deleteTicket(id:number){
     if (confirm('Are you sure you want to abort the ticket?')){
-
-    }
-  }
+        this.service.deleteTicket(id, this.tickStatus).subscribe(
+          (data) => { this.tickStatus = data;
+            this._snackBar.open("Ticket Aborted Succesfully", "OK", { duration:3500, panelClass: "success",});
+            this.router.navigateByUrl("/tickets");
+          });
+      }
+}
 
   deleteOneItemEquipment(id:number){
     this.service.deleteItemEquipment(id).subscribe(
@@ -301,7 +319,7 @@ export class ViewticketComponent implements OnInit {
       error => {
         console.log(error);
       }
-    )
+    );
   }
 
   updateTechnician(id:any){

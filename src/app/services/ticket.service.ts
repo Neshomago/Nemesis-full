@@ -30,8 +30,8 @@ export class TicketService {
     return this.http.post(APIUrl + '/ticket/update/'+id, val);
   }
 
-  deleteTicket(val:any): Observable<any>{
-    return this.http.delete(APIUrl + '/tickets/delete',val);
+  deleteTicket(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket/abort/${id}`, val);
   }
 
   getAgencyName(customerId:string):Observable<any>{
