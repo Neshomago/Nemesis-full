@@ -225,22 +225,22 @@
                         <div class="row">
                             <div class="col">
                             <h2>Adittional Equipment: 
-                                <span *ngIf="theTicket2.version > 1">
-                                    <button mat-icon-button *ngIf="!showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                                <span >
+                                    <button mat-icon-button style="color:orange;">
                                         <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                     </button>
-                                    <button mat-icon-button *ngIf="showEdit2" (click)="toogleEditstep2()" style="color:orange;">
+                                    <button mat-icon-button  style="color:orange;">
                                         <mat-icon style="font-size: 18px;">west</mat-icon>
                                     </button>
                                 </span>
                             </h2>
                         </div>
                         <ng-container class="col-md-3 ms-md-auto">
-                            <div class="col-auto" *ngIf="theTicket2.version == 1">
-                                <button mat-icon-button (click)="addItem(theTicket2.id)" *ngIf="!showEdit2"><mat-icon>add</mat-icon></button>
+                            <div class="col-auto" >
+                                <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
                             </div>
-                            <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version == 1">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id); saveEquipment()" *ngIf="!showEdit2"><mat-icon>save</mat-icon>Save changes</button>
+                            <div class="col-md-3 ms-md-auto" >
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="!showEdit2">
@@ -258,7 +258,7 @@
                         
                         <div>
                             <div>
-                                <ng-container *ngIf="theTicket2.version >= 1 ">
+                                <ng-container >
                                     <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
                                             <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
@@ -437,23 +437,23 @@
           <mat-card>
             <div class="container" *ngFor="let ticket of theTicketData; let i = index">
               <mat-card-title>Technician Assigned:
-                <span *ngIf="ticket.version == 5">
-                  <button mat-icon-button *ngIf="!showEdit4" (click)="toogleEditstep4()" style="color:orange;">
+                <span >
+                  <button mat-icon-button style="color:orange;">
                     <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                   </button>
-                  <button mat-icon-button *ngIf="showEdit4" (click)="toogleEditstep4()" style="color:orange;">
+                  <button mat-icon-button style="color:orange;">
                     <mat-icon style="font-size: 18px;">west</mat-icon>
                   </button>
                 </span>
               </mat-card-title>
-              <ng-container *ngIf="ticket.version < 3">
+              <ng-container >
                 <div>
                     <h4>
                         The Items must be serialized in order to assign a technician.
                     </h4>
                 </div>
             </ng-container>
-              <ng-container *ngIf="ticket.version == 4">
+              <ng-container >
 
                 <mat-form-field class="col-auto">
                   <mat-label>Technicians</mat-label>
