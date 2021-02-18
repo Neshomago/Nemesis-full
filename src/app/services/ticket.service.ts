@@ -71,8 +71,8 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticket-equip/update/${id}`,val);
   }
 
-  deleteItemEquipment(id:any):Observable<any>{
-    return this.http.delete(`${APIUrl}/ticket-equip/${id}`);
+  deleteItemEquipment(id:any){
+    return this.http.delete(`${APIUrl}/ticket-equip/del/${id}`);
   }
 
   get_equipment(): Observable<any>{

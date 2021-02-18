@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { from, Observable } from 'rxjs';
-import { AgencyService } from 'src/app/services/agency.service';
-import { viewTicketdata } from '../viewticket/viewticket';
 import { UsersService } from 'src/app/services/users.service';
 import { TicketService } from '../../services/ticket.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Ticket_equipment } from 'src/app/tickets';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
@@ -36,6 +32,26 @@ export class ViewticketComponent implements OnInit {
   
   allestimento!: FormGroup;
 
+  theTicketData : any = [];
+  newtags: any = [];
+  TechnicianList: any = [];
+  unserialTags: any = [];
+  warehouseData:any = [];
+  tagsarray: any = [];
+  equipment = new Equipment();
+  allestimentoEdit: Boolean = true;
+  viewAllestimento: Boolean = true;
+  equipmentArrayData: any = [];
+  ticketVersion ={ version: 1, status: ''};
+
+  currentTicket = null;
+  currentIndex = -1;
+  ticketinView: any;
+
+  theTicketUpdate: any = [];
+  tickStatus ={ status:'ABORTED'};
+  customerId = 'CUSTOME581785f34f4f3';
+  AgencyList: any = [];
 
   technicalVisitDate:any = new Date();
   TechnicianModel: any = {
@@ -84,7 +100,7 @@ export class ViewticketComponent implements OnInit {
   }
  
   // Getting General Ticket Information
-  theTicketData : any = [];
+  // theTicketData : any = [];
   getTicketIndividual(id:any):any{
     this.service.getTicketIso(id).subscribe((data)=> {
       this.theTicketData = data;
@@ -94,14 +110,14 @@ export class ViewticketComponent implements OnInit {
     });
   }
 
-  newtags: any = [];
+  // newtags: any = [];
   getTags(){
     this.service.getTagList().subscribe(data => {
       this.newtags = data;
     });
   }
   
-  TechnicianList: any = [];
+  // TechnicianList: any = [];
   Technicians_List(){
     this.usersService.getTechnicianList().subscribe(
       data => this.TechnicianList = data
@@ -119,14 +135,14 @@ export class ViewticketComponent implements OnInit {
 }
 
   // Unserialized Items methods
-  unserialTags: any = [];
+  // unserialTags: any = [];
   getUnserializedItems(id:any){
     this.service.getTicketEquipmentList(id).subscribe(
       (tag) => { this.unserialTags = tag }
       );
   }
 
-  warehouseData:any = [];
+  // warehouseData:any = [];
   getWarehouseStock(){
     this.service.getWarehouseNameQuantity().subscribe(
       data => { this.warehouseData = data}
@@ -164,9 +180,9 @@ export class ViewticketComponent implements OnInit {
   //       console.warn(element);  
   // }
 
-  currentTicket = null;
-  currentIndex = -1;
-  ticketinView: any;
+  // currentTicket = null;
+  // currentIndex = -1;
+  // ticketinView: any;
     
   setCurrentTicket(ticket:any, index:any): void{
     this.currentTicket = ticket;
@@ -174,10 +190,10 @@ export class ViewticketComponent implements OnInit {
   }
 
   // equipment_no = 0; //contador de objetos a grabar
-  tagsarray: any = [];
-  equipment = new Equipment();
-  allestimentoEdit: Boolean = true;
-  viewAllestimento: Boolean = true;
+  // tagsarray: any = [];
+  // equipment = new Equipment();
+  // allestimentoEdit: Boolean = true;
+  // viewAllestimento: Boolean = true;
   
   addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
     const equipment = {
@@ -189,24 +205,35 @@ export class ViewticketComponent implements OnInit {
     console.log(this.tagsarray);
   }
 
+
   saveEquipment(){
+    let i=0;
+
     this.tagsarray.forEach((element: any) => {
       this.service.addequipment(element).subscribe(
         (data) => { console.log('Equipment added', data);
         this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+        if (this.tagsarray.length == (i+1)){
+
+          this.allestimentoTicketList(element.ticketId);
+        }
+        i++;
       },
       (error) => { console.log('Failed to add equipment', error);
       this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+      
       )
       console.warn(element);  
     });
     this.allestimentoEdit = false;
-    this.refreshPage();
+    // this.refreshPage();
+
+
   }
 
   refreshPage() {window.location.reload();}
 
-  equipmentArrayData: any = [];
+  // equipmentArrayData: any = [];
   allestimentoTicketList(ticketId: any){
     this.service.getTicketEquipmentList(ticketId).subscribe(
       data => {this.equipmentArrayData = data}
@@ -215,16 +242,17 @@ export class ViewticketComponent implements OnInit {
 
 
   // Updating Ticket Version on each step
-  ticketVersion =[];
-  updateTicketStatus2(id: any){
+  // ticketVersion = { version: null, status: ''};
+  updateTicketStatus2(id: any, i:number){
     const version = {
       version: 2,
       status: 'MANAGING',
     };
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.ticketVersion = data;
+      (data) => { this.theTicketData[i].version = 2;
+        this.theTicketData[i].status = 'MANAGING';
         this._snackBar.open("Ticket has been updated. Continue in step 3.", "OK", { duration:3500, panelClass: "success",});
-        console.log('Ticket has been updated. Continue in step 3');}
+        console.log('Ticket has been updated. Continue in step 3', data);}
     );
   }
 
@@ -266,7 +294,8 @@ export class ViewticketComponent implements OnInit {
   removeItem(index:any){this.tagsarray.splice(index, 1); }
 
   //
-  theTicketUpdate: any = [];
+  // theTicketUpdate: any = [];
+
 
   getTicketInfotoUpdate(id:any){
     this.service.getTickettoUpdate(id).subscribe(
@@ -292,7 +321,7 @@ export class ViewticketComponent implements OnInit {
       });
   }
 
-  tickStatus ={ status:'ABORTED'};
+  // tickStatus ={ status:'ABORTED'};
   deleteTicket(id:number){
     if (confirm('Are you sure you want to abort the ticket?')){
         this.service.deleteTicket(id, this.tickStatus).subscribe(
@@ -324,8 +353,8 @@ export class ViewticketComponent implements OnInit {
       this.refreshPage();
   }
 
-  customerId = 'CUSTOME581785f34f4f3';
-  AgencyList: any = [];
+  // customerId = 'CUSTOME581785f34f4f3';
+  // AgencyList: any = [];
   getAgencyName(){
     this.service.getAgencyName(this.customerId).subscribe(agency => {
       this.AgencyList = agency;

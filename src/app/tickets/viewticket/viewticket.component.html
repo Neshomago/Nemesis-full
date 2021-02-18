@@ -275,7 +275,7 @@
                                 <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" >
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id, i); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="!showEdit2">
@@ -284,7 +284,7 @@
                                 <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version > 2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id, i); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -470,16 +470,20 @@
           <mat-card>
             <div class="container" *ngFor="let ticket of theTicketData; let i = index">
               <mat-card-title>Technician Assigned:
-                <span >
-                  <button mat-icon-button style="color:orange;">
-                    <mat-icon style="font-size: 18px;" (click)="toogleEditstep4()">edit</mat-icon> Edit
-                  </button>
-                  <button mat-icon-button style="color:orange;">
-                    <mat-icon style="font-size: 18px;">west</mat-icon>
-                  </button>
+                <span>
+                    <ng-container>
+                        <button mat-icon-button style="color:orange;">
+                          <mat-icon style="font-size: 18px;" (click)="toogleEditstep4()">edit</mat-icon> Edit
+                        </button>
+                    </ng-container>
+                    <ng-container>
+                        <button mat-icon-button style="color:orange;">
+                          <mat-icon style="font-size: 18px;">west</mat-icon>
+                        </button>
+                    </ng-container>
                 </span>
               </mat-card-title>
-              <ng-container >
+              <ng-container *ngIf="ticket.version == 4">
                 <div>
                     <h4>
                         The Items must be serialized in order to assign a technician.
