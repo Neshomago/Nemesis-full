@@ -92,16 +92,16 @@
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;">
-                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
+                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
                                 <div class="circle1"></div>
                             </div>
-                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
+                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
                                 <div class="circle2"></div>
                             </div>
-                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4}">
+                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
                                 <div class="circle3"></div>
                             </div>
-                            <div [ngClass]="{'step4done':dataItem.version == 4}">
+                            <div [ngClass]="{'step4done':dataItem.version == 4 || dataItem.version == 5}">
                                 <div class="circle4"></div>
                             </div>
                         </div>

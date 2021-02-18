@@ -1,0 +1,22 @@
+<div class="login-nemesis" *ngIf="visibility">
+    <div class="logo-login"><img width=300 src="assets/img/logo-nemesisfull.png" /></div>
+    <div class="inputs">
+        <div class="login">
+            <form class="loginform" id="login" (ngSubmit)="onLogin()">
+                <mat-form-field class="loginwidth">
+                    <mat-label>EMAIL</mat-label>
+                    <input matInput type="email" name="email" required autofocus><br>
+                </mat-form-field>
+                <mat-form-field class="loginwidth">
+                    <mat-label>PASSWORD</mat-label>
+                    <input matInput type="password" name="password"><br>
+                </mat-form-field>
+                <input class="inputbutton" type="submit" value="login"
+                 (click)="onLogin()"><br>
+            </form>
+        </div>
+        <div class="copyright">
+            <p>© Nemesis 2020</p>
+        </div>
+    </div>
+</div>

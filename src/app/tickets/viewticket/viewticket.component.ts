@@ -32,7 +32,7 @@ export class ViewticketComponent implements OnInit {
   
   allestimento!: FormGroup;
 
-  theTicketData : any = [];
+  theTicketData : any;
   newtags: any = [];
   TechnicianList: any = [];
   unserialTags: any = [];
@@ -44,14 +44,31 @@ export class ViewticketComponent implements OnInit {
   equipmentArrayData: any = [];
   ticketVersion ={ version: 1, status: ''};
 
-  currentTicket = null;
+  //currentTicket = null;
   currentIndex = -1;
-  ticketinView: any;
+  //ticketinView: any;
 
-  theTicketUpdate: any = [];
+  theTicketUpdate: any = {
+    agencyId: '',
+    code: '',
+    priority:'',
+    description:'',
+    type:''
+  };
+
+  agencyToUpdate: any = {
+    name:'',
+    certification:'',
+    address:'',
+    phone:'',
+    email:'',
+    managerId:''
+  };
+
   tickStatus ={ status:'ABORTED'};
   customerId = 'CUSTOME581785f34f4f3';
   AgencyList: any = [];
+  FilteredAgency: any = [];
 
   technicalVisitDate:any = new Date();
   TechnicianModel: any = {
@@ -71,6 +88,7 @@ export class ViewticketComponent implements OnInit {
     
     public ngOnInit(): void {
 
+      this.getAgencyListName();
       // initialize the current ticket ID
       const ticketId = this.route.snapshot.paramMap.get('id');
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
@@ -81,8 +99,7 @@ export class ViewticketComponent implements OnInit {
       this.allestimentoTicketList(ticketId);
       this.getUnserializedItems(ticketId);
       this.getWarehouseStock();
-      this.getAgencyName();
-      this.getTicketInfotoUpdate(ticketId);
+      // this.getTicketInfotoUpdate(ticketId);
 
     //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
@@ -99,12 +116,39 @@ export class ViewticketComponent implements OnInit {
     });
   }
  
+    // customerId = 'CUSTOME581785f34f4f3';
+  // AgencyList: any = [];
+  getAgencyListName(){
+    this.service.getAgencyName(this.customerId).subscribe(agency => {
+      this.AgencyList = agency;
+      console.log("Datos de funcion getAgencyName: ", this.AgencyList);
+    })
+  }
+
+
   // Getting General Ticket Information
   // theTicketData : any = [];
+  // agencyToUpdate: any = {
+  //   name:'',
+  //   certification:'',
+  //   address:'',
+  //   phone:'',
+  //   email:'',
+  //   managerId:''
+  // };
   getTicketIndividual(id:any):any{
     this.service.getTicketIso(id).subscribe((data)=> {
-      this.theTicketData = data;
-      console.log(data);
+      this.theTicketData = data[0];
+      this.theTicketUpdate.agencyId = data[0].agencyId;
+      this.theTicketUpdate.code = data[0].code;
+      this.theTicketUpdate.type = data[0].type;
+      this.theTicketUpdate.description = data[0].description;
+      this.theTicketUpdate.priority = data[0].priority;
+      let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
+      console.log("Listado de agencias dentro de ticket Individual: ", this.AgencyList);
+      this.agencyToUpdate.name = agenciaSelected.name;
+      console.log("Nombre agencia: ",this.agencyToUpdate.name);
+      console.log("Nombre de agencia: ", agenciaSelected.name);
     },
     error =>{console.log(error);
     });
@@ -151,10 +195,17 @@ export class ViewticketComponent implements OnInit {
     }
 
   saveSerials(id: any){
+    let i= 0;
+
     this.unserialTags.forEach((element: any) => {
         this.service.saveSerialsOfItems(id, element).subscribe(
           (data) => { console.log('Equipment added', data);
           this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
+          if (this.unserialTags.length == (i+1)){
+
+            this.allestimentoTicketList(element.ticketId);
+          }
+          i++;
         },
         (error) => { console.log('Failed to add equipment', error);
         this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
@@ -179,21 +230,6 @@ export class ViewticketComponent implements OnInit {
   //       )
   //       console.warn(element);  
   // }
-
-  // currentTicket = null;
-  // currentIndex = -1;
-  // ticketinView: any;
-    
-  setCurrentTicket(ticket:any, index:any): void{
-    this.currentTicket = ticket;
-    this.currentIndex = index;
-  }
-
-  // equipment_no = 0; //contador de objetos a grabar
-  // tagsarray: any = [];
-  // equipment = new Equipment();
-  // allestimentoEdit: Boolean = true;
-  // viewAllestimento: Boolean = true;
   
   addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
     const equipment = {
@@ -300,19 +336,11 @@ export class ViewticketComponent implements OnInit {
   getTicketInfotoUpdate(id:any){
     this.service.getTickettoUpdate(id).subscribe(
       data => { this.theTicketUpdate = data;
-      console.warn(this.theTicketUpdate)}
+      console.log("The Ticket Update: ", this.theTicketUpdate)}
     );
   }
 
   updateTicket(id:any){
-    // const theTicket =
-    // {
-    //   code:'',
-    //   type:'',
-    //   priority:'',
-    //   agencyId:undefined,
-    //   description: ''
-    // }
     this.service.updateTicket(id, this.theTicketUpdate).subscribe(
       (data) => { this.theTicketUpdate = data;
       console.log('Ticket has had some changes. Updated');
@@ -351,15 +379,6 @@ export class ViewticketComponent implements OnInit {
         console.log(data);
       });
       this.refreshPage();
-  }
-
-  // customerId = 'CUSTOME581785f34f4f3';
-  // AgencyList: any = [];
-  getAgencyName(){
-    this.service.getAgencyName(this.customerId).subscribe(agency => {
-      this.AgencyList = agency;
-    })
-
   }
 
 }

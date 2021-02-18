@@ -50,6 +50,8 @@ export class TicketsComponent implements OnInit {
   setCurrentTicket(ticket:any, index:any): void{
     this.currentTicket = ticket;
     this.currentIndex = index;
+    console.log("VALOR TICKET GENERAL",this.currentTicket);
+    console.warn(this.currentIndex);
   }
 
   openDialogExcelBox(){

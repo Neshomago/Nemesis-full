@@ -4,18 +4,16 @@
         <mat-vertical-stepper [linear]="isLinear" #stepper>
         <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>Ticket general Information</ng-template>
-        <div *ngFor="let theTicket of theTicketData; let i = index" [class.active]="i == currentIndex">
-        <div *ngFor="let editTicket of theTicketUpdate; let i = index" [class.active]="i == currentIndex">
             <mat-card class="example-card">
                 <mat-card-header>
                   <mat-card-title>Created Ticket</mat-card-title>
-                  <mat-card-subtitle >Date: {{theTicket.creationDate}}</mat-card-subtitle>
+                  <mat-card-subtitle >Date: {{theTicketData.creationDate}}</mat-card-subtitle>
                   <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
                       Ticket Status:
                       <div>
-                          <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicket.status === 'RESOLVED', 'TicketAborted': theTicket.status === 'ABORTED', 'TicketManaged': theTicket.status === 'MANAGING', 'TicketOpened':theTicket.status ==='OPENED' || 'WORKING'}">
+                          <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
                             <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
-                                {{theTicket.status}}
+                                {{theTicketData.status}}
                             </div>
                             </div>
                       </div>
@@ -32,7 +30,7 @@
                                 <button mat-icon-button *ngIf="showEdit1" (click)="toogleEditstep1()" style="color:orange;">
                                     <mat-icon style="font-size: 18px;">west</mat-icon>
                                 </button>
-                                <button mat-icon-button *ngIf="showEdit1" (click)="updateTicket(theTicket.id)" >
+                                <button mat-icon-button *ngIf="showEdit1" (click)="updateTicket(theTicketData.id)" >
                                     <mat-icon>save</mat-icon>Save changes
                                 </button>
                             </h2>
@@ -41,14 +39,14 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Ticket ID</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theTicket.id}}</td>
+                                        <td colspan="1">{{theTicketData.id}}</td>
                                     </tr>
 
                                     <ng-container *ngIf="!showEdit1">
                                         <tr>
                                             <td colspan="1">Code</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.code}}</td>
+                                            <td colspan="1">{{theTicketData.code}}</td>
                                         </tr>
                                     </ng-container>
                                     <ng-container *ngIf="showEdit1">
@@ -57,7 +55,7 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                <mat-form-field>
-                                                   <input matInput placeholder="Code" [value]="editTicket.code" [(ngModel)]="editTicket.code"/>
+                                                   <input matInput placeholder="Code" [value]="theTicketData.code" [(ngModel)]="theTicketUpdate.code"/>
                                                </mat-form-field>
                                             </td>
                                         </tr>
@@ -66,25 +64,25 @@
                                     <tr>
                                         <td colspan="1">Creation Date</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theTicket.creationDate}}</td>
+                                        <td colspan="1">{{theTicketData.creationDate}}</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="1">Created by</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theTicket.createdBy}}</td>
+                                        <td colspan="1">{{theTicketData.createdBy}}</td>
                                     </tr>
 
                                     <ng-container *ngIf="!showEdit1">
                                         <tr>
                                             <td colspan="1">Ticket type</td>
                                             <td >:</td>
-                                            <td colspan="1">{{theTicket.type}}</td>
+                                            <td colspan="1">{{theTicketData.type}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="1">Priority</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.priority}}</td>
+                                            <td colspan="1">{{theTicketData.priority}}</td>
                                         </tr>
                                     </ng-container>
                                     <ng-container *ngIf="showEdit1">
@@ -94,7 +92,7 @@
                                             <td>
                                                 <mat-form-field>
                                                     <mat-label>Request Type:</mat-label>
-                                                    <mat-select matNativeControl id="type" name="type" [(ngModel)]="editTicket.type">
+                                                    <mat-select matNativeControl id="type" name="type" [(ngModel)]="theTicketUpdate.type">
                                                       <mat-option value="INS">INSTALATION</mat-option>
                                                       <mat-option value="INT">INTEGRATION</mat-option>
                                                       <mat-option value="MAN">MAINTENANCE</mat-option>
@@ -112,7 +110,7 @@
                                             <td>
                                                 <mat-form-field>
                                                     <mat-label>Priority:</mat-label>
-                                                    <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="editTicket.priority">
+                                                    <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="theTicketUpdate.priority">
                                                       <mat-option value="LOW">Low Priority</mat-option>
                                                       <mat-option value="NORMAL">Normal</mat-option>
                                                       <mat-option value="HIGH">High Priority</mat-option>
@@ -131,94 +129,101 @@
                         <h2>Agency Information</h2>
                                 <div>
                                     <table>
+                                        
+                                        <!-- Datos editables del ticket para actualizar -->
                                         <ng-container *ngIf="showEdit1">
                                                 <tr>
                                                     <td colspan="1">Agency Name</td>
                                                     <td >:</td>
                                                     <td colspan="1">
                                                         <mat-form-field class="full-width" >
-                                                            <mat-label>Select new Agency</mat-label>
-                                                            <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="editTicket.agencyId">
-                                                                <mat-option *ngFor="let agency of AgencyList" [value]="agency.id">
-                                                                    <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
+                                                            <!-- <mat-label>Select new Agency</mat-label> -->
+                                                            <select matNativeControl name="priority" id="priority" [(ngModel)]="theTicketUpdate.agencyId">
+                                                                <option *ngFor="let agency of AgencyList" [value]="agency.id">
+                                                                    {{agency.name}} | {{agency.managerId}}
+                                                                    <!-- <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
                                                                         <br><span style="color: darkgrey; font-size: smaller;">{{agency.address}}</span>
-                                                                    </div>
-                                                                </mat-option>
-                                                            </mat-select>
+                                                                    </div> -->
+                                                                </option>
+                                                            </select>
                                                         </mat-form-field>
                                                     </td>
                                                 </tr>
                                             <tr>
                                                 <td colspan="1" style="width: 150px;">Agency Name</td>
                                                 <td>:</td>
-                                                <td colspan="1">{{theTicket.name}}</td>
+                                                <td colspan="1">{{agencyToUpdate.name}}
+                                                    <!-- {{AgencyList.name}} -->
+                                                </td>
                                             </tr>
         
                                             <tr>
                                                 <td colspan="1">AAMS Code</td>
                                                 <td>:</td>
-                                                <td colspan="1">{{theTicket.certification}}</td>
+                                                <td colspan="1">{{theTicketData.certification}}</td>
                                             </tr>
                                             
                                             
                                             <tr>
                                             <td colspan="1">Address</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.address}}</td>
+                                            <td colspan="1">{{theTicketData.address}}</td>
                                         </tr>
                                         
                                         <tr>
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.phone}}</td>
+                                            <td colspan="1">{{theTicketData.phone}}</td>
                                         </tr>
                                         
                                         <tr>
                                             <td colspan="1">Email</td>
                                             <td >:</td>
-                                            <td colspan="1">{{theTicket.email}}</td>
+                                            <td colspan="1">{{theTicketData.email}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="1">Shop Code</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.managerId}}</td>
+                                            <td colspan="1">{{theTicketData.managerId}}</td>
                                         </tr>
                                         </ng-container>
+
+                                        <!-- Datos iniciales del ticket -->
                                         <ng-container *ngIf="!showEdit1">
                                             <tr>
                                                 <td colspan="1" style="width: 150px;">Agency Name</td>
                                                 <td>:</td>
-                                                <td colspan="1">{{theTicket.name}}</td>
+                                                <td colspan="1">{{theTicketData.name}}</td>
                                             </tr>
         
                                             <tr>
                                                 <td colspan="1">AAMS Code</td>
                                                 <td>:</td>
-                                                <td colspan="1">{{theTicket.certification}}</td>
+                                                <td colspan="1">{{theTicketData.certification}}</td>
                                             </tr>
                                             
                                             
                                             <tr>
                                             <td colspan="1">Address</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.address}}</td>
+                                            <td colspan="1">{{theTicketData.address}}</td>
                                         </tr>
                                         
                                         <tr>
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.phone}}</td>
+                                            <td colspan="1">{{theTicketData.phone}}</td>
                                         </tr>
                                         
                                         <tr>
                                             <td colspan="1">Email</td>
                                             <td >:</td>
-                                            <td colspan="1">{{theTicket.email}}</td>
+                                            <td colspan="1">{{theTicketData.email}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="1">Shop Code</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theTicket.managerId}}</td>
+                                            <td colspan="1">{{theTicketData.managerId}}</td>
                                         </tr>
                                     </ng-container>
                                     </table>
@@ -231,21 +236,21 @@
                         <div>
                             <ng-container class="full-width">
                                 <mat-list>
-                                    <mat-list-item style="color: black;" *ngIf="!showEdit1" (ngModel)="theTicket.description">{{theTicket.description}}</mat-list-item>
+                                    <mat-list-item style="color: black;" *ngIf="!showEdit1" (ngModel)="theTicketData.description">{{theTicketData.description}}</mat-list-item>
                                 </mat-list>
-                                <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="editTicket.description" value="{{editTicket.description}}" autofocus />
+                                <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="theTicketUpdate.description" value="{{theTicketUpdate.description}}" autofocus />
                             </ng-container>
                         </div>
 
                     </div>
-                    <!-- {{theTicket | json}} -->
+                    <!-- {{theTicketData | json}} -->
                 </mat-card-content>
             </mat-card>
             <ng-container style="padding-top: 20px;">
                 <mat-divider></mat-divider>
             </ng-container>
-        </div>
-        </div>
+        <!-- </div>
+        </div> -->
         </mat-step>
 
         <!-- PASO 2 -->
@@ -255,7 +260,6 @@
             <!-- <additionalequipment></additionalequipment> -->
 
                 <mat-card class="full-width">
-                    <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
 
                         <div class="row">
                             <div class="col">
@@ -272,19 +276,19 @@
                         </div>
                         <ng-container class="col-md-3 ms-md-auto">
                             <div class="col-auto" >
-                                <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
+                                <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" >
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id, i); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id, 0); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="!showEdit2">
 
-                            <div class="col-auto" *ngIf="theTicket2.version > 2">
-                                <button mat-icon-button (click)="addItem(theTicket2.id)"><mat-icon>add</mat-icon></button>
+                            <div class="col-auto" *ngIf="theTicketData.version > 2">
+                                <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
-                            <div class="col-md-3 ms-md-auto" *ngIf="theTicket2.version > 2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicket2.id, i); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
+                            <div class="col-md-3 ms-md-auto" *ngIf="theTicketData.version > 2">
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id, 0); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -296,7 +300,7 @@
                                 <ng-container >
                                     <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
-                                            <button mat-icon-button (click)="addItem(theTicket2.id)" ><mat-icon>add</mat-icon></button>
+                                            <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
                                         </div>
                                         <div class="col-auto">
                                             <button  mat-icon-button (click)="removeItem(i)"><mat-icon>delete</mat-icon></button>
@@ -326,7 +330,7 @@
                                         </div>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="theTicket2.version > 1">
+                                <ng-container *ngIf="theTicketData.version > 1">
                                     <div>
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
@@ -361,17 +365,17 @@
                                     </div>
                                 </ng-container>
 
-                                <ng-container *ngIf="theTicket2.version == 2">
+                                <ng-container *ngIf="theTicketData.version == 2">
                                     <div>
                                         <h3>
                                             Advice: The Items must be serialized in order to get support.
                                         </h3>
                                     </div>
-                                    <button mat-raised-button (click)="updateTicketStatus3(theTicket2.id);"
+                                    <button mat-raised-button (click)="updateTicketStatus3(theTicketData.id);"
                                     #tooltip="matTooltip"
                                     matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
-                                <ng-container *ngIf="theTicket2.version == 3">
+                                <ng-container *ngIf="theTicketData.version == 3">
                                     <div class="alert alert-info">
                                             Advice: The Items are in serialization process.
                                     </div>
@@ -380,7 +384,7 @@
                             </div>
                         </div>
                     </div>  
-                </div>
+                <!-- </div> -->
                 </mat-card>
                 
             </div>
@@ -392,11 +396,10 @@
             <div>
                 <!-- <app-equipmententry></app-equipmententry> -->
             <mat-card class="full-width">
-                <div *ngFor="let theTicket2 of theTicketData; let i = index" [class.active]="i == currentIndex">
                     <div class="row">
                         <div class="col">
                             <h2>Equipment Serialization: 
-                                <span *ngIf="theTicket2.version == 4">
+                                <span *ngIf="theTicketData.version == 4">
                                     <button mat-icon-button *ngIf="!showEdit3" (click)="toogleEditstep3()" style="color:orange;">
                                         <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                     </button>
@@ -405,7 +408,7 @@
                                     </button>
                                 </span>
                             </h2>
-                            <ng-container *ngIf="theTicket2.version < 2">
+                            <ng-container *ngIf="theTicketData.version < 2">
                                 <div>
                                     <h4>
                                         The Items must be selected in order to be serialized.
@@ -423,16 +426,16 @@
                                     <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
                                 </mat-form-field>
                                 &nbsp;
-                                <mat-form-field class="col" *ngIf="theTicket2.version == 4">
+                                <mat-form-field class="col" *ngIf="theTicketData.version == 4">
                                     <mat-label>Serial Number</mat-label>
                                     <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
                                 </mat-form-field>
-                                <mat-form-field class="col" *ngIf="theTicket2.version == 3">
+                                <mat-form-field class="col" *ngIf="theTicketData.version == 3">
                                     <mat-label>Serial Number</mat-label>
                                     <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" required/>
                                 </mat-form-field>
                                 &nbsp;
-                                <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicket2.version == 3" (click)="saveSerials(tag.id)">
+                                <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
                                     <mat-icon>done</mat-icon>
                                 </button>
                                 <!-- <mat-form-field class="col-9">
@@ -442,15 +445,15 @@
                                 <!-- {{tag | json}} -->
                         </div>
                     </div>
-                    <ng-container *ngIf="theTicket2.version == 3">
+                    <ng-container *ngIf="theTicketData.version == 3">
                         <div class="alert alert-secondary">
                                 Advice: The Items must be serialized to assign the technician.
                         </div>
-                        <button mat-raised-button  (click)="updateTicketStatus4(theTicket2.id)"
+                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id)"
                                     #tooltip="matTooltip"
                                     matTooltip="Save serials, proceed to assign Technician">Continue Ticket Process</button>
                     </ng-container>
-                    <ng-container *ngIf="theTicket2.version == 4">
+                    <ng-container *ngIf="theTicketData.version == 4">
                         <div class="alert alert-info">
                                 Advice: The Items have been serialized. The technician is being assigned.
                         </div>
@@ -459,7 +462,7 @@
                                     matTooltip="Save serials, proceed to assign Technician" disabled>Continue Ticket Process</button>
                     </ng-container>
                     <br>
-                </div>
+                <!-- </div> -->
                 </mat-card>
             </div>
         </mat-step>
@@ -468,7 +471,6 @@
         <mat-step [stepControl]="fourthFormGroup">
           <ng-template matStepLabel>Technician Assigned</ng-template>
           <mat-card>
-            <div class="container" *ngFor="let ticket of theTicketData; let i = index">
               <mat-card-title>Technician Assigned:
                 <span>
                     <ng-container>
@@ -483,7 +485,7 @@
                     </ng-container>
                 </span>
               </mat-card-title>
-              <ng-container *ngIf="ticket.version == 4">
+              <ng-container *ngIf="theTicketData.version == 4">
                 <div>
                     <h4>
                         The Items must be serialized in order to assign a technician.
@@ -502,10 +504,6 @@
                             class="material-icons" style="font-size: 12px;">
                             event_available
                           </span>Available</div>
-                        <!-- <div *ngIf="tech.IsAvailable === 0" style="color: gray;"><span class="material-icons"
-                            style="font-size: 12px;">
-                            event_busy
-                          </span>Not Available</div> -->
                       </div>
                     </mat-option>
                   </mat-select>
@@ -521,18 +519,18 @@
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
-                    (click)="updateTicketStatus4(ticket.id); technicianAssignedtoTicket(ticket.id)">Date
+                    (click)="updateTicketStatus4(theTicketData.id); technicianAssignedtoTicket(theTicketData.id)">Date
                     visit</button>
                 </div>
               </ng-container>
 
-              <ng-container *ngIf="ticket.version === 5">
+              <ng-container *ngIf="theTicketData.version === 5">
 
                 <div class="col-6">
                   <h2>Technician code: </h2>
                   <div>
                       <div>
-                          {{ticket.tech_assign}}
+                          {{theTicketData.tech_assign}}
                       </div>
 
                       <div *ngIf="showEdit4">
@@ -551,7 +549,7 @@
                             </mat-select>
                             
                         </mat-form-field>
-                        <button mat-icon-button (click)="updateTechnician(ticket.id);">
+                        <button mat-icon-button (click)="updateTechnician(theTicketData.id);">
                             <mat-icon>done</mat-icon>
                         </button>
                       </div>
@@ -560,11 +558,11 @@
                   <mat-divider></mat-divider>
                   <h2>Date of visit: </h2>
                   <p>
-                    {{ticket.assignedDate}}
+                    {{theTicketData.assignedDate}}
                   </p>
                 </div>
               </ng-container>
-            </div>
+            <!-- </div> -->
           </mat-card>
         </mat-step>
         </mat-vertical-stepper>
