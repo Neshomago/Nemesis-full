@@ -70,10 +70,11 @@ export class ViewticketComponent implements OnInit {
   AgencyList: any = [];
   FilteredAgency: any = [];
 
-  technicalVisitDate:any = new Date();
+  technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
   TechnicianModel: any = {
   tech_assign: '',
-  assignedDate: this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
+  // assignedDate: this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
+  assignedDate: this.technicalVisitDate,
   version: 5,
   }
 
@@ -88,16 +89,16 @@ export class ViewticketComponent implements OnInit {
     
     public ngOnInit(): void {
 
-      this.getAgencyListName();
-      // initialize the current ticket ID
       const ticketId = this.route.snapshot.paramMap.get('id');
+      this.getAgencyListName();
+      this.getUnserializedItems(ticketId);
+      // initialize the current ticket ID
       this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
       
       //Load from database all the fields required according to each step
       this.Technicians_List();
       this.getTags();
       this.allestimentoTicketList(ticketId);
-      this.getUnserializedItems(ticketId);
       this.getWarehouseStock();
       // this.getTicketInfotoUpdate(ticketId);
 
@@ -121,7 +122,6 @@ export class ViewticketComponent implements OnInit {
   getAgencyListName(){
     this.service.getAgencyName(this.customerId).subscribe(agency => {
       this.AgencyList = agency;
-      console.log("Datos de funcion getAgencyName: ", this.AgencyList);
     })
   }
 
@@ -145,10 +145,7 @@ export class ViewticketComponent implements OnInit {
       this.theTicketUpdate.description = data[0].description;
       this.theTicketUpdate.priority = data[0].priority;
       let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
-      console.log("Listado de agencias dentro de ticket Individual: ", this.AgencyList);
       this.agencyToUpdate.name = agenciaSelected.name;
-      console.log("Nombre agencia: ",this.agencyToUpdate.name);
-      console.log("Nombre de agencia: ", agenciaSelected.name);
     },
     error =>{console.log(error);
     });
@@ -182,7 +179,9 @@ export class ViewticketComponent implements OnInit {
   // unserialTags: any = [];
   getUnserializedItems(id:any){
     this.service.getTicketEquipmentList(id).subscribe(
-      (tag) => { this.unserialTags = tag }
+      (tag) => { this.unserialTags = tag;
+        console.log("datos a serializar: ",this.unserialTags);
+      }
       );
   }
 
@@ -194,12 +193,13 @@ export class ViewticketComponent implements OnInit {
       console.log(this.warehouseData);
     }
 
-  saveSerials(id: any){
+  saveSerials(){
     let i= 0;
 
     this.unserialTags.forEach((element: any) => {
-        this.service.saveSerialsOfItems(id, element).subscribe(
-          (data) => { console.log('Equipment added', data);
+        this.service.saveSerialsOfItems(element.id, element).subscribe(
+          (data) => { 
+            console.log('Equipment added', data);
           this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
           if (this.unserialTags.length == (i+1)){
 
@@ -262,9 +262,6 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.allestimentoEdit = false;
-    // this.refreshPage();
-
-
   }
 
   refreshPage() {window.location.reload();}
@@ -279,43 +276,41 @@ export class ViewticketComponent implements OnInit {
 
   // Updating Ticket Version on each step
   // ticketVersion = { version: null, status: ''};
-  updateTicketStatus2(id: any, i:number){
+  updateTicketStatus2(id: any){
     const version = {
       version: 2,
       status: 'MANAGING',
     };
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.theTicketData[i].version = 2;
-        this.theTicketData[i].status = 'MANAGING';
+      (data) => { this.theTicketData.version = 2;
+        this.theTicketData.status = 'MANAGING';
         this._snackBar.open("Ticket has been updated. Continue in step 3.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket has been updated. Continue in step 3', data);}
     );
   }
 
-  updateTicketStatus3(id: any){
+  updateTicketStatus3(id: any, i:number){
     const version = {
       version: 3,
       status: 'MANAGING',
     }
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.ticketVersion = data;
-        this._snackBar.open("Ticket has been updated. Continue in step 4.", "OK", { duration:3500, panelClass: "success",});
-        console.log('Ticket has been taken in charge. Status updated')    }
+      (data) => { this.theTicketData.version = 3;
+        this._snackBar.open("Ticket has been updated. Proceedo to serialize.", "OK", { duration:3500, panelClass: "success",});
+        console.log('Ticket has been taken in charge. Status updated', data)    }
     );
-    this.refreshPage();
   }
 
-  updateTicketStatus4(id: any){
+  updateTicketStatus4(id: any, i:number){
     const version = {
       version: 4,
       status: 'WORKING',
     };
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.ticketVersion = data;
+      (data) => { this.theTicketData.version = 4;
         this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
-        console.log('Ticket is now been worked. Status updated')    }
+        console.log('Ticket is now been worked. Status updated', data)    }
     );
-    this.refreshPage();
   }
 
   //Toggle Edition fields in Html view
@@ -342,11 +337,27 @@ export class ViewticketComponent implements OnInit {
 
   updateTicket(id:any){
     this.service.updateTicket(id, this.theTicketUpdate).subscribe(
-      (data) => { this.theTicketUpdate = data;
-      console.log('Ticket has had some changes. Updated');
-      console.log(this.theTicketUpdate);
-      this._snackBar.open("Ticket Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+      (data) => { 
+        this.theTicketData.code = this.theTicketUpdate.code;
+        this.theTicketData.type = this.theTicketUpdate.type;
+        this.theTicketData.priority = this.theTicketUpdate.priority;
+        this.theTicketData.description = this.theTicketUpdate.description;
+        this.theTicketData.agencyId = this.theTicketUpdate.agencyId;
+        this._snackBar.open(data, "OK", 
+        { duration:3500, panelClass: "success",});
       });
+      this.showEdit1 = false;
+  }
+
+  agencyListBindUpdate(){
+    let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
+    console.log("datos agenciaSelected: ", agenciaSelected);
+    this.theTicketData.managerId = agenciaSelected.managerId;
+    this.theTicketData.address = agenciaSelected.address;
+    this.theTicketData.certification = agenciaSelected.certification;
+    this.theTicketData.name = agenciaSelected.name;
+    this.theTicketData.phone = agenciaSelected.phone;
+    this.theTicketData.email = agenciaSelected.email;
   }
 
   // tickStatus ={ status:'ABORTED'};

@@ -30,7 +30,7 @@
       <a mat-list-item routerLink="/warehouse" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;">home_work</span>Warehouse</a>
     </mat-nav-list>
     <mat-nav-list>
-      <div><a mat-list-item href="/config">
+      <div><a mat-list-item (click)="openDialogSettingsBox()">
         <span class="material-icons" style="padding-right: 20px;">miscellaneous_services</span>Settings</a></div>
     </mat-nav-list>
     <!-- <mat-nav-list>

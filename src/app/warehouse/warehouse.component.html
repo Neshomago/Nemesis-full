@@ -1,0 +1,116 @@
+<!-- {{TicketList[3] | json}} -->
+<!-- <h1>Ticketing</h1> -->
+<div class="filterboxes">
+    <div class="row">
+        &nbsp;
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search the ticket">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col" >
+            <mat-label>Filter by Warehouse:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">Warehouse of client</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;    
+        <mat-form-field class="col" >
+            <mat-label>Visualization:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">by Count</mat-option>
+              <mat-option value="INT">by Object</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;    
+          <mat-form-field class="col" >
+            <mat-label>State:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">PENDING</mat-option>
+              <mat-option value="INT">OPERATIVE</mat-option>
+              <mat-option value="MAN">BROKEN</mat-option>
+              <mat-option value="VAL">MAINTENANCE</mat-option>
+              <mat-option value="LOST">LOST</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field class="col" >
+            <mat-label>Place:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">WAREHOUSE</mat-option>
+              <mat-option value="INT">TRANSPORT</mat-option>
+              <mat-option value="MAN">AGENCY</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field class="col" >
+            <mat-label>New / Used:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">NEW</mat-option>
+              <mat-option value="INT">USED</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+</div>
+<div class="table">
+<router-outlet></router-outlet>
+<!--  -->
+<!-- FILTERS FOR SEARCHING -->
+
+<!-- START OF TABLE -->
+<!--  -->
+    <table class="full-width table-stripped table-hover">
+        <thead>
+            <th>Resolved Warehouse Item</th>
+            <th>Item Status</th>
+            <th>Warehouse Item Units</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span class="Agency-name">
+                        Item Name
+                    </span><br>
+                    <span class="customer-name">
+                        Item Serial Number
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        Item Status - New or Used
+                    </span><br>
+                    <span>
+                        <span class="material-icons" style="vertical-align: middle;">store</span> / <span class="material-icons" style="vertical-align: middle;">local_shipping</span> Location
+                    </span>
+                </td>
+                <td>
+                    1
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <span style="display: none;">END OF WAREHOUSE LIST</span>&nbsp;
+</div>
+<!-- 
+    BOTONES DE AGREGAR EN EXCEL Y POR ITEM
+
+    <div style="position: fixed; right: 40px; bottom: 30px;">
+    <div style="padding-bottom: 20px;">
+        <button mat-fab (click)="openDialogExcelBox()"
+        #tooltip="matTooltip"
+        matTooltip="Upload several Tickets"
+        ><img src="https://img.icons8.com/material-sharp/24/000000/xls-import.png"/></button>
+        <div style="display: none;">
+            <a target="_blank" href="https://icons8.com/icons/set/xls-import">Xls Import icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+        </div>
+    </div>
+    <div>
+        <button mat-fab [routerLink]="['/create-ticket']"
+        #tooltip="matTooltip"
+        matTooltip="Generate New Ticket"
+        ><mat-icon>add</mat-icon></button>
+    </div>
+</div> -->

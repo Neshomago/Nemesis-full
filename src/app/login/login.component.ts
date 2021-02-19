@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.visibility = !this.visibility;
-    return this.router.navigate(['./home']);
+    return this.router.navigate(['']);
   }
 
 }

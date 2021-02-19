@@ -18,36 +18,46 @@ import { ViewcustomerComponent } from './customers/view/viewcustomer.component';
 import { EditcustomerComponent } from './customers/edit/editcustomer.component';
 import { ViewagencyComponent } from './agency/viewagency/viewagency.component';
 import { ViewComponent } from './contact/view/view.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { RegisteritemComponent } from './warehouse/registeritem/registeritem.component';
+import { EdititemComponent } from './warehouse/edititem/edititem.component';
+import { ViewwarehouseComponent } from './warehouse/viewwarehouse/viewwarehouse.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
-  { path:'main', component: HomeComponent},
+  { path: 'main', component: HomeComponent},
   { path: 'agency', children:[
     {path: '', component:AgencyComponent},
-    {path:'viewagency/:id',component:ViewagencyComponent},
+    {path: 'viewagency/:id',component:ViewagencyComponent},
   ]},
   { path: 'customers', children:[
     { path: '', component:CustomersComponent},
     { path: 'viewcustomer/:id', component:ViewcustomerComponent},
   ]},
   { path: 'contact',children:[
-    {path:'',component:ContactComponent},
-    {path:'viewcontact/:id', component:ViewComponent},
+    {path: '',component:ContactComponent},
+    {path: 'viewcontact/:id', component:ViewComponent},
 
   ]},
   { path: 'tickets', children: [
-    { path:'', component:TicketsComponent},
+    { path: '', component:TicketsComponent},
     { path: 'viewticket/:id', component:ViewticketComponent},
+  ]},
+  { path: 'warehouse', children: [
+    { path: '',component:WarehouseComponent},
+    { path: 'create-item', component:RegisteritemComponent},
+    { path: 'edit-item/:id', component:EdititemComponent},
+    { path: 'viewitem/:id', component:ViewwarehouseComponent}
   ]},
   { path: 'create-ticket', component:CreateTicketComponent},
   { path: 'create-agency', component:CreateAgencyComponent},
   { path: 'create-contact', component:CreatContactComponent},
   { path: 'create-customer', component:CreateCustomerComponent},
-  { path:'edit-customer/:id', component: EditcustomerComponent},
+  { path: 'edit-customer/:id', component: EditcustomerComponent},
   { path: 'additional', component:AdditionalequipmentComponent},
-  { path:'edit-ticket/:id', component: EditComponent},
-  { path:'testing', component:TestingcompoComponent},
-  { path:'equipmententry', component:EquipmententryComponent},
+  { path: 'edit-ticket/:id', component: EditComponent},
+  { path: 'testing', component:TestingcompoComponent},
+  { path: 'equipmententry', component:EquipmententryComponent},
 ];
 
 @NgModule({

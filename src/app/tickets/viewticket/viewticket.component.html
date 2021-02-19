@@ -1,4 +1,4 @@
-
+<ng-container *ngIf="theTicketData">
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
         <mat-vertical-stepper [linear]="isLinear" #stepper>
@@ -138,7 +138,7 @@
                                                     <td colspan="1">
                                                         <mat-form-field class="full-width" >
                                                             <!-- <mat-label>Select new Agency</mat-label> -->
-                                                            <select matNativeControl name="priority" id="priority" [(ngModel)]="theTicketUpdate.agencyId">
+                                                            <select matNativeControl name="priority" id="priority" [(ngModel)]="theTicketUpdate.agencyId" (ngModelChange)="agencyListBindUpdate()">
                                                                 <option *ngFor="let agency of AgencyList" [value]="agency.id">
                                                                     {{agency.name}} | {{agency.managerId}}
                                                                     <!-- <div style="line-height: 12px; font-weight: 400;">{{agency.name}} | <span style="font-size: small; font-weight: 200;">{{agency.managerId}} / {{agency.certification}}</span>
@@ -152,7 +152,7 @@
                                             <tr>
                                                 <td colspan="1" style="width: 150px;">Agency Name</td>
                                                 <td>:</td>
-                                                <td colspan="1">{{agencyToUpdate.name}}
+                                                <td colspan="1">{{theTicketData.name}}
                                                     <!-- {{AgencyList.name}} -->
                                                 </td>
                                             </tr>
@@ -241,9 +241,7 @@
                                 <input matInput type="text" name="description" id="description" *ngIf="showEdit1" [(ngModel)]="theTicketUpdate.description" value="{{theTicketUpdate.description}}" autofocus />
                             </ng-container>
                         </div>
-
                     </div>
-                    <!-- {{theTicketData | json}} -->
                 </mat-card-content>
             </mat-card>
             <ng-container style="padding-top: 20px;">
@@ -264,31 +262,31 @@
                         <div class="row">
                             <div class="col">
                             <h2>Adittional Equipment: 
-                                <span >
-                                    <button mat-icon-button style="color:orange;">
+                                <span *ngIf="theTicketData.version >= 2">
+                                    <button mat-icon-button style="color:orange;" *ngIf="!showEdit2" (click)="toogleEditstep2()">
                                         <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                     </button>
-                                    <button mat-icon-button  style="color:orange;">
+                                    <button mat-icon-button  style="color:orange;" *ngIf="showEdit2" (click)="toogleEditstep2()">
                                         <mat-icon style="font-size: 18px;">west</mat-icon>
                                     </button>
                                 </span>
                             </h2>
                         </div>
-                        <ng-container class="col-md-3 ms-md-auto">
+                        <ng-container class="col-md-3 ms-md-auto" *ngIf="theTicketData.version == 1">
                             <div class="col-auto" >
                                 <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" >
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id, 0); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
-                        <ng-container class="col-md-3 ms-md-auto" *ngIf="!showEdit2">
+                        <ng-container class="col-md-3 ms-md-auto">
 
-                            <div class="col-auto" *ngIf="theTicketData.version > 2">
+                            <div class="col-auto" *ngIf="theTicketData.version == 2 && showEdit2">
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
-                            <div class="col-md-3 ms-md-auto" *ngIf="theTicketData.version > 2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id, 0); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
+                            <div class="col-md-3 ms-md-auto" *ngIf="theTicketData.version == 2 && showEdit2">
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -297,7 +295,7 @@
                         
                         <div>
                             <div>
-                                <ng-container >
+                                <ng-container *ngIf="theTicketData.version >= 1">
                                     <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
                                             <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
@@ -330,7 +328,7 @@
                                         </div>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="theTicketData.version > 1">
+                                <ng-container *ngIf="theTicketData.version >= 2">
                                     <div>
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
@@ -371,7 +369,7 @@
                                             Advice: The Items must be serialized in order to get support.
                                         </h3>
                                     </div>
-                                    <button mat-raised-button (click)="updateTicketStatus3(theTicketData.id);"
+                                    <button mat-raised-button (click)="updateTicketStatus3(theTicketData.id, 0);"
                                     #tooltip="matTooltip"
                                     matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
@@ -416,6 +414,11 @@
                                 </div>
                             </ng-container>
                         </div>
+                        <ng-container class="col-md-3 ms-md-auto">
+                            <div class="col-md-3 ms-md-auto" *ngIf="showEdit3">
+                                <button mat-icon-button (click)="saveSerials(); toogleEditstep3()"><mat-icon>save</mat-icon>Update changes</button>
+                            </div>
+                        </ng-container>
                     </div>
                     <div *ngFor="let tag of unserialTags; let indice = index">
                       
@@ -426,18 +429,18 @@
                                     <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
                                 </mat-form-field>
                                 &nbsp;
-                                <mat-form-field class="col" *ngIf="theTicketData.version == 4">
+                                <mat-form-field class="col" *ngIf="theTicketData.version == 4 && !showEdit3">
                                     <mat-label>Serial Number</mat-label>
                                     <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
                                 </mat-form-field>
-                                <mat-form-field class="col" *ngIf="theTicketData.version == 3">
+                                <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
                                     <mat-label>Serial Number</mat-label>
                                     <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" required/>
                                 </mat-form-field>
                                 &nbsp;
-                                <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
+                                <!-- <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
                                     <mat-icon>done</mat-icon>
-                                </button>
+                                </button> -->
                                 <!-- <mat-form-field class="col-9">
                                     <mat-label>Notes for the item:</mat-label>
                                     <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
@@ -449,9 +452,9 @@
                         <div class="alert alert-secondary">
                                 Advice: The Items must be serialized to assign the technician.
                         </div>
-                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id)"
+                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id, 0); saveSerials()"
                                     #tooltip="matTooltip"
-                                    matTooltip="Save serials, proceed to assign Technician">Continue Ticket Process</button>
+                                    matTooltip="Save serials, proceed to assign Technician">Save Serials. Continue Ticket Process</button>
                     </ng-container>
                     <ng-container *ngIf="theTicketData.version == 4">
                         <div class="alert alert-info">
@@ -473,26 +476,26 @@
           <mat-card>
               <mat-card-title>Technician Assigned:
                 <span>
-                    <ng-container>
-                        <button mat-icon-button style="color:orange;">
-                          <mat-icon style="font-size: 18px;" (click)="toogleEditstep4()">edit</mat-icon> Edit
+                    <ng-container *ngIf="theTicketData.version == 5">
+                        <button mat-icon-button style="color:orange;" *ngIf="!showEdit4" (click)="toogleEditstep4()">
+                          <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                         </button>
                     </ng-container>
-                    <ng-container>
-                        <button mat-icon-button style="color:orange;">
+                    <ng-container *ngIf="theTicketData.version == 5 && showEdit4">
+                        <button mat-icon-button style="color:orange;" *ngIf="showEdit4" (click)="toogleEditstep4()">
                           <mat-icon style="font-size: 18px;">west</mat-icon>
                         </button>
                     </ng-container>
                 </span>
               </mat-card-title>
-              <ng-container *ngIf="theTicketData.version == 4">
+              <ng-container *ngIf="theTicketData.version >= 1">
                 <div>
                     <h4>
                         The Items must be serialized in order to assign a technician.
                     </h4>
                 </div>
-            </ng-container>
-              <ng-container >
+               </ng-container>
+              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version < 5">
 
                 <mat-form-field class="col-auto">
                   <mat-label>Technicians</mat-label>
@@ -516,10 +519,12 @@
                   <mat-datepicker-toggle matSuffix [for]="picker" (click)="picker.open()"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
+                &nbsp;
+                {{TechnicianModel | json}}
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
-                    (click)="updateTicketStatus4(theTicketData.id); technicianAssignedtoTicket(theTicketData.id)">Date
+                    (click)="updateTicketStatus4(theTicketData.id, 0); technicianAssignedtoTicket(theTicketData.id)">Date
                     visit</button>
                 </div>
               </ng-container>
@@ -548,9 +553,9 @@
                               </mat-option>
                             </mat-select>
                             
-                        </mat-form-field>
+                        </mat-form-field><br>
                         <button mat-icon-button (click)="updateTechnician(theTicketData.id);">
-                            <mat-icon>done</mat-icon>
+                            <mat-icon>done</mat-icon> Update Technician
                         </button>
                       </div>
                       &nbsp;
@@ -558,7 +563,7 @@
                   <mat-divider></mat-divider>
                   <h2>Date of visit: </h2>
                   <p>
-                    {{theTicketData.assignedDate}}
+                    {{theTicketData.assignedDate | date: 'yyyy/MM/dd'}}
                   </p>
                 </div>
               </ng-container>
@@ -574,22 +579,30 @@
                 <!-- <div class="col-auto">
                     <button mat-raised-button>PLAN VISIT</button>
                 </div> -->
-                <div class="col-auto">
+                <div class="col-auto" *ngIf="theTicketData.version>=3">
                     <button mat-raised-button>CREATE DDT</button>
                 </div>
-            <div class="col-auto">
+            <div class="col-auto" *ngIf="theTicketData.version>=4">
                 <button mat-raised-button>DOWNLOAD REPORT</button>
             </div>
-            <div class="col-auto">
-                <button mat-raised-button>BEGIN TO PROCESS</button>
+            <div class="col-auto" *ngIf="theTicketData.version >= 5">
+                <button mat-raised-button
+                #tooltip="matTooltip"
+                matTooltip="Start Process, notify technician"
+                >BEGIN TO PROCESS</button>
+            </div>
+            <div class="col-auto" *ngIf="theTicketData.version < 5">
+                <button mat-raised-button
+                #tooltip="matTooltip"
+                matTooltip="Start Process, notify technician"
+                disabled
+                >BEGIN TO PROCESS</button>
             </div>
             
         </div>
         <div style="height: 20px;"></div>
         <div class="row">
-            <ng-container *ngFor="let ticket of theTicketData; let i = index" [class.active]="i == currentIndex">
-                <button mat-raised-button (click)="deleteTicket(ticket.id)">ABORT TICKET</button>
-            </ng-container>
+                <button mat-raised-button (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
         </div>
     </div>
     </div>
@@ -603,5 +616,5 @@
         ><mat-icon>assignment_return</mat-icon></button>
     </div>
 </div>
-
-<!-- ViewTicket corregido allestimento -->
+</ng-container>
+<!-- Actualizacion -->

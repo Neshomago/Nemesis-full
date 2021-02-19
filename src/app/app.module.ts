@@ -56,6 +56,11 @@ import { MassiveticketsComponent } from './tickets/massivetickets/massivetickets
 import { MatDialogModule } from '@angular/material/dialog';
 import { ViewagencyComponent } from './agency/viewagency/viewagency.component';
 import { LoginComponent } from './login/login.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { ViewwarehouseComponent } from './warehouse/viewwarehouse/viewwarehouse.component';
+import { RegisteritemComponent } from './warehouse/registeritem/registeritem.component';
+import { EdititemComponent } from './warehouse/edititem/edititem.component';
+import { PeragencyComponent } from './warehouse/peragency/peragency.component';
 
 
 @NgModule({
@@ -83,6 +88,11 @@ import { LoginComponent } from './login/login.component';
     MassiveticketsComponent,
     ViewagencyComponent,
     LoginComponent,
+    WarehouseComponent,
+    ViewwarehouseComponent,
+    RegisteritemComponent,
+    EdititemComponent,
+    PeragencyComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [

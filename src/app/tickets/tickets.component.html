@@ -83,38 +83,52 @@
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
             (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['viewticket/',dataItem.id]" style="cursor: pointer;">
-                <td class="col-1 ">
-                        {{dataItem.id}}
+                <td class="col-1" *ngIf="dataItem.status != 'ABORTED'" >
+                        <div>{{dataItem.id}}</div>
                 </td>
-                    <td class="row">
+                    <td class="row" *ngIf="dataItem.status != 'ABORTED'"  >
                         <div class="col-auto">
                             <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
-                        <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;">
-                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
+                        <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version <= 4">
+                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
                                 <div class="circle1"></div>
                             </div>
-                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
+                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 }">
                                 <div class="circle2"></div>
                             </div>
-                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4 || dataItem.version == 5}">
+                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4}">
                                 <div class="circle3"></div>
                             </div>
-                            <div [ngClass]="{'step4done':dataItem.version == 4 || dataItem.version == 5}">
+                            <div [ngClass]="{'step4done':dataItem.version == 4}">
+                                <div class="circle4"></div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version == 5">
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle1"></div>
+                            </div>
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle2"></div>
+                            </div>
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle3"></div>
+                            </div>
+                            <div [ngClass]="{'step5done':dataItem.version == 5}">
                                 <div class="circle4"></div>
                             </div>
                         </div>
                     </td>
-                    <td class="med-text">
+                    <td class="med-text" *ngIf="dataItem.status != 'ABORTED'" >
                             {{dataItem.address}}
                             <div>
                                 AAMS: <span class="bold">{{dataItem.managerId}}</span> | Ticket: {{dataItem.code}}
                             </div>
                     </td>
-                    <td class="med-text"><span>{{dataItem.description}}</span>
+                    <td class="med-text" *ngIf="dataItem.status != 'ABORTED'" ><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
-                    <td class="med-text">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                    <td class="med-text" *ngIf="dataItem.status != 'ABORTED'" >{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
                 </tr>
         </tbody>
     </table>

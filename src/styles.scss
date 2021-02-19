@@ -424,18 +424,31 @@ snack-bar-container.notification simple-snack-bar{
 
 /* tickets steps circles colors */
 .step1done > .circle1{
-background-color: green;
+background-color:darkgoldenrod;
 }
 
 .step2done > .circle2{
-  background-color: green;
+  background-color: darkgoldenrod;
   }
 
 .step3done > .circle3{
-background-color: green;
+background-color: darkgoldenrod;
 }
 
 .step4done > .circle4{
+  background-color: darkgoldenrod;
+}
+
+.step5done > .circle4{
+  background-color: green;
+}
+.step5done > .circle3{
+  background-color: green;
+}
+.step5done > .circle2 {
+  background-color: green;
+}
+.step5done > .circle1{
   background-color: green;
 }
 .circle1, .circle2, .circle3, .circle4{
