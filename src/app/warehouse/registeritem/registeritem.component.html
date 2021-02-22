@@ -1,1 +1,85 @@
-<p>registeritem works!</p>
+<div class="boxformcreate">
+    <div class="forminmargin">
+      <h1 class="h1-form">REGISTER NEW ITEM</h1>
+      <form #ticketForm="ngForm" (ngSubmit)="saveItem()">
+          <div class="row">
+
+              <div class="col">
+                  <mat-form-field class="full-width" >
+                      <mat-label>Item Name</mat-label>
+                      <input matInput id="name" name="name" type="text" [(ngModel)]="itemModel.name">
+                    </mat-form-field>
+                </div>
+                <div class="col-auto">
+                    <mat-form-field class="full-width" >
+                        <mat-label>Supplier</mat-label>
+                        <input matInput name="supplier" id="supplier" [(ngModel)]="itemModel.supplier" />
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-auto">
+                    <mat-form-field class="full-width">
+                        <mat-label>Code</mat-label>
+                        <input matInput name="code" id="code" [(ngModel)]="itemModel.code"/>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Condition</mat-label>
+                        <input matInput name="condition" id="condition" [(ngModel)]="itemModel.condition"/>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Warranty Period</mat-label>
+                        <input matInput name="warranty" id="warranty" [(ngModel)]="itemModel.warranty_period"/>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Date of Registrarion</mat-label>
+                        <input matInput name="dateregister" id="dateregister" [(ngModel)]="itemModel.dateofRegister"/>
+                    </mat-form-field>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Location</mat-label>
+                        <input matInput name="condition" id="condition" [(ngModel)]="itemModel.location"/>
+                    </mat-form-field>
+                </div>
+                <div class="col-auto">
+                    <mat-form-field class="full-width">
+                        <mat-label>Item Status</mat-label>
+                        <input matInput name="warranty" id="warranty" [(ngModel)]="itemModel.itemStatus"/>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Invoice Number</mat-label>
+                        <input matInput name="dateregister" id="dateregister" [(ngModel)]="itemModel.invoice_buy"/>
+                    </mat-form-field>
+                </div>
+                
+            </div>
+            <div class="btncenter">
+                <div>
+                  <button mat-raised-button class="cancel" routerLink="/tickets"><span class="material-icons">
+                  clear</span>Cancel</button>
+                </div>
+                <div>
+                  <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">
+                    done
+                    </span> Save</button>
+                </div>
+              </div>
+            </form>
+            
+        </div>
+    </div>

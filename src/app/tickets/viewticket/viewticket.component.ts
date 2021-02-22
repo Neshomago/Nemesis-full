@@ -9,6 +9,13 @@ import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 
+/* PDF IMPORTING TO SAVE*/
+import { ElementRef} from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { ViewChild } from '@angular/core';
+
+
 @Component({
   selector: 'app-viewticket',
   templateUrl: './viewticket.component.html',
@@ -213,23 +220,6 @@ export class ViewticketComponent implements OnInit {
         console.warn(element);  
       });
   }
-
-  // saveSerials(id: any){
-
-  //   const element ={
-  //     item_serial: '',
-  //     ticketId: id
-  //   }
-
-  //       this.service.saveSerialsOfItems(id, element).subscribe(
-  //         (data) => { console.log('Equipment added', data);
-  //         this._snackBar.open("Equipment Serialized Succesfully", "OK", { duration:3500, panelClass: "success",});
-  //       },
-  //       (error) => { console.log('Failed to add equipment', error);
-  //       this._snackBar.open("Failed to Serialize equipment", "OK", { duration:3500, panelClass: "error",}); },
-  //       )
-  //       console.warn(element);  
-  // }
   
   addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
     const equipment = {
@@ -264,12 +254,39 @@ export class ViewticketComponent implements OnInit {
     this.allestimentoEdit = false;
   }
 
+  updateEquipment(){
+    let i=0;
+
+    this.equipmentArrayData.forEach((element: any) => {
+      this.service.updateEquipment(element.id, element).subscribe(
+        (data) => { 
+          this.equipmentArrayData.item = this.equipmentArrayData.item;
+          this.equipmentArrayData.ticketId = this.equipmentArrayData.ticketId;
+          // console.log('Equipment updated', data);
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+        if (this.equipmentArrayData.length == (i+1)){
+
+          this.allestimentoTicketList(element.ticketId);
+        }
+        i++;
+      },
+      (error) => { console.log('Failed to add equipment', error);
+      this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+      
+      )
+      console.warn(element);  
+    });
+    this.showEdit2 = false;
+  }
+
+
   refreshPage() {window.location.reload();}
 
   // equipmentArrayData: any = [];
   allestimentoTicketList(ticketId: any){
     this.service.getTicketEquipmentList(ticketId).subscribe(
-      data => {this.equipmentArrayData = data}
+      data => {this.equipmentArrayData = data;
+      console.log(this.equipmentArrayData);}
     );
   }
 
@@ -392,4 +409,27 @@ export class ViewticketComponent implements OnInit {
       this.refreshPage();
   }
 
+
+  /** PDF TESTING **/
+  @ViewChild('dataPdf')
+  dataPdf!: ElementRef;
+  
+  filename= "TcktNm_Tid";
+  
+  ddtDownload(): void{
+    let DATA = document.getElementById('dataPdf');
+      
+    html2canvas(DATA).then(canvas => {
+        
+        let fileWidth = 208;
+        let fileHeight = canvas.height * fileWidth / canvas.width;
+        
+        const FILEURI = canvas.toDataURL('image/png')
+        let PDF = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+        
+        PDF.save('DDT_Download'+ this.filename +this.theTicketData.id+'.pdf');
+    });     
+  }
 }

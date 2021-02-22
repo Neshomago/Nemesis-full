@@ -46,3 +46,25 @@ export interface Ticket_update{
     assignedDate?: Date;
     //closedDate?: Date;
 }
+
+export interface ItemWarehouse {
+    name: string;
+    code: string;
+    supplier: string;
+    condition: string;
+    warranty_period: number;
+    dateofRegister: Date;
+    userId: number;
+    location: string;
+    isMoving: number;
+    isDeleted: number;
+    warehouseId: number;
+    transportId: number;
+    transportDriver: string;
+    itemStatus: string;
+    invoice_buy: string;
+    agencyId: number;
+    customerId: number;
+    dateofArrive?: Date;
+    dateofRemoval?: Date;
+}

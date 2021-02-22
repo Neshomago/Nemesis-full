@@ -94,11 +94,11 @@
 <div>
     <span style="display: none;">END OF WAREHOUSE LIST</span>&nbsp;
 </div>
-<!-- 
-    BOTONES DE AGREGAR EN EXCEL Y POR ITEM
+
+    <!-- BOTONES DE AGREGAR EN EXCEL Y POR ITEM -->
 
     <div style="position: fixed; right: 40px; bottom: 30px;">
-    <div style="padding-bottom: 20px;">
+    <!-- <div style="padding-bottom: 20px;">
         <button mat-fab (click)="openDialogExcelBox()"
         #tooltip="matTooltip"
         matTooltip="Upload several Tickets"
@@ -106,11 +106,11 @@
         <div style="display: none;">
             <a target="_blank" href="https://icons8.com/icons/set/xls-import">Xls Import icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
         </div>
-    </div>
+    </div> -->
     <div>
-        <button mat-fab [routerLink]="['/create-ticket']"
+        <button mat-fab routerLink="/create-item"
         #tooltip="matTooltip"
-        matTooltip="Generate New Ticket"
+        matTooltip="Add New Item to Warehouse"
         ><mat-icon>add</mat-icon></button>
     </div>
-</div> -->
+</div>

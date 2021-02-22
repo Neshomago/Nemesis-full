@@ -22,6 +22,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { RegisteritemComponent } from './warehouse/registeritem/registeritem.component';
 import { EdititemComponent } from './warehouse/edititem/edititem.component';
 import { ViewwarehouseComponent } from './warehouse/viewwarehouse/viewwarehouse.component';
+import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
@@ -42,13 +43,14 @@ const routes: Routes = [
   { path: 'tickets', children: [
     { path: '', component:TicketsComponent},
     { path: 'viewticket/:id', component:ViewticketComponent},
+    { path: 'ddtpdf',component:DdtpdfComponent}
   ]},
   { path: 'warehouse', children: [
     { path: '',component:WarehouseComponent},
-    { path: 'create-item', component:RegisteritemComponent},
     { path: 'edit-item/:id', component:EdititemComponent},
     { path: 'viewitem/:id', component:ViewwarehouseComponent}
   ]},
+  { path: 'create-item', component:RegisteritemComponent},
   { path: 'create-ticket', component:CreateTicketComponent},
   { path: 'create-agency', component:CreateAgencyComponent},
   { path: 'create-contact', component:CreatContactComponent},
