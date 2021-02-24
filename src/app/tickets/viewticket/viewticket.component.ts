@@ -77,11 +77,12 @@ export class ViewticketComponent implements OnInit {
   AgencyList: any = [];
   FilteredAgency: any = [];
 
-  technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
+  // technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
+  techDate:Date = new Date("yyyy-mmm-dd");
   TechnicianModel: any = {
   tech_assign: '',
   // assignedDate: this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
-  assignedDate: this.technicalVisitDate,
+  assignedDate: this.techDate,
   version: 5,
   }
 
@@ -90,8 +91,7 @@ export class ViewticketComponent implements OnInit {
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private datePipe: DatePipe) { 
+    private _snackBar: MatSnackBar) { 
     }
     
     public ngOnInit(): void {
@@ -177,7 +177,7 @@ export class ViewticketComponent implements OnInit {
     (data) => { 
       this.TechnicianModel = data;
       this._snackBar.open("Technician Assigned Succesfully", "OK", { duration:3500, panelClass: "success",});
-      console.log(data);
+      console.log('data del tecnico: ', this.TechnicianModel);
     });
     this.refreshPage();
 }
@@ -410,14 +410,21 @@ export class ViewticketComponent implements OnInit {
   }
 
 
-  /** PDF TESTING **/
+  /** PDF creation DDT
+   * npm install jspdf necessary to create PDFS from the data
+   * **/
   @ViewChild('dataPdf')
-  dataPdf!: ElementRef;
+  
   
   filename= "TcktNm_Tid";
-  
+  showNo = false;
+
+  changeshow(){
+    this.showNo = !this.showNo;
+  }
+
   ddtDownload(): void{
-    let DATA = document.getElementById('dataPdf');
+    const DATA = document.getElementById('dataPdf') as HTMLDivElement;
       
     html2canvas(DATA).then(canvas => {
         
@@ -426,10 +433,10 @@ export class ViewticketComponent implements OnInit {
         
         const FILEURI = canvas.toDataURL('image/png')
         let PDF = new jsPDF('p', 'mm', 'a4');
-        let position = 0;
-        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+        let position = 5;
+        PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
         
-        PDF.save('DDT_Download'+ this.filename +this.theTicketData.id+'.pdf');
+        PDF.save('DDT_NMTCK'+ this.filename +this.theTicketData.id+'.pdf');
     });     
   }
 }

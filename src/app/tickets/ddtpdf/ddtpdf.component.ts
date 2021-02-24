@@ -17,7 +17,7 @@ export class DdtpdfComponent {
   constructor() { }
 
   ddtDownload(): void{
-    let DATA = document.getElementById('dataPdf');
+    let DATA = document.getElementById('dataPdf') as HTMLSourceElement;
       
     html2canvas(DATA).then(canvas => {
         

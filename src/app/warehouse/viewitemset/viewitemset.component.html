@@ -1,0 +1,48 @@
+<p>viewitemset works!</p>
+<div class="filterboxes">
+    <div class="row">
+      &nbsp;
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search the ticket">
+      </mat-form-field>
+    </div>
+</div>
+<div>
+    <table class="full-width table-stripped table-hover">
+        <thead>
+          <th>Resolved Warehouse Item</th>
+          <th>Item Status</th>
+          <th>Warehouse Item Units</th>
+        </thead>
+        <tbody>
+          <tr
+          *ngFor="let dataItem of itemListtotal; let i = index"
+            [class.active]="i == currentIndex"
+            (click)="setCurrentIndividualItem(dataItem, i)"
+            [routerLink]="['viewcustomer/',dataItem.id]"
+            style="cursor: pointer;"
+          >
+            <td>
+              <span class="Agency-name">
+                item.name
+              </span><br>
+              <span class="customer-name">
+                  Item Serial Number
+              </span>
+            </td>
+            <td>
+                <span>
+                      Item Status - New or Used
+                </span><br>
+                <span>
+                    <span class="material-icons" style="vertical-align: middle;">store</span> / <span class="material-icons" style="vertical-align: middle;">local_shipping</span> Location
+                </span>
+            </td>
+            <td>
+                  1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>

@@ -1,7 +1,9 @@
-<ng-container *ngIf="theTicketData">
+<ng-container *ngIf="theTicketData" style="z-index: 1;">
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
         <mat-vertical-stepper [linear]="isLinear" #stepper>
+
+        <!-- PASO 1 -->
         <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>Ticket general Information</ng-template>
             <mat-card class="example-card">
@@ -286,7 +288,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="showEdit2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment()"><mat-icon>save</mat-icon>Update changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment(); saveEquipment()"><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -621,9 +623,11 @@
 
 
 <!-- SECCION DE PDF NO MOSTRADA -->
-
-<div *ngIf="theTicketData">
-    <div id="dataPdf" style="width: 95%; height: 100%; align-self: center; padding: 20px;">
+<div class="rectanglecover">
+</div>
+<div class="ddt" *ngIf="theTicketData">
+    <div id="dataPdf">
+    <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
 
         <table border="1">
             <!-- encabezado PDF -->
@@ -646,7 +650,7 @@
                                 Doc. Transport: 
                             </td>
                             <td style="text-align: left; border: 1px solid;">
-                                Data from table
+                                {{theTicketData.tech_assign}}
                             </td>
                         </tr>
                         <tr>
@@ -654,7 +658,7 @@
                                 Date: 
                             </td>
                             <td style="text-align: left; border: 1px solid;">
-                                Data from table
+                                {{theTicketData.assignedDate}}
                             </td>
                         </tr>
                         <tr>
@@ -662,7 +666,7 @@
                                 Installation: 
                             </td>
                             <td style="text-align: left; border: 1px solid;">
-                                Data from table
+                                {{theTicketData.userId}}
                             </td>
                         </tr>
                         <tr>
@@ -723,60 +727,56 @@
         </td>
     </tr>
     <tr style="border-top: 3px solid silver; width: 95%;">
-        <td  style="padding-left: 20px;">
+        <td  style="padding-left: 20px;" colspan="6">
             <h2>
                 DDT: 
             </h2>
         </td>
     </tr>
     <tr>
-        <td width="8%" style="padding-left: 20px;">Qty.</td>
-        <td width="92%">Item</td>
+        <td style="padding-left: 20px;" colspan="1">Qty.</td>
+        <td colspan="5">Item</td>
     </tr>
-    <tr>
-        <div *ngFor="let tag of unserialTags; let indice = index" class="row">
-            <td class="col" style="padding-left: 20px;">
+    <tr *ngFor="let tag of unserialTags; let indice = index">
+            <td style="padding-left: 20px;" colspan="1">
                     {{tag.quantity}}
             </td>
-            <td class="col-auto">
+            <td colspan="5">
                     {{tag.item}}TV Toshiba 40"
                     <br>{{tag.item_serial}}
             </td>
-        </div>
     </tr>
+    <tr style="flex: 1; overflow: auto;"></tr>
     <tr>
         <td colspan="6" style="padding: 20px;">
                 <div class="d-flex">
                         <div class="flex-fill p-2  border border-1">
                             <div style="font-size: 12px; color: grey;">Aspetto esteriore dei beni</div>
                             <div>
-                                TEXT DESCRIPTION
+                                Colli
                             </div>
                         </div>
                         <div  class="flex-fill p-2 border border-1">
                             <span style="font-size: 12px; color: grey;">nr. colli</span>
                             <br>
-                            TEXT DESCRIPTION
+                            {{unserialTags.length}}
                         </div>
                         <div class="flex-fill p-2 border border-1">
                             <span style="font-size: 12px; color: grey;">Porto</span>
                             <br>
-                            TEXT DESCRIPTION
+                            Franco
                         </div>
                         <div class="flex-fill p-2 border border-1">
                             <span style="font-size: 12px; color: grey;">Data ora inizio trasporto</span>
                             <br>
-                            TEXT DESCRIPTION
                         </div>
                         <div class="flex-fill p-2 border border-1">
                             <span style="font-size: 12px; color: grey;">Firma Tecnico</span>
                             <br>
-                            TEXT DESCRIPTION
                         </div>
                         <div class="flex-fill p-2 border border-1">
                             <span style="font-size: 12px; color: grey;">Firma Destinatario</span>
                             <br>
-                            TEXT DESCRIPTION
                         </div>
                 </div>
         </td>

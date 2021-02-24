@@ -49,22 +49,27 @@ export interface Ticket_update{
 
 export interface ItemWarehouse {
     name: string;
-    code: string;
+    description: string;
+    serial: string;
     supplier: string;
-    condition: string;
-    warranty_period: number;
-    dateofRegister: Date;
-    userId: number;
-    location: string;
+    status: string;
+    warrantyPeriod: number;
+    category:string;
     isMoving: number;
     isDeleted: number;
     warehouseId: number;
-    transportId: number;
-    transportDriver: string;
-    itemStatus: string;
-    invoice_buy: string;
-    agencyId: number;
-    customerId: number;
+    isUsed: number;
+    invoice_purchase: string;
+    agencyId?: number;
+    statusDetails?:string;
+    technicianNotes?: string;
+    vehicle_Id?: number;
+    technicianId?: number;
+    technicianAssigned?: string;
+    customerId?: number;
+    userId?: number;
+    activationCode?: string;
+    registerDate?: Date;
     dateofArrive?: Date;
     dateofRemoval?: Date;
 }

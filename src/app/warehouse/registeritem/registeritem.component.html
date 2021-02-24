@@ -10,67 +10,87 @@
                       <input matInput id="name" name="name" type="text" [(ngModel)]="itemModel.name">
                     </mat-form-field>
                 </div>
+                <div class="col">
+                    <mat-form-field class="full-width" >
+                        <mat-label>Description</mat-label>
+                        <input matInput name="description" id="descripton" [(ngModel)]="itemModel.description" />
+                    </mat-form-field>
+                </div>
                 <div class="col-auto">
                     <mat-form-field class="full-width" >
                         <mat-label>Supplier</mat-label>
                         <input matInput name="supplier" id="supplier" [(ngModel)]="itemModel.supplier" />
                     </mat-form-field>
                 </div>
-                
-                <div class="col-auto">
+                <div class="col">
                     <mat-form-field class="full-width">
-                        <mat-label>Code</mat-label>
-                        <input matInput name="code" id="code" [(ngModel)]="itemModel.code"/>
+                        <mat-label>Serial</mat-label>
+                        <input matInput name="code" id="code" [(ngModel)]="itemModel.serial"/>
                     </mat-form-field>
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-label>Condition</mat-label>
-                        <input matInput name="condition" id="condition" [(ngModel)]="itemModel.condition"/>
-                    </mat-form-field>
-                </div>
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Warranty Period</mat-label>
-                        <input matInput name="warranty" id="warranty" [(ngModel)]="itemModel.warranty_period"/>
-                    </mat-form-field>
-                    
-                </div>
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-label>Date of Registrarion</mat-label>
-                        <input matInput name="dateregister" id="dateregister" [(ngModel)]="itemModel.dateofRegister"/>
-                    </mat-form-field>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-label>Location</mat-label>
-                        <input matInput name="condition" id="condition" [(ngModel)]="itemModel.location"/>
-                    </mat-form-field>
-                </div>
-                <div class="col-auto">
-                    <mat-form-field class="full-width">
-                        <mat-label>Item Status</mat-label>
-                        <input matInput name="warranty" id="warranty" [(ngModel)]="itemModel.itemStatus"/>
+                        <input matInput name="warranty" id="warranty" [(ngModel)]="itemModel.warrantyPeriod"/>
                     </mat-form-field>
                     
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Invoice Number</mat-label>
-                        <input matInput name="dateregister" id="dateregister" [(ngModel)]="itemModel.invoice_buy"/>
+                        <input matInput name="invoice_number" id="invoice_number" [(ngModel)]="itemModel.invoice_purchase"/>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Category</mat-label>
+                        <input matInput name="category" id="category" [(ngModel)]="itemModel.category"/>
                     </mat-form-field>
                 </div>
                 
             </div>
+            <ng-container>
+                <mat-divider></mat-divider>
+            </ng-container>
+            <div class="row">
+                <p></p>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Location</mat-label>
+                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.warehouseId">
+                            <mat-option value="8">Lumia Warehouse</mat-option>
+                            <mat-option value="4">Client Warehouse</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Item Status</mat-label>
+                        <mat-select name="status" id="status" [(ngModel)]="itemModel.isUsed">
+                            <mat-option value="0">New</mat-option>
+                            <mat-option value="1">Used</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Condition</mat-label>
+                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.statusDetails">
+                            <mat-option value="OPERATVE">OPERATIVE</mat-option>
+                            <mat-option value="BROKEN">BROKEN</mat-option>
+                            <mat-option value="WARRANTY">WARRANTY</mat-option>
+                            <mat-option value="LOST">LOST</mat-option>
+                            <mat-option value="PENDING">PENDING</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                {{itemModel | json}}
+            </div>
             <div class="btncenter">
                 <div>
-                  <button mat-raised-button class="cancel" routerLink="/tickets"><span class="material-icons">
+                  <button mat-raised-button class="cancel" routerLink="/warehouse"><span class="material-icons">
                   clear</span>Cancel</button>
                 </div>
                 <div>

@@ -62,6 +62,7 @@ import { RegisteritemComponent } from './warehouse/registeritem/registeritem.com
 import { EdititemComponent } from './warehouse/edititem/edititem.component';
 import { PeragencyComponent } from './warehouse/peragency/peragency.component';
 import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
+import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.component';
 
 
 @NgModule({
@@ -95,6 +96,7 @@ import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
     EdititemComponent,
     PeragencyComponent,
     DdtpdfComponent,
+    ViewitemsetComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-viewwarehouse',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewwarehouseComponent implements OnInit {
 
-  constructor() { }
+  id: number | undefined;
+  ItemSelected : any;
+
+  
+  constructor(
+    private route:ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    const itemId = this.route.snapshot.paramMap.get('id');
   }
 
 }
