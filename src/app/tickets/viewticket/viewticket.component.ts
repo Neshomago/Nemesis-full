@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { DateAdapter } from '@angular/material/core';
 
 
 /* PDF IMPORTING TO SAVE*/
@@ -78,11 +78,11 @@ export class ViewticketComponent implements OnInit {
   FilteredAgency: any = [];
 
   // technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
-  techDate:Date = new Date("yyyy-mmm-dd");
+  techDate:any;
   TechnicianModel: any = {
   tech_assign: '',
-  // assignedDate: this.datePipe.transform(this.technicalVisitDate, 'yyyy-MM-dd h:mm:ss'),
-  assignedDate: this.techDate,
+  // assignedDate: this.datePipe.transform(this.techDate, 'yyyy-MM-dd h:mm:ss'),
+  // assignedDate: this.techDate,
   version: 5,
   }
 
@@ -91,7 +91,9 @@ export class ViewticketComponent implements OnInit {
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar) { 
+    private _snackBar: MatSnackBar,
+    private dateadapter: DateAdapter<Date>) { 
+      this.dateadapter.setLocale ("en-GB");
     }
     
     public ngOnInit(): void {
@@ -251,7 +253,7 @@ export class ViewticketComponent implements OnInit {
       )
       console.warn(element);  
     });
-    this.allestimentoEdit = false;
+    this.tagsarray = [];
   }
 
   updateEquipment(){
@@ -277,6 +279,7 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.showEdit2 = false;
+    this.tagsarray = [];
   }
 
 
@@ -416,12 +419,7 @@ export class ViewticketComponent implements OnInit {
   @ViewChild('dataPdf')
   
   
-  filename= "TcktNm_Tid";
-  showNo = false;
-
-  changeshow(){
-    this.showNo = !this.showNo;
-  }
+  filename= "_tid_";
 
   ddtDownload(): void{
     const DATA = document.getElementById('dataPdf') as HTMLDivElement;

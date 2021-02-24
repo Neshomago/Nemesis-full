@@ -36,7 +36,7 @@ export class WarehouseComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  openDialogItemSetBox(id:any){
-    this.dialog.open(ViewitemsetComponent);
-  }
+  // openDialogItemSetBox(id:any){
+  //   this.dialog.open(ViewitemsetComponent);
+  // }
 }

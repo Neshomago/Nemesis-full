@@ -1,4 +1,3 @@
-<p>viewitemset works!</p>
 <div class="filterboxes">
     <div class="row">
       &nbsp;
@@ -8,7 +7,8 @@
       </mat-form-field>
     </div>
 </div>
-<div>
+<div class="table">
+    <router-outlet></router-outlet>
     <table class="full-width table-stripped table-hover">
         <thead>
           <th>Resolved Warehouse Item</th>
@@ -20,23 +20,33 @@
           *ngFor="let dataItem of itemListtotal; let i = index"
             [class.active]="i == currentIndex"
             (click)="setCurrentIndividualItem(dataItem, i)"
-            [routerLink]="['viewcustomer/',dataItem.id]"
             style="cursor: pointer;"
           >
             <td>
-              <span class="Agency-name">
-                item.name
+              <span class="customer-name">
+                {{dataItem.name}}
               </span><br>
               <span class="customer-name">
-                  Item Serial Number
+                  S/N: {{dataItem.item_serial}}
               </span>
             </td>
             <td>
                 <span>
-                      Item Status - New or Used
+                      Item Status: {{dataItem.status_details}} - 
+                      <span *ngIf="dataItem.isUsed == 0">
+                          New
+                      </span>
+                      <span *ngIf="dataItem.isUsed == 1">
+                          Used
+                      </span>
                 </span><br>
                 <span>
-                    <span class="material-icons" style="vertical-align: middle;">store</span> / <span class="material-icons" style="vertical-align: middle;">local_shipping</span> Location
+                    <ng-container *ngIf="dataItem.warehouseId > 0">
+                        <span class="material-icons" style="vertical-align: middle;">store</span>
+                    </ng-container>
+                    <ng-container *ngIf="dataItem.isMoving == 1">
+                        <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}} - Ticket: {{dataItem.ticketId}}
+                    </ng-container>
                 </span>
             </td>
             <td>
@@ -45,4 +55,15 @@
           </tr>
         </tbody>
       </table>
+</div>
+<div>
+    <span style="display: none;">END OF ITEM SET LIST</span>&nbsp;
+</div>
+<div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
+    <div>
+        <button mat-fab color="accent" routerLink="/warehouse"
+        #tooltip="matTooltip"
+        matTooltip="Return to Warehouse list"
+        ><mat-icon>assignment_return</mat-icon></button>
+    </div>
 </div>

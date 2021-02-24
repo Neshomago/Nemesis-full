@@ -22,7 +22,7 @@ export class WarehouseService {
 
   // To see warehouse especific Item distribution
   getItemsIndividualList(id:any): Observable<any>{
-    return this.http.get<any[]>(`${APIUrl}/itemlist/${id}`);
+    return this.http.get(`${APIUrl}/itemlist/${id}`);
   }
 
   // To see individual item details

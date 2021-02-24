@@ -20,13 +20,14 @@ export class ViewitemsetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.id = +this.getItemsIndividualList(this.route.snapshot.paramMap.get('id'));
+    this.id = +this.getitemIndividualDistrubitionList(this.route.snapshot.paramMap.get('id'));
   }
 
   getitemIndividualDistrubitionList(id: any): any{
     this.wrhsService.getItemsIndividualList(id).subscribe(
       data => {
         this.itemListtotal = data;
+        console.log(this.itemListtotal);
       }
     );
   }

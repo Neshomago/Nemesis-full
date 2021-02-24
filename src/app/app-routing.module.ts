@@ -23,6 +23,8 @@ import { RegisteritemComponent } from './warehouse/registeritem/registeritem.com
 import { EdititemComponent } from './warehouse/edititem/edititem.component';
 import { ViewwarehouseComponent } from './warehouse/viewwarehouse/viewwarehouse.component';
 import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
+import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.component';
+import { ViewtickettechComponent } from './tickets/viewtickettech/viewtickettech.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
@@ -48,7 +50,8 @@ const routes: Routes = [
   { path: 'warehouse', children: [
     { path: '',component:WarehouseComponent},
     { path: 'edit-item/:id', component:EdititemComponent},
-    { path: 'viewitem/:id', component:ViewwarehouseComponent}
+    { path: 'viewitem/:id', component:ViewwarehouseComponent},
+    { path: 'viewitemset/:id', component:ViewitemsetComponent}
   ]},
   { path: 'create-item', component:RegisteritemComponent},
   { path: 'create-ticket', component:CreateTicketComponent},
@@ -60,6 +63,7 @@ const routes: Routes = [
   { path: 'edit-ticket/:id', component: EditComponent},
   { path: 'testing', component:TestingcompoComponent},
   { path: 'equipmententry', component:EquipmententryComponent},
+  { path:'viewtickettech', component: ViewtickettechComponent},
 ];
 
 @NgModule({

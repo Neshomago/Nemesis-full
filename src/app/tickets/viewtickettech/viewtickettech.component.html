@@ -1,0 +1,138 @@
+<!-- {{TicketList[3] | json}} -->
+<!-- <h1>Ticketing</h1> -->
+<div class="filterboxes">
+    <div class="row">
+        &nbsp;
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search the ticket">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col" >
+            <mat-label>Filter by Status:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">OPENED</mat-option>
+              <mat-option value="INT">MANAGING</mat-option>
+              <mat-option value="MAN">PROCESSING</mat-option>
+              <mat-option value="MAN">CLOSED</mat-option>
+              <mat-option value="MAN">CANCELLED</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;    
+        <mat-form-field class="col" >
+            <mat-label>Filter by Type:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">INSTALATION</mat-option>
+              <mat-option value="INT">INTEGRATION</mat-option>
+              <mat-option value="MAN">MAINTENANCE</mat-option>
+              <mat-option value="DIS">UNINSTALL</mat-option>
+              <mat-option value="SUP">SUPPORT</mat-option>
+              <mat-option value="IND">INTEGRATION DELIVERY</mat-option>
+              <mat-option value="MND">MAINTENANCE DELIVERY</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;    
+          <mat-form-field class="col" >
+            <mat-label>Filter by Priority:</mat-label>
+            <mat-select matNativeControl id="type" name="type">
+              <mat-option value="INS">LOW</mat-option>
+              <mat-option value="INT">NORMAL</mat-option>
+              <mat-option value="MAN">HIGH</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field class="col-auto" appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="Start date">
+              <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          
+            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          </mat-form-field>
+          &nbsp;
+          <div class="col-auto">
+            <button mat-icon-button routerLink="/create-ticket"
+            #tooltip="matTooltip"
+            matTooltip="Download ticket report"
+            ><mat-icon>cloud_download</mat-icon></button>
+        </div>
+    </div>
+</div>
+<div class="table">
+<router-outlet></router-outlet>
+<!--  -->
+<!-- FILTERS FOR SEARCHING -->
+<!--  -->
+<!--  -->
+
+
+    <table class="full-width table-stripped table-hover">
+        <thead>
+            <th>Ticket Id</th>
+            <th>Status</th>
+            <th>Ticket Agency</th>
+            <th>Details</th>
+            <th>Date</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dataItem of TicketList; let i = index" 
+            [class.active]="i == currentIndex"
+            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['viewticket/',dataItem.id]" style="cursor: pointer;">
+                <td class="col-1" *ngIf="dataItem.status == 'WORKING'">
+                        <div>{{dataItem.id}}</div>
+                </td>
+                    <td class="row" *ngIf="dataItem.status == 'WORKING'">
+                        <div class="col-auto">
+                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
+                                <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
+                        </div>
+                        <!-- <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version <= 4">
+                            <div [ngClass]="{'step1done': dataItem.version == 1 || dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4}">
+                                <div class="circle1"></div>
+                            </div>
+                            <div [ngClass]="{'step2done':dataItem.version == 2 || dataItem.version == 3 || dataItem.version == 4 }">
+                                <div class="circle2"></div>
+                            </div>
+                            <div [ngClass]="{'step3done':dataItem.version == 3 || dataItem.version == 4}">
+                                <div class="circle3"></div>
+                            </div>
+                            <div [ngClass]="{'step4done':dataItem.version == 4}">
+                                <div class="circle4"></div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version == 5">
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle1"></div>
+                            </div>
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle2"></div>
+                            </div>
+                            <div [ngClass]="{'step5done': dataItem.version == 5}">
+                                <div class="circle3"></div>
+                            </div>
+                            <div [ngClass]="{'step5done':dataItem.version == 5}">
+                                <div class="circle4"></div>
+                            </div>
+                        </div> -->
+                    </td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'" >
+                            {{dataItem.address}}
+                            <div>
+                                AAMS: <span class="bold">{{dataItem.managerId}}</span> | Ticket: {{dataItem.code}}
+                            </div>
+                    </td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign == 'fmontenegro'"><span>{{dataItem.description}}</span>
+                    <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign == 'fmontenegro'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <span style="display: none;">END OF TICKET LIST</span>&nbsp;
+</div>
