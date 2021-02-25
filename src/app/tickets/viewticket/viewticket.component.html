@@ -497,7 +497,7 @@
                     </h4>
                 </div>
                </ng-container>
-              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version < 5">
+              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version <= 4">
 
                 <mat-form-field class="col-auto">
                   <mat-label>Technicians</mat-label>
@@ -516,13 +516,12 @@
                 &nbsp;
                 <mat-form-field class="col-3">
                   <mat-label>Choose a date</mat-label>
-                  <input matInput [matDatepicker]="picker"
-                    [(ngModel)]="techDate">
-                  <mat-datepicker-toggle matSuffix [for]="picker" (click)="picker.open()"></mat-datepicker-toggle>
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="techDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 &nbsp;
-                {{techDate}}
+                {{TechnicianModel | json}}
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
@@ -565,7 +564,7 @@
                   <mat-divider></mat-divider>
                   <h2>Date of visit: </h2>
                   <p>
-                    {{theTicketData.assignedDate | date: 'yyyy/MM/dd'}}
+                    {{theTicketData.assignedDate | date:'MMMM dd, yyyy'}}
                   </p>
                 </div>
               </ng-container>
@@ -585,7 +584,7 @@
                     <button mat-raised-button (click)="ddtDownload()">CREATE DDT</button>
                 </div>
             <div class="col-auto" *ngIf="theTicketData.version>=4">
-                <button mat-raised-button>DOWNLOAD REPORT</button>
+                <button mat-raised-button (click)="rptDownload()">DOWNLOAD REPORT</button>
             </div>
             <div class="col-auto" *ngIf="theTicketData.version >= 5">
                 <button mat-raised-button
@@ -593,13 +592,13 @@
                 matTooltip="Start Process, notify technician"
                 >BEGIN TO PROCESS</button>
             </div>
-            <div class="col-auto" *ngIf="theTicketData.version < 5">
+            <!-- <div class="col-auto" *ngIf="theTicketData.version < 5">
                 <button mat-raised-button
                 #tooltip="matTooltip"
                 matTooltip="Start Process, notify technician"
                 disabled
                 >BEGIN TO PROCESS</button>
-            </div>
+            </div> -->
             
         </div>
         <div style="height: 20px;"></div>
@@ -786,6 +785,181 @@
             Ai sensi del D.Lgs 196/2003, Vi informiamo che i vs dati saranno utilizzati esclusivamente per i fini connessi ai rapporti commerciali tra di noi in essere. <br>
             Vi preghiamo di controllare i Vs dati anagrafici, la partita IVA ed il Codice fiscale. <br>
             non ci riteniamo responsavili per eventuali errori.
+        </td>
+    </tr>
+</table>
+</div>
+</div>
+
+<div class="ddt" *ngIf="theTicketData">
+    <div id="dataPdfReport">
+    <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
+
+        <table border="1">
+            <!-- encabezado PDF -->
+            <tr style="border-top: 3px solid gray;">
+                <td>
+                    <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
+                </td>
+                <td style="font-size: 12px; line-height: 15px;" colspan="3">
+                    Via Selva Di Sotto Snc, Località Cese <br>
+                    San Salvatore Telesino -Telese- 82030 (BN) Italy <br>
+                    Telefono: +39-0824-948243 <br>
+                    Fax: +39-0824-948243 <br>
+                    P.IVA / C.F. 03949540615 <br>
+                    email: info@lumiasrl.com <br>
+                </td>
+                <td colspan="2">
+                    <table width="450">
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation Report: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid;">
+                                {{theTicketData.tech_assign}} / 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid;">
+                                {{theTicketData.userId}} - Ticket: {{theTicketData.id}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+    </tr>
+    <tr style="border-top: 3px solid gray; width: 95%;">
+        <td style="padding-left: 20px;">
+            <h2>
+                Client
+            </h2>
+        </td>
+    </tr>
+    <tr style="border-top: 1.5px solid gray; width: 95%;">
+        <td colspan="4" style="padding-left: 40px;">
+            <tr>
+                <td>
+                    Agency Code: {{theTicketData.managerId}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Fiscal Code: 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Certification: {{theTicketData.certification}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Address: {{theTicketData.address}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Phone: {{theTicketData.phone}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email: {{theTicketData.email}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    IVA: 
+                </td>
+            </tr>
+        </td>
+    </tr>
+    <tr style="border-top: 3px solid gray; width: 95%;">
+        <td style="padding-left: 20px;">
+            <h2>
+                Intervento
+            </h2>
+        </td>
+    </tr>
+    <tr style="border-top: 1.5px solid gray; width: 95%;">
+        <td colspan="6" style="padding-left: 40px;">
+            <tr>
+                <td>
+                    Date e hora di apertura:
+                </td>
+                <td>
+                    {{theTicketData.creationdDate}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date and time of intervention: 
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date and time finished intervention:
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </td>
+    </tr>
+    <tr style="border-top: 3px solid silver; width: 95%;">
+        <td  style="padding-left: 20px;" colspan="6">
+            <h2>
+                REPORT: 
+            </h2>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-left: 20px; text-align: center;" colspan="1">Operation</td>
+        <td colspan="2" style="text-align: center;">Item</td>
+        <td colspan="2" style="text-align: center;">Serial number</td>
+        <td colspan="1" style="text-align: center;">Item Status</td>
+    </tr>
+    <tr *ngFor="let tag of unserialTags; let indice = index">
+            <td colspan="1" style="text-align: center;">
+                {{theTicketData.type}}
+            </td>
+            <td style="padding-left: 20px; text-align: center;" colspan="2">
+                    {{tag.item}}
+            </td>
+            <td colspan="2" style="text-align: center;">{{tag.item_serial}}</td>
+            <td colspan="1" style="text-align: center;">OPERATIVE</td>
+    </tr>
+    <tr style="flex: 1; overflow: auto;"></tr>
+    <tr>
+        <td colspan="6" style="padding: 20px;">
+                <div class="d-flex">
+                        <div class="flex-fill p-2 border border-1">
+                            <span style="font-size: 12px; color: grey;">Technician name:____________________________________</span>
+                            <br>
+                            <br>
+                            <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
+                            <br>
+                        </div>
+                        <div class="flex-fill p-2 border border-1">
+                            <span style="font-size: 12px; color: grey;">Timbro e firma del cliente</span>
+                            <br>
+                        </div>
+                </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" style="font-size: 10px; line-height: 10px; text-align: center;">
+            Documento Interno Amministrativo. Interventi tecnici presso clienti. Il materiale sopra descritto, fornito dal nostro tecnico nel suo intervento, è esonerato da
+            DDT (DPR 627/78) ai sensi C.M. 5/360586 del 12/12/76
+
+            <br>
+            SCHEDAORDINE RAPPORTOINTERVENTO
+            rev.2 del 17/12/2016
         </td>
     </tr>
 </table>

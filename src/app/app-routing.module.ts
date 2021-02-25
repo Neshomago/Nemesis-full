@@ -25,6 +25,7 @@ import { ViewwarehouseComponent } from './warehouse/viewwarehouse/viewwarehouse.
 import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
 import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.component';
 import { ViewtickettechComponent } from './tickets/viewtickettech/viewtickettech.component';
+import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tickettowork.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'main', pathMatch:'full' },
@@ -63,7 +64,10 @@ const routes: Routes = [
   { path: 'edit-ticket/:id', component: EditComponent},
   { path: 'testing', component:TestingcompoComponent},
   { path: 'equipmententry', component:EquipmententryComponent},
-  { path:'viewtickettech', component: ViewtickettechComponent},
+  { path:'viewtickettech', children:[
+    { path:'', component: ViewtickettechComponent},
+    { path:'tickettowork/:id', component: TickettoworkComponent}
+  ]},
 ];
 
 @NgModule({

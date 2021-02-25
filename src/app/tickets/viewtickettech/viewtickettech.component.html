@@ -82,7 +82,7 @@
         <tbody>
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
-            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['viewticket/',dataItem.id]" style="cursor: pointer;">
+            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
                 <td class="col-1" *ngIf="dataItem.status == 'WORKING'">
                         <div>{{dataItem.id}}</div>
                 </td>
@@ -126,9 +126,9 @@
                                 AAMS: <span class="bold">{{dataItem.managerId}}</span> | Ticket: {{dataItem.code}}
                             </div>
                     </td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign == 'fmontenegro'"><span>{{dataItem.description}}</span>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'"><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign == 'fmontenegro'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
                 </tr>
         </tbody>
     </table>

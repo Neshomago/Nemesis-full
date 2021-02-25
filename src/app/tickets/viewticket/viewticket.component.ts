@@ -7,7 +7,10 @@ import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
 
+const moment = _moment;
 
 /* PDF IMPORTING TO SAVE*/
 import { ElementRef} from '@angular/core';
@@ -78,11 +81,12 @@ export class ViewticketComponent implements OnInit {
   FilteredAgency: any = [];
 
   // technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
-  techDate:any;
+  techDate = new Date();
   TechnicianModel: any = {
   tech_assign: '',
   // assignedDate: this.datePipe.transform(this.techDate, 'yyyy-MM-dd h:mm:ss'),
-  // assignedDate: this.techDate,
+  // assignedDate: this.techDate = this.dateadapter.format(new Date(),"yyyy-MM-dd h:mm:ss"),
+  assignedDate: '',
   version: 5,
   }
 
@@ -91,10 +95,7 @@ export class ViewticketComponent implements OnInit {
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private dateadapter: DateAdapter<Date>) { 
-      this.dateadapter.setLocale ("en-GB");
-    }
+    private _snackBar: MatSnackBar) { }
     
     public ngOnInit(): void {
 
@@ -109,6 +110,7 @@ export class ViewticketComponent implements OnInit {
       this.getTags();
       this.allestimentoTicketList(ticketId);
       this.getWarehouseStock();
+      this.setDefaultDate();
       // this.getTicketInfotoUpdate(ticketId);
 
     //formgroup for steps
@@ -172,6 +174,20 @@ export class ViewticketComponent implements OnInit {
     this.usersService.getTechnicianList().subscribe(
       data => this.TechnicianList = data
       );
+  }
+
+  setDefaultDate(){
+    let year, month, day, hour, minute, second;
+
+    year = this.techDate.getFullYear();
+    month = this.techDate.getMonth();
+    day = this.techDate.getDate();
+    hour = this.techDate.getHours();
+    minute = this.techDate.getMinutes();
+    second = this.techDate.getSeconds();
+
+    this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+    console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
   }
 
   technicianAssignedtoTicket(id:any){
@@ -437,4 +453,22 @@ export class ViewticketComponent implements OnInit {
         PDF.save('DDT_NMTCK'+ this.filename +this.theTicketData.id+'.pdf');
     });     
   }
+
+ rptDownload(): void{
+    const DATA = document.getElementById('dataPdfReport') as HTMLDivElement;
+      
+    html2canvas(DATA).then(canvas => {
+        
+        let fileWidth = 208;
+        let fileHeight = canvas.height * fileWidth / canvas.width;
+        
+        const FILEURI = canvas.toDataURL('image/png')
+        let PDF = new jsPDF('p', 'mm', 'a4');
+        let position = 5;
+        PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
+        
+        PDF.save('RPT_'+this.theTicketData.code+ this.filename +this.theTicketData.id+'.pdf');
+    });     
+  }
+  
 }

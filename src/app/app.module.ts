@@ -41,14 +41,14 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { ViewticketComponent } from './tickets/viewticket/viewticket.component';
 import { EditComponent } from './tickets/edit/edit.component';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { AdditionalequipmentComponent } from './additionalequipment/additionalequipment.component';
 import { TestingcompoComponent } from './testingcompo/testingcompo.component';
 import { EquipmententryComponent } from './equipmententry/equipmententry.component';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { ViewComponent } from './contact/view/view.component';
 import { ViewcustomerComponent } from './customers/view/viewcustomer.component'; 
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditcustomerComponent } from './customers/edit/editcustomer.component';
@@ -63,6 +63,13 @@ import { EdititemComponent } from './warehouse/edititem/edititem.component';
 import { PeragencyComponent } from './warehouse/peragency/peragency.component';
 import { DdtpdfComponent } from './tickets/ddtpdf/ddtpdf.component';
 import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.component';
+import { ViewtickettechComponent } from './tickets/viewtickettech/viewtickettech.component';
+//import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+
+import { MY_DATE_FORMAT } from '././tickets/viewticket/my_date_format';
+import { FilterwarehousePipe } from './pipes/filterwarehouse.pipe';
+import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tickettowork.component';
 
 
 @NgModule({
@@ -97,6 +104,9 @@ import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.compon
     PeragencyComponent,
     DdtpdfComponent,
     ViewitemsetComponent,
+    ViewtickettechComponent,
+    FilterwarehousePipe,
+    TickettoworkComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [
@@ -132,7 +142,8 @@ import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.compon
     MatTooltipModule,
     MatDialogModule,
   ],
-  providers: [SharedService],
+  providers: [SharedService,
+    {    provide: MAT_DATE_FORMATS, useValue:MY_DATE_FORMAT  }],
   bootstrap: [AppComponent],
   schemas : [CUSTOM_ELEMENTS_SCHEMA]
 })

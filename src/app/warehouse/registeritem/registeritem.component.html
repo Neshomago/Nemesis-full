@@ -46,7 +46,17 @@
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Category</mat-label>
-                        <input matInput name="category" id="category" [(ngModel)]="itemModel.category"/>
+                        <mat-select matInput name="category" id="category" [(ngModel)]="itemModel.category">
+                            <mat-option>Add new category</mat-option>
+                            <mat-option value="TV">TV</mat-option>
+                            <mat-option value="MONITOR">Monitor</mat-option>
+                            <mat-option value="Switch">Switch</mat-option>
+                            <mat-option value="Matrice Video">Matrice Video</mat-option>
+                            <mat-option value="Printer">Printer</mat-option>
+                            <mat-option value="Touch screen">Touch Screen</mat-option>
+                            <mat-option value="Router">Router</mat-option>
+                            <mat-option value="PC BackOffice">PC Backoffice</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 
@@ -86,7 +96,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                {{itemModel | json}}
+                <!-- {{itemModel | json}} -->
             </div>
             <div class="btncenter">
                 <div>

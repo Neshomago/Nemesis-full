@@ -1,9 +1,9 @@
   <div class="filterboxes">
     <div class="row">
       &nbsp;
-      <mat-form-field class="col-12" appearance="fill">
+      <mat-form-field class="col-12" appearance="fill" >
         <mat-label>Search</mat-label>
-        <input matInput placeholder="Search the ticket">
+        <input matInput placeholder="Search the Item" class="form-control" [(ngModel)]="filteredString">
       </mat-form-field>
     </div>
     <div class="row">
@@ -64,20 +64,31 @@
     <th>Warehouse Item Units</th>
   </thead>
   <tbody>
-    <tr *ngFor="let item of TheGeneralList; let i = index"
+    <tr *ngFor="let item of TheGeneralList | slice:0:15 | filterwarehouse: filteredString; let i = index"
             [class.active]="i == currentIndex"
             (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
     >
       <td>
         <span class="Agency-name">
-          {{item.name}}
-        </span><br>
-        <span class="customer-name">
-            {{item.description}}
+          {{item.description}}
         </span>
       </td>
-      <td>
-            {{item.isStack}}
+      <td style="padding-left: 20px;">
+        <div>
+          {{item.isStack}} Units
+          <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+            <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
+        </span>
+        <span *ngIf="item.isStack < 20 && item.isStack >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+            <span style="font-size: 13px;" class="material-icons">info</span> Low stock
+        </span>    
+        <span *ngIf="item.isStack > 0 && item.isStack < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
+          <span style="font-size: 13px;" class="material-icons">report</span> Urgent restock
+      </span>
+        <span *ngIf="item.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
+            <span style="font-size: 13px;" class="material-icons">report</span> No Stock - Restock now!
+        </span>
+        </div>
       </td>
     </tr>
   </tbody>

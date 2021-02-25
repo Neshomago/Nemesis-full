@@ -11,6 +11,7 @@ import { ViewitemsetComponent } from 'src/app/warehouse/viewitemset/viewitemset.
 })
 export class WarehouseComponent implements OnInit {
 
+  filteredString: string = '';
   TheGeneralList:any = [];
   currentIndex = -1;
   currentItem = null;
