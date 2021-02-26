@@ -184,10 +184,10 @@
                     <div class="col">
                         <button  mat-raised-button  (click)="rptDownload()">DOWNLOAD REPORT</button>
                     </div>
-                    <div class="col">
-                        <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process">TICKET RESOLVED</button>
+                    <div class="col" *ngIf="theTicketData.version == 5">
+                        <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process" (click)="resolved(theTicketData.id)">TICKET RESOLVED</button>
                     </div>  
-                    <div class="col">
+                    <div class="col" *ngIf="theTicketData.version == 5">
                         <button mat-raised-button color="warn" (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
                     </div>
                 </div>

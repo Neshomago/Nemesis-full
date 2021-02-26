@@ -2,15 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder} from '@angular/forms';
 import { UsersService } from 'src/app/services/users.service';
 import { TicketService } from '../../../services/ticket.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
+import { ActivatedRoute, Router} from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _moment from 'moment';
 
 const moment = _moment;
 
 /* PDF IMPORTING TO SAVE*/
-import { ElementRef} from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ViewChild } from '@angular/core';
@@ -133,6 +131,17 @@ export class TickettoworkComponent implements OnInit {
             this.router.navigateByUrl("/tickets");
           });
       }
+}
+
+resolved(id: any){
+  const version = {
+    version: 6,
+    status: 'RESOLVED',
+  };
+  this.service.updateTicketVersion(id, version).subscribe(
+    (data) => { this.theTicketData.version = 6;
+      this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+  });
 }
 
 
