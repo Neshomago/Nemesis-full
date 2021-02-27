@@ -24,8 +24,8 @@ export class AgencyService {
     return this.http.post(APIUrl + '/agency/add',val);
   }
 
-  updateAgency(val:any): Observable<any>{
-    return this.http.put(APIUrl + '/agency/update',val);
+  updateAgency(id: any, val:any): Observable<any>{
+    return this.http.put(`${APIUrl}/agency/update/${id}`, val);
   }
 
   deleteAgency(val:any): Observable<any>{

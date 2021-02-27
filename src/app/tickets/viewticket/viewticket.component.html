@@ -288,7 +288,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="showEdit2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment(); updateEquipment(); "><mat-icon>save</mat-icon>Update changes</button>
+                                <button mat-icon-button (click)="updateEquipment(); "><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -335,7 +335,7 @@
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
                                             <div class="col-1">
-                                                <button mat-icon-button (click)="deleteOneItemEquipment(allestimentoItems.id); removeItem(i)"><mat-icon>delete</mat-icon></button>
+                                                <button mat-icon-button (click)="removeItemList(i, allestimentoItems.id)"><mat-icon>delete</mat-icon></button>
                                             </div>
 
                                             <mat-form-field class="col-auto">
@@ -437,7 +437,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
                                     <mat-label>Serial Number</mat-label>
-                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" required/>
+                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" onchange="serialOk(tag.item_serial)" required/>
                                 </mat-form-field>
                                 &nbsp;
                                 <!-- <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
@@ -497,7 +497,7 @@
                     </h4>
                 </div>
                </ng-container>
-              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version <= 4">
+              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version <5">
 
                 <mat-form-field class="col-auto">
                   <mat-label>Technicians</mat-label>
@@ -525,7 +525,7 @@
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
-                    (click)="updateTicketStatus4(theTicketData.id, 0); technicianAssignedtoTicket(theTicketData.id)">Date
+                    (click)="technicianAssignedtoTicket(theTicketData.id)">Date
                     visit</button>
                 </div>
               </ng-container>

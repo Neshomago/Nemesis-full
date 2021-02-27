@@ -4,10 +4,9 @@
         <div class="forminmargin">
                 <ng-template matStepLabel>Ticket general Information</ng-template>
                 <mat-card class="example-card">
-                    <mat-card-header>
                       <mat-card-title>Created Ticket</mat-card-title>
                       <mat-card-subtitle >Date: {{theTicketData.creationDate}}</mat-card-subtitle>
-                      <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
+                      <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; padding-right: 20px;">
                           Ticket Status:
                           <div>
                               <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
@@ -17,7 +16,6 @@
                                 </div>
                           </div>
                       </div>
-                    </mat-card-header>
                 <mat-divider></mat-divider>
                     <mat-card-content>
                         <div>
@@ -124,24 +122,25 @@
                 <div>
                     <!-- <app-equipmententry></app-equipmententry> -->
                 <mat-card class="full-width">
-                        <div class="row">
-                            <div class="col">
+                        <div>
                                 <h2>Equipment: 
                                 </h2>
-                            </div>
                         </div>
-                        <div *ngFor="let tag of unserialTags; let indice = index">                        
-                            <div class="row">
-                                    <div class="col-auto">•</div>
-                                    <mat-form-field class="col-auto">
-                                        <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
-                                    </mat-form-field>
-                                    &nbsp;
-                                    <mat-form-field class="col">
-                                        <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
-                                    </mat-form-field>
-                            </div>
+                        <div>
+                            <table>
+                                <tr style="border-bottom: 2px solid gray; height: 40px;">
+                                    <th colspan="3" width="40%">
+                                        Name
+                                    </th>
+                                    <th colspan="3" width="40%">
+                                        Serial Number
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let tag of unserialTags" style="border-bottom: 0.5px solid rgb(192, 192, 192); height: 40px;">
+                                    <td colspan="3">{{tag.item}}</td>    
+                                    <td colspan="3">{{tag.item_serial}}</td>
+                                </tr>
+                            </table>
                         </div>
                         <br>
                     <!-- </div> -->
@@ -198,7 +197,7 @@
     
     <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
         <div>
-            <button mat-fab color="accent" routerLink="/tickets"
+            <button mat-fab color="accent" routerLink="/viewtickettech"
             #tooltip="matTooltip"
             matTooltip="Return to Ticket list"
             ><mat-icon>assignment_return</mat-icon></button>

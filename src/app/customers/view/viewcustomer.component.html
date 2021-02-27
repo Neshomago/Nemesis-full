@@ -3,14 +3,12 @@
     <div class="forminmargin">
         <div *ngFor="let theCustomer of theCustomerData; let i = index">
             <mat-card class="example-card">
-                <mat-card-header>
                   <mat-card-title>Customer Information</mat-card-title>
-                </mat-card-header>
                 <mat-divider></mat-divider>
                 <mat-card-content>
                     <div>
                         <div>
-                            <div color="primary" >
+                            <div color="primary" ><br>
                                 <table>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Customer Id</td>
@@ -20,45 +18,89 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Customer Name</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theCustomer.name}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theCustomer.name}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="theCustomer.name" autofocus>
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="1">IVA</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theCustomer.vat}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theCustomer.vat}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="theCustomer.vat" autofocus>
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
 
-                    </div>
+                    </div><br>
                     <ng-container style="padding-top: 20px;">
                         <mat-divider></mat-divider>
                     </ng-container>
                     <mat-divider></mat-divider>
-                    <div>
+                    <div><br>
                         <h2>Customer Contact</h2>
                                 <div>
                                     <table>
                                         <tr>
                                             <td colspan="1" style="width: 150px;">Address</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theCustomer.address}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theCustomer.address}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="theCustomer.address">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Email</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theCustomer.email}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theCustomer.email}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="theCustomer.email">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theCustomer.phone}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theCustomer.phone}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="theCustomer.phone">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
-    
                                     </table>
                                 </div>
                     </div>
@@ -74,7 +116,8 @@
 
 <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
     <div style="padding-bottom: 20px;">
-        <button mat-fab [routerLink]="['/edit-ticket/', theCustomerData.id]"><mat-icon>edit-row</mat-icon></button>
+        <!-- <button mat-fab [routerLink]="['/edit-ticket/', theCustomerData.id]"><mat-icon>edit-row</mat-icon></button> -->
+        <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
     </div>
     <div style="padding-bottom: 20px;">
         <button mat-fab
@@ -84,7 +127,7 @@
     <!-- [routerLink]="['/edit-ticket/', theCustomerData.id]" -->
     </div>
     <div>
-        <button mat-fab color="warn" routerLink="/create-ticket"
+        <button mat-fab color="warn" routerLink="/customers"
         #tooltip="matTooltip"
         matTooltip="Return to List without changes">
         <mat-icon>close</mat-icon></button>

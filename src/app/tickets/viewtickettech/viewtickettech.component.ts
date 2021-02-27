@@ -19,6 +19,9 @@ export class ViewtickettechComponent implements OnInit {
   currentTicket = null;
   currentIndex = -1;
 
+  public FilterValue: any;
+  FilteredResult:any = [];
+
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
@@ -48,5 +51,17 @@ export class ViewtickettechComponent implements OnInit {
   setCurrentTicket(ticket:any, index:any): void{
     this.currentTicket = ticket;
     this.currentIndex = index;
+  }
+
+  
+  filtering = false;
+  onSelectedFilter(){
+    this.FilteredResult = this.TicketList.filter(
+      (ticket:any) => (ticket.status === this.FilterValue || ticket.type == this.FilterValue || ticket.priority == this.FilterValue));
+    this.filtering = true;
+    if (this.FilterValue == "clear"){
+      this.filtering = false;
+      this.FilteredResult = [];
+    }
   }
 }

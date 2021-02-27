@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { UsersService } from 'src/app/services/users.service';
 import { TicketService } from '../../services/ticket.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from 'src/app/interfaces/equipmentadditional.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { DateAdapter } from '@angular/material/core';
 import * as _moment from 'moment';
-import { Moment } from 'moment';
-
-const moment = _moment;
 
 /* PDF IMPORTING TO SAVE*/
-import { ElementRef} from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ViewChild } from '@angular/core';
@@ -80,12 +75,9 @@ export class ViewticketComponent implements OnInit {
   AgencyList: any = [];
   FilteredAgency: any = [];
 
-  // technicalVisitDate:any = (this.datePipe.transform(new Date(), 'yyyy-MM-dd h:mm:ss'));
   techDate = new Date();
   TechnicianModel: any = {
   tech_assign: '',
-  // assignedDate: this.datePipe.transform(this.techDate, 'yyyy-MM-dd h:mm:ss'),
-  // assignedDate: this.techDate = this.dateadapter.format(new Date(),"yyyy-MM-dd h:mm:ss"),
   assignedDate: '',
   version: 5,
   }
@@ -180,32 +172,34 @@ export class ViewticketComponent implements OnInit {
     let year, month, day, hour, minute, second;
 
     year = this.techDate.getFullYear();
-    month = this.techDate.getMonth();
+    month = this.techDate.getMonth()+1;
     day = this.techDate.getDate();
     hour = this.techDate.getHours();
     minute = this.techDate.getMinutes();
     second = this.techDate.getSeconds();
 
-    this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+    this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
     console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
   }
 
   technicianAssignedtoTicket(id:any){
+    this.setDefaultDate();
   this.service.assign_technician(id,this.TechnicianModel).subscribe(
     (data) => { 
       this.TechnicianModel = data;
       this._snackBar.open("Technician Assigned Succesfully", "OK", { duration:3500, panelClass: "success",});
       console.log('data del tecnico: ', this.TechnicianModel);
     });
-    this.refreshPage();
 }
 
   // Unserialized Items methods
   // unserialTags: any = [];
+  conteoItemsporserializar:number = 0;
   getUnserializedItems(id:any){
     this.service.getTicketEquipmentList(id).subscribe(
       (tag) => { this.unserialTags = tag;
-        console.log("datos a serializar: ",this.unserialTags);
+        this.conteoItemsporserializar = this.unserialTags.length;
+        console.log("datos a serializar: ",this.unserialTags.length + " Total items: " + this.conteoItemsporserializar);
       }
       );
   }
@@ -278,8 +272,8 @@ export class ViewticketComponent implements OnInit {
     this.equipmentArrayData.forEach((element: any) => {
       this.service.updateEquipment(element.id, element).subscribe(
         (data) => { 
-          this.equipmentArrayData.item = this.equipmentArrayData.item;
-          this.equipmentArrayData.ticketId = this.equipmentArrayData.ticketId;
+          // this.equipmentArrayData.item = this.equipmentArrayData.item;
+          // this.equipmentArrayData.ticketId = this.equipmentArrayData.ticketId;
           // console.log('Equipment updated', data);
         this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
         if (this.equipmentArrayData.length == (i+1)){
@@ -295,7 +289,7 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.showEdit2 = false;
-    this.tagsarray = [];
+    this.saveEquipment();
   }
 
 
@@ -339,11 +333,11 @@ export class ViewticketComponent implements OnInit {
 
   updateTicketStatus4(id: any, i:number){
     const version = {
-      version: 4,
+      version: 5,
       status: 'WORKING',
     };
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.theTicketData.version = 4;
+      (data) => { this.theTicketData.version = 5;
         this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket is now been worked. Status updated', data)    }
     );
@@ -360,10 +354,12 @@ export class ViewticketComponent implements OnInit {
 
   removeItem(index:any){this.tagsarray.splice(index, 1); }
 
+  removeItemList(index:any, id:any){
+    this.equipmentArrayData.splice(index, 1);
+    this.deleteOneItemEquipment(id);}
+
   //
   // theTicketUpdate: any = [];
-
-
   getTicketInfotoUpdate(id:any){
     this.service.getTickettoUpdate(id).subscribe(
       data => { this.theTicketUpdate = data;
@@ -428,6 +424,20 @@ export class ViewticketComponent implements OnInit {
       this.refreshPage();
   }
 
+  serialComprobar:any ={
+    item_serial: ''
+  }
+  serialOk(serial:any){
+    // const serialComprobar = {
+    //   item_serial: ''
+    // }  
+    //consulta
+    this.service.getSerialEquipmentCheck(serial).subscribe(
+      data => { this.serialComprobar = data;
+        console.log(this.serialComprobar)
+      }
+    );
+  }
 
   /** PDF creation DDT
    * npm install jspdf necessary to create PDFS from the data
@@ -448,6 +458,7 @@ export class ViewticketComponent implements OnInit {
         const FILEURI = canvas.toDataURL('image/png')
         let PDF = new jsPDF('p', 'mm', 'a4');
         let position = 5;
+        PDF.internal.scaleFactor = 30;
         PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
         
         PDF.save('DDT_NMTCK'+ this.filename +this.theTicketData.id+'.pdf');
@@ -465,6 +476,7 @@ export class ViewticketComponent implements OnInit {
         const FILEURI = canvas.toDataURL('image/png')
         let PDF = new jsPDF('p', 'mm', 'a4');
         let position = 5;
+        PDF.internal.scaleFactor = 30;
         PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
         
         PDF.save('RPT_'+this.theTicketData.code+ this.filename +this.theTicketData.id+'.pdf');

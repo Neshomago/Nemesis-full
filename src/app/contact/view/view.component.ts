@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -10,7 +11,8 @@ import { UsersService } from 'src/app/services/users.service';
 export class ViewComponent implements OnInit {
 
   id: number | undefined;
-  constructor(private service: UsersService, private route:ActivatedRoute) { }
+  edit = false;
+  constructor(private service: UsersService, private route:ActivatedRoute,  private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.id = +this.getContactIndividual(this.route.snapshot.paramMap.get('id')); 
@@ -28,4 +30,24 @@ export class ViewComponent implements OnInit {
     );
   }
 
+  editFields(){
+    this.edit = !this.edit;
+  }
+
+  changes: any = {
+    name:'',
+    surname: '',
+    taxCode: '',
+    address: '',
+    // email: '',
+    phone: '',
+  }
+  updateChanges(id:any){
+    this.service.updateContact(id, this.changes).subscribe(
+      (data)=>{ this.changes = data;
+        this._snackBar.open("User Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+        console.log(data);
+      
+      });
+  }
 }

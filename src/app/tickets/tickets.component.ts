@@ -4,6 +4,7 @@ import {AgencyService} from 'src/app/services/agency.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MassiveticketsComponent } from './massivetickets/massivetickets.component';
+import { tick } from '@angular/core/testing';
 
 
 @Component({
@@ -21,6 +22,9 @@ export class TicketsComponent implements OnInit {
   currentTicket = null;
   currentIndex = -1;
 
+  public FilterValue: any;
+  FilteredResult:any = [];
+
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
@@ -33,7 +37,7 @@ export class TicketsComponent implements OnInit {
   refreshTicketList(){
     this.service.getTicketList().subscribe(data => 
       {
-       this.TicketList=data; 
+       this.TicketList=data;
       }),
     this.agencyService.getAgencyList().subscribe(agency=>
       {
@@ -54,5 +58,16 @@ export class TicketsComponent implements OnInit {
 
   openDialogExcelBox(){
     this.dialog.open(MassiveticketsComponent);
+  }
+
+  filtering = false;
+  onSelectedFilter(){
+    this.FilteredResult = this.TicketList.filter(
+      (ticket:any) => (ticket.status === this.FilterValue || ticket.type == this.FilterValue || ticket.priority == this.FilterValue));
+    this.filtering = true;
+    if (this.FilterValue == "clear"){
+      this.filtering = false;
+      this.FilteredResult = [];
+    }
   }
 }

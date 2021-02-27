@@ -3,14 +3,12 @@
     <div class="forminmargin">
         <div *ngFor="let theAgency of theAgencyData; let i = index">
             <mat-card class="example-card">
-                <mat-card-header>
                   <mat-card-title>Agency Information</mat-card-title>
-                </mat-card-header>
                 <mat-divider></mat-divider>
                 <mat-card-content>
                     <div>
                         <div>
-                            <div color="primary" >
+                            <div color="primary" ><br>
                                 <table>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Agency Id</td>
@@ -20,53 +18,116 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Agency Name</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theAgency.name}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theAgency.name}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="theAgency.name" autofocus>
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">VAT Number</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theAgency.vat}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theAgency.vat}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="theAgency.vat">
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Manager ID</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theAgency.managerId}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theAgency.managerId}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="managerId" id="managerId" [(ngModel)]="theAgency.managerId">
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="1">Certification Code</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theAgency.certification}}</td>
+                                        <td colspan="1">
+                                            <ng-container *ngIf="!edit">
+                                                {{theAgency.certification}}
+                                            </ng-container>
+                                            <ng-container *ngIf="edit">
+                                                <mat-form-field>
+                                                    <input matInput type="text" name="certification" id="certification" [(ngModel)]="theAgency.certification">
+                                                </mat-form-field>
+                                            </ng-container>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
 
-                    </div>
+                    </div><br>
                     <ng-container style="padding-top: 20px;">
                         <mat-divider></mat-divider>
                     </ng-container>
                     <mat-divider></mat-divider>
-                    <div>
+                    <div><br>
                         <h2>Agency Contacts</h2>
                                 <div>
                                     <table>
                                         <tr>
                                             <td colspan="1" style="width: 150px;">Address</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theAgency.address}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theAgency.address}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="theAgency.address">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Email</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theAgency.email}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theAgency.email}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="theAgency.email">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
     
                                         <tr>
                                             <td colspan="1">Phone</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theAgency.phone}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theAgency.phone}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="theAgency.phone">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -77,13 +138,45 @@
                                         <tr>
                                             <td colspan="1">More Info</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theAgency.moreInfo}}</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    {{theAgency.moreInfo}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="moreInfo" id="moreInfo" [(ngModel)]="theAgency.moreInfo">
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
                                         </tr>
-    
                                     </table>
                                 </div>
                     </div>
-                  
+                    <ng-container>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <br>
+                    <ng-container>
+                        <h2>
+                            All Agency items:
+                        </h2>
+                        <table width="80%">
+                            <thead style="border-bottom: 2px solid gray; height: 40px;">
+                                <td colspan="3">Item Name</td>
+                                <td colspan="2">Item category</td>
+                                <td colspan="1">Quantity</td>
+                            </thead>
+                            <tr  style="border-bottom: 0.5px solid rgb(192, 192, 192); height: 40px;">
+                                <td colspan="3">Item No.</td>
+                                <td colspan="2">Item Categroy</td>
+                                <td colspan="1">1</td>
+                            </tr>
+                        </table>
+                    </ng-container>
+                    <ng-container>
+                        <h3>There are no items in this agency.</h3>
+                    </ng-container>
+                    
                 </mat-card-content>
             </mat-card>
             <ng-container style="padding-top: 20px;">
@@ -95,7 +188,7 @@
 
 <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
     <div style="padding-bottom: 20px;">
-        <button mat-fab [routerLink]="['/edit-ticket/', theAgencyData.id]"><mat-icon>edit-row</mat-icon></button>
+        <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
     </div>
     <div style="padding-bottom: 20px;">
         <button mat-fab
@@ -105,7 +198,7 @@
     <!-- [routerLink]="['/edit-ticket/', theAgencyData.id]" -->
     </div>
     <div>
-        <button mat-fab color="warn" routerLink="/create-ticket"
+        <button mat-fab color="warn" routerLink="/agency"
         #tooltip="matTooltip"
         matTooltip="Return to List without changes">
         <mat-icon>close</mat-icon></button>

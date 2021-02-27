@@ -23,8 +23,8 @@ export class UsersService {
     return this.http.post(APIUrl + '/contact/add',val);
   }
 
-  updateContact(val:any): Observable<any>{
-    return this.http.put(APIUrl + '/contact/update',val);
+  updateContact(id:any, val:any): Observable<any>{
+    return this.http.post(APIUrl + '/contact/update'+id, val);
   }
 
   deleteContact(val:any): Observable<any>{

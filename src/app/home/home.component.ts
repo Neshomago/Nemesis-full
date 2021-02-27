@@ -30,4 +30,9 @@ export class HomeComponent {
   );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+
+  no_tickets(){}
+  total_clients(){}
+  technicians(){}
+  warehouse_status(){}
 }
