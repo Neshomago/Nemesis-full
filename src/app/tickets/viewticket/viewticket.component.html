@@ -334,14 +334,21 @@
                                     <div>
                                         <h2>Current Items</h2>
                                         <div class="row" *ngFor="let allestimentoItems of equipmentArrayData; let i = index">
-                                            <div class="col-1">
+                                            <div class="col-auto" *ngIf="showEdit2">
                                                 <button mat-icon-button (click)="removeItemList(i, allestimentoItems.id)"><mat-icon>delete</mat-icon></button>
                                             </div>
+                                            <div class="col-auto">
+                                                <div style="width: 200px;">• {{allestimentoItems.item}}</div>
+                                            </div>
+                                            <div class="col-1">
+                                                &nbsp;
+                                            </div>
 
-                                            <mat-form-field class="col-auto">
+                                            <!-- <mat-form-field class="col-auto">
                                                 <input matInput value="{{allestimentoItems.item}}" [disabled]="!showEdit2" />
-                                            </mat-form-field>
-                                            <mat-form-field class="col-auto" *ngIf="showEdit2">
+                                            </mat-form-field> -->
+                                            
+                                            <mat-form-field class="col" *ngIf="showEdit2">
                                                 <mat-label>Replace with: </mat-label>
                                                 <mat-select matNativeControl name="item{{i}}" [(ngModel)]="allestimentoItems.item">
                                                     <mat-option *ngFor="let tag of newtags" [value]="tag.name">
@@ -427,10 +434,13 @@
                         <div class="row">
                                 
                                 <div class="col-auto">•</div>
-                                <mat-form-field class="col-auto">
+                                <div class="col-auto">
+                                    <div name="item" style="width: 200px;">{{tag.item}}</div>
+                                </div>
+                                <!-- <mat-form-field class="col-auto">
                                     <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
                                 </mat-form-field>
-                                &nbsp;
+                                &nbsp; -->
                                 <mat-form-field class="col" *ngIf="theTicketData.version == 4 && !showEdit3">
                                     <mat-label>Serial Number</mat-label>
                                     <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
