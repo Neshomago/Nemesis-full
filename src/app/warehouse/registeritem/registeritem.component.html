@@ -12,7 +12,7 @@
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width" >
-                        <mat-label>Description</mat-label>
+                        <mat-label>Description / Model</mat-label>
                         <input matInput name="description" id="descripton" [(ngModel)]="itemModel.description" />
                     </mat-form-field>
                 </div>
@@ -46,16 +46,14 @@
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Category</mat-label>
-                        <mat-select matInput name="category" id="category" [(ngModel)]="itemModel.category">
-                            <mat-option>Add new category</mat-option>
-                            <mat-option value="TV">TV</mat-option>
-                            <mat-option value="MONITOR">Monitor</mat-option>
-                            <mat-option value="Switch">Switch</mat-option>
-                            <mat-option value="Matrice Video">Matrice Video</mat-option>
-                            <mat-option value="Printer">Printer</mat-option>
-                            <mat-option value="Touch screen">Touch Screen</mat-option>
-                            <mat-option value="Router">Router</mat-option>
-                            <mat-option value="PC BackOffice">PC Backoffice</mat-option>
+                        <mat-select matInput name="category" id="category" [(ngModel)]="itemModel.categoryId">
+                            <div class="full-width">
+                                <input type="text" name="categorynew" style="border: 0; height: 40px; width: 90%;" placeholder="Add new category" [(ngModel)]="category.category_name"/>
+                                <button style="border: none; width: 40px; height: 40px; flex: auto;" (click)="addCategory()">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                            <mat-option *ngFor="let category of categoryList" [value]="category.id">{{category.category_name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -70,8 +68,13 @@
                     <mat-form-field class="full-width">
                         <mat-label>Location</mat-label>
                         <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.warehouseId">
-                            <mat-option value="8">Lumia Warehouse</mat-option>
-                            <mat-option value="4">Client Warehouse</mat-option>
+                            <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
+                                <ng-container>
+                                    {{warehouse.name}}
+                                </ng-container>
+                            </mat-option>
+                            <!-- <mat-option value="8">Lumia Warehouse</mat-option>
+                            <mat-option value="4">Client Warehouse</mat-option> -->
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -87,7 +90,7 @@
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Condition</mat-label>
-                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.statusDetails">
+                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.status">
                             <mat-option value="OPERATVE">OPERATIVE</mat-option>
                             <mat-option value="BROKEN">BROKEN</mat-option>
                             <mat-option value="WARRANTY">WARRANTY</mat-option>
@@ -96,7 +99,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <!-- {{itemModel | json}} -->
+                {{itemModel | json}}
             </div>
             <div class="btncenter">
                 <div>

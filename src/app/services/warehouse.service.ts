@@ -34,4 +34,13 @@ export class WarehouseService {
   addItemWarehouse(val:any): Observable<any>{
     return this.http.post(APIUrl + '/warehouse/additem',val);
   }
+
+  //category List
+  getCategories(): Observable<any>{
+    return this.http.get(`${APIUrl}/warehousecategory`);
+  }
+
+  addCategory(val:any):Observable<any>{
+    return this.http.get(`${APIUrl}/warehousecategory/add`, val);
+  }
 }

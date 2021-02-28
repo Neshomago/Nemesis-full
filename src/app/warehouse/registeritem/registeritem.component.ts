@@ -9,37 +9,68 @@ import { WarehouseService } from 'src/app/services/warehouse.service';
   styleUrls: ['./registeritem.component.scss']
 })
 export class RegisteritemComponent implements OnInit {
-
+  
+  warehouses:any =[];
+  
     itemModel: ItemWarehouse = {
       name: '',
       description:'',
       serial: '',
-      supplier: '',
-      status:'',
+      warehouseId: 5,
+      isUsed: 0,
       warrantyPeriod: 12,
+      categoryId: 0,
+      isMoving: 0,
+      supplier: '',
+      isDeleted: 0,
+      status:'',
+      invoice_purchase: '',
       //registerDate: new Date,
-      category: '',
       //statusDetails: '',
       //userId: 0,
       //activationCode: '',
       //technicianNotes:'',
-      isMoving: 0,
-      isDeleted: 0,
-      warehouseId: 0,
       //vehicle_Id: 0,
       //technicianId: 0,
       //technicianAssigned: '',
-      isUsed: 0,
-      invoice_purchase: '',
       //agencyId: 0,
       //customerId: 0,
       //dateofArrive: undefined,
       //dateofRemoval: undefined
   }
 
+  category:any ={
+    category_name:''
+  }
+
+
   constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService) { }
 
   ngOnInit(): void {
+    this.getCategoryList();
+    this.getWarehouses();
+  }
+
+  categoryList:any =[];
+  getCategoryList(){
+    this.service.getCategories().subscribe(
+      (data) => { this.categoryList = data;
+    });
+  }
+
+  addCategory(){
+    this.service.addCategory(this.category).subscribe(
+      data => {this.category = data;
+      console.log(this.category + "Was added to category list")}
+    );
+    this.category = [];
+  }
+
+
+  getWarehouses(){
+    this.service.getWarehouseList().subscribe(
+      data => {this.warehouses = data}
+    );
   }
 
   addItem(){
@@ -55,5 +86,7 @@ export class RegisteritemComponent implements OnInit {
   saveItem(){
     this.addItem();
   }
+
+
 
 }

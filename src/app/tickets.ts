@@ -54,7 +54,7 @@ export interface ItemWarehouse {
     supplier: string;
     status: string;
     warrantyPeriod: number;
-    category:string;
+    categoryId:number;
     isMoving: number;
     isDeleted: number;
     warehouseId: number;
