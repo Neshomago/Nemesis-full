@@ -16,19 +16,29 @@ export class WarehouseComponent implements OnInit {
   currentIndex = -1;
   currentItem = null;
 
+  filter = false;
+
   constructor(private whsservice: WarehouseService,
     public dialog:MatDialog) { }
 
   
   ngOnInit(): void {
     this.getListofItemsinWarehouse();
+    this.getCategoryList();
   }
   
 
   // Getting general info of Items
   getListofItemsinWarehouse(){
-    this.whsservice.getItemsListperType().subscribe(
+    this.whsservice.getItemsList().subscribe(
       data => { this.TheGeneralList = data;
+    });
+  }
+
+  categoryList:any =[];
+  getCategoryList(){
+    this.whsservice.getCategories().subscribe(
+    data => { this.categoryList = data;
     });
   }
   

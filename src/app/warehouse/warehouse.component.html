@@ -62,20 +62,21 @@
   <thead>
     <th>Resolved Warehouse Item</th>
     <th>Warehouse Item Units</th>
+    <th>Minimum Stock</th>
   </thead>
   <tbody>
-    <tr *ngFor="let item of TheGeneralList | slice:0:15 | filterwarehouse: filteredString; let i = index"
+    <tr *ngFor="let item of categoryList; let i = index"
             [class.active]="i == currentIndex"
             (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
     >
       <td>
         <span class="Agency-name">
-          {{item.description}}
+          {{item.category_name}}
         </span>
       </td>
       <td style="padding-left: 20px;">
         <div>
-          {{item.isStack}} Units
+          {{item.stock}} Units
           <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
             <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
         </span>
@@ -90,9 +91,67 @@
         </span>
         </div>
       </td>
+      <td>
+        <div>
+          {{item.minimumStock}}
+          <button mat-flat-button style="height: 25px; width: 25px;">
+            <span>
+              <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
+            </span>
+          </button>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<ng-container *ngIf="filter">
+  <table class="full-width table-stripped table-hover">
+    <thead>
+      <th>Resolved Warehouse Item</th>
+      <th>Warehouse Item Units</th>
+      <th>Minimum Stock</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of TheGeneralList | filterwarehouse: filteredString; let i = index"
+              [class.active]="i == currentIndex"
+              (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
+      >
+        <td>
+          <span class="Agency-name">
+            {{item.name}}
+          </span>
+        </td>
+        <td style="padding-left: 20px;">
+          <div>
+            {{item.isStack}} Units
+            <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+              <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
+          </span>
+          <span *ngIf="item.isStack < 20 && item.isStack >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+              <span style="font-size: 13px;" class="material-icons">info</span> Low stock
+          </span>    
+          <span *ngIf="item.isStack > 0 && item.isStack < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
+            <span style="font-size: 13px;" class="material-icons">report</span> Urgent restock
+        </span>
+          <span *ngIf="item.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
+              <span style="font-size: 13px;" class="material-icons">report</span> No Stock - Restock now!
+          </span>
+          </div>
+        </td>
+        <td>
+          {{item.minimunStack}}
+          <button mat-flat-button style="height: 35px;">
+            <span>
+              <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
+            </span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
 
 <!-- ORIGINAL TABLE SCHEME
 <table class="full-width table-stripped table-hover">

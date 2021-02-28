@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { WarehouseService } from 'src/app/services/warehouse.service';
 
 @Component({
   selector: 'app-edititem',
@@ -7,9 +10,53 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EdititemComponent implements OnInit {
 
-  constructor() { }
+  id: number | undefined;
+  theItemWarehouse: any =[];
+  edit = false;
+
+  constructor(
+    private service: WarehouseService, private route:ActivatedRoute, private _snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
+    this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
+    this.getCategoryList();
+    this.getWarehouses();
   }
 
+  editFields(){
+    this.edit = !this.edit;
+  }
+  getWarehouseItemIso(id:any):any{
+    this.service.getItemIso(id).subscribe(
+      (data)=>{
+        this.theItemWarehouse = data;
+      },
+      error => {console.log(error);
+      });
+  }
+
+  changes: any = {};
+  updateChanges(id:any){
+    this.service.updateWarehouseItem(id, this.changes).subscribe(
+      (data)=>{ this.changes = data;
+        this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+        console.log(data);
+      });
+  }
+
+  warehouses:any=[];
+  getWarehouses(){
+    this.service.getWarehouseList().subscribe(
+      data => {this.warehouses = data}
+    );
+  }
+
+  categoryList:any =[];
+  getCategoryList(){
+    this.service.getCategories().subscribe(
+      (data) => { this.categoryList = data;
+    });
+  }
 }
+

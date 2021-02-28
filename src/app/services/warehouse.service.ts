@@ -8,6 +8,10 @@ const APIUrl ="http://127.0.0.1:5000";
   providedIn: 'root'
 })
 export class WarehouseService {
+  //update item info
+  updateWarehouseItem(id: any, changes: any) {
+    return this.http.post(`${APIUrl}/warehouseitemup/${id}`,changes);
+  }
 
   constructor( private http:HttpClient) { }
 
@@ -15,9 +19,14 @@ export class WarehouseService {
     return this.http.get<any[]>(APIUrl + '/warehousenames');
   }
 
-  // To see all warehouse items
+  // To see all warehouse items from warehouseitemtype
   getItemsListperType(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehouseitemspertype');
+  }
+
+  // To see all warehouse items from warehouseitem
+  getItemsList(): Observable<any>{
+    return this.http.get<any[]>(APIUrl + '/warehouseitems');
   }
 
   // To see warehouse especific Item distribution

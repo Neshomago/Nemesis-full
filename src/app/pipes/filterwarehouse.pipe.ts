@@ -10,11 +10,11 @@ export class FilterwarehousePipe implements PipeTransform {
       return value;
     }
 
-    const theGeneralList = [];
+    const theGeneralList:any = [];
     for (const item of value){
-      if (item['item_serial'] === filteredString
-        || item['description'] === filteredString
-        || item['name'] === filteredString){
+      if (item['item_serial'] == filteredString
+        || item['description'] == filteredString
+        || item['name'] == filteredString){
         theGeneralList.push(item);
         console.log("Search written and added: ",item);
       }
