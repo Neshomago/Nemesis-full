@@ -49,6 +49,7 @@ export class WarehouseService {
     return this.http.get(`${APIUrl}/warehousecategory`);
   }
 
+  //category add
   addCategory(val:any):Observable<any>{
     return this.http.get(`${APIUrl}/warehousecategory/add`, val);
   }
