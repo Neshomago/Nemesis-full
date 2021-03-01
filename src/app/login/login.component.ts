@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   test : string ='NEMESIS';
   error : any;
-
+ Login:any = false;
   visibility: boolean = true;
 
   constructor(
@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+ 
 
   matcher = new MyErrorStateMatcher();
 

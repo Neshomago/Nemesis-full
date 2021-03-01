@@ -12,6 +12,11 @@ import { UsersService } from '../services/users.service';
 export class CreatContactComponent implements OnInit {
 
 
+  RoleA:number = 1;
+  RoleE:number = 1;
+  RoleC:number = 1;
+  RoleT:number = 1;
+
   userRole: Array<String> = ['ADMIN', 'TECH', 'CUSTOMER', 'WAREHOUSE'];
 
   constructor(private _snackBar:MatSnackBar, private contactService: UsersService) { }

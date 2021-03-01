@@ -17,6 +17,7 @@ export class WarehouseComponent implements OnInit {
   currentItem = null;
 
   filter = false;
+  showstockedit = false;
 
   constructor(private whsservice: WarehouseService,
     public dialog:MatDialog) { }
@@ -47,6 +48,9 @@ export class WarehouseComponent implements OnInit {
     this.currentIndex = index;
   }
 
+  stockEdit(){
+    this.showstockedit = !this.showstockedit;
+  }
   // openDialogItemSetBox(id:any){
   //   this.dialog.open(ViewitemsetComponent);
   // }

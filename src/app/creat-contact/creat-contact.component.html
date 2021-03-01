@@ -43,18 +43,23 @@
   <h2>Role</h2>
   <div>
     <section id="user" name="user" class="checksection" [(ngModel)]="contactModel.user">
-      <mat-checkbox class="checkleftmargin">Administrator</mat-checkbox>
-      <mat-checkbox class="checkleftmargin">Techinician</mat-checkbox>
-      <mat-checkbox class="checkleftmargin">Customer</mat-checkbox>
-      <mat-checkbox class="checkleftmargin">Warehouse</mat-checkbox>
+      <mat-checkbox class="checkleftmargin" (value)="RoleA=1">Administrator</mat-checkbox>
+      <mat-checkbox class="checkleftmargin" (value)="RoleE=1">Techinician</mat-checkbox>
+      <mat-checkbox class="checkleftmargin" (value)="RoleC=1">Customer</mat-checkbox>
+      <mat-checkbox class="checkleftmargin" (value)="RoleT=1">Warehouse</mat-checkbox>
     </section>
     <!-- <input type="checkbox" id="user" name="user" value="ADMIN" [(ngModel)]="contactModel.user"><label for="user">Administrator</label>
     <input type="checkbox" id="user" name="user" value="TECH" [(ngModel)]="contactModel.user"><label for="user">Technician</label>
     <input type="checkbox" id="user" name="user" value="CUSTOMER" [(ngModel)]="contactModel.user"><label for="user">Customer</label>
     <input type="checkbox" id="user" name="user" value="WAREHOUSE" [(ngModel)]="contactModel.user"><label for="user">Warehouse</label> -->
   </div>
-  {{contactModel | json}}
-  <p></p>
+  <p>
+    <mat-form-field class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput id="password" name="password" placeholder="Password" [(ngModel)]="contactModel.phone">
+    </mat-form-field>
+  </p>
+  <!-- {{contactModel | json}} -->
   <div class="btncenter">
     <div>
       <button mat-raised-button class="cancel" [routerLink]="['/contacts']"><span class="material-icons">clear</span>Cancel</button>

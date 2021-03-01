@@ -10,5 +10,10 @@ export class Contact {
         public ids:string,
         public version:number,
         public id?:number,
+        public password?:string,
+        public RoleA?:number,
+        public RoleC?:number,
+        public RoleE?:number,
+        public RoleT?:number,
         ){}
 }
