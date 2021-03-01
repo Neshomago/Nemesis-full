@@ -58,71 +58,7 @@
 
 <!-- START OF TABLE -->
 <!--  -->
-<table class="full-width table-stripped table-hover">
-  <thead>
-    <th>Resolved Warehouse Item</th>
-    <th>Warehouse Item Units</th>
-    <th>Minimum Stock</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of categoryList; let i = index"
-            [class.active]="i == currentIndex"  
-    >
-      <td (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;">
-        <span class="Agency-name">
-          {{item.category_name}}
-        </span>
-      </td>
-      <td style="padding-left: 20px;"
-      (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
-      >
-        <div>
-          {{item.stock}} Units
-          <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
-            <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
-        </span>
-        <span *ngIf="item.isStack < 20 && item.isStack >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
-            <span style="font-size: 13px;" class="material-icons">info</span> Low stock
-        </span>    
-        <span *ngIf="item.isStack > 0 && item.isStack < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
-          <span style="font-size: 13px;" class="material-icons">report</span> Urgent restock
-      </span>
-        <span *ngIf="item.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
-            <span style="font-size: 13px;" class="material-icons">report</span> No Stock - Restock now!
-        </span>
-        </div>
-      </td>
-      <td colspan="1">
-        <div class="row" *ngIf="!showstockedit">
-          <div class="col-auto" style="width: 30px;">
-            {{item.minimumStock}}
-          </div>
-          <div class="col-1">
-            <button mat-fab style="height: 25px; width: 25px;" (click)="stockEdit()">
-              <span>
-                <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
-              </span>
-            </button>
-          </div>
-        </div>
-        <div class="row" *ngIf="showstockedit">
-          <div class="col-auto" style="width: 20px;">
-            <input matInput type="text" name="minimumStock" [(ngModel)]="item.minimumStock" width="120">
-          </div>
-          <div class="col-1">
-            <button mat-fab style="height: 25px; width: 25px;" (click)="stockEdit()">
-              <span>
-                <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
-              </span>
-            </button>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<ng-container *ngIf="filter">
+<ng-container *ngIf="!filter">
   <table class="full-width table-stripped table-hover">
     <thead>
       <th>Resolved Warehouse Item</th>
@@ -130,18 +66,19 @@
       <th>Minimum Stock</th>
     </thead>
     <tbody>
-      <tr *ngFor="let item of TheGeneralList | filterwarehouse: filteredString; let i = index"
-              [class.active]="i == currentIndex"
-              (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
+      <tr *ngFor="let item of categoryList | filterwarehouse: filteredString; let i = index"
+              [class.active]="i == currentIndex"  
       >
-        <td>
+        <td (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;">
           <span class="Agency-name">
-            {{item.name}}
+            {{item.category_name}}
           </span>
         </td>
-        <td style="padding-left: 20px;">
+        <td style="padding-left: 20px;"
+        (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
+        >
           <div>
-            {{item.isStack}} Units
+            {{item.stock}} Units
             <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
           </span>
@@ -156,13 +93,90 @@
           </span>
           </div>
         </td>
+        <td colspan="1" style="height: 60px;">
+          <div class="row" *ngIf="!showstockedit">
+            <div class="col-auto" style="width: 30px;">
+              {{item.minimumStock}}
+            </div>
+            <div class="col-1">
+              <button mat-mini-fab (click)="stockEdit()">
+                <span>
+                  <mat-icon style="font-size: 20px; vertical-align: middle;">mode_edit</mat-icon>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="showstockedit">
+            <div class="col-auto" style="width: 20px;">
+              <input matInput type="text" name="minimumStock" [(ngModel)]="item.minimumStock" width="120">
+            </div>
+            <div class="col-1">
+              <button mat-mini-fab (click)="stockEdit()">
+                <span>
+                  <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
+                </span>
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+
+<ng-container *ngIf="filter">
+  <table class="full-width table-stripped table-hover">
+    <thead>
+      <th>Resolved Warehouse Item</th>
+      <th>Item Status</th>
+      <th>Warehouse Item Units</th>
+    </thead>
+    <tbody>
+      <tr
+      *ngFor="let dataItem of TheGeneralList; let i = index"
+        [class.active]="i == currentIndex"
+        (click)="setCurrentIndividualItem(dataItem, i)"
+        [routerLink]="['viewitemset'+dataItem.categoryId+'edit-item/', dataItem.id]"
+        style="cursor: pointer;"
+        >
         <td>
-          {{item.minimunStack}}
-          <button mat-flat-button style="height: 35px;">
+          <span class="customer-name">
+            {{dataItem.name}}
+          </span><br>
+          <span class="customer-name">
+              Serial: {{dataItem.serial}}
+          </span>
+        </td>
+        <td>
             <span>
-              <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
+                  Item Status: {{dataItem.status}} - 
+                  <span *ngIf="dataItem.used == 0">
+                      New
+                  </span>
+                  <span *ngIf="dataItem.used == 1">
+                      Used
+                  </span>
+            </span><br>
+            <span>
+              <ng-container *ngIf="dataItem.location == 'AGENCY'">
+                <ng-container *ngIf="dataItem.warehouseId != 0">
+                    <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
+                <ng-container *ngIf="dataItem.warehouseId != 0">
+                  <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
+                </ng-container>
+              </ng-container>
+              
+                <ng-container *ngIf="dataItem.isMoving == 1">
+                    <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
+                </ng-container>
             </span>
-          </button>
+        </td>
+        <td>
+              1
         </td>
       </tr>
     </tbody>

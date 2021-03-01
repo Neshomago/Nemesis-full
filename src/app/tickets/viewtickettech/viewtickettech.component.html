@@ -1,13 +1,13 @@
 <!-- {{TicketList[3] | json}} -->
 <!-- <h1>Ticketing</h1> -->
 <div class="filterboxes">
-    <div class="row">
+    <!-- <div class="row">
         &nbsp;
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Search</mat-label>
           <input matInput placeholder="Search the ticket">
         </mat-form-field>
-    </div>
+    </div> -->
     <div class="row">
         <mat-form-field class="col" >
             <mat-label>Filter by Status:</mat-label>
@@ -16,7 +16,7 @@
                 <mat-option value="OPENED">OPENED</mat-option>
               <mat-option value="MANAGING">MANAGING</mat-option>
               <mat-option value="PROCESSING">PROCESSING</mat-option>
-              <mat-option value="CLOSED">CLOSED</mat-option>
+              <mat-option value="RESOLVED">RESOLVED</mat-option>
               <mat-option value="ABORTED">ABORTED</mat-option>
               <mat-option value="WORKING">WORKING</mat-option>
             </mat-select>
@@ -80,17 +80,18 @@
             <th>Ticket Agency</th>
             <th>Details</th>
             <th>Date</th>
+            <th></th>
         </thead>
         <tbody>
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
-            (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
-                <td class="col-1" *ngIf="dataItem.status == 'WORKING'">
+            >
+                <td class="col-1" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
                         <div>{{dataItem.id}}</div>
                 </td>
-                    <td class="row" *ngIf="dataItem.status == 'WORKING'">
+                    <td class="row" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
                         <div class="col-auto">
-                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
+                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'|| dataItem.status == 'MANAGING' || dataItem.status == 'WORKING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <!-- <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version <= 4">
@@ -122,15 +123,28 @@
                             </div>
                         </div> -->
                     </td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'" >
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;" >
                             {{dataItem.address}}
                             <div>
                                 AAMS: <span class="bold">{{dataItem.managerId}}</span> | Ticket: {{dataItem.code}}
                             </div>
                     </td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'"><span>{{dataItem.description}}</span>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;"><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                    <td *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'">
+                        <div class="row">
+                            <!-- <div class="col-auto">
+                                <button mat-mini-fab><span class="material-icons">check</span></button>
+                            </div> -->
+                            <div class="col-auto" *ngIf="dataItem.status != 'RESOLVED' || dataItem.status != 'ABORTED'">
+                                <button mat-mini-fab (click)="TicketReject(dataItem.id)"
+                                #tooltip="matTooltip"
+                matTooltip="Reject ticket assignment"><span class="material-icons">clear</span></button>
+                            </div>
+
+                        </div>
+                    </td>
                 </tr>
         </tbody>
     </table>
@@ -148,24 +162,24 @@
             <tr *ngFor="let dataItem of FilteredResult; let i = index" 
             [class.active]="i == currentIndex"
             (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
-                <td class="col-1" *ngIf="dataItem.status == 'WORKING'">
+                <td class="col-1" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign != '' || dataItem.status == 'RESOLVED' || dataItem.status == 'ABORTED'">
                         <div>{{dataItem.id}}</div>
                 </td>
-                    <td class="row" *ngIf="dataItem.status == 'WORKING'">
+                    <td class="row" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign != '' || dataItem.status == 'RESOLVED' || dataItem.status == 'ABORTED'">
                         <div class="col-auto">
-                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
+                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'|| dataItem.status == 'MANAGING' || dataItem.status == 'WORKING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                     </td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'" >
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign != '' || dataItem.status == 'RESOLVED' || dataItem.status == 'ABORTED'" >
                             {{dataItem.address}}
                             <div>
                                 AAMS: <span class="bold">{{dataItem.managerId}}</span> | Ticket: {{dataItem.code}}
                             </div>
                     </td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'"><span>{{dataItem.description}}</span>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign != '' || dataItem.status == 'RESOLVED' || dataItem.status == 'ABORTED'"><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
-                    <td class="med-text" *ngIf="dataItem.status == 'WORKING'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
+                    <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.tech_assign != '' || dataItem.status == 'RESOLVED' || dataItem.status == 'ABORTED'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
                 </tr>
         </tbody>
     </table>

@@ -91,6 +91,14 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticketv/${id}`,val);
   }
 
+  updateTicketReject(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticketreject/${id}`,val);
+  }
+
+  updateTicketResolved(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticketresolved/${id}`,val);
+  }
+
   saveSerialsOfItems(id:any, val:any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket-serial/${id}`,val);
   }

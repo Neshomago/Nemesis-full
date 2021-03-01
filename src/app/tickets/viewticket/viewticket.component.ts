@@ -190,6 +190,7 @@ export class ViewticketComponent implements OnInit {
       this._snackBar.open("Technician Assigned Succesfully", "OK", { duration:3500, panelClass: "success",});
       console.log('data del tecnico: ', this.TechnicianModel);
     });
+    this.refreshPage();
 }
 
   // Unserialized Items methods
@@ -264,6 +265,7 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.tagsarray = [];
+    this.refreshPage();
   }
 
   updateEquipment(){
@@ -290,6 +292,7 @@ export class ViewticketComponent implements OnInit {
     });
     this.showEdit2 = false;
     this.saveEquipment();
+    this.refreshPage();
   }
 
 
@@ -319,7 +322,7 @@ export class ViewticketComponent implements OnInit {
     );
   }
 
-  updateTicketStatus3(id: any, i:number){
+  updateTicketStatus3(id: any){
     const version = {
       version: 3,
       status: 'MANAGING',
@@ -331,13 +334,13 @@ export class ViewticketComponent implements OnInit {
     );
   }
 
-  updateTicketStatus4(id: any, i:number){
+  updateTicketStatus4(id: any){
     const version = {
-      version: 5,
+      version: 4,
       status: 'WORKING',
     };
     this.service.updateTicketVersion(id, version).subscribe(
-      (data) => { this.theTicketData.version = 5;
+      (data) => { this.theTicketData.version = 4;
         this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket is now been worked. Status updated', data)    }
     );

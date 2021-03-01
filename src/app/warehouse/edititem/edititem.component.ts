@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 
 @Component({
@@ -13,6 +13,8 @@ export class EdititemComponent implements OnInit {
   id: number | undefined;
   theItemWarehouse: any =[];
   edit = false;
+
+  currentIndex = -1;
 
   constructor(
     private service: WarehouseService, private route:ActivatedRoute, private _snackBar: MatSnackBar,

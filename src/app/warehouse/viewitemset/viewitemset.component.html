@@ -20,6 +20,7 @@
           *ngFor="let dataItem of itemListtotal; let i = index"
             [class.active]="i == currentIndex"
             (click)="setCurrentIndividualItem(dataItem, i)"
+            [routerLink]="['edit-item/',dataItem.id]"
             style="cursor: pointer;"
           >
             <td>
@@ -27,25 +28,33 @@
                 {{dataItem.name}}
               </span><br>
               <span class="customer-name">
-                  S/N: {{dataItem.item_serial}}
+                  Serial: {{dataItem.serial}}
               </span>
             </td>
             <td>
                 <span>
-                      Item Status: {{dataItem.status_details}} - 
-                      <span *ngIf="dataItem.isUsed == 0">
+                      Item Status: {{dataItem.status}} - 
+                      <span *ngIf="dataItem.used == 0">
                           New
                       </span>
-                      <span *ngIf="dataItem.isUsed == 1">
+                      <span *ngIf="dataItem.used == 1">
                           Used
                       </span>
                 </span><br>
                 <span>
-                    <ng-container *ngIf="dataItem.warehouseId > 0">
-                        <span class="material-icons" style="vertical-align: middle;">store</span>
+                  <ng-container *ngIf="dataItem.location == 'AGENCY'">
+                    <ng-container *ngIf="dataItem.warehouseId != 0">
+                        <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
                     </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
+                    <ng-container *ngIf="dataItem.warehouseId != 0">
+                      <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
+                    </ng-container>
+                  </ng-container>
+                  
                     <ng-container *ngIf="dataItem.isMoving == 1">
-                        <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}} - Ticket: {{dataItem.ticketId}}
+                        <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
                     </ng-container>
                 </span>
             </td>

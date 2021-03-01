@@ -170,12 +170,20 @@
             <div style="height: 30px;"></div>
             <mat-card>
                 <mat-card-title>Notes and additionals:</mat-card-title>
-                <mat-form-field class="full-width">
-                    <input matInput type="text" name="notes" id="notes"/>
+                <mat-form-field class="col-3">
+                    <mat-label>Write your obvservations: </mat-label>
+                    <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="assigned_tags">
+
+                    </textarea>
+                </mat-form-field>
+                &nbsp;
+                <mat-form-field class="col">
+                    <input type="file" name="photos" id="photos"
+                    (change)="onFileSelected($event)" #fileInput>
+                    <button mat-raised-button type="button" (click)="fileInput.click()"><mat-icon>add_photo_alternate</mat-icon></button>
                 </mat-form-field>
               <!-- </div> -->
             </mat-card>
-
             <div style="height: 30px;"></div>
             <!-- FOOTER BOTTOM SECTION -->
             <div class="container">

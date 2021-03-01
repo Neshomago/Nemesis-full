@@ -4,14 +4,18 @@ import { UsersService } from 'src/app/services/users.service';
 import { TicketService } from '../../../services/ticket.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as _moment from 'moment';
 
-const moment = _moment;
+// Uploading photos
+// import { UploadFilesService } from 'src/app/services/upload-files.service';
+// import { HttpEventType, HttpResponse } from '@angular/common/http';
+// import { Observable } from 'rxjs';
+
 
 /* PDF IMPORTING TO SAVE*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tickettowork',
@@ -63,7 +67,8 @@ export class TickettoworkComponent implements OnInit {
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     const ticketId = this.route.snapshot.paramMap.get('id');
@@ -133,13 +138,35 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
+
+  selectedFile!: File;
+
+onFileSelected(event: any){
+this.selectedFile = event.target.files[0];
+}
+
+onUpload(){
+
+  const fd = new FormData();
+  fd.append('image',  this.selectedFile, this.selectedFile.name)
+  this.http.post('',fd).subscribe(
+    res => {
+      console.log(res);
+    }
+  );
+}
+
+assigned_tags = '';
 resolved(id: any){
-  const version = {
+  let version = {
     version: 6,
     status: 'RESOLVED',
+    assigned_tags: this.assigned_tags,
   };
   this.service.updateTicketVersion(id, version).subscribe(
     (data) => { this.theTicketData.version = 6;
+      this.theTicketData.status = 'RESOLVED';
+      this.theTicketData.assigned_tags = this.assigned_tags;
       this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
   });
 }

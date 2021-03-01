@@ -1,13 +1,13 @@
 <!-- {{TicketList[3] | json}} -->
 <!-- <h1>Ticketing</h1> -->
 <div class="filterboxes">
-    <div class="row">
+    <!-- <div class="row">
         &nbsp;
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Search</mat-label>
           <input matInput placeholder="Search the ticket">
         </mat-form-field>
-    </div>
+    </div> -->
     <div class="row">
         <mat-form-field class="col" >
             <mat-label>Filter by Status:</mat-label>
@@ -16,7 +16,7 @@
                 <mat-option value="OPENED">OPENED</mat-option>
               <mat-option value="MANAGING">MANAGING</mat-option>
               <mat-option value="PROCESSING">PROCESSING</mat-option>
-              <mat-option value="CLOSED">CLOSED</mat-option>
+              <mat-option value="RESOLVED">RESOLVED</mat-option>
               <mat-option value="ABORTED">ABORTED</mat-option>
               <mat-option value="WORKING">WORKING</mat-option>
             </mat-select>
@@ -91,7 +91,7 @@
                 </td>
                     <td class="row" *ngIf="dataItem.status != 'ABORTED'"  >
                         <div class="col-auto">
-                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
+                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'|| dataItem.status == 'MANAGING' || dataItem.status == 'WORKING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version <= 4">
@@ -154,7 +154,7 @@
                 </td>
                     <td class="row">
                         <div class="col-auto">
-                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'||'MANAGING'}">
+                            <button [ngClass]="{'TicketResolved':dataItem.status === 'RESOLVED', 'TicketAborted': dataItem.status === 'ABORTED', 'TicketOpened':dataItem.status ==='OPENED'|| dataItem.status == 'MANAGING' || dataItem.status == 'WORKING'}">
                                 <span style="display: none;">{{dataItem.status}}</span>{{dataItem.type}}</button>
                         </div>
                         <div class="col-auto" style="margin-top: auto; margin-bottom: auto; margin-left: -18px;" *ngIf="dataItem.version <= 4">

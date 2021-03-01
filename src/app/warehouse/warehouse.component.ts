@@ -34,6 +34,7 @@ export class WarehouseComponent implements OnInit {
     this.whsservice.getItemsList().subscribe(
       data => { this.TheGeneralList = data;
     });
+    console.table(this.TheGeneralList);
   }
 
   categoryList:any =[];
@@ -41,6 +42,7 @@ export class WarehouseComponent implements OnInit {
     this.whsservice.getCategories().subscribe(
     data => { this.categoryList = data;
     });
+    console.log(this.categoryList);
   }
   
   setCurrentItem(item:any, index:any): void{
@@ -50,6 +52,11 @@ export class WarehouseComponent implements OnInit {
 
   stockEdit(){
     this.showstockedit = !this.showstockedit;
+  }
+
+  setCurrentIndividualItem(item:any, index:any): void{
+    this.currentItem = item;
+    this.currentIndex = index;
   }
   // openDialogItemSetBox(id:any){
   //   this.dialog.open(ViewitemsetComponent);

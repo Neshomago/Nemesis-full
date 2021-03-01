@@ -48,6 +48,10 @@ export class WarehouseService {
   getCategories(): Observable<any>{
     return this.http.get(`${APIUrl}/warehousecategory`);
   }
+  
+  getCountCategories(): Observable<any>{
+    return this.http.get(`${APIUrl}/warehousecategorycount`);
+  }
 
   //category add
   addCategory(val:any):Observable<any>{

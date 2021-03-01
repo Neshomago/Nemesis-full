@@ -297,7 +297,7 @@
                         
                         <div>
                             <div>
-                                <ng-container *ngIf="theTicketData.version >= 1">
+                                <ng-container *ngIf="theTicketData.version == 1">
                                     <div class="row" *ngFor="let obj of tagsarray; let i = index" >
                                         <div class="col-auto">
                                             <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
@@ -373,12 +373,10 @@
                                 </ng-container>
 
                                 <ng-container *ngIf="theTicketData.version == 2">
-                                    <div>
-                                        <h3>
+                                    <div class="alert alert-info">
                                             Advice: The Items must be serialized in order to get support.
-                                        </h3>
                                     </div>
-                                    <button mat-raised-button (click)="updateTicketStatus3(theTicketData.id, 0);"
+                                    <button mat-raised-button (click)="updateTicketStatus3(theTicketData.id);"
                                     #tooltip="matTooltip"
                                     matTooltip="Change status of the ticket">Take in charge</button>
                                 </ng-container>
@@ -406,7 +404,7 @@
                     <div class="row">
                         <div class="col">
                             <h2>Equipment Serialization: 
-                                <span *ngIf="theTicketData.version == 4">
+                                <span *ngIf="theTicketData.version === 4">
                                     <button mat-icon-button *ngIf="!showEdit3" (click)="toogleEditstep3()" style="color:orange;">
                                         <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                     </button>
@@ -415,7 +413,7 @@
                                     </button>
                                 </span>
                             </h2>
-                            <ng-container *ngIf="theTicketData.version < 2">
+                            <ng-container *ngIf="theTicketData.version <= 2">
                                 <div>
                                     <h4>
                                         The Items must be selected in order to be serialized.
@@ -429,42 +427,45 @@
                             </div>
                         </ng-container>
                     </div>
-                    <div *ngFor="let tag of unserialTags; let indice = index">
-                      
-                        <div class="row">
-                                
-                                <div class="col-auto">•</div>
-                                <div class="col-auto">
-                                    <div name="item" style="width: 200px;">{{tag.item}}</div>
-                                </div>
-                                <!-- <mat-form-field class="col-auto">
-                                    <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
-                                </mat-form-field>
-                                &nbsp; -->
-                                <mat-form-field class="col" *ngIf="theTicketData.version == 4 && !showEdit3">
-                                    <mat-label>Serial Number</mat-label>
-                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
-                                </mat-form-field>
-                                <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
-                                    <mat-label>Serial Number</mat-label>
-                                    <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" onchange="serialOk(tag.item_serial)" required/>
-                                </mat-form-field>
-                                &nbsp;
-                                <!-- <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
-                                    <mat-icon>done</mat-icon>
-                                </button> -->
-                                <!-- <mat-form-field class="col-9">
-                                    <mat-label>Notes for the item:</mat-label>
-                                    <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
-                                </mat-form-field> -->
-                                <!-- {{tag | json}} -->
+                    <ng-container *ngIf="theTicketData.version > 2">
+                        <div *ngFor="let tag of unserialTags; let indice = index">
+                          
+                            <div class="row">
+                                    
+                                    <div class="col-auto">•</div>
+                                    <div class="col-auto">
+                                        <div name="item" style="width: 200px;">{{tag.item}}</div>
+                                    </div>
+                                    <!-- <mat-form-field class="col-auto">
+                                        <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
+                                    </mat-form-field>
+                                    &nbsp; -->
+                                    <mat-form-field class="col" *ngIf="theTicketData.version == 4 && !showEdit3">
+                                        <mat-label>Serial Number</mat-label>
+                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
+                                    </mat-form-field>
+                                    <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
+                                        <mat-label>Serial Number</mat-label>
+                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" onchange="serialOk(tag.item_serial)" required/>
+                                    </mat-form-field>
+                                    &nbsp;
+                                    <!-- <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
+                                        <mat-icon>done</mat-icon>
+                                    </button> -->
+                                    <!-- <mat-form-field class="col-9">
+                                        <mat-label>Notes for the item:</mat-label>
+                                        <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
+                                    </mat-form-field> -->
+                                    <!-- {{tag | json}} -->
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
+                    
                     <ng-container *ngIf="theTicketData.version == 3">
                         <div class="alert alert-secondary">
                                 Advice: The Items must be serialized to assign the technician.
                         </div>
-                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id, 0); saveSerials()"
+                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id); saveSerials()"
                                     #tooltip="matTooltip"
                                     matTooltip="Save serials, proceed to assign Technician">Save Serials. Continue Ticket Process</button>
                     </ng-container>
@@ -500,14 +501,14 @@
                     </ng-container>
                 </span>
               </mat-card-title>
-              <ng-container *ngIf="theTicketData.version >= 1">
+              <ng-container *ngIf="theTicketData.version >= 1 && theTicketData.version < 5">
                 <div>
                     <h4>
                         The Items must be serialized in order to assign a technician.
                     </h4>
                 </div>
                </ng-container>
-              <ng-container *ngIf="theTicketData.version >= 3 && theTicketData.version <5">
+              <ng-container *ngIf="theTicketData.version >= 4 && theTicketData.version <5">
 
                 <mat-form-field class="col-auto">
                   <mat-label>Technicians</mat-label>
@@ -531,7 +532,7 @@
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 &nbsp;
-                {{TechnicianModel | json}}
+                <!-- {{TechnicianModel | json}} -->
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
@@ -596,7 +597,7 @@
             <div class="col-auto" *ngIf="theTicketData.version>=4">
                 <button mat-raised-button (click)="rptDownload()">DOWNLOAD REPORT</button>
             </div>
-            <div class="col-auto" *ngIf="theTicketData.version >= 5">
+            <div class="col-auto" *ngIf="theTicketData.version >= 5 && theTicketData.status != 'RESOLVED'">
                 <button mat-raised-button
                 #tooltip="matTooltip"
                 matTooltip="Start Process, notify technician"
@@ -612,7 +613,7 @@
             
         </div>
         <div style="height: 20px;"></div>
-        <div class="row">
+        <div class="row" *ngIf="theTicketData.status != 'RESOLVED'">
                 <button mat-raised-button (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
         </div>
     </div>

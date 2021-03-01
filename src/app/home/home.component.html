@@ -1,24 +1,77 @@
 <div class="grid-container">
   <h1 class="mat-h1">Welcome User</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <table width="90%" align="center" style="color:gainsboro;">
+    <tr>
+      <td>
+        <mat-card [ngStyle]="{'background-color':'moccasin'}">
+          <mat-card-header>
+            <mat-card-title> Tickets
+              <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button> -->
+              <!-- <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>Expand</button>
+                <button mat-menu-item>Remove</button>
+              </mat-menu> -->
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <!-- <div class="row">
+              <div class="col-auto center"> -->
+                  <h2 style="font-weight: 100;">All tickets</h2>
+                  <!-- {{ticketsOpened}} -->
+                  <span style="font-size: 45px; font-weight: 100;">
+                    {{ticketCount.length}}
+                  </span>
+                <!-- </div>
+            </div>   -->
+          </mat-card-content>
+        </mat-card>
+      </td>
+      <td>
+        <mat-card [ngStyle]="{'background-color':'lemonchiffon'}">
+          <mat-card-header>
+            <mat-card-title> Customers
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+              <h2 style="font-weight: 100;">Happy clients</h2>
+              <span style="font-size: 45px; font-weight: 100;">
+                {{clientsCount.length}}
+              </span>
+          </mat-card-content>
+        </mat-card>
+      </td>
+    </tr>
+    <tr style="margin: 20px;">
+      <td>
+        <mat-card [ngStyle]="{'background-color':'gainsboro'}">
+          <mat-card-header>
+            <mat-card-title> Technicians
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+              <h2 style="font-weight: 100;">Active Technicians</h2>
+              <span style="font-size: 45px; font-weight: 100;">
+                {{technicianCount.length}}
+              </span>
+          </mat-card-content>
+        </mat-card>
+      </td>
+      <td>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title> Warehouse
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+              <h2 style="font-weight: 100;">Low Stock items</h2>
+              <span style="font-size: 45px; font-weight: 100;">
+                {{technicianCount.length}}
+              </span>
+          </mat-card-content>
+        </mat-card>
+      </td>
+    </tr>
+  </table>
 </div>

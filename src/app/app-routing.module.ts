@@ -50,9 +50,11 @@ const routes: Routes = [
   ]},
   { path: 'warehouse', children: [
     { path: '',component:WarehouseComponent},
-    { path: 'edit-item/:id', component:EdititemComponent},
     { path: 'viewitem/:id', component:ViewwarehouseComponent},
-    { path: 'viewitemset/:id', component:ViewitemsetComponent}
+    { path: 'viewitemset/:id', children:[
+      { path:'', component:ViewitemsetComponent},
+      { path: 'edit-item/:id', component:EdititemComponent},
+    ]}
   ]},
   { path: 'create-item', component:RegisteritemComponent},
   { path: 'create-ticket', component:CreateTicketComponent},
