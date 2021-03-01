@@ -54,6 +54,15 @@ export class WarehouseComponent implements OnInit {
     this.showstockedit = !this.showstockedit;
   }
 
+  onSearchTerm(){
+    let resp = this.categoryList.filter((item:any) => item.category_name.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+    console.log(resp);
+  }
+
+  // const resp = (this.categoryList, this.filteredString) => {
+  //   return this.categoryList.filter(item => item.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1)
+  // }
+
   setCurrentIndividualItem(item:any, index:any): void{
     this.currentItem = item;
     this.currentIndex = index;

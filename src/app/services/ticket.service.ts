@@ -83,8 +83,8 @@ export class TicketService {
     return this.http.get<any>(`${APIUrl}/equipmentList/${ticketId}`);
   }
 
-  getSerialEquipmentCheck(serial:any): Observable<any>{
-    return this.http.get<any>(`${APIUrl}/equipmentSerialCheck/${serial}`);
+  getSerialEquipmentCheck(val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/equipmentSerialCheck/`,val);
   }
 
   updateTicketVersion(id:any, val:any): Observable<any>{

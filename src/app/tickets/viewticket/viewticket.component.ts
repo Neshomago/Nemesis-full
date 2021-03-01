@@ -427,17 +427,18 @@ export class ViewticketComponent implements OnInit {
       this.refreshPage();
   }
 
-  serialComprobar:any ={
-    item_serial: ''
-  }
-  serialOk(serial:any){
-    // const serialComprobar = {
-    //   item_serial: ''
-    // }  
-    //consulta
-    this.service.getSerialEquipmentCheck(serial).subscribe(
-      data => { this.serialComprobar = data;
-        console.log(this.serialComprobar)
+  // serialComprobar:any ={
+  //   item_serial: ''
+  // }
+  serialOk(itemSerial:any){
+    const serialComprobar = {
+      item_serial: ''
+    }  
+    this.service.getSerialEquipmentCheck(serialComprobar).subscribe(
+      data => { serialComprobar = data;
+        if (!serialComprobar){
+          return;
+        } 
       }
     );
   }
