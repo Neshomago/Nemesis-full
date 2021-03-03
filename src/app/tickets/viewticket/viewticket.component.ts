@@ -12,6 +12,7 @@ import * as _moment from 'moment';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ViewChild } from '@angular/core';
+import { WarehouseService } from 'src/app/services/warehouse.service';
 
 
 @Component({
@@ -84,6 +85,7 @@ export class ViewticketComponent implements OnInit {
 
   constructor(private service:TicketService,
     private usersService: UsersService,
+    private whservice:WarehouseService,
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
@@ -103,6 +105,7 @@ export class ViewticketComponent implements OnInit {
       this.allestimentoTicketList(ticketId);
       this.getWarehouseStock();
       this.setDefaultDate();
+      this.getCategoryList()
       // this.getTicketInfotoUpdate(ticketId);
 
     //formgroup for steps
@@ -427,11 +430,18 @@ export class ViewticketComponent implements OnInit {
       this.refreshPage();
   }
 
+  categoryList:any =[];
+  getCategoryList(){
+    this.whservice.getCategories().subscribe(
+      (data) => { this.categoryList = data;
+    });
+  }
+
   // serialComprobar:any ={
   //   item_serial: ''
   // }
   serialOk(itemSerial:any){
-    const serialComprobar = {
+    let serialComprobar = {
       item_serial: ''
     }  
     this.service.getSerialEquipmentCheck(serialComprobar).subscribe(

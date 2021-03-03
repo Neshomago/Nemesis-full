@@ -69,6 +69,8 @@
       <tr *ngFor="let item of categoryList; let i = index"
               [class.active]="i == currentIndex"  
       >
+      <ng-container>
+
         <td (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;">
           <span class="Agency-name">
             {{item.category_name}}
@@ -78,7 +80,13 @@
         (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
         >
           <div>
-            {{item.stock}} Units
+            <ng-container *ngFor="let existency of TheGeneralList; let i = index">
+              <span *ngIf="item.id == existency.categoryId && existency.categoryId != 'null'">
+                {{existency.units}}
+              </span>
+              {{item.stock}} 
+            </ng-container>
+            Units
             <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
           </span>
@@ -119,6 +127,7 @@
             </div>
           </div>
         </td>
+      </ng-container>
       </tr>
     </tbody>
   </table>
@@ -134,7 +143,7 @@
     </thead>
     <tbody>
       <tr
-      *ngFor="let dataItem of TheGeneralList; let i = index"
+      *ngFor="let dataItem of filteredResult; let i = index"
         [class.active]="i == currentIndex"
         (click)="setCurrentIndividualItem(dataItem, i)"
         [routerLink]="['viewitemset'+dataItem.categoryId+'edit-item/', dataItem.id]"

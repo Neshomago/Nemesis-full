@@ -132,12 +132,12 @@
                     <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;"><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
                     <td class="med-text" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'">{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
-                    <td *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED'">
+                    <td *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5">
                         <div class="row">
                             <!-- <div class="col-auto">
                                 <button mat-mini-fab><span class="material-icons">check</span></button>
                             </div> -->
-                            <div class="col-auto" *ngIf="dataItem.status != 'RESOLVED' || dataItem.status != 'ABORTED'">
+                            <div class="col-auto">
                                 <button mat-mini-fab (click)="TicketReject(dataItem.id)"
                                 #tooltip="matTooltip"
                 matTooltip="Reject ticket assignment"><span class="material-icons">clear</span></button>

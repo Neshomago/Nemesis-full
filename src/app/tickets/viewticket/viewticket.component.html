@@ -802,11 +802,51 @@
 </div>
 </div>
 
-<div class="ddt" *ngIf="theTicketData">
+<div *ngIf="theTicketData">
     <div id="dataPdfReport">
     <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
 
-        <table border="1">
+    <div>
+        <div>
+            <div style="border-top: 3px solid gray;">
+                <div>
+                    <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
+                </div>
+                <div style="font-size: 12px; line-height: 15px;" colspan="3">
+                    Via Selva Di Sotto Snc, Località Cese <br>
+                    San Salvatore Telesino -Telese- 82030 (BN) Italy <br>
+                    Telefono: +39-0824-948243 <br>
+                    Fax: +39-0824-948243 <br>
+                    P.IVA / C.F. 03949540615 <br>
+                    email: info@lumiasrl.com <br>
+                </div>
+                <div>
+                    <table width="450">
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation Report: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid;">
+                                {{theTicketData.tech_assign}} / 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid;">
+                                {{theTicketData.userId}} - Ticket: {{theTicketData.id}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <table border="1" style="height: 297mm;">
             <!-- encabezado PDF -->
             <tr style="border-top: 3px solid gray;">
                 <td>
@@ -945,7 +985,7 @@
             <td colspan="2" style="text-align: center;">{{tag.item_serial}}</td>
             <td colspan="1" style="text-align: center;">OPERATIVE</td>
     </tr>
-    <tr style="flex: 1; overflow: auto;"></tr>
+    <tr style="flex: 1;"><td colspan="4"></td></tr>
     <tr>
         <td colspan="6" style="padding: 20px;">
                 <div class="d-flex">

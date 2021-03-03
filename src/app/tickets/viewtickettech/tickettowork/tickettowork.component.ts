@@ -15,7 +15,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandler } from '@angular/common/http';
+import { WarehouseService } from 'src/app/services/warehouse.service';
+
+// To upload files
+import { /* ViewChild,*/ ElementRef  } from '@angular/core';
+import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs';  
+import { catchError, map } from 'rxjs/operators';  
+import { UploadFilesService } from  '../../../services/upload-files.service';
+
 
 @Component({
   selector: 'app-tickettowork',
@@ -61,14 +70,19 @@ export class TickettoworkComponent implements OnInit {
 
   tickStatus ={ status:'ABORTED'};
   customerId = 'CUSTOME581785f34f4f3';
+  categoryList: any = [];
+
+  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef | undefined; files  = [];  
 
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
     private router: Router,
-    private _formBuilder: FormBuilder,
+    private whservice:WarehouseService,
     private _snackBar: MatSnackBar,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private uploadService: UploadFilesService
+    ) { }
 
   ngOnInit(): void {
     const ticketId = this.route.snapshot.paramMap.get('id');
@@ -76,8 +90,9 @@ export class TickettoworkComponent implements OnInit {
     this.getUnserializedItems(ticketId);
     this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
     this.Technicians_List();
-      this.getTags();
-      this.allestimentoTicketList(ticketId);
+    this.getTags();
+    this.allestimentoTicketList(ticketId);
+    this.getCategoryList();
   }
 
   getAgencyListName(){
@@ -107,6 +122,12 @@ export class TickettoworkComponent implements OnInit {
     });
   }
 
+  getCategoryList(){
+    this.whservice.getCategories().subscribe(
+      (data) => { this.categoryList = data;
+    });
+  }
+
   Technicians_List(){
     this.usersService.getTechnicianList().subscribe(
       data => this.TechnicianList = data
@@ -124,7 +145,7 @@ export class TickettoworkComponent implements OnInit {
   allestimentoTicketList(ticketId: any){
     this.service.getTicketEquipmentList(ticketId).subscribe(
       data => {this.equipmentArrayData = data;
-      console.log(this.equipmentArrayData);}
+      console.log("allestimentoTicket: ",this.equipmentArrayData);}
     );
   }
 
@@ -138,35 +159,78 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
-
-  selectedFile!: File;
-
-onFileSelected(event: any){
-this.selectedFile = event.target.files[0];
+uploadFile(file: any) {  
+  const formData = new FormData();  
+  formData.append('file', file.data);  
+  file.inProgress = true;  
+  this.uploadService.upload(formData).pipe(  
+    map((event:any) => {  
+      switch (event.type) {  
+        case HttpEventType.UploadProgress:  
+          file.progress = Math.round(event.loaded * 100 / event.total);  
+          break;  
+        case HttpEventType.Response:  
+          return event;  
+      }  
+    }),  
+    catchError((error: HttpErrorResponse) => {  
+      file.inProgress = false;  
+      return of(`${file.data.name} upload failed.`, error);  
+    })).subscribe((event: any) => {  
+      if (typeof (event) === 'object') {  
+        console.log(event.body);  
+      }  
+    });  
 }
 
-onUpload(){
-
-  const fd = new FormData();
-  fd.append('image',  this.selectedFile, this.selectedFile.name)
-  this.http.post('',fd).subscribe(
-    res => {
-      console.log(res);
-    }
-  );
+private uploadFiles() {  
+  // this.fileUpload.nativeElement.value = '';  
+  // this.files.forEach(file => {  
+  //   this.uploadFile(file);  
+  // });  
 }
+
+onClick() {  
+  // const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
+  // for (let index = 0; index < fileUpload.files.length; index++)  
+  // {  
+  //  const file = fileUpload.files[index];  
+  //  this.files.push({ data: file, inProgress: false, progress: 0});  
+  // }  
+  //   this.uploadFiles();  
+  // };  
+  // fileUpload.click();  
+}
+
+
+
+
+//   selectedFile!: File;
+
+// onFileSelected(event: any){
+// this.selectedFile = event.target.files[0];
+// }
+
+// onUpload(){
+
+//   const fd = new FormData();
+//   fd.append('image',  this.selectedFile, this.selectedFile.name)
+//   this.http.post('',fd).subscribe(
+//     res => {
+//       console.log(res);
+//     }
+//   );
+// }
 
 assigned_tags = '';
+resolvedticket: any = {
+  version: 6,
+  status: 'RESOLVED',
+  assigned_tags: '',
+};
 resolved(id: any){
-  let version = {
-    version: 6,
-    status: 'RESOLVED',
-    assigned_tags: this.assigned_tags,
-  };
-  this.service.updateTicketVersion(id, version).subscribe(
-    (data) => { this.theTicketData.version = 6;
-      this.theTicketData.status = 'RESOLVED';
-      this.theTicketData.assigned_tags = this.assigned_tags;
+  this.service.updateTicketVersion(id, this.resolvedticket).subscribe(
+    (data) => { this.theTicketData = data;
       this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
   });
 }
