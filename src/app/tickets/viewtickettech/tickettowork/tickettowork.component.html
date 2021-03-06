@@ -179,21 +179,25 @@
               </mat-card>
             <div style="height: 30px;"></div>
             <mat-card>
-                <mat-card-title>Notes and additionals:</mat-card-title>
-                <mat-form-field class="col-auto">
-                    <mat-label>Write your obvservations: </mat-label>
-                    <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="resolvedticket.assigned_tags">
-
-                    </textarea>
-                </mat-form-field>
-                &nbsp;
+                <mat-card-title>Technical review notes:</mat-card-title>
+                <ng-container class="row">
+                    <mat-form-field class="col-12">
+                        <mat-label>Write your observations: </mat-label>
+                        <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="resolvedticket.assigned_tags">
+                        </textarea>
+                    </mat-form-field>
+                    <div class="col">
+                        <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*"/>
+                    </div>
+                </ng-container>
                 
-                <mat-card-actions>  
+                
+                <!-- <mat-card-actions class="col-auto">  
                     <button mat-button color="warn" (click)="onClick()">  
                         <mat-icon>file_upload</mat-icon>  
                         Upload  
                     </button>  
-                </mat-card-actions>  
+                </mat-card-actions>   -->
                 <!-- <mat-form-field class="col">
                     <input type="file" name="photos" id="photos"
                     (change)="onFileSelected($event)" #fileInput>
@@ -201,7 +205,6 @@
                 </mat-form-field> -->
                 <!-- </div> -->
             </mat-card>
-            <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*" style="display:none;" />
             <div style="height: 30px;"></div>
             <!-- FOOTER BOTTOM SECTION -->
             <div class="container">

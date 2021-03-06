@@ -3,7 +3,7 @@
       &nbsp;
       <mat-form-field class="col-12" appearance="fill" >
         <mat-label>Search</mat-label>
-        <input matInput placeholder="Search the Item" class="form-control" [(ngModel)]="filteredString" (keyup)="onSearchTerm()">
+        <input matInput placeholder="Search with Serial Number" [(ngModel)]="filteredString" (keyup)="onSearchTerm()">
       </mat-form-field>
     </div>
     <div class="row">
@@ -14,21 +14,13 @@
             </mat-select>
           </mat-form-field>
           &nbsp;    
-          <mat-form-field class="col" >
-            <mat-label>Visualization:</mat-label>
-            <mat-select matNativeControl id="type" name="type">
-              <mat-option value="INS">by Count</mat-option>
-              <mat-option value="INT">by Object</mat-option>
-            </mat-select>
-          </mat-form-field>
-          &nbsp;    
-          <mat-form-field class="col" >
+          <mat-form-field class="col-auto" >
             <mat-label>State:</mat-label>
-            <mat-select matNativeControl id="type" name="type">
-              <mat-option value="INS">PENDING</mat-option>
-              <mat-option value="INT">OPERATIVE</mat-option>
-              <mat-option value="MAN">BROKEN</mat-option>
-              <mat-option value="VAL">MAINTENANCE</mat-option>
+            <mat-select matNativeControl id="type" name="type"  [(ngModel)]="FilterValue" (selectionChange)="onSelectedFilter()">
+              <mat-option value="PENDING">PENDING</mat-option>
+              <mat-option value="OPERATIVE">OPERATIVE</mat-option>
+              <mat-option value="BROKEN">BROKEN</mat-option>
+              <mat-option value="MAINTENANCE">MAINTENANCE</mat-option>
               <mat-option value="LOST">LOST</mat-option>
             </mat-select>
           </mat-form-field>
@@ -44,9 +36,9 @@
           &nbsp;
           <mat-form-field class="col" >
             <mat-label>New / Used:</mat-label>
-            <mat-select matNativeControl id="type" name="type">
-              <mat-option value="INS">NEW</mat-option>
-              <mat-option value="INT">USED</mat-option>
+            <mat-select matNativeControl id="type" name="type" [(ngModel)]="FilterValue" (selectionChange)="onSelectedFilter()">
+              <mat-option value="0">NEW</mat-option>
+              <mat-option value="1">USED</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -66,11 +58,8 @@
       <th>Minimum Stock</th>
     </thead>
     <tbody>
-      <tr *ngFor="let item of categoryList; let i = index"
-              [class.active]="i == currentIndex"  
-      >
-      <ng-container>
-
+      <tr *ngFor="let item of categoryList; let i = index" [class.active]="i == currentIndex">
+      <ng-container *ngIf="contar(item.id) != 0">
         <td (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;">
           <span class="Agency-name">
             {{item.category_name}}
@@ -80,23 +69,17 @@
         (click)="setCurrentItem(item, i)" [routerLink]="['viewitemset/',item.id]" style="cursor: pointer;"
         >
           <div>
-            <ng-container *ngFor="let existency of TheGeneralList; let i = index">
-              <span *ngIf="item.id == existency.categoryId && existency.categoryId != 'null'">
-                {{existency.units}}
-              </span>
-              {{item.stock}} 
-            </ng-container>
-            Units
-            <span *ngIf="item.isStack >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+            <div *ngIf="contar(item.id) >= 0">{{contar(item.id)}} Units</div>
+            <span *ngIf="contar(item.id) >= 20" style="color:green; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
           </span>
-          <span *ngIf="item.isStack < 20 && item.isStack >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+          <span *ngIf="contar(item.id) < 20 && contar(item.id) >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">info</span> Low stock
           </span>    
-          <span *ngIf="item.isStack > 0 && item.isStack < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
+          <span *ngIf="contar(item.id) > 0 && contar(item.id) < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
             <span style="font-size: 13px;" class="material-icons">report</span> Urgent restock
         </span>
-          <span *ngIf="item.isStack == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
+          <span *ngIf="contar(item.id) == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">report</span> No Stock - Restock now!
           </span>
           </div>

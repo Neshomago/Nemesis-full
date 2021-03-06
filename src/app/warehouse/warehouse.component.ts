@@ -16,6 +16,7 @@ export class WarehouseComponent implements OnInit {
   currentIndex = -1;
   currentItem = null;
 
+  public FilterValue: any;
   filter = false;
   showstockedit = false;
 
@@ -28,16 +29,6 @@ export class WarehouseComponent implements OnInit {
     this.getCategoryList();
   }
   
-
-  // getitemIndividualDistrubitionList(id: any): any{
-  //   this.whsservice.getItemsIndividualList(id).subscribe(
-  //     data => {
-  //       this.itemListtotal = data;
-  //       console.log(this.itemListtotal);
-  //     }
-  //   );
-  // }
-
   // Getting general info of Items
   getListofItemsinWarehouse(){
     this.whsservice.getItemsList().subscribe(
@@ -54,6 +45,16 @@ export class WarehouseComponent implements OnInit {
     });
   }
   
+  contar(id:any){
+    let resp = 0;
+	  for ( let i = 0; i < this.TheGeneralList.length; i++) {
+  		if(this.TheGeneralList[i].categoryId == id) {
+  			resp++;
+  		}
+	  }
+	  return resp;
+  }
+
   setCurrentItem(item:any, index:any): void{
     this.currentItem = item;
     this.currentIndex = index;
@@ -63,19 +64,33 @@ export class WarehouseComponent implements OnInit {
     this.showstockedit = !this.showstockedit;
   }
 
+
+  //Filter searchbox
   filteredResult: any = [];
   onSearchTerm(){
     let resp: any = this.TheGeneralList.filter(
       (item:any) => item.serial.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
       console.log(resp);
-      if (resp != null || resp != undefined || resp != ''){
+      if (resp != null || resp != undefined || resp != "" || resp != []){
         this.filter = true;
         this.filteredResult = resp;
         console.log(this.filteredResult);
         return resp;
-      } else (resp == '' || resp == null || resp ==undefined); {
+      } else (resp == "" || resp == null || resp == undefined || resp == []); {
         this.filter = false;
+        this.filteredResult = [];
       }
+  }
+
+  //Filter Boxes
+  onSelectedFilter(){
+    this.filteredResult = this.TheGeneralList.filter(
+      (ticket:any) => (ticket.used === this.FilterValue || ticket.status == this.FilterValue || ticket.used == this.FilterValue));
+    this.filter = true;
+    if (this.FilterValue == "clear" || this.FilterValue == ''){
+      this.filter = false;
+      this.filteredResult = [];
+    }
   }
 
   setCurrentIndividualItem(item:any, index:any): void{
