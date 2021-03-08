@@ -66,6 +66,7 @@ import { ViewitemsetComponent } from './warehouse/viewitemset/viewitemset.compon
 import { ViewtickettechComponent } from './tickets/viewtickettech/viewtickettech.component';
 //import { MomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MY_DATE_FORMAT } from '././tickets/viewticket/my_date_format';
 import { FilterwarehousePipe } from './pipes/filterwarehouse.pipe';
@@ -141,6 +142,7 @@ import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tic
     MatNativeDateModule,
     MatTooltipModule,
     MatDialogModule,
+    MatProgressBarModule,
   ],
   providers: [SharedService,
     {    provide: MAT_DATE_FORMATS, useValue:MY_DATE_FORMAT  }],

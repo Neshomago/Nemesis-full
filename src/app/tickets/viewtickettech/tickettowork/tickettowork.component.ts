@@ -23,7 +23,7 @@ import { /* ViewChild,*/ ElementRef  } from '@angular/core';
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';  
 import { catchError, map } from 'rxjs/operators';  
-import { UploadFilesService } from  '../../../services/upload-files.service';
+import { UploadService } from  '../../../services/upload-files.service';
 
 
 @Component({
@@ -31,6 +31,8 @@ import { UploadFilesService } from  '../../../services/upload-files.service';
   templateUrl: './tickettowork.component.html',
   styleUrls: ['./tickettowork.component.scss']
 })
+
+
 export class TickettoworkComponent implements OnInit {
   id: number | undefined;
   theTicketData : any;
@@ -71,8 +73,7 @@ export class TickettoworkComponent implements OnInit {
   tickStatus ={ status:'ABORTED'};
   customerId = 'CUSTOME581785f34f4f3';
   categoryList: any = [];
-
-  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef | undefined; files  = [];  
+  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];  
 
   constructor(private service:TicketService,
     private usersService: UsersService,
@@ -81,7 +82,7 @@ export class TickettoworkComponent implements OnInit {
     private whservice:WarehouseService,
     private _snackBar: MatSnackBar,
     private http: HttpClient,
-    private uploadService: UploadFilesService
+    private uploadService: UploadService
     ) { }
 
   ngOnInit(): void {
@@ -187,19 +188,51 @@ resolved(id: any){
   });
 }
 
-urls=[];
-onselect(e){
-  if(e.taget.files){
-    for(let i = 0; i < File.length;i++){
-      var reader = new FileReader();
-      reader.readAsDataURL(e.target.files[i]);
-      reader.onload=(events)=>{
-        this.urls.push(events.target.result)
-      }
-    }
-  }
 
+uploadFile(file: any) {  
+  const formData = new FormData();  
+  formData.append('file', file.data);  
+  file.inProgress = true;  
+  this.uploadService.upload(formData).pipe(  
+    map(event => {  
+      switch (event.type) {  
+        case HttpEventType.UploadProgress:  
+          file.progress = Math.round(event.loaded * 100 / event.total);  
+          break;  
+        case HttpEventType.Response:  
+          return event;  
+      }  
+    }),  
+    catchError((error: HttpErrorResponse) => {  
+      file.inProgress = false;  
+      return of(`${file.data.name} upload failed.`);  
+    })).subscribe((event: any) => {  
+      if (typeof (event) === 'object') {  
+        console.log(event.body);  
+      }  
+    });  
+    
 }
+
+private uploadFiles() {  
+  this.fileUpload.nativeElement.value = '';  
+  this.files.forEach(file => {  
+    this.uploadFile(file);  
+  });  
+}
+
+onClick() {  
+  const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
+  for (let index = 0; index < fileUpload.files.length; index++)  
+  {  
+   const file = fileUpload.files[index];  
+   this.files.push({ data: file, inProgress: false, progress: 0});  
+  }  
+    this.uploadFiles();  
+  };  
+  fileUpload.click();  
+}
+
 
 
 @ViewChild('dataPdf')

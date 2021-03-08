@@ -29,29 +29,22 @@
 //   }
 // }
 
-
+import { HttpClient, HttpEvent, HttpErrorResponse, HttpEventType } from  '@angular/common/http';  
 import { Injectable } from '@angular/core';
-import { HttpClient,  HttpErrorResponse, HttpEventType , HttpEvent } from '@angular/common/http';
 import { map } from  'rxjs/operators';
-import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UploadFilesService {
+@Injectable({  
+  providedIn: 'root'  
+})  
+export class UploadService { 
+	SERVER_URL: string = "https://file.io/";  
+	constructor(private httpClient: HttpClient) { }
 
-  SERVER_URL: string = "https://file.io/";
-  private baseUrl = 'http://localhost:8080';
+  public upload(formData) {
 
-  constructor(private http: HttpClient) { }
-
-
-  public upload(formData: FormData) {
-
-    return this.http.post<any>(this.baseUrl, formData, {  
+    return this.httpClient.post<any>(this.SERVER_URL, formData, {  
         reportProgress: true,  
         observe: 'events'  
       });  
   }
-  
 }
