@@ -72,7 +72,6 @@ export class ViewtickettechComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  
   filtering = false;
   onSelectedFilter(){
     this.FilteredResult = this.TicketList.filter(

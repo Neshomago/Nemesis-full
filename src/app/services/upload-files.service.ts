@@ -48,7 +48,7 @@ export class UploadFilesService {
 
   public upload(formData: FormData) {
 
-    return this.http.post<any>(this.SERVER_URL, formData, {  
+    return this.http.post<any>(this.baseUrl, formData, {  
         reportProgress: true,  
         observe: 'events'  
       });  

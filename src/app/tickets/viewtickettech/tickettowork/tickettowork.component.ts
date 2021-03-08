@@ -159,68 +159,20 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
-uploadFile(file: any) {  
-  const formData = new FormData();  
-  formData.append('file', file.data);  
-  file.inProgress = true;  
-  this.uploadService.upload(formData).pipe(  
-    map((event:any) => {  
-      switch (event.type) {  
-        case HttpEventType.UploadProgress:  
-          file.progress = Math.round(event.loaded * 100 / event.total);  
-          break;  
-        case HttpEventType.Response:  
-          return event;  
-      }  
-    }),  
-    catchError((error: HttpErrorResponse) => {  
-      file.inProgress = false;  
-      return of(`${file.data.name} upload failed.`, error);  
-    })).subscribe((event: any) => {  
-      if (typeof (event) === 'object') {  
-        console.log(event.body);  
-      }  
-    });  
-}
+// setDefaultDate(){
+//   let year, month, day, hour, minute, second;
 
-private uploadFiles() {  
-  // this.fileUpload.nativeElement.value = '';  
-  // this.files.forEach(file => {  
-  //   this.uploadFile(file);  
-  // });  
-}
+//   year = this.techDate.getFullYear();
+//   month = this.techDate.getMonth()+1;
+//   day = this.techDate.getDate();
+//   hour = this.techDate.getHours();
+//   minute = this.techDate.getMinutes();
+//   second = this.techDate.getSeconds();
 
-onClick() {  
-  // const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
-  // for (let index = 0; index < fileUpload.files.length; index++)  
-  // {  
-  //  const file = fileUpload.files[index];  
-  //  this.files.push({ data: file, inProgress: false, progress: 0});  
-  // }  
-  //   this.uploadFiles();  
-  // };  
-  // fileUpload.click();  
-}
-
-
-
-
-//   selectedFile!: File;
-
-// onFileSelected(event: any){
-// this.selectedFile = event.target.files[0];
+//   this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+//   console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
 // }
 
-// onUpload(){
-
-//   const fd = new FormData();
-//   fd.append('image',  this.selectedFile, this.selectedFile.name)
-//   this.http.post('',fd).subscribe(
-//     res => {
-//       console.log(res);
-//     }
-//   );
-// }
 
 assigned_tags = '';
 resolvedticket: any = {
@@ -233,6 +185,20 @@ resolved(id: any){
     (data) => { this.theTicketData = data;
       this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
   });
+}
+
+urls=[];
+onselect(e){
+  if(e.taget.files){
+    for(let i = 0; i < File.length;i++){
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+      reader.onload=(events)=>{
+        this.urls.push(events.target.result)
+      }
+    }
+  }
+
 }
 
 

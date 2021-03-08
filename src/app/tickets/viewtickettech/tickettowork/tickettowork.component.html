@@ -186,11 +186,21 @@
                         <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="resolvedticket.assigned_tags">
                         </textarea>
                     </mat-form-field>
+                   <!-- Opcion 1  -->
                     <div class="col">
-                        <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*"/>
+                        <form action="htt://localhost:5000/uploadfolder" method="POST" enctype="multipart/form-data">
+                            <img *ngFor="let url of urls" [src]="url" height="100"><br>
+                            <input type="file" (change)="onselect($event)" id="fileUpload" name="fileUpload" multiple>
+                            <input type="submit" value="submit">
+                        </form>
                     </div>
+                    <!-- Opcion 2 -->
+                    <!-- <form action="http://localhost:5000/uploadimage" method="POST" enctype="multipart/form-data">
+                        File: <input type="file" name="image"><br>
+                        <input type="submit" value="submit">
+                    </form> -->
                 </ng-container>
-                
+               
                 
                 <!-- <mat-card-actions class="col-auto">  
                     <button mat-button color="warn" (click)="onClick()">  

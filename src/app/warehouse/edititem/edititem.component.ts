@@ -38,7 +38,16 @@ export class EdititemComponent implements OnInit {
       });
   }
 
-  changes: any = {};
+  changes: any = {
+    serial:'',
+    activation:'',
+    warehouserId:'',
+    used:0,
+    location:'',
+    status:'',
+    statusDescription:'',
+    warranty_period:12,
+  };
   updateChanges(id:any){
     this.service.updateWarehouseItem(id, this.changes).subscribe(
       (data)=>{ this.changes = data;

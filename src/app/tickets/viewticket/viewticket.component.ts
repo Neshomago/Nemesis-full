@@ -193,7 +193,6 @@ export class ViewticketComponent implements OnInit {
       this._snackBar.open("Technician Assigned Succesfully", "OK", { duration:3500, panelClass: "success",});
       console.log('data del tecnico: ', this.TechnicianModel);
     });
-    this.refreshPage();
 }
 
   // Unserialized Items methods
@@ -268,7 +267,6 @@ export class ViewticketComponent implements OnInit {
       console.warn(element);  
     });
     this.tagsarray = [];
-    this.refreshPage();
   }
 
   updateEquipment(){
@@ -295,11 +293,12 @@ export class ViewticketComponent implements OnInit {
     });
     this.showEdit2 = false;
     this.saveEquipment();
-    this.refreshPage();
   }
 
 
-  refreshPage() {window.location.reload();}
+  refreshPage() {
+    this.tagsarray = [];
+    window.location.reload();}
 
   // equipmentArrayData: any = [];
   allestimentoTicketList(ticketId: any){
@@ -427,7 +426,7 @@ export class ViewticketComponent implements OnInit {
         this._snackBar.open("Technician Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
-      this.refreshPage();
+      
   }
 
   categoryList:any =[];

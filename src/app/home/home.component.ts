@@ -51,10 +51,40 @@ export class HomeComponent implements OnInit {
     this.warehouse_status();
   }
 
+  ValueA = 0;
+  ValueB = 0;
+  ValueC = 0;
+  ValueT = 0;
   no_tickets(){
+    let ins = 0;
+    let dis = 0;
+    let int = 0;
+    let TicketIns=0;
+    let TicketDis=0;
+    let TicketInt=0;
   this.tkservice.getTicketList().subscribe(
-  data => {this.ticketCount = data}
-  );
+  data => {this.ticketCount = data;
+    console.log("ticket count: ",this.ticketCount);
+    for ( let i = 0; i < this.ticketCount.length; i++) {
+      if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INS') {
+        ins++;
+      }
+      else if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'DIS') {
+        dis++;
+      }
+      else if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INT') {
+        dis++;
+      }
+    }
+    TicketIns = ins * 100;
+    TicketDis = dis * 50;
+    TicketInt = int * 35;
+    let Total = TicketInt + TicketDis + TicketIns;
+    this.ValueA = TicketIns;
+    this.ValueB = TicketDis;
+    this.ValueC = TicketInt;
+    this.ValueT = Total;
+  });
   }
 
   total_clients(){
