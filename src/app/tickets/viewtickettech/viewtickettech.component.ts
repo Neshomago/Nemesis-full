@@ -51,7 +51,10 @@ export class ViewtickettechComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  refreshPage() {window.location.reload();}
+  refreshPage() {
+    setTimeout(
+      function(){ window.location.reload();}, 2000);
+  }
 
   TicketReject(id: any){
     const version = {
@@ -62,9 +65,8 @@ export class ViewtickettechComponent implements OnInit {
     this.service.updateTicketReject(id, version).subscribe(
       (data) => { this.theTicketData.version = 4;
         this._snackBar.open("Ticket has been returned.", "OK", { duration:3500, panelClass: "success",});
-        console.log('Ticket has been returned. Status updated', data)    }
-    );
-    this.refreshPage();
+        console.log('Ticket has been returned. Status updated', data);
+      });
   }
 
   setCurrentTicket(ticket:any, index:any): void{

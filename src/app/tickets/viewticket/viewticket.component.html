@@ -279,7 +279,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" >
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment()" ><mat-icon>save</mat-icon>Save changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment(); refreshPage()" ><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="theTicketData.version >= 2">
@@ -288,7 +288,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="showEdit2">
-                                <button mat-icon-button (click)="updateEquipment()"><mat-icon>save</mat-icon>Update changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment(); refreshPage()"><mat-icon>save</mat-icon>Update changes</button>
                             </div>
                         </ng-container>
                     </div>
@@ -726,7 +726,7 @@
             </tr>
             <tr>
                 <td>
-                    Email: theTicketData.email
+                    Email: {{theTicketData.email}}
                 </td>
             </tr>
             <tr>
@@ -802,7 +802,7 @@
 </div>
 </div>
 
-<div *ngIf="theTicketData">
+<div class="ddt" *ngIf="theTicketData">
     <div id="dataPdfReport">
     <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
 <!-- 

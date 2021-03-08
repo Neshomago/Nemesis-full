@@ -298,7 +298,9 @@ export class ViewticketComponent implements OnInit {
 
   refreshPage() {
     this.tagsarray = [];
-    window.location.reload();}
+    setTimeout(
+      function(){window.location.reload()}, 1500)
+  }
 
   // equipmentArrayData: any = [];
   allestimentoTicketList(ticketId: any){
