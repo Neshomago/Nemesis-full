@@ -71,6 +71,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MY_DATE_FORMAT } from '././tickets/viewticket/my_date_format';
 import { FilterwarehousePipe } from './pipes/filterwarehouse.pipe';
 import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tickettowork.component';
+import { RegistroComponent } from './registro/registro.component';
+import { RegistroUserComponent } from './registro-user/registro-user.component';
 
 
 @NgModule({
@@ -108,6 +110,8 @@ import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tic
     ViewtickettechComponent,
     FilterwarehousePipe,
     TickettoworkComponent,
+    RegistroComponent,
+    RegistroUserComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [

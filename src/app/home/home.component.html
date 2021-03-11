@@ -2,36 +2,38 @@
   <h1 class="mat-h1">Welcome User</h1>
   <table width="90%" align="center" style="color:gainsboro;">
     <tr>
+
       <td>
         <mat-card [ngStyle]="{'background-color':'moccasin'}">
           <mat-card-header>
             <mat-card-title> Tickets
-              <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
                 <mat-icon>more_vert</mat-icon>
-              </button> -->
-              <!-- <mat-menu #menu="matMenu" xPosition="before">
-                <button mat-menu-item>Expand</button>
-                <button mat-menu-item>Remove</button>
-              </mat-menu> -->
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="/tickets">Go to Tickets</button>
+              </mat-menu>
             </mat-card-title>
           </mat-card-header>
-          <mat-card-content class="dashboard-card-content">
-            <!-- <div class="row">
-              <div class="col-auto center"> -->
+          <mat-card-content *ngIf="ticketCount" class="dashboard-card-content">
                   <h2 style="font-weight: 100;">All tickets</h2>
-                  <!-- {{ticketsOpened}} -->
                   <span style="font-size: 45px; font-weight: 100;">
                     {{ticketCount.length}}
                   </span>
-                <!-- </div>
-            </div>   -->
           </mat-card-content>
         </mat-card>
       </td>
+
       <td>
-        <mat-card [ngStyle]="{'background-color':'lemonchiffon'}">
+        <mat-card *ngIf="clientsCount" [ngStyle]="{'background-color':'lemonchiffon'}">
           <mat-card-header>
             <mat-card-title> Customers
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="customer" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #customer="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="/customers">Go to Customers</button>
+              </mat-menu>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">
@@ -43,11 +45,64 @@
         </mat-card>
       </td>
     </tr>
+
+    <tr style="margin: 20px;">
+      <td colspan="2">
+        <mat-card [ngStyle]="{'background-color':'white'}">
+          <mat-card-header>
+            <mat-card-title> Total Profit
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="profit" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #profit="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="">Go to Admin Panel</button></mat-menu>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+              <div style="display: inline-block; margin-right: 10px;">
+                <h3 style="font-weight: 100;">INS Tickets</h3>
+                <span style="font-size: 20px; font-weight: 100;">
+                  {{ TotalAdminInst | currency:'USD' }}
+                </span>
+              </div>
+              <div style="display: inline-block; margin-right: 10px;">
+                <h3 style="font-weight: 100;">DIS Tickets</h3>
+                <span style="font-size: 20px; font-weight: 100;">
+                  {{ TotalAdminDis | currency:'USD' }}
+                </span>
+              </div>
+              <div style="display: inline-block; margin-right: 10px;">
+                <h3 style="font-weight: 100;">INT Tickets</h3>
+                <span style="font-size: 20px; font-weight: 100;">
+                  {{ TotalAdminInt | currency:'USD' }}
+                </span>
+              </div>
+              <div style="display: inline-block; margin-right: 10px;">
+                <h3 style="font-weight: 400;">TOTAL Tickets</h3>
+                <span style="font-size: 20px; font-weight: 500;">
+                  {{ TotalTicketsWorked | currency:'USD' }}
+                </span>
+              </div>
+              <div style="display: inline-block; margin-right: 10px; color:forestgreen;">
+                <h3 style="font-weight: 400;">TOTAL Profit</h3>
+                <span style="font-size: 20px; font-weight: 500;">
+                  {{ TotalRevenue | currency:'USD' }}
+                </span>
+              </div>
+          </mat-card-content>
+        </mat-card>
+      </td>
+    </tr>
     <tr style="margin: 20px;">
       <td>
-        <mat-card [ngStyle]="{'background-color':'gainsboro'}">
+        <mat-card *ngIf="technicianCount" [ngStyle]="{'background-color':'gainsboro'}">
           <mat-card-header>
             <mat-card-title> Technicians
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="techniciansmenu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #techniciansmenu="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="">Go to Technicians List</button></mat-menu>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">
@@ -62,6 +117,11 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title> Warehouse
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="warehouse" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #warehouse="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="/warehouse">Go to Admin Panel</button></mat-menu>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">
@@ -74,10 +134,10 @@
       </td>
     </tr>
     <tr style="margin: 20px;">
-      <td>
+      <td colspan="2">
         <mat-card [ngStyle]="{'background-color':'white'}">
           <mat-card-header>
-            <mat-card-title> Total Earned
+            <mat-card-title> Technician Total Earned
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">

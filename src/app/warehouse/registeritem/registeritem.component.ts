@@ -64,6 +64,7 @@ export class RegisteritemComponent implements OnInit {
       console.log(this.category + "Was added to category list")}
     );
     this.category = [];
+    this.getCategoryList();
   }
 
 

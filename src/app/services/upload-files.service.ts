@@ -37,10 +37,10 @@ import { map } from  'rxjs/operators';
   providedIn: 'root'  
 })  
 export class UploadService { 
-	SERVER_URL: string = "../assets";  
+	SERVER_URL: string = "../../assets";  
 	constructor(private httpClient: HttpClient) { }
 
-  public upload(formData) {
+  public upload(formData: FormData) {
 
     return this.httpClient.post<any>(this.SERVER_URL, formData, {  
         reportProgress: true,  

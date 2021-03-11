@@ -73,7 +73,7 @@ export class TickettoworkComponent implements OnInit {
   tickStatus ={ status:'ABORTED'};
   customerId = 'CUSTOME581785f34f4f3';
   categoryList: any = [];
-  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];  
+  // @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];  
 
   constructor(private service:TicketService,
     private usersService: UsersService,
@@ -190,48 +190,48 @@ resolved(id: any){
 
 
 uploadFile(file: any) {  
-  const formData = new FormData();  
-  formData.append('file', file.data);  
-  file.inProgress = true;  
-  this.uploadService.upload(formData).pipe(  
-    map(event => {  
-      switch (event.type) {  
-        case HttpEventType.UploadProgress:  
-          file.progress = Math.round(event.loaded * 100 / event.total);  
-          break;  
-        case HttpEventType.Response:  
-          return event;  
-      }  
-    }),  
-    catchError((error: HttpErrorResponse) => {  
-      file.inProgress = false;  
-      return of(`${file.data.name} upload failed.`);  
-    })).subscribe((event: any) => {  
-      if (typeof (event) === 'object') {  
-        console.log(event.body);  
-      }  
-    });  
+  // const formData = new FormData();  
+  // formData.append('file', file.data);  
+  // file.inProgress = true;  
+  // this.uploadService.upload(formData).pipe(  
+  //   map(event => {  
+  //     switch (event.type) {  
+  //       case HttpEventType.UploadProgress:  
+  //         file.progress = Math.round(event.loaded * 100 / event.total);  
+  //         break;  
+  //       case HttpEventType.Response:  
+  //         return event;  
+  //     }  
+  //   }),  
+  //   catchError((error: HttpErrorResponse) => {  
+  //     file.inProgress = false;  
+  //     return of(`${file.data.name} upload failed.`);  
+  //   })).subscribe((event: any) => {  
+  //     if (typeof (event) === 'object') {  
+  //       console.log(event.body);  
+  //     }  
+  //   });  
     
 }
 
-private uploadFiles() {  
-  this.fileUpload.nativeElement.value = '';  
-  this.files.forEach(file => {  
-    this.uploadFile(file);  
-  });  
-}
+// private uploadFiles() {  
+//   this.fileUpload.nativeElement.value = '';  
+//   this.files.forEach(file => {  
+//     this.uploadFile(file);  
+//   });  
+// }
 
-onClick() {  
-  const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
-  for (let index = 0; index < fileUpload.files.length; index++)  
-  {  
-   const file = fileUpload.files[index];  
-   this.files.push({ data: file, inProgress: false, progress: 0});  
-  }  
-    this.uploadFiles();  
-  };  
-  fileUpload.click();  
-}
+// onClick() {  
+//   const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
+//   for (let index = 0; index < fileUpload.files.length; index++)  
+//   {  
+//    const file = fileUpload.files[index];  
+//    this.files.push({ data: file, inProgress: false, progress: 0});  
+//   }  
+//     this.uploadFiles();  
+//   };  
+//   fileUpload.click();  
+// }
 
 
 

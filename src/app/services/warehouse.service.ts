@@ -49,12 +49,12 @@ export class WarehouseService {
     return this.http.get(`${APIUrl}/warehousecategory`);
   }
   
+  //category add
+  addCategory(val:any):Observable<any>{
+    return this.http.post(`${APIUrl}/warehousecategory/add`, val);
+  }
   getCountCategories(): Observable<any>{
     return this.http.get(`${APIUrl}/warehousecategorycount`);
   }
-
-  //category add
-  addCategory(val:any):Observable<any>{
-    return this.http.get(`${APIUrl}/warehousecategory/add`, val);
-  }
 }
+

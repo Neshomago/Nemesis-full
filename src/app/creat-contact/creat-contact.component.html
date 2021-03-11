@@ -24,6 +24,62 @@
   <p>
     <mat-form-field class="full-width">
       <mat-label>Customer</mat-label>
+      <input matInput placeholder="Customer" name="Customer" [(ngModel)]="contactModel.customerId">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field class="full-width">
+      <mat-label>Contact Address</mat-label>
+      <input matInput id="Address" name="Address" placeholder="Address" [(ngModel)]="contactModel.address">
+    </mat-form-field>
+  </p>
+  
+  <p>
+    <mat-form-field class="full-width">
+      <mat-label>Contact Phone</mat-label>
+      <input matInput id="Phone" name="Phonr" placeholder="Phone" [(ngModel)]="contactModel.phone">
+    </mat-form-field>
+  </p>
+  <!-- {{contactModel | json}} -->
+  <div class="btncenter">
+    <div>
+      <button mat-raised-button class="cancel" [routerLink]="['/contacts']"><span class="material-icons">clear</span>Cancel</button>
+    </div>
+    <div>
+      <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">done</span> Save</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+
+
+<!-- <div class="boxformcreate">
+  <div class="forminmargin">
+    <h1 class="h1-form">New Nemesis User</h1>
+    <form #contactForm="ngForm" (ngSubmit)="saveContact()">
+    <p>
+      
+      <mat-form-field class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput id="name" name="name" placeholder="First Name" [(ngModel)]="contactModel.name" required>
+      </mat-form-field>
+    </p>
+    <p><mat-form-field class="full-width">
+      <mat-label>Surname</mat-label>
+      <input matInput id="surname" name="surname" placeholder="Surname" [(ngModel)]="contactModel.surname">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field class="full-width">
+      <mat-label>Fiscal Code</mat-label>
+      <input matInput id="FiscalCode" name="FiscalCode" placeholder="Fiscal Code" [(ngModel)]="contactModel.taxCode">
+    </mat-form-field>
+  </p>
+  <h2>Contact Customer</h2>
+  <p>
+    <mat-form-field class="full-width">
+      <mat-label>Customer</mat-label>
       <input matInput placeholder="Customer" [(ngModel)]="contactModel.customerId">
     </mat-form-field>
   </p>
@@ -48,18 +104,8 @@
       <mat-checkbox class="checkleftmargin" (value)="RoleC=1">Customer</mat-checkbox>
       <mat-checkbox class="checkleftmargin" (value)="RoleT=1">Warehouse</mat-checkbox>
     </section>
-    <!-- <input type="checkbox" id="user" name="user" value="ADMIN" [(ngModel)]="contactModel.user"><label for="user">Administrator</label>
-    <input type="checkbox" id="user" name="user" value="TECH" [(ngModel)]="contactModel.user"><label for="user">Technician</label>
-    <input type="checkbox" id="user" name="user" value="CUSTOMER" [(ngModel)]="contactModel.user"><label for="user">Customer</label>
-    <input type="checkbox" id="user" name="user" value="WAREHOUSE" [(ngModel)]="contactModel.user"><label for="user">Warehouse</label> -->
   </div>
-  <p>
-    <mat-form-field class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput id="password" name="password" placeholder="Password" [(ngModel)]="contactModel.password">
-    </mat-form-field>
-  </p>
-  <!-- {{contactModel | json}} -->
+
   <div class="btncenter">
     <div>
       <button mat-raised-button class="cancel" [routerLink]="['/contacts']"><span class="material-icons">clear</span>Cancel</button>
@@ -70,7 +116,7 @@
   </div>
 </form>
 </div>
-</div>
+</div> -->
 
 <!-- 
   

@@ -105,7 +105,8 @@ export class ViewticketComponent implements OnInit {
       this.allestimentoTicketList(ticketId);
       this.getWarehouseStock();
       this.setDefaultDate();
-      this.getCategoryList()
+      this.getCategoryList();
+      this.serialOk();
       // this.getTicketInfotoUpdate(ticketId);
 
     //formgroup for steps
@@ -441,17 +442,24 @@ export class ViewticketComponent implements OnInit {
   // serialComprobar:any ={
   //   item_serial: ''
   // }
-  serialOk(itemSerial:any){
-    let serialComprobar = {
-      item_serial: ''
-    }  
-    this.service.getSerialEquipmentCheck(serialComprobar).subscribe(
-      data => { serialComprobar = data;
-        if (!serialComprobar){
-          return;
-        } 
-      }
+  itemSerial: any =[]
+  serialOk(){
+    this.service.getSerialEquipmentCheck().subscribe(
+      data => { this.itemSerial = data;}
     );
+  }
+
+  filteredString: string = '';
+  filteredResult: any = [];
+  onSearchTerm(){
+    let resp: any = this.itemSerial.filter(
+      (item:any) => item.serial.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+        if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filteredResult = resp;
+        return resp;
+      } else (resp == "" || resp == null || resp == undefined || resp == []); {
+        this.filteredResult = [];
+      }
   }
 
   /** PDF creation DDT

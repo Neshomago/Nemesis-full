@@ -48,7 +48,7 @@
                                                 {{theItem.activation}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
-                                                <input matInput type="text" name="serial" id="serial" [placeholder]="theItem.activation" [(ngModel)]="changes.activation" autofocus>
+                                                <input matInput type="text" name="activation" id="activation" [placeholder]="theItem.activation" [(ngModel)]="changes.activation">
                                             </ng-container>
                                             
                                         </td>
@@ -101,7 +101,7 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="theItem.used == 0">
                                                     Actual status: Used Item.
-                                                </ng-container>
+                                                </ng-container><br>
                                                 <mat-radio-group [(ngModel)]="changes.used">
                                                     <mat-radio-button value=1>Used</mat-radio-button>
                                                     <mat-radio-button value=0>New</mat-radio-button>
@@ -172,11 +172,6 @@
                                                 <ng-container>
                                                     {{theItem.warranty_invoiceDate | date: 'yyyy-MM-dd'}}
                                                 </ng-container>
-                                                <!-- <ng-container *ngIf="edit">
-                                                    <mat-form-field>
-                                                        <input matInput type="text" name="warranty_invoiceDate" id="warranty_invoiceDate" [(ngModel)]="theItem.warranty_invoiceDate">
-                                                    </mat-form-field>
-                                                </ng-container> -->
                                             </td>
                                         </tr>
     
@@ -196,8 +191,6 @@
                                         </tr>
     
                                     </table>
-                                    <!-- {{theItem | json}}
-                                    <br> -->
                                     <span style="color: brown;">
                                         {{changes | json}}
                                     </span>
@@ -205,7 +198,7 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
+            <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block; z-index: 1;">
                 <div style="padding-bottom: 20px;">
                     <button mat-fab (click)="editFields();"><mat-icon>edit-row</mat-icon></button>
                 </div>
@@ -215,7 +208,6 @@
                       matTooltip="Save changes"
                       (click)="updateChanges(theItem.id); editFields()"
                     ><mat-icon>save</mat-icon></button>
-                <!-- [routerLink]="['/edit-ticket/', theItemData.id]" -->
                 </div>
                 <div>
                     <button mat-fab color="warn" routerLink="/warehouse"
@@ -229,4 +221,28 @@
             </ng-container>
         </div>
     </div>
+</div>
+<div class="forminmargin">
+    <mat-card>
+        <table width="80%">
+            <thead style="border-bottom: 2px solid gray; height: 40px;">
+                <td width="25%">Date</td>
+                <td width="55%">Activity</td>
+                <td width="20%">User</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+    
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td>
+    
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card>
 </div>

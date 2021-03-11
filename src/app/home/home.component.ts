@@ -55,26 +55,45 @@ export class HomeComponent implements OnInit {
   ValueB = 0;
   ValueC = 0;
   ValueT = 0;
+  TotalAdminInst = 0;
+  TotalAdminDis = 0;
+  TotalAdminInt = 0;
+  TotalTicketsWorked = 0;
+  TotalRevenue = 0;
   no_tickets(){
     let ins = 0;
     let dis = 0;
     let int = 0;
+    let adminInst = 0;
+    let adminDis = 0;
+    let adminInt = 0;
+    let revenueAdmin = 0;
     let TicketIns=0;
     let TicketDis=0;
     let TicketInt=0;
   this.tkservice.getTicketList().subscribe(
   data => {this.ticketCount = data;
-    console.log("ticket count: ",this.ticketCount);
     for ( let i = 0; i < this.ticketCount.length; i++) {
-      if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INS') {
-        ins++;
+      if (this.ticketCount[i].type =='INS'){
+        if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INS') {
+          ins++;
+        }
+        adminInst++;
       }
-      else if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'DIS') {
-        dis++;
+      else if (this.ticketCount[i].type == 'DIS'){
+        if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'DIS') {
+          dis++;
+          console.log("dis technician: "+dis);
+        }
+        adminDis++;
+        console.log("Total Dis: "+adminDis);
       }
-      else if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INT') {
-        dis++;
-      }
+      else if(this.ticketCount[i].type == 'INT'){
+        if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INT') {
+        int++;
+        }
+        adminInt++;
+    }
     }
     TicketIns = ins * 100;
     TicketDis = dis * 50;
@@ -84,6 +103,11 @@ export class HomeComponent implements OnInit {
     this.ValueB = TicketDis;
     this.ValueC = TicketInt;
     this.ValueT = Total;
+    this.TotalAdminInst = adminInst * 200;
+    this.TotalAdminDis = adminDis * 100;
+    this.TotalAdminInt = adminInt * 70;
+    this.TotalTicketsWorked = this.TotalAdminInst + this.TotalAdminDis + this.TotalAdminInt;
+    this.TotalRevenue = this.TotalTicketsWorked - this.ValueT;
   });
   }
 

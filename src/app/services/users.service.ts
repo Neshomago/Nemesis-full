@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 const APIUrl ="http://127.0.0.1:5000";
 
@@ -8,6 +8,13 @@ const APIUrl ="http://127.0.0.1:5000";
   providedIn: 'root'
 })
 export class UsersService {
+
+  private fooSubject = new Subject<any>();
+  private usernameSubject = new Subject<any>();
+  private RoleASubject = new Subject<any>();
+  private RoleCSubject = new Subject<any>();
+  private RoleESubject = new Subject<any>();
+  private RoleTSubject = new Subject<any>();
 
   constructor( private http:HttpClient) { }
 
@@ -18,6 +25,10 @@ export class UsersService {
   getContactList():Observable<any>{
     return this.http.get<any[]>(APIUrl + '/contact');
   }
+
+  addUser(val:any): Observable<any>{
+    return this.http.post(APIUrl + '/user/add',val);
+  } 
 
   addContact(val:any): Observable<any>{
     return this.http.post(APIUrl + '/contact/add',val);
@@ -38,4 +49,21 @@ export class UsersService {
   getContactIso(id:any): Observable<any>{
     return this.http.get(`${APIUrl}/contactiso/${id}`);
   }
+
+  getContactUser(username:any): Observable<any>{
+    return this.http.get(`${APIUrl}/contactiso/${username}`);
+  }
+
+  getUserCheck(usermail:any): Observable<any>{
+    return this.http.post(APIUrl + '/user/mail', usermail);
+  }
+
+  publishSomeData(data:any) {
+    this.fooSubject.next(data);
+  }
+
+  getObservable(): Subject<any> {
+    return this.fooSubject;
+  }
+
 }

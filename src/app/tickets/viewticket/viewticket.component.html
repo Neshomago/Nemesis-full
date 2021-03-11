@@ -447,16 +447,8 @@
                                     <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
                                         <mat-label>Serial Number</mat-label>
                                         <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" onchange="serialOk(tag.item_serial)" required/>
+                                        <mat-error *ngIf="tag.item_serial == itemSerial.serial">Serial incorrect or not exists</mat-error>
                                     </mat-form-field>
-                                    &nbsp;
-                                    <!-- <button mat-icon-button name="tagid{{indice}}" *ngIf="theTicketData.version == 3" (click)="saveSerials(tag.id)">
-                                        <mat-icon>done</mat-icon>
-                                    </button> -->
-                                    <!-- <mat-form-field class="col-9">
-                                        <mat-label>Notes for the item:</mat-label>
-                                        <input matInput type="text" name="description{{indice}}" [(ngModel)]="tag.item_description"/>
-                                    </mat-form-field> -->
-                                    <!-- {{tag | json}} -->
                             </div>
                         </div>
                     </ng-container>
@@ -536,7 +528,7 @@
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
-                    (click)="technicianAssignedtoTicket(theTicketData.id)">Date
+                    (click)="technicianAssignedtoTicket(theTicketData.id); refreshPage()">Date
                     visit</button>
                 </div>
               </ng-container>
