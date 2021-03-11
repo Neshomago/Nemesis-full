@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 
 
@@ -19,6 +20,11 @@ export class AuthGuard implements CanActivate {
     if(this.auth.estaAutenticado()) {
       return true;
     } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Authenticated error',
+          text: 'invalid User'
+        });
       this.router.navigateByUrl('/login'); 
       return false;
     }

@@ -16,10 +16,15 @@ export class CreatContactComponent implements OnInit {
 
   constructor(private _snackBar:MatSnackBar, private contactService: UsersService, private router: Router) { }
 
-  contactModel = new Contact('','','','','','','','',1);
+  contactModel = new Contact('','','','','','','',1,1,1);
 
 
   ngOnInit(): void {
+    if(localStorage.getItem('xemail')) {
+      this.contactModel.email = localStorage.getItem('xemail');
+    } else {
+      this.contactModel.email = '';
+    }
   }
 
   addContact(){

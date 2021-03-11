@@ -70,11 +70,9 @@ export class WarehouseComponent implements OnInit {
   onSearchTerm(){
     let resp: any = this.TheGeneralList.filter(
       (item:any) => item.serial.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
-      console.log(resp);
-      if (resp != null || resp != undefined || resp != "" || resp != []){
+        if (resp != null || resp != undefined || resp != "" || resp != []){
         this.filter = true;
         this.filteredResult = resp;
-        console.log(this.filteredResult);
         return resp;
       } else (resp == "" || resp == null || resp == undefined || resp == []); {
         this.filter = false;

@@ -60,7 +60,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   usuario: UserFirebase = new UserFirebase('', '');
-  usermodel: UsuarioModel = new UsuarioModel('','','','','','','')
+  usermodel: UsuarioModel = new UsuarioModel('','','','','','', 1)
   recordarme = true;
   visibility: boolean = true;
 
@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
         .subscribe( xresp => {
           console.log('Base de datos: ', xresp);
           if(xresp['email']==this.usuario.email) {
-            localStorage.setItem('username', xresp['username']);
+            localStorage.setItem('id', xresp['id']);
             localStorage.setItem('RoleA', xresp['RoleA']);
             localStorage.setItem('RoleC', xresp['RoleC']); 
             localStorage.setItem('RoleE', xresp['RoleE']);

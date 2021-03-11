@@ -43,15 +43,15 @@ export class NavbarComponent {
                   } 
                   if(data.RoleC == '1') {
                     this.xRoleC = true;
-                    this.zRoleA = 'Customer';
+                    this.zRoleC = 'Customer';
                   }
                   if(data.RoleE == '1') {
                     this.xRoleE = true;
-                    this.zRoleA = 'Warehouse';
+                    this.zRoleE = 'Warehouse';
                   }
                   if(data.RoleT == '1'){
                     this.xRoleT = true;
-                    this.zRoleA = 'Technician';
+                    this.zRoleT = 'Technician';
                   }
                 });
               }

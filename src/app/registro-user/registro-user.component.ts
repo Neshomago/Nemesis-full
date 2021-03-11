@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class RegistroUserComponent implements OnInit {
 
-  nuevousuario: UsuarioModel = new UsuarioModel('','','','','','','');
+  nuevousuario: UsuarioModel = new UsuarioModel('','','','','','', 1);
   recordarme = false;
 
   RoleA:boolean = false;
@@ -58,14 +58,14 @@ export class RegistroUserComponent implements OnInit {
 
     this.nuevousuario.id = 0;
 
-    if(localStorage.getItem('email')) {
-      this.nuevousuario.email = localStorage.getItem('email');
+    if(localStorage.getItem('xemail')) {
+      this.nuevousuario.email = localStorage.getItem('xemail');
     } else {
       this.nuevousuario.email = '';
     }
 
-    if(localStorage.getItem('password')) {
-      this.nuevousuario.password = localStorage.getItem('password');
+    if(localStorage.getItem('xpassword')) {
+      this.nuevousuario.password = localStorage.getItem('xpassword');
     } else {
       this.nuevousuario.password = '';
     }
@@ -88,7 +88,7 @@ export class RegistroUserComponent implements OnInit {
       this.nuevousuario.RoleE = '0';
     }
 
-    if(this.RoleA) {
+    if(this.RoleT) {
       this.nuevousuario.RoleT = '1';
     } else {
       this.nuevousuario.RoleT = '0';

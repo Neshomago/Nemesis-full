@@ -35,25 +35,25 @@ const routes: Routes = [
   { path: '', redirectTo:'login', pathMatch:'full' },
   { path: 'main', component: HomeComponent, canActivate:[AuthGuard]},
   { path: 'agency', children:[
-    {path: '', component:AgencyComponent},
+    {path: '', component:AgencyComponent, canActivate:[AuthGuard]},
     {path: 'viewagency/:id',component:ViewagencyComponent},
   ]},
   { path: 'customers', children:[
-    { path: '', component:CustomersComponent},
+    { path: '', component:CustomersComponent, canActivate:[AuthGuard]},
     { path: 'viewcustomer/:id', component:ViewcustomerComponent},
   ]},
   { path: 'contact',children:[
-    {path: '',component:ContactComponent},
+    {path: '',component:ContactComponent, canActivate:[AuthGuard]},
     {path: 'viewcontact/:id', component:ViewComponent},
 
   ]},
   { path: 'tickets', children: [
-    { path: '', component:TicketsComponent},
+    { path: '', component:TicketsComponent, canActivate:[AuthGuard]},
     { path: 'viewticket/:id', component:ViewticketComponent},
     { path: 'ddtpdf',component:DdtpdfComponent}
   ]},
   { path: 'warehouse', children: [
-    { path: '',component:WarehouseComponent},
+    { path: '',component:WarehouseComponent, canActivate:[AuthGuard]},
     { path: 'viewitem/:id', component:ViewwarehouseComponent},
     { path: 'viewitemset/:id', children:[
       { path:'', component:ViewitemsetComponent},

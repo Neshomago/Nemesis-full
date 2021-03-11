@@ -20,14 +20,13 @@
 
 export class Contact {
     constructor(
-        public name:string,
-        public surname:string,
-        public taxCode:string,
-        public address:string,
-        public phone:string,
-        public user:string,
-        public customerId:string,
-        public ids:string,
+        public name:any,
+        public surname:any,
+        public taxCode:any,
+        public address:any,
+        public phone:any,
+        public email:any,
+        public customerId:any,
         public version:number,
         public id?:number,
         public userId?:number,

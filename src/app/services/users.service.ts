@@ -10,11 +10,6 @@ const APIUrl ="http://127.0.0.1:5000";
 export class UsersService {
 
   private fooSubject = new Subject<any>();
-  private usernameSubject = new Subject<any>();
-  private RoleASubject = new Subject<any>();
-  private RoleCSubject = new Subject<any>();
-  private RoleESubject = new Subject<any>();
-  private RoleTSubject = new Subject<any>();
 
   constructor( private http:HttpClient) { }
 
