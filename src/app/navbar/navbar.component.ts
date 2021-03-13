@@ -34,24 +34,49 @@ export class NavbarComponent {
               private auth: AuthService, private router: Router,
               public usersService: UsersService) {
   
+                if(localStorage.getItem('zRoleA')) {
+                  this.zRoleA = localStorage.getItem('zRoleA'); 
+                }
+
+                if(localStorage.getItem('zRoleC')) {
+                  this.zRoleC = localStorage.getItem('zRoleC'); 
+                }
+
+                if(localStorage.getItem('zRoleE')) {
+                  this.zRoleE = localStorage.getItem('zRoleE'); 
+                }
+
+                if(localStorage.getItem('zRoleT')) {
+                  this.zRoleT = localStorage.getItem('zRoleT'); 
+                }
+
+                if(localStorage.getItem('nombre')) {
+                  this.nombre = localStorage.getItem('nombre'); 
+                }
+
                 this.usersService.getObservable().subscribe( (data) => {
                   console.log('Data received right now: ', data);
                   this.nombre = data.nombre;
+                  localStorage.setItem('nombre', this.nombre);
                   if(data.RoleA == '1') {
                     this.xRoleA = true;
                     this.zRoleA = 'Admin';
+                    localStorage.setItem('zRoleA', this.zRoleA);
                   } 
                   if(data.RoleC == '1') {
                     this.xRoleC = true;
                     this.zRoleC = 'Customer';
+                    localStorage.setItem('zRoleC', this.zRoleC);
                   }
                   if(data.RoleE == '1') {
                     this.xRoleE = true;
                     this.zRoleE = 'Warehouse';
+                    localStorage.setItem('zRoleE', this.zRoleE);
                   }
                   if(data.RoleT == '1'){
                     this.xRoleT = true;
                     this.zRoleT = 'Technician';
+                    localStorage.setItem('zRoleT', this.zRoleT);
                   }
                 });
               }

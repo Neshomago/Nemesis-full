@@ -16,6 +16,9 @@ export class ContactComponent implements OnInit {
   currentUser = null;
   currentIndex = -1;
 
+  public FilterValue: any;
+  filter = false;
+  filteredString: string = '';
 
   ngOnInit(): void {
     this.refreshContactList();
@@ -32,6 +35,20 @@ export class ContactComponent implements OnInit {
   setCurrentUser(user:any, index:any): void{
     this.currentUser = user;
     this.currentIndex = index;
+  }
+
+  filteredResult: any = [];
+  onSearchTerm(){
+    let resp: any = this.Contact.filter(
+      (item:any) => item.name.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+        if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filter = true;
+        this.filteredResult = resp;
+        return resp;
+      } else (resp == "" || resp == null || resp == undefined || resp == []); {
+        this.filter = false;
+        this.filteredResult = [];
+      }
   }
 
 }

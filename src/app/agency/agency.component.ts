@@ -16,6 +16,9 @@ export class AgencyComponent implements OnInit {
   currentAgency = null;
   currentIndex = -1;
   
+  public FilterValue: any;
+  filter = false;
+  filteredString: string = '';
 
   ngOnInit(): void {
     this.refreshAgencyList();
@@ -31,6 +34,20 @@ export class AgencyComponent implements OnInit {
   setCurrentAgency(agency:any, index:any): void{
     this.currentAgency = agency;
     this.currentIndex = index;
+  }
+
+  filteredResult: any = [];
+  onSearchTerm(){
+    let resp: any = this.AgencyList.filter(
+      (item:any) => item.name.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+        if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filter = true;
+        this.filteredResult = resp;
+        return resp;
+      } else (resp == "" || resp == null || resp == undefined || resp == []); {
+        this.filter = false;
+        this.filteredResult = [];
+      }
   }
 
 }

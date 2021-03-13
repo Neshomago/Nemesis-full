@@ -17,13 +17,28 @@ export class ViewComponent implements OnInit {
   ngOnInit(): void {
     this.id = +this.getContactIndividual(this.route.snapshot.paramMap.get('id')); 
   }
-
+  
   theUserData : any = [];
+  
+    changes: any = {
+      name:'',
+      surname:'',
+      taxCode: '',
+      address: '',
+      email: '',
+      phone: '',
+    }
     
   getContactIndividual(id:any):any{
     this.service.getContactIso(id).subscribe((data)=> {
-      this.theUserData = data;
-      console.log(data);
+      this.theUserData = data[0];
+      this.changes.name = data[0].name;
+      this.changes.surname = data[0].surname;
+      this.changes.taxCode = data[0].taxCode;
+      this.changes.address = data[0].address;
+      this.changes.email = data[0].email;
+      this.changes.phone = data[0].phone;
+      console.log('data user: ', this.theUserData);
     },
     error =>{console.log(error);
     }
@@ -32,22 +47,19 @@ export class ViewComponent implements OnInit {
 
   editFields(){
     this.edit = !this.edit;
+    console.log('datos a editar para actgualizar: ',this.changes)
   }
 
-  changes: any = {
-    name:'',
-    surname: '',
-    taxCode: '',
-    address: '',
-    // email: '',
-    phone: '',
-  }
   updateChanges(id:any){
     this.service.updateContact(id, this.changes).subscribe(
-      (data)=>{ this.changes = data;
-        this._snackBar.open("User Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
-        console.log(data);
-      
+      (data)=>{
+        this.theUserData.name = this.changes.name;
+        this.theUserData.surname = this.changes.surname;
+        this.theUserData.taxCode = this.changes.taxCode;
+        this.theUserData.address = this.changes.address;
+        this.theUserData.email = this.changes.email;
+        this.theUserData.phone = this.changes.phone;
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
       });
   }
 }

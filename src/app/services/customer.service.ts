@@ -23,7 +23,7 @@ export class CustomerService {
   }
 
   updateCustomer(id: any, val:any): Observable<any>{
-    return this.http.put(APIUrl + '/customer/update/'+id, val);
+    return this.http.post(`${APIUrl}/customer/update/${id}`, val);
   }
 
   deleteCustomer(val:any): Observable<any>{

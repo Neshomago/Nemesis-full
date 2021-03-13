@@ -1,7 +1,7 @@
 
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
-        <div *ngFor="let theAgency of theAgencyData; let i = index">
+        <div *ngIf="theAgencyData">
             <mat-card class="example-card">
                   <mat-card-title>Agency Information</mat-card-title>
                 <mat-divider></mat-divider>
@@ -13,18 +13,18 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Agency Id</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theAgency.id}}</td>
+                                        <td colspan="1">{{theAgencyData.id}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Agency Name</td>
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theAgency.name}}
+                                                {{theAgencyData.name}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="theAgency.name" autofocus>
+                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="changesAgency.name" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -34,11 +34,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theAgency.vat}}
+                                                {{theAgencyData.vat}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="theAgency.vat">
+                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="changesAgency.vat">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -48,11 +48,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theAgency.managerId}}
+                                                {{theAgencyData.managerId}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="managerId" id="managerId" [(ngModel)]="theAgency.managerId">
+                                                    <input matInput type="text" name="managerId" id="managerId" [(ngModel)]="changesAgency.managerId">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -63,11 +63,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theAgency.certification}}
+                                                {{theAgencyData.certification}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="certification" id="certification" [(ngModel)]="theAgency.certification">
+                                                    <input matInput type="text" name="certification" id="certification" [(ngModel)]="changesAgency.certification">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -90,11 +90,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theAgency.address}}
+                                                    {{theAgencyData.address}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="theAgency.address">
+                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="changesAgency.address">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -105,11 +105,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theAgency.email}}
+                                                    {{theAgencyData.email}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="theAgency.email">
+                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="changesAgency.email">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -120,11 +120,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theAgency.phone}}
+                                                    {{theAgencyData.phone}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="theAgency.phone">
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="changesAgency.phone">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -133,18 +133,18 @@
                                         <tr>
                                             <td colspan="1">Customer Id</td>
                                             <td>:</td>
-                                            <td colspan="1">{{theAgency.customerId}}</td>
+                                            <td colspan="1">{{theAgencyData.customerId}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="1">More Info</td>
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theAgency.moreInfo}}
+                                                    {{theAgencyData.moreInfo}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="moreInfo" id="moreInfo" [(ngModel)]="theAgency.moreInfo">
+                                                        <input matInput type="text" name="moreInfo" id="moreInfo" [(ngModel)]="changesAgency.moreInfo">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -187,15 +187,16 @@
 </div>
 
 <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
-    <div style="padding-bottom: 20px;">
+    <div *ngIf="!edit" style="padding-bottom: 20px;">
         <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
     </div>
-    <div style="padding-bottom: 20px;">
+    <div *ngIf="edit" style="padding-bottom: 20px;">
         <button mat-fab
         #tooltip="matTooltip"
           matTooltip="Save changes"
+          (click)="updateChanges(theAgencyData.id); editFields()"
         ><mat-icon>save</mat-icon></button>
-    <!-- [routerLink]="['/edit-ticket/', theAgencyData.id]" -->
+    <!-- [routerLink]="['/edit-ticket/', theAgencyDataDatatheAgencyData.id]" -->
     </div>
     <div>
         <button mat-fab color="warn" routerLink="/agency"

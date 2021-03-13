@@ -16,6 +16,9 @@ export class CustomersComponent implements OnInit {
   currentCustomer = null;
   currentIndex = -1;
 
+  public FilterValue: any;
+  filter = false;
+  filteredString: string = '';
 
   ngOnInit(): void {
   this.refreshCustomerList();    
@@ -32,6 +35,20 @@ export class CustomersComponent implements OnInit {
   setCurrentCustomer(customer:any, index:any): void{
     this.currentCustomer = customer;
     this.currentIndex = index;
+  }
+
+  filteredResult: any = [];
+  onSearchTerm(){
+    let resp: any = this.CustomerList.filter(
+      (item:any) => item.name.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+        if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filter = true;
+        this.filteredResult = resp;
+        return resp;
+      } else (resp == "" || resp == null || resp == undefined || resp == []); {
+        this.filter = false;
+        this.filteredResult = [];
+      }
   }
 
 }

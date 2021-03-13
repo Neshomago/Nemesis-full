@@ -30,6 +30,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroUserComponent } from './registro-user/registro-user.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 
 const routes: Routes = [
   { path: '', redirectTo:'login', pathMatch:'full' },
@@ -77,6 +78,7 @@ const routes: Routes = [
     { path:'', component: ViewtickettechComponent},
     { path:'tickettowork/:id', component: TickettoworkComponent}
   ]},
+  {path:'adminpanel', component:AdminpanelComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({

@@ -177,7 +177,7 @@ export class ViewticketComponent implements OnInit {
 
     year = this.techDate.getFullYear();
     month = this.techDate.getMonth()+1;
-    day = this.techDate.getDate();
+    day = this.techDate.getDate()+1;
     hour = this.techDate.getHours();
     minute = this.techDate.getMinutes();
     second = this.techDate.getSeconds();
@@ -300,7 +300,7 @@ export class ViewticketComponent implements OnInit {
   refreshPage() {
     this.tagsarray = [];
     setTimeout(
-      function(){window.location.reload()}, 1500)
+      function(){window.location.reload()}, 800)
   }
 
   // equipmentArrayData: any = [];

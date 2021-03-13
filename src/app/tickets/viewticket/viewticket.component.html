@@ -13,7 +13,7 @@
                   <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
                       Ticket Status:
                       <div>
-                          <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
+                          <div style="width: 90px;" [ngClass]="{'TicketResolved' : theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
                             <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
                                 {{theTicketData.status}}
                             </div>
@@ -26,9 +26,11 @@
                     <div>
                         <div>
                             <h2>Ticket Data
-                                <button mat-icon-button *ngIf="!showEdit1" (click)="toogleEditstep1()" style="color:orange;">
-                                    <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
-                                </button>
+                                <ng-container *ngIf="theTicketData.status != 'RESOLVED'">
+                                    <button mat-icon-button *ngIf="!showEdit1" (click)="toogleEditstep1()" style="color:orange;">
+                                        <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                    </button>
+                                </ng-container>
                                 <button mat-icon-button *ngIf="showEdit1" (click)="toogleEditstep1()" style="color:orange;">
                                     <mat-icon style="font-size: 18px;">west</mat-icon>
                                 </button>
@@ -264,14 +266,16 @@
                         <div class="row">
                             <div class="col">
                             <h2>Adittional Equipment: 
-                                <span *ngIf="theTicketData.version >= 2">
-                                    <button mat-icon-button style="color:orange;" *ngIf="!showEdit2" (click)="toogleEditstep2()">
-                                        <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
-                                    </button>
-                                    <button mat-icon-button  style="color:orange;" *ngIf="showEdit2" (click)="toogleEditstep2()">
-                                        <mat-icon style="font-size: 18px;">west</mat-icon>
-                                    </button>
-                                </span>
+                                <ng-container *ngIf="theTicketData.status != 'RESOLVED'">
+                                    <span *ngIf="theTicketData.version >= 2">
+                                        <button mat-icon-button style="color:orange;" *ngIf="!showEdit2" (click)="toogleEditstep2()">
+                                            <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                        </button>
+                                        <button mat-icon-button  style="color:orange;" *ngIf="showEdit2" (click)="toogleEditstep2()">
+                                            <mat-icon style="font-size: 18px;">west</mat-icon>
+                                        </button>
+                                    </span>
+                                </ng-container>
                             </h2>
                         </div>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="theTicketData.version == 1">
@@ -556,19 +560,27 @@
                                 </div>
                               </mat-option>
                             </mat-select>
-                            
                         </mat-form-field><br>
-                        <button mat-icon-button (click)="updateTechnician(theTicketData.id);">
-                            <mat-icon>done</mat-icon> Update Technician
-                        </button>
-                      </div>
-                      &nbsp;
-                  </div>
-                  <mat-divider></mat-divider>
-                  <h2>Date of visit: </h2>
-                  <p>
+                    </div>
+                    &nbsp;
+                </div>
+                <mat-divider></mat-divider>
+                <h2>Date of visit: </h2>
+                <p>
                     {{theTicketData.assignedDate | date:'MMMM dd, yyyy'}}
-                  </p>
+                </p>
+                <ng-container *ngIf="showEdit4">
+                    <mat-form-field class="col-3">
+                        <mat-label>Choose a new date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="techDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                      <br>
+                      <button mat-icon-button (click)="updateTechnician(theTicketData.id); refreshPage()">
+                          <mat-icon>done</mat-icon> Update Technician Assignment
+                        </button>
+                    </ng-container>
                 </div>
               </ng-container>
             <!-- </div> -->

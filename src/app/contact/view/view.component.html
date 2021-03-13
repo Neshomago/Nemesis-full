@@ -1,5 +1,5 @@
 
-<div *ngFor="let theUser of theUserData; let i = index">
+<div *ngIf="theUserData">
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
             <mat-card class="example-card">
@@ -13,7 +13,7 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">User Id</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theUser.id}}
+                                        <td colspan="1">{{theUserData.id}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -21,11 +21,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theUser.name}}
+                                                {{theUserData.name}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="theUser.name" autofocus>
+                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="changes.name" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -35,11 +35,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theUser.surname}}
+                                                {{theUserData.surname}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="surname" id="surname" [(ngModel)]="theUser.surname" autofocus>
+                                                    <input matInput type="text" name="surname" id="surname" [(ngModel)]="changes.surname" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -50,11 +50,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theUser.taxCode}}
+                                                {{theUserData.taxCode}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="taxCode" id="taxCode" [(ngModel)]="theUser.taxCode" autofocus>
+                                                    <input matInput type="text" name="taxCode" id="taxCode" [(ngModel)]="changes.taxCode" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -77,11 +77,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theUser.address}}
+                                                    {{theUserData.address}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="theUser.address" autofocus>
+                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="changes.address" autofocus>
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -91,7 +91,14 @@
                                             <td colspan="1">Email</td>
                                             <td>:</td>
                                             <td colspan="1">
-                                                    {{theUser.email}}
+                                                <ng-container *ngIf="!edit">
+                                                    {{theUserData.email}}
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="changes.email" autofocus>
+                                                    </mat-form-field>
+                                                </ng-container>
                                             </td>
                                         </tr>
     
@@ -100,11 +107,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theUser.phone}}
+                                                    {{theUserData.phone}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="theUser.phone" autofocus>
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="changes.phone" autofocus>
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -114,14 +121,14 @@
                                             <td colspan="1">Customer Id Contact</td>
                                             <td>:</td>
                                             <td colspan="1">
-                                                    {{theUser.customerId}}
+                                                    {{theUserData.customerId}}
                                             </td>
                                         </tr>
     
                                     </table>
                                 </div>
                     </div>
-                  
+<br>
                 </mat-card-content>
             </mat-card>
             <ng-container style="padding-top: 20px;">
@@ -130,20 +137,21 @@
         </div>
     </div>
     <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
-        <div style="padding-bottom: 20px;">
+        
+        <div *ngIf="!edit" style="padding-bottom: 20px;">
             <!-- <button mat-fab [routerLink]="['/edit-ticket/', theUserData.id]"><mat-icon>edit-row</mat-icon></button> -->
             <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
         </div>
-        <div style="padding-bottom: 20px;">
+        <div *ngIf="edit" style="padding-bottom: 20px;">
             <button mat-fab
             #tooltip="matTooltip"
               matTooltip="Save changes"
-              (click)="updateChanges(theUser.id)"
+              (click)="updateChanges(theUserData.id); editFields()"
             ><mat-icon>save</mat-icon></button>
         <!-- [routerLink]="['/edit-ticket/', theUserData.id]" -->
         </div>
         <div>
-            <button mat-fab color="warn" routerLink="/create-ticket"
+            <button mat-fab color="warn" routerLink="/contact"
             #tooltip="matTooltip"
             matTooltip="Return to List without changes">
             <mat-icon>close</mat-icon></button>

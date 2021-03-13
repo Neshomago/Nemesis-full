@@ -9,35 +9,13 @@ import { WarehouseService } from 'src/app/services/warehouse.service';
   styleUrls: ['./edititem.component.scss']
 })
 export class EdititemComponent implements OnInit {
-
+  
   id: number | undefined;
   theItemWarehouse: any =[];
   edit = false;
-
+  
   currentIndex = -1;
-
-  constructor(
-    private service: WarehouseService, private route:ActivatedRoute, private _snackBar: MatSnackBar,
-  ) { }
-
-  ngOnInit(): void {
-    this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
-    this.getCategoryList();
-    this.getWarehouses();
-  }
-
-  editFields(){
-    this.edit = !this.edit;
-  }
-  getWarehouseItemIso(id:any):any{
-    this.service.getItemIso(id).subscribe(
-      (data)=>{
-        this.theItemWarehouse = data;
-      },
-      error => {console.log(error);
-      });
-  }
-
+  
   changes: any = {
     serial:'',
     activation:'',
@@ -52,6 +30,32 @@ export class EdititemComponent implements OnInit {
     type:'NEW REGISTER',
     descriptionTrack:'New Item registration',
   };
+
+  constructor(
+    private service: WarehouseService,
+    private route:ActivatedRoute,
+    private _snackBar: MatSnackBar,
+  ) { }
+
+  ngOnInit(): void {
+    this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
+    this.getCategoryList();
+    this.getWarehouses();
+  }
+
+  editFields(){
+    this.edit = !this.edit;
+  }
+  getWarehouseItemIso(id:any):any{
+    this.service.getItemIso(id).subscribe(
+      (data)=>{
+        this.theItemWarehouse = data[0];
+
+      },
+      error => {console.log(error);
+      });
+  }
+
   updateChanges(id:any){
     this.service.updateWarehouseItem(id, this.changes).subscribe(
       (data)=>{ this.changes = data;

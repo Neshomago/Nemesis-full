@@ -3,8 +3,8 @@ import { CustomerService } from '../services/customer.service';
 import { TicketService } from '../services/ticket.service';
 import { UsersService } from '../services/users.service';
 import { WarehouseService } from '../services/warehouse.service';
-// import { map } from 'rxjs/operators';
-// import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-home',
@@ -12,33 +12,12 @@ import { WarehouseService } from '../services/warehouse.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  /** Based on the screen size, switch from standard to one column per row */
-  // cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-  //   map(({ matches }) => {
-  //     if (matches) {
-  //       return [
-  //         { title: 'Opened Tickets', cols: 1, rows: 1 },
-  //         { title: 'Total of Clients', cols: 1, rows: 1 },
-  //         { title: 'Technicians', cols: 1, rows: 1 },
-  //         { title: 'Warehouse', cols: 1, rows: 1 }
-  //       ];
-  //     }
-
-  //     return [
-  //       { title: 'Opened Tickets', cols: 1, rows: 1 },
-  //         { title: 'Total of Clients', cols: 1, rows: 1 },
-  //         { title: 'Technicians', cols: 1, rows: 1 },
-  //         { title: 'Warehouse', cols: 1, rows: 1 }
-  //     ];
-  //   })
-  // );
   clientsCount: any;
   ticketCount :any;
   warehouseCount:any;
   technicianCount:any;
 
   constructor(
-   // private breakpointObserver: BreakpointObserver,
     private tkservice:TicketService,
     private cuservice:CustomerService,
     private user: UsersService,
@@ -60,6 +39,7 @@ export class HomeComponent implements OnInit {
   TotalAdminInt = 0;
   TotalTicketsWorked = 0;
   TotalRevenue = 0;
+  
   no_tickets(){
     let ins = 0;
     let dis = 0;
@@ -71,6 +51,7 @@ export class HomeComponent implements OnInit {
     let TicketIns=0;
     let TicketDis=0;
     let TicketInt=0;
+
   this.tkservice.getTicketList().subscribe(
   data => {this.ticketCount = data;
     for ( let i = 0; i < this.ticketCount.length; i++) {
@@ -116,6 +97,7 @@ export class HomeComponent implements OnInit {
       data => { this.clientsCount = data;
     });
   }
+
   technicians(){
     this.user.getTechnicianList().subscribe(
       data =>{ this.technicianCount = data;

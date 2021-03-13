@@ -13,6 +13,13 @@ export class ViewcustomerComponent implements OnInit {
   id: number | undefined;
   edit = false;
 
+  changesCustomer: any = {
+    name:'',
+    vat: '',
+    address: '',
+    email: '',
+    phone: '',
+  }
   constructor(private service: CustomerService, private route:ActivatedRoute, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -23,8 +30,13 @@ export class ViewcustomerComponent implements OnInit {
     
   getCustomerIndividual(id:any):any{
     this.service.getCustomerIso(id).subscribe((data)=> {
-      this.theCustomerData = data;
-      console.log(data);
+      this.theCustomerData = data[0];
+      this.changesCustomer.name = data[0].name;
+      this.changesCustomer.vat = data[0].vat;
+      this.changesCustomer.address = data[0].address;
+      this.changesCustomer.email = data[0].email;
+      this.changesCustomer.phone = data[0].phone;
+      console.log('datos clente: ', this.theCustomerData);
     },
     error =>{console.log(error);
     }
@@ -35,20 +47,16 @@ export class ViewcustomerComponent implements OnInit {
     this.edit = !this.edit;
   }
 
-  changes: any = {
-    name:'',
-    surname: '',
-    taxCode: '',
-    address: '',
-    // email: '',
-    phone: '',
-  }
   updateChanges(id:any){
-    this.service.updateCustomer(id, this.changes).subscribe(
-      (data)=>{ this.changes = data;
-        this._snackBar.open("User Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+    this.service.updateCustomer(id, this.changesCustomer).subscribe(
+      (data)=>{
+        this.theCustomerData.name = this.changesCustomer.name;
+      this.theCustomerData.vat = this.changesCustomer.vat;
+      this.theCustomerData.address = this.changesCustomer.address;
+      this.theCustomerData.email = this.changesCustomer.email;
+      this.theCustomerData.phone = this.changesCustomer.phone;
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
         console.log(data);
-      
       });
   }
 }

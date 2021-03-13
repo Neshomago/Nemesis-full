@@ -69,14 +69,19 @@ export class WarehouseComponent implements OnInit {
   filteredResult: any = [];
   onSearchTerm(){
     let resp: any = this.TheGeneralList.filter(
-      (item:any) => item.serial.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
-        if (resp != null || resp != undefined || resp != "" || resp != []){
+      (item:any) => item.serial.toLowerCase().indexOf(
+        this.filteredString.toLowerCase()) !== -1);
+
+        if (resp != null || resp != undefined || resp != "" || resp != [])
+        {
         this.filter = true;
         this.filteredResult = resp;
         return resp;
-      } else (resp == "" || resp == null || resp == undefined || resp == []); {
-        this.filter = false;
+      }
+      else /*if (resp === "" || resp == null || resp == undefined || resp === [])*/
+      {
         this.filteredResult = [];
+        this.filter = false;
       }
   }
 

@@ -30,7 +30,7 @@ export class UsersService {
   }
 
   updateContact(id:any, val:any): Observable<any>{
-    return this.http.post(APIUrl + '/contact/update'+id, val);
+    return this.http.post(APIUrl + '/contact/update/'+id, val);
   }
 
   deleteContact(val:any): Observable<any>{

@@ -1,7 +1,7 @@
 
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
-        <div *ngFor="let theCustomer of theCustomerData; let i = index">
+        <div *ngIf="theCustomerData">
             <mat-card class="example-card">
                   <mat-card-title>Customer Information</mat-card-title>
                 <mat-divider></mat-divider>
@@ -13,18 +13,18 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Customer Id</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theCustomer.id}}</td>
+                                        <td colspan="1">{{theCustomerData.id}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Customer Name</td>
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theCustomer.name}}
+                                                {{theCustomerData.name}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="theCustomer.name" autofocus>
+                                                    <input matInput type="text" name="name" id="name" [(ngModel)]="changesCustomer.name" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -35,11 +35,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theCustomer.vat}}
+                                                {{theCustomerData.vat}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="theCustomer.vat" autofocus>
+                                                    <input matInput type="text" name="vat" id="vat" [(ngModel)]="changesCustomer.vat" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -62,11 +62,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theCustomer.address}}
+                                                    {{theCustomerData.address}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="theCustomer.address">
+                                                        <input matInput type="text" name="address" id="address" [(ngModel)]="changesCustomer.address">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -77,11 +77,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theCustomer.email}}
+                                                    {{theCustomerData.email}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="theCustomer.email">
+                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="changesCustomer.email">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -92,11 +92,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theCustomer.phone}}
+                                                    {{theCustomerData.phone}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="theCustomer.phone">
+                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="changesCustomer.phone">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -115,14 +115,15 @@
 </div>
 
 <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block;">
-    <div style="padding-bottom: 20px;">
+    <div *ngIf="!edit" style="padding-bottom: 20px;">
         <!-- <button mat-fab [routerLink]="['/edit-ticket/', theCustomerData.id]"><mat-icon>edit-row</mat-icon></button> -->
         <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
     </div>
-    <div style="padding-bottom: 20px;">
+    <div *ngIf="edit" style="padding-bottom: 20px;">
         <button mat-fab
         #tooltip="matTooltip"
           matTooltip="Save changes"
+          (click)="updateChanges(theCustomerData.id); editFields()"
         ><mat-icon>save</mat-icon></button>
     <!-- [routerLink]="['/edit-ticket/', theCustomerData.id]" -->
     </div>

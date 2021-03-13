@@ -73,6 +73,7 @@ import { FilterwarehousePipe } from './pipes/filterwarehouse.pipe';
 import { TickettoworkComponent } from './tickets/viewtickettech/tickettowork/tickettowork.component';
 import { RegistroComponent } from './registro/registro.component';
 import { RegistroUserComponent } from './registro-user/registro-user.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 
 
 @NgModule({
@@ -112,6 +113,7 @@ import { RegistroUserComponent } from './registro-user/registro-user.component';
     TickettoworkComponent,
     RegistroComponent,
     RegistroUserComponent,
+    AdminpanelComponent,
   ],
   entryComponents: [MassiveticketsComponent],
   imports: [
