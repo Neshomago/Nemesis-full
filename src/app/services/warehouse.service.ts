@@ -8,12 +8,23 @@ const APIUrl ="http://127.0.0.1:5000";
   providedIn: 'root'
 })
 export class WarehouseService {
-  //update item info
-  updateWarehouseItem(id: any, changes: any) {
-    return this.http.post(`${APIUrl}/warehouseitemup/${id}`,changes);
-  }
-
+  
   constructor( private http:HttpClient) { }
+  
+// Tracking Item info post
+trackingItem(val:any): Observable<any>{
+  return this.http.post(`${APIUrl}/warehouse/itemtracking`,val)
+}
+
+//Tracking Info Get
+getTrackingData(serial:any):Observable<any>{
+  return this.http.get<any[]>(`${APIUrl}/warehouse/tracking`,serial);
+}
+
+  //update item info
+  updateWarehouseItem(id:any, changes: any): Observable<any> {
+    return this.http.post(`${APIUrl}/warehouseitemup/${id}`, changes);
+  }
 
   getWarehouseList(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehousenames');
@@ -47,6 +58,10 @@ export class WarehouseService {
   //category List
   getCategories(): Observable<any>{
     return this.http.get(`${APIUrl}/warehousecategory`);
+  }
+
+  categoryStock(id:any,val:any):Observable<any>{
+    return this.http.post(`${APIUrl}/warehousecategory/stockppdate/${id}`, val);
   }
   
   //category add

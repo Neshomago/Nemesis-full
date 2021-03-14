@@ -20,6 +20,9 @@ export class WarehouseComponent implements OnInit {
   filter = false;
   showstockedit = false;
 
+  stockUpdate: any ={
+    minimumStock:''
+  }
   constructor(private whsservice: WarehouseService,
     public dialog:MatDialog) { }
 
@@ -64,6 +67,19 @@ export class WarehouseComponent implements OnInit {
     this.showstockedit = !this.showstockedit;
   }
 
+  updateStock(){
+    let i= 0;
+    this.categoryList.array.forEach((element:any) => {
+      this.whsservice.categoryStock(element.id, element).subscribe(
+        (data) => {console.log(data);
+        if (this.categoryList.length == (i+1)){
+          this.categoryList(element.id);
+        }
+        i++;
+    });
+  })
+}
+
 
   //Filter searchbox
   filteredResult: any = [];
@@ -72,14 +88,11 @@ export class WarehouseComponent implements OnInit {
       (item:any) => item.serial.toLowerCase().indexOf(
         this.filteredString.toLowerCase()) !== -1);
 
-        if (resp != null || resp != undefined || resp != "" || resp != [])
-        {
+      if (resp != null || resp != undefined || resp != "" || resp != []){
         this.filter = true;
         this.filteredResult = resp;
         return resp;
-      }
-      else /*if (resp === "" || resp == null || resp == undefined || resp === [])*/
-      {
+      } else /*if (resp === "" || resp == null || resp == undefined || resp === [])*/{
         this.filteredResult = [];
         this.filter = false;
       }

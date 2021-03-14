@@ -86,27 +86,31 @@
         </td>
         <td colspan="1" style="height: 60px;">
           <div class="row" *ngIf="!showstockedit">
-            <div class="col-3" style="width: 30px;">
-              {{item.minimumStock}}
-            </div>
-            <div class="col-2">
-              <button mat-mini-fab (click)="stockEdit()">
-                <span>
-                  <mat-icon style="font-size: 30px; vertical-align: middle;">mode_edit</mat-icon>
-                </span>
-              </button>
+            <div style="display: flex;">
+              <div style="display: inline-flex; width: 26px; line-height: 40px;">
+                {{item.minimumStock}}
+              </div>
+              <div style="display: inline-flex;">
+                <button mat-mini-fab (click)="stockEdit()">
+                  <span>
+                    <mat-icon style="font-size: 20px; vertical-align: middle;">mode_edit</mat-icon>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
           <div class="row" *ngIf="showstockedit">
-            <div class="col-3" style="width: 30px;">
-              <input matInput type="text" name="minimumStock" [(ngModel)]="item.minimumStock" width="120">
-            </div>
-            <div class="col-2">
-              <button mat-mini-fab (click)="stockEdit()">
-                <span>
-                  <mat-icon style="font-size: small; vertical-align: middle;">mode_edit</mat-icon>
-                </span>
-              </button>
+            <div style="display: flex;">
+              <div style="display:inline-flex;">
+                <input type="text" name="minimumStock{{i}}" [(ngModel)]="item.minimumStock" style="width:24px;" autofocus>
+              </div>
+              <div style="display: inline-flex">
+                <button mat-mini-fab (click)="stockEdit()">
+                  <span>
+                    <mat-icon style="font-size: 20px; vertical-align: middle;">save</mat-icon>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </td>

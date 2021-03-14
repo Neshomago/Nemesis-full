@@ -1,9 +1,9 @@
 
 <div style="background-color: whitesmoke; margin: 0;">
     <div class="forminmargin">
-        <div *ngFor="let theItem of theItemWarehouse; let i = index">
+        <div *ngIf="theItemWarehouse">
             <mat-card class="example-card">
-                  <mat-card-title>{{theItem.name}}</mat-card-title>
+                  <mat-card-title>{{theItemWarehouse.name}}</mat-card-title>
                 <mat-divider></mat-divider>
                 <mat-card-content>
                     <div>
@@ -13,14 +13,14 @@
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Item Id</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theItem.id}}</td>
+                                        <td colspan="1">{{theItemWarehouse.id}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="1" style="width: 150px;">Category</td>
                                         <td>:</td>
-                                        <td colspan="1">{{theItem.categoryId}} - 
+                                        <td colspan="1">{{theItemWarehouse.categoryId}} - 
                                             <ng-container *ngFor="let category of categoryList">
-                                                <span *ngIf="theItem.categoryId == category.id">
+                                                <span *ngIf="theItemWarehouse.categoryId == category.id">
                                                     {{category.category_name}}
                                                 </span>
                                             </ng-container>
@@ -31,11 +31,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.serial}}
+                                                {{theItemWarehouse.serial}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="serial" id="serial" [placeholder]="theItem.serial" [(ngModel)]="changes.serial" autofocus>
+                                                    <input matInput type="text" name="serial" id="serial" [placeholder]="theItemWarehouse.serial" [(ngModel)]="changesItem.serial" autofocus>
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -45,10 +45,10 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.activation}}
+                                                {{theItemWarehouse.activation}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
-                                                <input matInput type="text" name="activation" id="activation" [placeholder]="theItem.activation" [(ngModel)]="changes.activation">
+                                                <input matInput type="text" name="activation" id="activation" [placeholder]="theItemWarehouse.activation" [(ngModel)]="changesItem.activation">
                                             </ng-container>
                                             
                                         </td>
@@ -58,9 +58,9 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.warehouseId}} - 
+                                                {{theItemWarehouse.warehouseId}} - 
                                                 <ng-container *ngFor="let warehouse of warehouses">
-                                                    <span *ngIf="theItem.warehouseId == warehouse.id">
+                                                    <span *ngIf="theItemWarehouse.warehouseId == warehouse.id">
                                                         {{warehouse.name}}
                                                     </span>
                                                 </ng-container>
@@ -68,7 +68,7 @@
                                             <ng-container *ngIf="edit">
                                                     <mat-form-field class="full-width">
                                                         <mat-label>Location</mat-label>
-                                                        <mat-select matInput name="warehouseId" id="warehouseId" [(ngModel)]="changes.warehouseId">
+                                                        <mat-select matInput name="warehouseId" id="warehouseId" [(ngModel)]="changesItem.warehouseId">
                                                             <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
                                                                 <ng-container>
                                                                     {{warehouse.name}}
@@ -88,21 +88,21 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                <div *ngIf="theItem.used == 1">
+                                                <div *ngIf="theItemWarehouse.used == 1">
                                                     <mat-icon style="vertical-align: middle;">check_box</mat-icon>
                                                 </div>
-                                                <div *ngIf="theItem.used == 0">
+                                                <div *ngIf="theItemWarehouse.used == 0">
                                                     <mat-icon style="vertical-align: middle;">check_box_outline_blank</mat-icon>
                                                 </div>
                                             </ng-container>
                                             <ng-container *ngIf="edit">
-                                                <ng-container *ngIf="theItem.used == 1">
+                                                <ng-container *ngIf="theItemWarehouse.used == 1">
                                                     Actual status: Working Item.
                                                 </ng-container>
-                                                <ng-container *ngIf="theItem.used == 0">
+                                                <ng-container *ngIf="theItemWarehouse.used == 0">
                                                     Actual status: Used Item.
                                                 </ng-container><br>
-                                                <mat-radio-group [(ngModel)]="changes.used">
+                                                <mat-radio-group [(ngModel)]="changesItem.used">
                                                     <mat-radio-button value=1>Used</mat-radio-button>
                                                     <mat-radio-button value=0>New</mat-radio-button>
                                                   </mat-radio-group>
@@ -115,11 +115,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.location}}
+                                                {{theItemWarehouse.location}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="location" id="location" [(ngModel)]="changes.location">
+                                                    <input matInput type="text" name="location" id="location" [(ngModel)]="changesItem.location">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -129,11 +129,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.status}}
+                                                {{theItemWarehouse.status}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="status" id="status" [(ngModel)]="changes.status">
+                                                    <input matInput type="text" name="status" id="status" [(ngModel)]="changesItem.status">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -143,11 +143,11 @@
                                         <td>:</td>
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
-                                                {{theItem.statusDescription}}
+                                                {{theItemWarehouse.statusDescription}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field>
-                                                    <input matInput type="text" name="statusDescription" id="statusDescription" [(ngModel)]="changes.statusDescription">
+                                                    <input matInput type="text" name="statusDescription" id="statusDescription" [(ngModel)]="changesItem.statusDescription">
                                                 </mat-form-field>
                                             </ng-container>
                                         </td>
@@ -158,7 +158,9 @@
 
                     </div><br>
                     <ng-container style="padding-top: 20px;">
-                        <mat-divider></mat-divider>
+                        <mat-divider>
+                            {{trackingInfo | json}}
+                        </mat-divider>
                     </ng-container>
                     <mat-divider></mat-divider>
                     <div><br>
@@ -170,7 +172,7 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container>
-                                                    {{theItem.warranty_invoiceDate | date: 'yyyy-MM-dd'}}
+                                                    {{theItemWarehouse.warranty_invoiceDate | date: 'yyyy-MM-dd'}}
                                                 </ng-container>
                                             </td>
                                         </tr>
@@ -180,11 +182,11 @@
                                             <td>:</td>
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
-                                                    {{theItem.warranty_period}}
+                                                    {{theItemWarehouse.warranty_period}}
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="warranty_period" id="warranty_period" [(ngModel)]="changes.warranty_period">
+                                                        <input matInput type="text" name="warranty_period" id="warranty_period" [(ngModel)]="changesItem.warranty_period">
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -192,27 +194,27 @@
     
                                     </table>
                                     <span style="color: brown;">
-                                        {{changes | json}}
                                     </span>
                                 </div>
                     </div>
                 </mat-card-content>
             </mat-card>
             <div style="position: fixed; right: 40px; bottom: 30px; display: inline-block; z-index: 1;">
-                <div style="padding-bottom: 20px;">
+                <div *ngIf="!edit" style="padding-bottom: 20px;">
                     <button mat-fab (click)="editFields();"><mat-icon>edit-row</mat-icon></button>
                 </div>
                 <div style="padding-bottom: 20px;" *ngIf="edit">
                     <button mat-fab
                     #tooltip="matTooltip"
                       matTooltip="Save changes"
-                      (click)="updateChanges(theItem.id); editFields()"
+                      (click)="updateChanges(theItemWarehouse.id); saveItemTrack(); editFields()"
                     ><mat-icon>save</mat-icon></button>
                 </div>
                 <div>
-                    <button mat-fab color="warn" routerLink="/warehouse"
+                    <button mat-fab color="warn"
                     #tooltip="matTooltip"
-                    matTooltip="Return to List without changes">
+                    matTooltip="Return to List without changes"
+                    onclick="history.go(-1)">
                     <mat-icon>close</mat-icon></button>
                 </div>
             </div>
