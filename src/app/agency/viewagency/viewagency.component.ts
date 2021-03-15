@@ -13,7 +13,7 @@ export class ViewagencyComponent implements OnInit {
   edit = false;
   id: number | undefined;
 
-  constructor(private service: AgencyService, private route:ActivatedRoute, private _snackBar: MatSnackBar) { }
+  constructor(private service: AgencyService, private route:ActivatedRoute, private _snackBar: MatSnackBar, private routerReturn: Router) { }
 
   ngOnInit(): void {
     this.id = +this.getAgencyIndividual(this.route.snapshot.paramMap.get('id'));
@@ -69,5 +69,18 @@ export class ViewagencyComponent implements OnInit {
         console.log(data);
       
       });
+  }
+
+  erase:any= {
+    isDelete: 1
+  };
+  deleteItem(id:any){
+    this.service.deleteAgency(id, this.erase).subscribe(
+      (data)=>{ this.erase = data;
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+        this.routerReturn.navigateByUrl("/agency");
+        console.log(data);
+      });
+      
   }
 }

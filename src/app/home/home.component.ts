@@ -17,11 +17,48 @@ export class HomeComponent implements OnInit {
   warehouseCount:any;
   technicianCount:any;
 
+  xRoleA: boolean = false;
+  xRoleC: boolean = false; 
+  xRoleE: boolean = false;
+  xRoleT: boolean = false;
+  nombre: any;
+  zRoleA: any;
+  zRoleC: any;
+  zRoleE: any;
+  zRoleT: any;
+  iniciales:any;
+  surname: any;
+
   constructor(
     private tkservice:TicketService,
     private cuservice:CustomerService,
     private user: UsersService,
-    private warehouse: WarehouseService) {}
+    private warehouse: WarehouseService) {
+
+      if(localStorage.getItem('zRoleA')) {
+        this.zRoleA = localStorage.getItem('zRoleA'); 
+      }
+
+      if(localStorage.getItem('zRoleC')) {
+        this.zRoleC = localStorage.getItem('zRoleC'); 
+      }
+
+      if(localStorage.getItem('zRoleE')) {
+        this.zRoleE = localStorage.getItem('zRoleE'); 
+      }
+      
+      if(localStorage.getItem('zRoleT')) {
+        this.zRoleT = localStorage.getItem('zRoleT'); 
+      }
+    
+      if(localStorage.getItem('nombre')) {
+        this.nombre = localStorage.getItem('nombre'); 
+      }
+    
+      if(localStorage.getItem('surname')) {
+        this.surname = localStorage.getItem('surname'); 
+      }
+    }
 
   ngOnInit(): void {
     this.total_clients();
@@ -104,6 +141,8 @@ export class HomeComponent implements OnInit {
       console.log(this.technicianCount)}
     );
   }
+
+  
 
   warehouse_status(){
 

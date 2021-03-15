@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-adminpanel',
@@ -8,13 +9,24 @@ import { Component, OnInit } from '@angular/core';
 export class AdminpanelComponent implements OnInit {
 
   toogleedit = false;
-  constructor() { }
+  technicianCount:any = [];
+
+
+  constructor(private user: UsersService) { }
 
   ngOnInit(): void {
+    this.technicians();
   }
 
   edit(){
     this.toogleedit = !this.toogleedit;
+  }
+
+  technicians(){
+    this.user.getTechnicianList().subscribe(
+      data =>{ this.technicianCount = data;
+      console.log(this.technicianCount)}
+    );
   }
 
 }

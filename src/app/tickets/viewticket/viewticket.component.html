@@ -408,7 +408,7 @@
                     <div class="row">
                         <div class="col">
                             <h2>Equipment Serialization: 
-                                <span *ngIf="theTicketData.version === 4">
+                                <span *ngIf="theTicketData.version >= 4">
                                     <button mat-icon-button *ngIf="!showEdit3" (click)="toogleEditstep3()" style="color:orange;">
                                         <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
                                     </button>
@@ -444,7 +444,7 @@
                                         <input matInput type="text" name="item{{indice}}" [value]="tag.item" disabled/>
                                     </mat-form-field>
                                     &nbsp; -->
-                                    <mat-form-field class="col" *ngIf="theTicketData.version == 4 && !showEdit3">
+                                    <mat-form-field class="col" *ngIf="theTicketData.version >= 4 && !showEdit3">
                                         <mat-label>Serial Number</mat-label>
                                         <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" disabled required/>
                                     </mat-form-field>
@@ -537,7 +537,7 @@
                 </div>
               </ng-container>
 
-              <ng-container *ngIf="theTicketData.version == 5">
+              <ng-container *ngIf="theTicketData.version >= 5">
 
                 <div class="col-6">
                   <h2>Technician code: </h2>
@@ -595,13 +595,13 @@
                 <!-- <div class="col-auto">
                     <button mat-raised-button>PLAN VISIT</button>
                 </div> -->
-                <div class="col-auto" *ngIf="theTicketData.version>=3">
+                <div class="col" *ngIf="theTicketData.version>=3">
                     <button mat-raised-button (click)="ddtDownload()">CREATE DDT</button>
                 </div>
-            <div class="col-auto" *ngIf="theTicketData.version>=4">
+            <div class="col" *ngIf="theTicketData.version>=4">
                 <button mat-raised-button (click)="rptDownload()">DOWNLOAD REPORT</button>
             </div>
-            <div class="col-auto" *ngIf="theTicketData.version >= 5 && theTicketData.status != 'RESOLVED'">
+            <div class="col" *ngIf="theTicketData.version >= 5 && theTicketData.status != 'RESOLVED'">
                 <button mat-raised-button
                 #tooltip="matTooltip"
                 matTooltip="Start Process, notify technician"

@@ -67,7 +67,7 @@
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                     <mat-form-field class="full-width">
-                                                        <mat-label>Location</mat-label>
+                                                        <mat-label>Warehouse Name</mat-label>
                                                         <mat-select matInput name="warehouseId" id="warehouseId" [(ngModel)]="changesItem.warehouseId">
                                                             <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
                                                                 <ng-container>
@@ -103,8 +103,8 @@
                                                     Actual status: Used Item.
                                                 </ng-container><br>
                                                 <mat-radio-group [(ngModel)]="changesItem.used">
-                                                    <mat-radio-button value=1>Used</mat-radio-button>
-                                                    <mat-radio-button value=0>New</mat-radio-button>
+                                                    <mat-radio-button value="1">Used</mat-radio-button>
+                                                    <mat-radio-button value="0">New</mat-radio-button>
                                                   </mat-radio-group>
                                             </ng-container>
                                         </td>
@@ -118,9 +118,18 @@
                                                 {{theItemWarehouse.location}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
-                                                <mat-form-field>
-                                                    <input matInput type="text" name="location" id="location" [(ngModel)]="changesItem.location">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Location</mat-label>
+                                                    <mat-select matInput name="location" id="location" [(ngModel)]="changesItem.location">
+                                                        <mat-option value="Agency">Agency [Id]</mat-option>
+                                                        <mat-option value="Warehouse">Warehouse</mat-option>
+                                                        <mat-option value="Transport">Transport</mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
+
+                                                <!-- <mat-form-field>
+                                                    <input matInput type="text" name="location" id="location" [(ngModel)]="changesItem.location">
+                                                </mat-form-field> -->
                                             </ng-container>
                                         </td>
                                     </tr>
@@ -210,6 +219,13 @@
                       (click)="updateChanges(theItemWarehouse.id); saveItemTrack(); editFields()"
                     ><mat-icon>save</mat-icon></button>
                 </div>
+                <div style="padding-bottom: 20px;">
+                    <button mat-fab
+                    #tooltip="matTooltip"
+                      matTooltip="Erase Button"
+                      (click)=" saveItemTrack(); deleteItem(theItemWarehouse.id);"
+                    ><mat-icon>delete_forever</mat-icon></button>
+                </div>
                 <div>
                     <button mat-fab color="warn"
                     #tooltip="matTooltip"
@@ -233,15 +249,25 @@
                 <td width="20%">User</td>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let track of trackingData; let i = index">
                     <td>
-    
+                        {{track.date}}
                     </td>
                     <td>
-    
+                        <div>
+                            <div>
+                                {{track.changes}}
+                            </div>
+                            <div>
+                                {{track.type}}
+                            </div>
+                            <div>
+                                {{track.descriptionTrack}}
+                            </div>
+                        </div>
                     </td>
                     <td>
-    
+                        {{track.userId}}
                     </td>
                 </tr>
             </tbody>

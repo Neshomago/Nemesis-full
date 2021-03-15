@@ -28,8 +28,8 @@ export class AgencyService {
     return this.http.post(`${APIUrl}/agency/update/${id}`, val);
   }
 
-  deleteAgency(val:any): Observable<any>{
-    return this.http.delete(APIUrl + '/agency/delete',val);
+  deleteAgency(id:any, val:any): Observable<any>{
+    return this.http.post(APIUrl + '/agency/delete/'+id, val);
   }
 
   getAgencyIso(id:any): Observable<any>{

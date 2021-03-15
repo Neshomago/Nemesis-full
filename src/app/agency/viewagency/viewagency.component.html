@@ -190,6 +190,13 @@
     <div *ngIf="!edit" style="padding-bottom: 20px;">
         <button mat-fab (click)="editFields()"><mat-icon>edit-row</mat-icon></button>
     </div>
+    <div style="padding-bottom: 20px;">
+        <button mat-fab
+        #tooltip="matTooltip"
+          matTooltip="Erase Button"
+          (click)="deleteItem(theAgencyData.id);"
+        ><mat-icon>delete_forever</mat-icon></button>
+    </div>
     <div *ngIf="edit" style="padding-bottom: 20px;">
         <button mat-fab
         #tooltip="matTooltip"

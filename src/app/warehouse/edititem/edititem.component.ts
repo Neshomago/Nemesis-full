@@ -37,6 +37,8 @@ export class EdititemComponent implements OnInit {
     userTraza:''
   }
 
+  trackingData:any =[];
+
   nombre: any;
 
   constructor(
@@ -53,7 +55,6 @@ export class EdititemComponent implements OnInit {
     this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
     this.getCategoryList();
     this.getWarehouses();
-    this.getTrackingData();
   }
 
   editFields(){
@@ -75,10 +76,13 @@ export class EdititemComponent implements OnInit {
         this.changesItem.statusDescription = data[0].statusDescription;
         this.changesItem.warranty_period = data[0].warranty_period;
         this.trackingInfo.itemId = data[0].serial;
+        this.erase.isDelete = data[0].isDelete;
         console.log('tracking info: ', this.trackingInfo);
       },
       error => {console.log(error);
       });
+
+      this.getTrackingData(id)
   }
 
   updateChanges(id:any){
@@ -100,6 +104,20 @@ export class EdititemComponent implements OnInit {
       });
   }
 
+  erase:any= {
+    
+  };
+  deleteItem(id:any){
+    this.service.deleteWarehouseItem(id, this.erase).subscribe(
+      (data)=>{
+        this.theItemWarehouse.isDelete = 1;
+        this.theItemWarehouse.isDelete = this.erase.name;
+        this.erase = data;
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+        console.log(data);
+      });
+
+  }
 
   saveItemTrack() {
     this.service.trackingItem(this.trackingInfo).subscribe(
@@ -128,11 +146,12 @@ export class EdititemComponent implements OnInit {
     });
   }
 
-  trackingData:any =[];
-  getTrackingData(){
-    this.service.getTrackingData(this.theItemWarehouse.serial).subscribe(
-      (data) => { this.trackingData = data}
-    );
+  
+  getTrackingData(id:any){
+    this.service.getTrackingData(id).subscribe(
+      (data) => { this.trackingData = data;
+      console.log('datos de tracking sacados de base: ', this.trackingData)}
+      );
   }
 }
 

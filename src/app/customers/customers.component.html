@@ -19,7 +19,11 @@
             <td>
               <table>
                 <tr>
-                  <td class="customer-name"><strong>{{dataItem.name}}</strong></td>
+                  <td class="customer-name">
+                    <ng-container *ngIf="dataItem.isDelete != 1">
+                    <strong>{{dataItem.name}}</strong>
+                  </ng-container>
+                </td>
                 </tr>
                 <tr>
                   <td class="med-text"><span class="material-icons"

@@ -79,7 +79,7 @@
                             <th>Available</th>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let technician of technicianCount; let i=index">
                                 <td>
                                     <table>
                                         <tr><td class="customer-name" style="font-weight: 400;"></td></tr>
@@ -92,8 +92,8 @@
                                         <tr><td class="Agency-below"><span class="material-icons" style="font-size: 12px; vertical-align: middle;"> mail_outline</span></td></tr>
                                     </table>
                                 </td>
-                                <td class="customer-name"></td>
-                                <td class="customer-name"></td>
+                                <td>{{technician.email}}</td>
+                                <td>{{technician.isAvailable}}</td>
                             </tr>
                         </tbody>
                     </table>

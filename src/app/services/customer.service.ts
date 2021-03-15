@@ -26,8 +26,8 @@ export class CustomerService {
     return this.http.post(`${APIUrl}/customer/update/${id}`, val);
   }
 
-  deleteCustomer(val:any): Observable<any>{
-    return this.http.delete(APIUrl + '/customer/delete',val);
+  deleteCustomer(id:any, val:any): Observable<any>{
+    return this.http.post(APIUrl + '/customer/delete/' + id, val);
   }
 
   getCustomerIso(id:any): Observable<any>{

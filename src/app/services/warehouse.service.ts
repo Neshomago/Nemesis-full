@@ -17,8 +17,8 @@ trackingItem(val:any): Observable<any>{
 }
 
 //Tracking Info Get
-getTrackingData(serial:any):Observable<any>{
-  return this.http.get<any[]>(`${APIUrl}/warehouse/tracking`,serial);
+getTrackingData(id:any):Observable<any>{
+  return this.http.get<any[]>(`${APIUrl}/warehouse/tracking/${id}`);
 }
 
   //update item info
@@ -26,6 +26,9 @@ getTrackingData(serial:any):Observable<any>{
     return this.http.post(`${APIUrl}/warehouseitemup/${id}`, changes);
   }
 
+deleteWarehouseItem(id:any, changes: any): Observable<any> {
+    return this.http.post(`${APIUrl}/warehouse/itemdelete/${id}`, changes);
+  }
   getWarehouseList(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehousenames');
   }

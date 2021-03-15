@@ -23,6 +23,8 @@ export class NavbarComponent {
   zRoleC: any;
   zRoleE: any;
   zRoleT: any;
+  iniciales:any;
+  surname: any;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -54,9 +56,14 @@ export class NavbarComponent {
                   this.nombre = localStorage.getItem('nombre'); 
                 }
 
+                if(localStorage.getItem('surname')) {
+                  this.surname = localStorage.getItem('surname'); 
+                }
+
                 this.usersService.getObservable().subscribe( (data) => {
                   console.log('Data received right now: ', data);
                   this.nombre = data.nombre;
+                  this.surname = data.surname;
                   localStorage.setItem('nombre', this.nombre);
                   if(data.RoleA == '1') {
                     this.xRoleA = true;
@@ -98,7 +105,6 @@ export class NavbarComponent {
   openDialogSettingsBox(){
     this.dialog.open(Settings,{width: '280px'});
   }
-
 
 }
 

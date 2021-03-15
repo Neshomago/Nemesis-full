@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
@@ -20,7 +20,8 @@ export class ViewcustomerComponent implements OnInit {
     email: '',
     phone: '',
   }
-  constructor(private service: CustomerService, private route:ActivatedRoute, private _snackBar: MatSnackBar) { }
+  constructor(private service: CustomerService, private route:ActivatedRoute, private _snackBar: MatSnackBar,
+    private routerReturn:Router) { }
 
   ngOnInit(): void {
     this.id = +this.getCustomerIndividual(this.route.snapshot.paramMap.get('id'));
@@ -58,5 +59,18 @@ export class ViewcustomerComponent implements OnInit {
         this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
+  }
+
+  erase:any= {
+    isDelete: 1
+  };
+  deleteItem(id:any){
+    this.service.deleteCustomer(id, this.erase).subscribe(
+      (data)=>{ this.erase = data;
+        this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+        this.routerReturn.navigateByUrl("/customers");
+        console.log(data);
+      });
+      
   }
 }

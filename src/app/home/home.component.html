@@ -1,15 +1,16 @@
 <div class="grid-container">
   <h1 class="mat-h1">Welcome
-    <!-- {{nombre}} -->
+    {{nombre}}
   </h1>
   <table width="90%" align="center" style="color:gainsboro;">
     <tr>
+      <ng-container *ngIf="zRoleA">
 
-      <td>
-        <mat-card [ngStyle]="{'background-color':'moccasin'}">
-          <mat-card-header>
-            <mat-card-title> Tickets
-              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+        <td>
+          <mat-card [ngStyle]="{'background-color':'moccasin'}">
+            <mat-card-header>
+              <mat-card-title> Tickets
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu" xPosition="before">
@@ -22,10 +23,10 @@
                   <span style="font-size: 45px; font-weight: 100;">
                     {{ticketCount.length}}
                   </span>
-          </mat-card-content>
-        </mat-card>
-      </td>
-
+                </mat-card-content>
+              </mat-card>
+            </td>
+            
       <td>
         <mat-card *ngIf="clientsCount" [ngStyle]="{'background-color':'lemonchiffon'}">
           <mat-card-header>
@@ -39,15 +40,16 @@
             </mat-card-title>
           </mat-card-header>
           <mat-card-content class="dashboard-card-content">
-              <h2 style="font-weight: 100;">Happy clients</h2>
-              <span style="font-size: 45px; font-weight: 100;">
-                {{clientsCount.length}}
-              </span>
+            <h2 style="font-weight: 100;">Happy clients</h2>
+            <span style="font-size: 45px; font-weight: 100;">
+              {{clientsCount.length}}
+            </span>
           </mat-card-content>
         </mat-card>
       </td>
+    </ng-container>
     </tr>
-
+    <ng-container *ngIf="zRoleA">
     <tr style="margin: 20px;">
       <td colspan="2">
         <mat-card [ngStyle]="{'background-color':'white'}">
@@ -95,6 +97,8 @@
         </mat-card>
       </td>
     </tr>
+  </ng-container>
+    <ng-container *ngIf="zRoleA">
     <tr style="margin: 20px;">
       <td>
         <mat-card *ngIf="technicianCount" [ngStyle]="{'background-color':'gainsboro'}">
@@ -135,6 +139,9 @@
         </mat-card>
       </td>
     </tr>
+  </ng-container>
+    <ng-container *ngIf="zRoleT">
+    
     <tr style="margin: 20px;">
       <td colspan="2">
         <mat-card [ngStyle]="{'background-color':'white'}">
@@ -171,5 +178,7 @@
         </mat-card>
       </td>
     </tr>
+    </ng-container>
+    
   </table>
 </div>

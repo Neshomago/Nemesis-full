@@ -129,51 +129,55 @@
       <th>Warehouse Item Units</th>
     </thead>
     <tbody>
+      
+      
       <tr
       *ngFor="let dataItem of filteredResult; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setCurrentIndividualItem(dataItem, i)"
-        [routerLink]="['viewitemset/'+dataItem.categoryId+'/edit-item/', dataItem.id]"
-        style="cursor: pointer;"
-        >
+      [class.active]="i == currentIndex"
+      (click)="setCurrentIndividualItem(dataItem, i)"
+      [routerLink]="['viewitemset/'+dataItem.categoryId+'/edit-item/', dataItem.id]"
+      style="cursor: pointer;"
+      >
+      <ng-container *ngIf="dataItem.isDelete !=1">
         <td>
           <span class="customer-name">
             {{dataItem.name}}
           </span><br>
           <span class="customer-name">
-              Serial: {{dataItem.serial}}
+            Serial: {{dataItem.serial}}
           </span>
         </td>
         <td>
-            <span>
-                  Item Status: {{dataItem.status}} - 
-                  <span *ngIf="dataItem.used == 0">
-                      New
-                  </span>
-                  <span *ngIf="dataItem.used == 1">
-                      Used
-                  </span>
-            </span><br>
-            <span>
-              <ng-container *ngIf="dataItem.location == 'AGENCY'">
-                <ng-container *ngIf="dataItem.warehouseId != 0">
-                    <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
-                </ng-container>
-              </ng-container>
-              <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
-                <ng-container *ngIf="dataItem.warehouseId != 0">
-                  <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
-                </ng-container>
-              </ng-container>
-              
-                <ng-container *ngIf="dataItem.isMoving == 1">
-                    <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
-                </ng-container>
+          <span>
+            Item Status: {{dataItem.status}} - 
+            <span *ngIf="dataItem.used == 0">
+              New
             </span>
+            <span *ngIf="dataItem.used == 1">
+              Used
+            </span>
+          </span><br>
+          <span>
+            <ng-container *ngIf="dataItem.location == 'AGENCY'">
+              <ng-container *ngIf="dataItem.warehouseId != 0 && dataItem.isDelete != 0">
+                <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
+              <ng-container *ngIf="dataItem.warehouseId != 0">
+                <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
+              </ng-container>
+            </ng-container>
+            
+            <ng-container *ngIf="dataItem.isMoving == 1">
+              <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
+            </ng-container>
+          </span>
         </td>
         <td>
-              1
+          1
         </td>
+      </ng-container>
       </tr>
     </tbody>
   </table>
@@ -182,7 +186,7 @@
 
 </div>
 <div>
-    <span style="display: none;">END OF WAREHOUSE LIST</span>&nbsp;
+  <span style="display: none;">END OF WAREHOUSE LIST</span>&nbsp;
 </div>
           
           <!-- BOTONES DE AGREGAR -->
