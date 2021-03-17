@@ -252,24 +252,28 @@ eliminafoto(file:any){
 }
 
 resolvedImagesroute(id:any){
-  this.service.resolvedImages(id, this.rutaFile).subscribe(
-    (data) => { this.rutaFile = data;
-     this.theTicketData.file1 = this.rutaFile[0];
-     console.log('File 1 name saved: ', this.rutaFile[0]);
-     this.theTicketData.file2 = this.rutaFile[1];
-     console.log('File 2 name saved: ', this.rutaFile[1]);
-     this.theTicketData.file3 = this.rutaFile[2];
-     console.log('File 3 name saved: ', this.rutaFile[2]);
-     this.theTicketData.file4 = this.rutaFile[3];
-     this.theTicketData.file5 = this.rutaFile[4];
-     this.theTicketData.file6 = this.rutaFile[5];
-     this.theTicketData.file7 = this.rutaFile[6];
-     this.theTicketData.file8 = this.rutaFile[7];
-     this.theTicketData.file9 = this.rutaFile[8];
-     this.theTicketData.file10 = this.rutaFile[9];
-     this.theTicketData.file11 = this.rutaFile[10];
-     this.theTicketData.file12 = this.rutaFile[11];
-   });
+  for(let i=0; i < this.rutaFile.length; i++){
+    console.log("Id ticket: "+id+" - Nombre de archivo: "+this.rutaFile[i]);
+    // this.service.resolvedImages(id, this.rutaFile).subscribe(
+    //   (data) => { this.rutaFile = data;
+    //    this.theTicketData.file[i] = this.rutaFile[i];}
+    // );
+  }
+  //    console.log('File 1 name saved: ', this.rutaFile[0]);
+  //    this.theTicketData.file2 = this.rutaFile[1];
+  //    console.log('File 2 name saved: ', this.rutaFile[1]);
+  //    this.theTicketData.file3 = this.rutaFile[2];
+  //    console.log('File 3 name saved: ', this.rutaFile[2]);
+  //    this.theTicketData.file4 = this.rutaFile[3];
+  //    this.theTicketData.file5 = this.rutaFile[4];
+  //    this.theTicketData.file6 = this.rutaFile[5];
+  //    this.theTicketData.file7 = this.rutaFile[6];
+  //    this.theTicketData.file8 = this.rutaFile[7];
+  //    this.theTicketData.file9 = this.rutaFile[8];
+  //    this.theTicketData.file10 = this.rutaFile[9];
+  //    this.theTicketData.file11 = this.rutaFile[10];
+  //    this.theTicketData.file12 = this.rutaFile[11];
+  //  });
  }
 
 //uploadFile(file: any) {  
