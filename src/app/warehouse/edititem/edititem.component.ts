@@ -32,14 +32,16 @@ export class EdititemComponent implements OnInit {
     userId:'',
     changes:'',
     type:'Edit Item',
-    desciptionTrack:'Made Modifications on item details',
-    rawData:'',
-    userTraza:''
+    descriptionTrack:'Made Modifications on item details'
+    // rawData:'',
+    // userTraza:''
   }
 
   trackingData:any =[];
 
   nombre: any;
+  surname: any;
+  useridfortrack: any;
 
   constructor(
     private service: WarehouseService,
@@ -48,6 +50,12 @@ export class EdititemComponent implements OnInit {
   ) {
     if(localStorage.getItem('nombre')) {
       this.nombre = localStorage.getItem('nombre'); 
+    }
+    if(localStorage.getItem('surname')) {
+      this.surname = localStorage.getItem('surname'); 
+    }
+    if(localStorage.getItem('id')) {
+      this.useridfortrack = localStorage.getItem('id');
     }
    }
 
@@ -123,8 +131,10 @@ export class EdititemComponent implements OnInit {
     this.service.trackingItem(this.trackingInfo).subscribe(
       data => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
-        this.nombre = this.trackingInfo.userId;
-        console.log(data);
+        this.useridfortrack.id = parseInt(this.trackingInfo.userId);
+        console.log('tracking info para subir a tabla: ', data);
+        console.log('valor de trackingino: ', this.trackingInfo);
+        console.log('user info id:', this.useridfortrack);
       },
       error => {
         console.log(error)

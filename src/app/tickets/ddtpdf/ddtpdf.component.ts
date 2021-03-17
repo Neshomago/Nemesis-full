@@ -10,6 +10,32 @@ import { ViewChild } from '@angular/core';
 })
 export class DdtpdfComponent {
 
+  theTicketData: any=[];
+  unserialTags:any =
+  [
+    {
+    type:'item',
+    item:'A',
+    item_serial:'aa',
+    },
+    {
+      type:'item',
+    item:'A',
+    item_serial:'aa',
+    },
+    {
+      type:'item',
+      item:'A',
+      item_serial:'aa',
+      },
+      {
+        type:'item',
+        item:'A',
+        item_serial:'aa',
+        },
+];
+
+
   @ViewChild('dataPdf')
   dataPdf!: ElementRef;
 

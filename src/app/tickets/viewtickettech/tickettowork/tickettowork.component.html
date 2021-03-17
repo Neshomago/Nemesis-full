@@ -184,8 +184,31 @@
                     <div>
                         {{theTicketData.assigned_tags}}
                     </div>
+                    <mat-divider>
+                    </mat-divider>
                     <div>
-                        {{theTicketData.pictures}}
+                        <div>
+                            <h3>
+                                Uploaded Pictures
+                            </h3>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div *ngIf="theTicketData.file1 != null" style="display: flex; flex-direction: row; padding-right: 15px;">
+                                <a href="http://localhost:5000/uploads/{{theTicketData.file1}}" target="_blank">
+                                    <img src="http://localhost:5000/uploads/{{theTicketData.file1}}" style="height: 100px"/>
+                                </a>
+                            </div>
+                            <div *ngIf="theTicketData.file2 != null" style="display: flex; flex-direction: row; padding-right: 15px;">
+                                <a href="http://localhost:5000/uploads/{{theTicketData.file2}}" target="_blank">
+                                    <img src="http://localhost:5000/uploads/{{theTicketData.file2}}" style="height: 100px"/>
+                                </a>
+                            </div>
+                            <div *ngIf="theTicketData.file3 != null" style="display: flex; flex-direction: row; padding-right: 15px;">
+                                <a href="http://localhost:5000/uploads/{{theTicketData.file3}}" target="_blank">
+                                    <img src="http://localhost:5000/uploads/{{theTicketData.file3}}" style="height: 100px"/>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </ng-container>
                 
@@ -194,11 +217,25 @@
                 <ng-container class="row" *ngIf="theTicketData.version == 5">
                     <mat-form-field class="col-12">
                         <mat-label>Write your observations: </mat-label>
-                        <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="resolvedticket.assigned_tags">
+                        <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="theResolvedTicketUpdate.assigned_tags">
                         </textarea>
                     </mat-form-field>
                    <!-- Opcion 1  -->
-                <!-- Opcion 2 de upload de archivos -->
+                    <div>
+                        <label for="photos">
+                            Upload your image(s): 
+                        </label>
+                        <input name="photos" type="file" (change)="uploadMultiple($event)" multiple/>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div *ngFor="let ar of files" style="display: flex; flex-direction: row; padding-right: 15px;">
+                                    <a href="http://localhost:5000/uploads/{{ar.name}}" target="_blank">
+                                        <img src="http://localhost:5000/uploads/{{ar.name}}" style="height: 100px"/>
+                                    </a>
+                                    <button mat-mini-fab (click)="eliminafoto(ar)" style="transform: scale(0.7);">x</button>
+                                </div>
+                            </div>
+                    </div>                    
+
                 </ng-container>
             </mat-card>
             <div style="height: 30px;"></div>
@@ -209,7 +246,7 @@
                         <button  mat-raised-button  (click)="rptDownload()">DOWNLOAD REPORT</button>
                     </div>
                     <div class="col" *ngIf="theTicketData.version == 5">
-                        <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process" (click)="resolved(theTicketData.id)">TICKET RESOLVED</button>
+                        <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process" (click)="resolved(theTicketData.id); resolvedImagesroute(theTicketData.id)" [disabled]="theResolvedTicketUpdate.assigned_tags == '' || theResolvedTicketUpdate.assigned_tags == null">TICKET RESOLVED</button>
                     </div>  
                     <div class="col" *ngIf="theTicketData.version == 5">
                         <button mat-raised-button color="warn" (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>

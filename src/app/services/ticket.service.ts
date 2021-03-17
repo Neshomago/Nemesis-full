@@ -99,6 +99,11 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticketresolved/${id}`,val);
   }
 
+  //save image filenames intodatabase
+  resolvedImages(id:any, val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticketresolvedimg/${id}`,val);
+  }
+
   saveSerialsOfItems(id:any, val:any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket-serial/${id}`,val);
   }
@@ -115,6 +120,11 @@ export class TicketService {
 
   update_technician(id:any, val:any): Observable<any>{
     return this.http.post(`${APIUrl}/ticket/technicianupdate/${id}`,val);
+  }
+
+  //ticketvalue
+  ticketValues(): Observable<any>{
+    return this.http.get<any>(`${APIUrl}/ticket/value`);
   }
   
 }
