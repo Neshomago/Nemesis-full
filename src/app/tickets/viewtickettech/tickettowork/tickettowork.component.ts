@@ -188,34 +188,47 @@ export class TickettoworkComponent implements OnInit {
 resolved(id: any){
   if(this.theResolvedTicketUpdate.assigned_tags != ''){
     this.service.updateTicketResolved(id, this.theResolvedTicketUpdate).subscribe(
-      (data) => { this.theTicketData = data;
+      (data) => { 
+        this.theTicketData.tech_assign = this.theResolvedTicketUpdate.tech_assign;
         this.theTicketData.assigned_tags = this.theResolvedTicketUpdate.assigned_tags;
         this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
     });
   }
-  // this.resolvedImagesroute(id);
-  // setTimeout(
-  //   function(){
-  //     window.location.reload()}
-  //     , 500);
+  this.resolvedImagesroute(id);
+  setTimeout(
+    function(){
+      window.location.reload()}
+      , 500);
 }
 
 
-rutaFile:any = [];
+rutaFile:any = {
+  file1: '',
+  file2: '',
+  file3: '',
+  file4: '',
+  file5: '',
+  file6: '',
+  file7: '',
+  file8: '',
+  file9: '',
+  file10:'',
+  file11:'',
+  file12:'',
+};
 
 // Method to upload images
 files:any;
 uploadMultiple(event: any) {
   const files: FileList = event.target.files;
   this.files = files;
-  console.log('Files: ',files);
+  // console.log('Files: ',files);
   const formdata = new FormData();
 
   for (let index = 0; index < files.length; index++) {
     const element = files[index];
     console.log('Archivo: ', element);
-    this.rutaFile.push(element.name);
-    console.log('valor de nombre a subir', this.rutaFile[index]);
+    console.log('Valor a ruta: '+(this.rutaFile['file'+(index+1)] = element.name));
     formdata.append('files', element);
   }
   console.log('Nombre de Archivo: ', this.rutaFile);
@@ -252,29 +265,11 @@ eliminafoto(file:any){
 }
 
 resolvedImagesroute(id:any){
-  for(let i=0; i < this.rutaFile.length; i++){
-    console.log("Id ticket: "+id+" - Nombre de archivo: "+this.rutaFile[i]);
-    // this.service.resolvedImages(id, this.rutaFile).subscribe(
-    //   (data) => { this.rutaFile = data;
-    //    this.theTicketData.file[i] = this.rutaFile[i];}
-    // );
+    this.service.resolvedImages(id, this.rutaFile).subscribe(
+      (data) => { console.log('Datos subidos.',data);
+      console.table(this.rutaFile);
+    });
   }
-  //    console.log('File 1 name saved: ', this.rutaFile[0]);
-  //    this.theTicketData.file2 = this.rutaFile[1];
-  //    console.log('File 2 name saved: ', this.rutaFile[1]);
-  //    this.theTicketData.file3 = this.rutaFile[2];
-  //    console.log('File 3 name saved: ', this.rutaFile[2]);
-  //    this.theTicketData.file4 = this.rutaFile[3];
-  //    this.theTicketData.file5 = this.rutaFile[4];
-  //    this.theTicketData.file6 = this.rutaFile[5];
-  //    this.theTicketData.file7 = this.rutaFile[6];
-  //    this.theTicketData.file8 = this.rutaFile[7];
-  //    this.theTicketData.file9 = this.rutaFile[8];
-  //    this.theTicketData.file10 = this.rutaFile[9];
-  //    this.theTicketData.file11 = this.rutaFile[10];
-  //    this.theTicketData.file12 = this.rutaFile[11];
-  //  });
- }
 
 //uploadFile(file: any) {  
   // const formData = new FormData();  

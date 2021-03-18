@@ -248,6 +248,9 @@
                     <div class="col" *ngIf="theTicketData.version == 5">
                         <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process" (click)="resolved(theTicketData.id); resolvedImagesroute(theTicketData.id)" [disabled]="theResolvedTicketUpdate.assigned_tags == '' || theResolvedTicketUpdate.assigned_tags == null">TICKET RESOLVED</button>
                     </div>  
+                    <!-- <div class="col">
+                        <button (click)="resolvedImagesroute(theTicketData.id)">Prueba names</button>
+                    </div> -->
                     <div class="col" *ngIf="theTicketData.version == 5">
                         <button mat-raised-button color="warn" (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
                     </div>
@@ -269,9 +272,9 @@
     
     
     <!-- SECCION DE PDF NO MOSTRADA -->
-    <div class="rectanglecover">
+    <div class="rectanglecover--">
     </div>    
-    <div class="ddt" *ngIf="theTicketData">
+    <div class="ddt--" *ngIf="theTicketData">
         <div id="dataPdfReport">
         <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
     
@@ -344,7 +347,7 @@
                         Phone: {{theTicketData.phone}}
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="theTicketData.email">
                     <td>
                         Email: {{theTicketData.email}}
                     </td>
@@ -370,7 +373,7 @@
                         Date e hora di apertura:
                     </td>
                     <td>
-                        {{theTicketData.creationdDate}}
+                        {{theTicketData.creationDate}}
                     </td>
                 </tr>
                 <tr>
@@ -386,7 +389,7 @@
                         Date and time finished intervention:
                     </td>
                     <td>
-    
+                        {{theTicketData.closedDate}}
                     </td>
                 </tr>
             </td>
@@ -419,7 +422,7 @@
             <td colspan="6" style="padding: 20px;">
                     <div class="d-flex">
                             <div class="flex-fill p-2 border border-1">
-                                <span style="font-size: 12px; color: grey;">Technician name:____________________________________</span>
+                                <span style="font-size: 12px; color: grey;">Technician name: </span><span style="font-weight: 500; color: black;"> {{theTicketData.tech_assign}}</span>
                                 <br>
                                 <br>
                                 <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>

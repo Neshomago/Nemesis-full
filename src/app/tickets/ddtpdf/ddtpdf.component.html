@@ -124,57 +124,66 @@
             </h2>
         </td>
     </div>
-    <div style="display: flex; flex-direction: column;">
-        <table>
-            <tr>
-                <td style="padding-left: 20px; text-align: center; width: 150px;">Operation</td>
-                <td style="text-align: center; width: 200px;">Item</td>
-                <td style="text-align: center; width: 120px;">Serial number</td>
-                <td style="text-align: center; width: 120px;">Item Status</td>
-            </tr>
-            <tr *ngFor="let tag of unserialTags; let indice = index">
-                    <td style="text-align: center;">
-                         {{theTicketData.type}}
-                    </td>
-                    <td style="padding-left: 20px; text-align: center;">
-                            {{tag.item}}
-                    </td>
-                    <td style="text-align: center;">{{tag.item_serial}}</td>
-                    <td style="text-align: center;">OPERATIVE</td>
-            </tr>
-        </table>
-    </div>
-    <div style="display: flex; flex-direction: column;">
-        <div style="display: flex; flex: 1;">
+    <div style="display: flex;flex-direction: column;"> <!--Container -->
+        <!--Table of item data -->
+        <div style="align-items: flex-start;">
+            <table>
+                <tr>
+                    <td style="padding-left: 20px; text-align: center; width: 150px;">Operation</td>
+                    <td style="text-align: center; width: 200px;">Item</td>
+                    <td style="text-align: center; width: 120px;">Serial number</td>
+                    <td style="text-align: center; width: 120px;">Item Status</td>
+                </tr>
+                <tr *ngFor="let tag of unserialTags; let indice = index">
+                        <td style="text-align: center;">
+                             {{theTicketData.type}}
+                        </td>
+                        <td style="padding-left: 20px; text-align: center;">
+                                {{tag.item}}
+                        </td>
+                        <td style="text-align: center;">{{tag.item_serial}}</td>
+                        <td style="text-align: center;">OPERATIVE</td>
+                </tr>
+            </table>
+        </div>
+        <!--white space -->
+        <div>
+        </div>
+
+        <!--footer -->
+        <div style="align-self: flex-end;">
+            <div>
+                        <td>
+                                <div class="border border-1">
+                                    <span style="font-size: 12px; color: grey; width: 200px;">Technician name:____________________________________</span>
+                                    <br>
+                                    <br>
+                                    <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
+                                    <br>
+                                </div>
+                                <div class="border border-1" style="width: 300px; text-align: center;">
+                                    <span style="font-size: 12px; color: grey;">Timbro e firma del cliente</span>
+                                    <br>
+                                </div>
+                        </td>
+            </div>        
+            <div>
+                        <td colspan="6" style="font-size: 10px; line-height: 10px; text-align: center; padding: 20px;">
+                                Documento Interno Amministrativo. Interventi tecnici presso clienti. Il materiale sopra descritto, fornito dal nostro tecnico nel suo intervento, è esonerato da
+                                DDT (DPR 627/78) ai sensi C.M. 5/360586 del 12/12/76
+                    
+                                <br>
+                                SCHEDAORDINE RAPPORTOINTERVENTO
+                                rev.2 del 17/12/2016
+                        </td>
+            </div>
         </div>
     </div>
-    <div>
-                <td>
-                        <div class="border border-1">
-                            <span style="font-size: 12px; color: grey; width: 200px;">Technician name:____________________________________</span>
-                            <br>
-                            <br>
-                            <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
-                            <br>
-                        </div>
-                        <div class="border border-1" style="width: 300px; text-align: center;">
-                            <span style="font-size: 12px; color: grey;">Timbro e firma del cliente</span>
-                            <br>
-                        </div>
-                </td>
-    </div>
-    <div>
-        <td colspan="6" style="font-size: 10px; line-height: 10px; text-align: center; padding: 20px;">
-            Documento Interno Amministrativo. Interventi tecnici presso clienti. Il materiale sopra descritto, fornito dal nostro tecnico nel suo intervento, è esonerato da
-            DDT (DPR 627/78) ai sensi C.M. 5/360586 del 12/12/76
+    
 
-            <br>
-            SCHEDAORDINE RAPPORTOINTERVENTO
-            rev.2 del 17/12/2016
-        </td>
+    
     </div>
-</div>
-</div>
+    </div>
 </div>
 
 <!-- <ng-container >
