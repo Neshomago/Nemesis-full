@@ -24,18 +24,11 @@ export class EdititemComponent implements OnInit {
     location:'',
     status:'',
     statusDescription:'',
+    warranty_invoiceDate:'',
     warranty_period:12,
   };
 
-  trackingInfo: any ={
-    itemId:'',
-    userId:'',
-    changes:'',
-    type:'Edit Item',
-    descriptionTrack:'Made Modifications on item details'
-    // rawData:'',
-    // userTraza:''
-  }
+
 
   trackingData:any =[];
 
@@ -82,6 +75,7 @@ export class EdititemComponent implements OnInit {
         this.changesItem.location = data[0].location;
         this.changesItem.status = data[0].status;
         this.changesItem.statusDescription = data[0].statusDescription;
+        this.changesItem.warranty_invoiceDate = data[0].warranty_invoiceDate;
         this.changesItem.warranty_period = data[0].warranty_period;
         this.trackingInfo.itemId = data[0].serial;
         this.erase.isDelete = data[0].isDelete;
@@ -105,6 +99,7 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.location = this.changesItem.location;
         this.theItemWarehouse.status = this.changesItem.status;
         this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
+        this.theItemWarehouse.warranty_invoiceDate = this.changesItem.warranty_invoiceDate;
         this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
         this.changesItem = data;
         this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
@@ -127,14 +122,39 @@ export class EdititemComponent implements OnInit {
 
   }
 
+  invoiceDate=new Date();
+  trackingInfo: any ={
+    itemId:'',
+    userId:'',
+    changes:'',
+    type:'Edit Item',
+    descriptionTrack:'Made Modifications on item details'
+    // rawData:'',
+    // userTraza:''
+  }
+
+  setDefaultDate(){
+    let year, month, day, hour, minute, second;
+
+    year = this.invoiceDate.getFullYear();
+    month = this.invoiceDate.getMonth()+1;
+    day = this.invoiceDate.getDate()+1;
+    hour = this.invoiceDate.getHours();
+    minute = this.invoiceDate.getMinutes();
+    second = this.invoiceDate.getSeconds();
+
+    this.trackingInfo.warranty_invoiceDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+  }
+  
   saveItemTrack() {
     this.service.trackingItem(this.trackingInfo).subscribe(
-      data => {
+      (data) => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
         this.useridfortrack.id = parseInt(this.trackingInfo.userId);
-        console.log('tracking info para subir a tabla: ', data);
+
         console.log('valor de trackingino: ', this.trackingInfo);
         console.log('user info id:', this.useridfortrack);
+        console.log(data);
       },
       error => {
         console.log(error)

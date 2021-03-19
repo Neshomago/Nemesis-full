@@ -50,6 +50,15 @@ export class ViewticketComponent implements OnInit {
   equipmentArrayData: any = [];
   ticketVersion ={ version: 1, status: ''};
 
+  nombre: any;
+  zRoleA: any;
+  zRoleC: any;
+  zRoleE: any;
+  zRoleT: any;
+  iniciales:any;
+  surname: any;
+  userId: any;
+
   //currentTicket = null;
   currentIndex = -1;
   //ticketinView: any;
@@ -83,13 +92,48 @@ export class ViewticketComponent implements OnInit {
   version: 5,
   }
 
+  newtechdate = new Date();
+  technicianToUpdate:any ={
+    tech_assign:'',
+    assignedDate:'',
+    version: 5,
+  }
+
   constructor(private service:TicketService,
     private usersService: UsersService,
     private whservice:WarehouseService,
     private route:ActivatedRoute,
     private router: Router,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar) {
+      if(localStorage.getItem('zRoleA')) {
+        this.zRoleA = localStorage.getItem('zRoleA'); 
+      }
+
+      if(localStorage.getItem('zRoleC')) {
+        this.zRoleC = localStorage.getItem('zRoleC'); 
+      }
+
+      if(localStorage.getItem('zRoleE')) {
+        this.zRoleE = localStorage.getItem('zRoleE'); 
+      }
+      
+      if(localStorage.getItem('zRoleT')) {
+        this.zRoleT = localStorage.getItem('zRoleT'); 
+      }
+    
+      if(localStorage.getItem('nombre')) {
+        this.nombre = localStorage.getItem('nombre'); 
+      }
+    
+      if(localStorage.getItem('surname')) {
+        this.surname = localStorage.getItem('surname'); 
+      }
+
+      if(localStorage.getItem('id')) {
+        this.userId = localStorage.getItem('id'); 
+      }
+     }
     
     public ngOnInit(): void {
 
@@ -151,6 +195,8 @@ export class ViewticketComponent implements OnInit {
       this.theTicketUpdate.type = data[0].type;
       this.theTicketUpdate.description = data[0].description;
       this.theTicketUpdate.priority = data[0].priority;
+      this.technicianToUpdate.tech_assign = data[0].tech_assign;
+      // this.technicianToUpdate.assignedDate = data[0].assignedDate;
       let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
       this.agencyToUpdate.name = agenciaSelected.name;
     },
@@ -174,6 +220,7 @@ export class ViewticketComponent implements OnInit {
 
   setDefaultDate(){
     let year, month, day, hour, minute, second;
+    let upyear, upmonth, upday, uphour, upminute, upsecond;
 
     year = this.techDate.getFullYear();
     month = this.techDate.getMonth()+1;
@@ -182,8 +229,17 @@ export class ViewticketComponent implements OnInit {
     minute = this.techDate.getMinutes();
     second = this.techDate.getSeconds();
 
+    upyear = this.newtechdate.getFullYear();
+    upmonth = this.newtechdate.getMonth()+1;
+    upday = this.newtechdate.getDate()+1;
+    uphour = this.newtechdate.getHours();
+    upminute = this.newtechdate.getMinutes();
+    upsecond = this.newtechdate.getSeconds();
+
     this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+    this.technicianToUpdate.assignedDate = upyear+'-'+upmonth+'-'+upday+' '+'0'+uphour+':'+'0'+upminute+':'+'0'+upsecond;
     console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
+    // console.warn('prueba date format: ',this.technicianToUpdate.assignedDate);
   }
 
   technicianAssignedtoTicket(id:any){
@@ -423,9 +479,12 @@ export class ViewticketComponent implements OnInit {
   }
 
   updateTechnician(id:any){
-    this.service.assign_technician(id,this.TechnicianModel).subscribe(
+    this.setDefaultDate();
+    this.service.assign_technician(id,this.technicianToUpdate).subscribe(
       (data) => { 
-        this.TechnicianModel = data;
+        // this.technicianToUpdate.data;
+         this.theTicketData.tech_assign = this.technicianToUpdate.tech_assign;
+         this.theTicketData.assignedDate = this.technicianToUpdate.assignedDate;
         this._snackBar.open("Technician Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
