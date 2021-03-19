@@ -88,6 +88,7 @@ export class EdititemComponent implements OnInit {
   }
 
   updateChanges(id:any){
+    this.setDefaultDate();
     this.service.updateWarehouseItem(id, this.changesItem).subscribe(
       (data)=>{
         this.theItemWarehouse.name = this.changesItem.name;
@@ -125,7 +126,7 @@ export class EdititemComponent implements OnInit {
   invoiceDate=new Date();
   trackingInfo: any ={
     itemId:'',
-    userId:'',
+    userId:Number,
     changes:'',
     type:'Edit Item',
     descriptionTrack:'Made Modifications on item details'
@@ -143,14 +144,14 @@ export class EdititemComponent implements OnInit {
     minute = this.invoiceDate.getMinutes();
     second = this.invoiceDate.getSeconds();
 
-    this.trackingInfo.warranty_invoiceDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+    this.changesItem.warranty_invoiceDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
   }
   
   saveItemTrack() {
     this.service.trackingItem(this.trackingInfo).subscribe(
       (data) => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
-        this.useridfortrack.id = parseInt(this.trackingInfo.userId);
+        this.useridfortrack.id = this.trackingInfo.userId;
 
         console.log('valor de trackingino: ', this.trackingInfo);
         console.log('user info id:', this.useridfortrack);

@@ -182,8 +182,11 @@
                                             <td colspan="1">
                                                 <ng-container *ngIf="!edit">
                                                     {{theItemWarehouse.warranty_invoiceDate | date: 'yyyy-MM-dd'}}
+                                                    <ng-container *ngIf=" theItemWarehouse.warranty_invoiceDate == '' || theItemWarehouse.warranty_invoiceDate == null">
+                                                        Please update the invoice Info.
+                                                    </ng-container>
                                                 </ng-container>
-                                                <ng-container *ngIf="edit && theItemWarehouse.warranty_invoiceDate == '' || theItemWarehouse.warranty_invoiceDate == null">
+                                                <ng-container *ngIf="edit">
                                                     <mat-form-field class="col-3">
                                                         <mat-label>Choose a date</mat-label>
                                                         <input matInput [matDatepicker]="picker" [(ngModel)]="changesItem.warranty_invoiceDate">
@@ -209,7 +212,7 @@
                                             </td>
                                         </tr>
 
-                                        {{theItemWarehouse | json}}
+                                        <!-- {{theItemWarehouse | json}} -->
                                     </table>
                                     <span style="color: brown;">
                                     </span>
