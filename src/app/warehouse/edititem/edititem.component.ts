@@ -126,7 +126,7 @@ export class EdititemComponent implements OnInit {
   invoiceDate=new Date();
   trackingInfo: any ={
     itemId:'',
-    userId:Number,
+    userId:'',
     changes:'',
     type:'Edit Item',
     descriptionTrack:'Made Modifications on item details'

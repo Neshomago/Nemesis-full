@@ -12,19 +12,21 @@ export class RegisteritemComponent implements OnInit {
   
   warehouses:any =[];
   
-    itemModel: ItemWarehouse = {
+  invoiceDate=new Date();
+    itemModel: any = {
       name: '',
       description:'',
       serial: '',
       warehouseId: 5,
-      isUsed: 0,
+      used: 0,
       warrantyPeriod: 12,
       categoryId: 0,
-      isMoving: 0,
+      // isMoving: 0,
       supplier: '',
-      isDeleted: 0,
+      isDelete: 0,
       status:'',
       invoice_purchase: '',
+      warranty_invoiceDate:'',
       //registerDate: new Date,
       //statusDetails: '',
       //userId: 0,
@@ -51,6 +53,7 @@ export class RegisteritemComponent implements OnInit {
     this.getWarehouses();
   }
 
+  
   categoryList:any =[];
   getCategoryList(){
     this.service.getCategories().subscribe(
@@ -73,13 +76,31 @@ export class RegisteritemComponent implements OnInit {
       data => {this.warehouses = data}
     );
   }
+  
+    setDefaultDate(){
+      let year, month, day, hour, minute, second;
+  
+      year = this.invoiceDate.getFullYear();
+      month = this.invoiceDate.getMonth()+1;
+      day = this.invoiceDate.getDate()+1;
+      hour = this.invoiceDate.getHours();
+      minute = this.invoiceDate.getMinutes();
+      second = this.invoiceDate.getSeconds();
+  
+      this.itemModel.warranty_invoiceDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+    }
 
   addItem(){
+    this.setDefaultDate();
     this.service.addItemWarehouse(this.itemModel).subscribe(
-      (data) => { console.log('Item Registered succesfully', data);
+      (data) => { this.itemModel = data;
+        console.log('items guardados: ', this.itemModel);
+        console.log('Item Registered succesfully', data);
       this._snackBar.open("Item Registered Succesfully", "OK", { duration:3500, panelClass: "success",});
       this.router.navigateByUrl("/warehouse"); },
-      (error) => { console.log('Failed to Register Item', error);
+      (error) => { 
+        console.log('Datos no guardados', this.itemModel);
+        console.log('Failed to Register Item', error);
       this._snackBar.open("Failed to Register Item", "OK", { duration:3500, panelClass: "error",}); },
     );
   }

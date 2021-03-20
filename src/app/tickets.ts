@@ -60,6 +60,7 @@ export interface ItemWarehouse {
     warehouseId: number;
     isUsed: number;
     invoice_purchase: string;
+    warranty_invoiceDate?: string;
     agencyId?: number;
     statusDetails?:string;
     technicianNotes?: string;
