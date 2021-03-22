@@ -283,7 +283,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)" ><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" >
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment(); refreshPage()" ><mat-icon>save</mat-icon>Save changes</button>
+                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); saveEquipment(); refreshPage()" [disabled]="tagsarray == ''"><mat-icon>save</mat-icon>Save changes</button>
                             </div>
                         </ng-container>
                         <ng-container class="col-md-3 ms-md-auto" *ngIf="theTicketData.version >= 2">
@@ -292,7 +292,9 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="showEdit2">
-                                <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment(); refreshPage()"><mat-icon>save</mat-icon>Update changes</button>
+                                <ng-container *ngIf="tagsarray == []">
+                                    <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment(); refreshPage()"><mat-icon>save</mat-icon>Update changes</button>
+                                </ng-container>
                             </div>
                         </ng-container>
                     </div>
@@ -376,7 +378,7 @@
                                     </div>
                                 </ng-container>
 
-                                <ng-container *ngIf="theTicketData.version == 2">
+                                <ng-container *ngIf="theTicketData.version >= 1 && theTicketData.version < 3">
                                     <div class="alert alert-info">
                                             Advice: The Items must be serialized in order to get support.
                                     </div>
@@ -461,13 +463,24 @@
                         <div class="alert alert-secondary">
                                 Advice: The Items must be serialized to assign the technician.
                         </div>
-                        <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id); saveSerials()"
-                                    #tooltip="matTooltip"
-                                    matTooltip="Save serials, proceed to assign Technician">Save Serials. Continue Ticket Process</button>
+                        <ng-container *ngIf="!unserialTags">
+                            <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id); saveSerials()"
+                                        #tooltip="matTooltip"
+                                        matTooltip="Save serials, proceed to assign Technician"
+                                        [disabled]="unserialTags[0].item_serial == null || unserialTags[0].item_serial == ''"
+                                        >Save Serials. Continue Ticket Process</button>
+                        </ng-container>
+                        <ng-container *ngIf="unserialTags">
+                            <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id)"
+                                        #tooltip="matTooltip"
+                                        matTooltip="proceed to assign Technician"
+                                        >No Serials to assign. Continue Ticket Process</button>
+                        </ng-container>
+                        
                     </ng-container>
                     <ng-container *ngIf="theTicketData.version == 4">
                         <div class="alert alert-info">
-                                Advice: The Items have been serialized. The technician is being assigned.
+                                Advice: The technician is being assigned.The Items have been serialized. 
                         </div>
                         <button mat-raised-button
                                     #tooltip="matTooltip"
@@ -606,6 +619,9 @@
                 #tooltip="matTooltip"
                 matTooltip="Start Process, notify technician"
                 >BEGIN TO PROCESS</button>
+            </div>
+            <div class="col" *ngIf="theTicketData.version>=6">
+                <button mat-raised-button color="accent" (click)="confirmResolved(theTicketData.id)">CONFIRM RESOLVED</button>
             </div>
             <!-- <div class="col-auto" *ngIf="theTicketData.version < 5">
                 <button mat-raised-button

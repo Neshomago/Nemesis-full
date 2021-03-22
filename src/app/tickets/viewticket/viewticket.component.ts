@@ -220,26 +220,30 @@ export class ViewticketComponent implements OnInit {
 
   setDefaultDate(){
     let year, month, day, hour, minute, second;
-    let upyear, upmonth, upday, uphour, upminute, upsecond;
 
     year = this.techDate.getFullYear();
     month = this.techDate.getMonth()+1;
-    day = this.techDate.getDate()+1;
+    day = this.techDate.getDate();
     hour = this.techDate.getHours();
     minute = this.techDate.getMinutes();
     second = this.techDate.getSeconds();
 
+    this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
+    console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
+  }
+
+  setDateUpdate(){
+    let upyear, upmonth, upday, uphour, upminute, upsecond;
+
     upyear = this.newtechdate.getFullYear();
     upmonth = this.newtechdate.getMonth()+1;
-    upday = this.newtechdate.getDate()+1;
+    upday = this.newtechdate.getDate();
     uphour = this.newtechdate.getHours();
     upminute = this.newtechdate.getMinutes();
     upsecond = this.newtechdate.getSeconds();
 
-    this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
     this.technicianToUpdate.assignedDate = upyear+'-'+upmonth+'-'+upday+' '+'0'+uphour+':'+'0'+upminute+':'+'0'+upsecond;
-    console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
-    // console.warn('prueba date format: ',this.technicianToUpdate.assignedDate);
+    console.warn('prueba date format: ',this.technicianToUpdate.assignedDate);
   }
 
   technicianAssignedtoTicket(id:any){
@@ -407,6 +411,17 @@ export class ViewticketComponent implements OnInit {
     );
   }
 
+  confirmResolved(id: any){
+    const version = {
+      version: 8,
+    };
+    this.service.updateTicketVersion(id, version).subscribe(
+      (data) => { this.theTicketData.version = 8;
+        this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
+        console.log('Ticket is now been worked. Status updated', data)    }
+    );
+  }
+
   //Toggle Edition fields in Html view
   toogleEditstep1(){ this.showEdit1 = !this.showEdit1;}
 
@@ -479,12 +494,12 @@ export class ViewticketComponent implements OnInit {
   }
 
   updateTechnician(id:any){
-    this.setDefaultDate();
+    this.setDateUpdate();
     this.service.assign_technician(id,this.technicianToUpdate).subscribe(
       (data) => { 
         // this.technicianToUpdate.data;
-         this.theTicketData.tech_assign = this.technicianToUpdate.tech_assign;
-         this.theTicketData.assignedDate = this.technicianToUpdate.assignedDate;
+        this.theTicketData.tech_assign = this.technicianToUpdate.tech_assign;
+        this.theTicketData.assignedDate = this.technicianToUpdate.assignedDate;
         this._snackBar.open("Technician Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });

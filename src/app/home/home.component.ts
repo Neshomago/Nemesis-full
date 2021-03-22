@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   zRoleT: any;
   iniciales:any;
   surname: any;
+  loggedinId: any;
 
   constructor(
     private tkservice:TicketService,
@@ -57,6 +58,10 @@ export class HomeComponent implements OnInit {
     
       if(localStorage.getItem('surname')) {
         this.surname = localStorage.getItem('surname'); 
+      }
+
+      if(localStorage.getItem('id')) {
+        this.loggedinId = localStorage.getItem('id'); 
       }
     }
 
