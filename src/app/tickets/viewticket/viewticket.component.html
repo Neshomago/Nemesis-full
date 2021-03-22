@@ -654,7 +654,6 @@
 
 <!-- SECCION DE PDF NO MOSTRADA -->
 <div class="rectanglecover">
-</div>
 <div class="ddt" *ngIf="theTicketData">
     <div id="dataPdf" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
     <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
@@ -688,7 +687,7 @@
                                 Date: 
                             </td>
                             <td style="text-align: left; border: 1px solid;">
-                                {{theTicketData.assignedDate}}
+                                {{theTicketData.assignedDate | date:"yyyy-MM-dd"}}
                             </td>
                         </tr>
                         <tr>
@@ -764,19 +763,21 @@
         </td>
     </tr>
     <tr>
-        <table style="width: 19mm;">
+        <table style="align-items: flex-start;">
             <tr>
-                <td style="padding-left: 20px;" colspan="1">Qty.</td>
-                <td colspan="5">Item</td>
+                <td style="padding-left: 20px; width: 150px;">Qty.</td>
+                <td>Item</td>
+                <td>&nbsp;</td>
             </tr>
             <tr *ngFor="let tag of unserialTags; let indice = index">
-                <td style="padding-left: 20px;" colspan="1">
+                <td style="padding-left: 20px; width: 150px;">
                         {{tag.quantity}}
                 </td>
-                <td colspan="5">
+                <td>
                         {{tag.item}}
                         <br>{{tag.item_serial}}
                 </td>
+                <td>&nbsp;</td>
         </table>
     </tr>
     <tr style="flex: 1; overflow: auto;"></tr>
@@ -824,11 +825,12 @@
 </div>
 </div>
 </div>
-
+</div>
 <!-- REPORT PDF -->
-<div class="ddt" *ngIf="theTicketData">
+<div class="rectanglecover">
+<div class="ddt" *ngIf="theTicketData" style="padding-top: 100px;">
 
-    <div id="dataPdfReport" style="width: 210mm; height: 297mm;display: flex; min-height: 100%; display: none !important;">
+    <div id="dataPdfReport" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
 
         <div style="border: 1px solid; display: flex; flex-direction: column;">
             <div style="border-top: 3px solid gray;">
@@ -1012,7 +1014,9 @@
     
     </div>
     </div>
-
+</div>
+</div>
+<!-- 
     <div id="dataPdfReport">
 
         <table border="1" style="height: 297mm;">
@@ -1184,4 +1188,4 @@
     </tr>
 </table>
 </div>
-</div>
+</div> -->
