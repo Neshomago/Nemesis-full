@@ -1,7 +1,7 @@
 <div class="boxformcreate">
     <div class="forminmargin">
       <h1 class="h1-form">REGISTER NEW ITEM</h1>
-      <form #ticketForm="ngForm" (ngSubmit)="saveItem()">
+      <form #ticketForm="ngForm" (ngSubmit)="saveItem(); saveItemTrack()">
           <div class="row">
 
               <div class="col">
@@ -100,7 +100,7 @@
                     <mat-form-field class="full-width">
                         <mat-label>Condition</mat-label>
                         <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.status">
-                            <mat-option value="OPERATVE">OPERATIVE</mat-option>
+                            <mat-option value="OPERATIVE">OPERATIVE</mat-option>
                             <mat-option value="BROKEN">BROKEN</mat-option>
                             <mat-option value="WARRANTY">WARRANTY</mat-option>
                             <mat-option value="LOST">LOST</mat-option>

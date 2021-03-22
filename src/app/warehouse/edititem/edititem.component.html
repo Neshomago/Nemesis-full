@@ -141,9 +141,19 @@
                                                 {{theItemWarehouse.status}}
                                             </ng-container>
                                             <ng-container *ngIf="edit">
-                                                <mat-form-field>
-                                                    <input matInput type="text" name="status" id="status" [(ngModel)]="changesItem.status">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Condition</mat-label>
+                                                    <mat-select matInput name="condition" id="condition" [(ngModel)]="changesItem.status">
+                                                        <mat-option value="OPERATIVE">OPERATIVE</mat-option>
+                                                        <mat-option value="BROKEN">BROKEN</mat-option>
+                                                        <mat-option value="WARRANTY">WARRANTY</mat-option>
+                                                        <mat-option value="LOST">LOST</mat-option>
+                                                        <mat-option value="PENDING">PENDING</mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
+                                                <!-- <mat-form-field>
+                                                    <input matInput type="text" name="status" id="status" [(ngModel)]="changesItem.status">
+                                                </mat-form-field> -->
                                             </ng-container>
                                         </td>
                                     </tr>

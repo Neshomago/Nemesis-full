@@ -1,3 +1,4 @@
+import { ContentObserver } from '@angular/cdk/observers';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +29,7 @@ export class EdititemComponent implements OnInit {
     warranty_period:12,
   };
 
-
+  serialcheck ='';
 
   trackingData:any =[];
 
@@ -80,11 +81,11 @@ export class EdititemComponent implements OnInit {
         this.trackingInfo.itemId = data[0].serial;
         this.erase.isDelete = data[0].isDelete;
         console.log('tracking info: ', this.trackingInfo);
+        this.getTrackingData(this.trackingInfo.itemId);
       },
       error => {console.log(error);
       });
 
-      this.getTrackingData(id)
   }
 
   updateChanges(id:any){
@@ -151,7 +152,7 @@ export class EdititemComponent implements OnInit {
     this.service.trackingItem(this.trackingInfo).subscribe(
       (data) => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
-        this.useridfortrack.id = this.trackingInfo.userId;
+        this.useridfortrack.id = this.trackingInfo.userId.toString();
 
         console.log('valor de trackingino: ', this.trackingInfo);
         console.log('user info id:', this.useridfortrack);
@@ -178,10 +179,9 @@ export class EdititemComponent implements OnInit {
   }
 
   
-  getTrackingData(id:any){
-    this.service.getTrackingData(id).subscribe(
-      (data) => { this.trackingData = data;
-      console.log('datos de tracking sacados de base: ', this.trackingData)}
+  getTrackingData(serial:any){
+    this.service.getTrackingData(serial).subscribe(
+      (data) => { this.trackingData = data;}
       );
   }
 }

@@ -10,6 +10,15 @@ import { WarehouseService } from 'src/app/services/warehouse.service';
 })
 export class RegisteritemComponent implements OnInit {
   
+  nombre: any;
+  zRoleA: any;
+  zRoleC: any;
+  zRoleE: any;
+  zRoleT: any;
+  iniciales:any;
+  surname: any;
+  userId: any;
+
   warehouses:any =[];
   
   invoiceDate=new Date();
@@ -41,12 +50,50 @@ export class RegisteritemComponent implements OnInit {
       //dateofRemoval: undefined
   }
 
+  trackingInfo: any ={
+    itemId:'',
+    userId:'',
+    changes:'',
+    type:'Register',
+    descriptionTrack:'New item to warehouse'
+    // rawData:'',
+    // userTraza:''
+  }
+
   category:any ={
     category_name:''
   }
 
 
-  constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService) { }
+  constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService) { 
+    if(localStorage.getItem('zRoleA')) {
+      this.zRoleA = localStorage.getItem('zRoleA'); 
+    }
+
+    if(localStorage.getItem('zRoleC')) {
+      this.zRoleC = localStorage.getItem('zRoleC'); 
+    }
+
+    if(localStorage.getItem('zRoleE')) {
+      this.zRoleE = localStorage.getItem('zRoleE'); 
+    }
+    
+    if(localStorage.getItem('zRoleT')) {
+      this.zRoleT = localStorage.getItem('zRoleT'); 
+    }
+  
+    if(localStorage.getItem('nombre')) {
+      this.nombre = localStorage.getItem('nombre'); 
+    }
+  
+    if(localStorage.getItem('surname')) {
+      this.surname = localStorage.getItem('surname'); 
+    }
+
+    if(localStorage.getItem('id')) {
+      this.userId = localStorage.getItem('id'); 
+    }
+  }
 
   ngOnInit(): void {
     this.getCategoryList();
@@ -71,6 +118,7 @@ export class RegisteritemComponent implements OnInit {
   }
 
 
+
   getWarehouses(){
     this.service.getWarehouseList().subscribe(
       data => {this.warehouses = data}
@@ -82,7 +130,7 @@ export class RegisteritemComponent implements OnInit {
   
       year = this.invoiceDate.getFullYear();
       month = this.invoiceDate.getMonth()+1;
-      day = this.invoiceDate.getDate()+1;
+      day = this.invoiceDate.getDate();
       hour = this.invoiceDate.getHours();
       minute = this.invoiceDate.getMinutes();
       second = this.invoiceDate.getSeconds();
@@ -105,6 +153,21 @@ export class RegisteritemComponent implements OnInit {
     );
   }
 
+  saveItemTrack() {
+    this.service.trackingItem(this.trackingInfo).subscribe(
+      (data) => {
+        this.itemModel.serial = this.trackingInfo.itemId;
+        this.userId = this.trackingInfo.userId.toString();
+
+        console.log('valor de trackingino: ', this.trackingInfo);
+        console.log('user info id:', this.userId);
+        console.log(data);
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  }
   saveItem(){
     this.addItem();
   }
