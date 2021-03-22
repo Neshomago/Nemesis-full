@@ -12,15 +12,52 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewtickettechComponent implements OnInit {
 
-  constructor(private service:TicketService, private agencyService: AgencyService,
-    public dialog:MatDialog, private _snackBar: MatSnackBar) { }
-
   TicketList:any=[];
   AgencyList:any=[];
   currentTicket = null;
   currentIndex = -1;
 
+  xRoleA: boolean = false;
+  xRoleC: boolean = false; 
+  xRoleE: boolean = false;
+  xRoleT: boolean = false;
+  nombre: any;
+  zRoleA: any;
+  zRoleC: any;
+  zRoleE: any;
+  zRoleT: any;
+  iniciales:any;
+  surname: any;
+
   theTicketData : any;
+
+  constructor(private service:TicketService, private agencyService: AgencyService,
+    public dialog:MatDialog, private _snackBar: MatSnackBar) {
+      
+      if(localStorage.getItem('zRoleA')) {
+        this.zRoleA = localStorage.getItem('zRoleA'); 
+      }
+
+      if(localStorage.getItem('zRoleC')) {
+        this.zRoleC = localStorage.getItem('zRoleC'); 
+      }
+
+      if(localStorage.getItem('zRoleE')) {
+        this.zRoleE = localStorage.getItem('zRoleE'); 
+      }
+      
+      if(localStorage.getItem('zRoleT')) {
+        this.zRoleT = localStorage.getItem('zRoleT'); 
+      }
+    
+      if(localStorage.getItem('nombre')) {
+        this.nombre = localStorage.getItem('nombre'); 
+      }
+    
+      if(localStorage.getItem('surname')) {
+        this.surname = localStorage.getItem('surname'); 
+      }
+     }
 
   public FilterValue: any;
   FilteredResult:any = [];
@@ -67,6 +104,18 @@ export class ViewtickettechComponent implements OnInit {
         this._snackBar.open("Ticket has been returned.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket has been returned. Status updated', data);
       });
+  }
+
+  TicketAccept(id: any){
+    const version = {
+      version: 7,
+      status: 'WORKING',
+    }
+    this.service.updateTicketVersion(id, version).subscribe(
+      (data) => { this.theTicketData.version = 7;
+        this._snackBar.open("Ticket has been accepted.", "OK", { duration:3500, panelClass: "success",});
+        console.log('Ticket has been accepted. Status updated', data)    }
+    );
   }
 
   setCurrentTicket(ticket:any, index:any): void{
