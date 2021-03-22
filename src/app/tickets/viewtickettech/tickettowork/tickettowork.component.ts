@@ -71,7 +71,6 @@ export class TickettoworkComponent implements OnInit {
   tickStatus ={ status:'ABORTED'};
   customerId = 'CUSTOME581785f34f4f3';
   categoryList: any = [];
-  // @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];  
 
   constructor(private service:TicketService,
     private usersService: UsersService,
@@ -164,27 +163,87 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
-// setDefaultDate(){
-//   let year, month, day, hour, minute, second;
 
-//   year = this.techDate.getFullYear();
-//   month = this.techDate.getMonth()+1;
-//   day = this.techDate.getDate();
-//   hour = this.techDate.getHours();
-//   minute = this.techDate.getMinutes();
-//   second = this.techDate.getSeconds();
+// Seccion de incorporar items de las agencias a reemplazar y transportar
+addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
+  const equipment = {
+    item: '',
+    quantity: 1,
+    ticketId: id,
+  };
+  this.tagsarray.push(equipment);
+  console.log(this.tagsarray);
+}
 
-//   this.TechnicianModel.assignedDate = year+'-'+month+'-'+day+' '+'0'+hour+':'+'0'+minute+':'+'0'+second;
-//   console.warn('prueba date format: ',this.TechnicianModel.assignedDate);
-// }
+//save item to transfer
+saveEquipment(){
+  let i=0;
+
+  this.tagsarray.forEach((element: any) => {
+    this.service.addequipment(element).subscribe(
+      (data) => { console.log('Equipment added', data);
+      this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+      if (this.tagsarray.length == (i+1)){
+
+        this.allestimentoTicketList(element.ticketId);
+      }
+      i++;
+    },
+    (error) => { console.log('Failed to add equipment', error);
+    this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+    
+    )
+    console.warn(element);  
+  });
+  this.tagsarray = [];
+}
 
 
-// assigned_tags = '';
-// resolvedticket: any = {
-//   version: 6,
-//   status: 'RESOLVED',
-//   assigned_tags: '',
-// };
+//update item to transfer
+updateEquipment(){
+  let i=0;
+
+  this.equipmentArrayData.forEach((element: any) => {
+    this.service.updateEquipment(element.id, element).subscribe(
+      (data) => { 
+        // this.equipmentArrayData.item = this.equipmentArrayData.item;
+        // this.equipmentArrayData.ticketId = this.equipmentArrayData.ticketId;
+        // console.log('Equipment updated', data);
+      this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+      if (this.equipmentArrayData.length == (i+1)){
+
+        this.allestimentoTicketList(element.ticketId);
+      }
+      i++;
+    },
+    (error) => { console.log('Failed to add equipment', error);
+    this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+    
+    )
+    console.warn(element);  
+  });
+  // this.showEdit2 = false;
+  this.saveEquipment();
+}
+
+
+//delete item to transfer
+removeItem(index:any){this.tagsarray.splice(index, 1); }
+deleteOneItemEquipment(id:number){
+  this.service.deleteItemEquipment(id).subscribe(
+    response => {
+      console.log(response);
+    },
+    error => {
+      console.log(error);
+    }
+  );
+}
+
+//Fin de seccion de agregar items de agencias
+
+
+//metodo de enviar resolved a Administración
 resolved(id: any){
   if(this.theResolvedTicketUpdate.assigned_tags != ''){
     this.service.updateTicketResolved(id, this.theResolvedTicketUpdate).subscribe(
@@ -270,50 +329,6 @@ resolvedImagesroute(id:any){
       console.table(this.rutaFile);
     });
   }
-
-//uploadFile(file: any) {  
-  // const formData = new FormData();  
-  // formData.append('file', file.data);  
-  // file.inProgress = true;  
-  // this.uploadService.upload(formData).pipe(  
-  //   map(event => {  
-  //     switch (event.type) {  
-  //       case HttpEventType.UploadProgress:  
-  //         file.progress = Math.round(event.loaded * 100 / event.total);  
-  //         break;  
-  //       case HttpEventType.Response:  
-  //         return event;  
-  //     }  
-  //   }),  
-  //   catchError((error: HttpErrorResponse) => {  
-  //     file.inProgress = false;  
-  //     return of(`${file.data.name} upload failed.`);  
-  //   })).subscribe((event: any) => {  
-  //     if (typeof (event) === 'object') {  
-  //       console.log(event.body);  
-  //     }  
-  //   });  
-    
-//}
-
-// private uploadFiles() {  
-//   this.fileUpload.nativeElement.value = '';  
-//   this.files.forEach(file => {  
-//     this.uploadFile(file);  
-//   });  
-// }
-
-// onClick() {  
-//   const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
-//   for (let index = 0; index < fileUpload.files.length; index++)  
-//   {  
-//    const file = fileUpload.files[index];  
-//    this.files.push({ data: file, inProgress: false, progress: 0});  
-//   }  
-//     this.uploadFiles();  
-//   };  
-//   fileUpload.click();  
-// }
 
 
 @ViewChild('dataPdf')

@@ -177,6 +177,75 @@
                     </div>
                 <!-- </div> -->
               </mat-card>
+              <div style="height: 30px;"></div>
+               <mat-card>
+                <h2>Items from technical review:
+                    <ng-container class="col-md-3 ms-md-auto">
+
+                        <div class="col-auto">
+                            <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
+                        </div>
+                        <div class="col-md-3 ms-md-auto">
+                            <ng-container *ngIf="tagsarray == []">
+                                <button mat-icon-button><mat-icon>save</mat-icon>Confirm Items</button>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </h2>
+
+                <ng-container *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
+                        <div class="row" *ngFor="let obj of tagsarray; let i = index">
+                            <div class="col-auto">
+                                <button mat-icon-button (click)="addItem(theTicketData.id)">
+                                <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button mat-icon-button (click)="removeItem(i)">
+                                <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                <mat-label>Checked Item: </mat-label>
+                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
+                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name">
+                                    {{tag.description}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                            </div>
+                            <div class="col">
+                                From destination: {{item.from}
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="full-width" >
+                                    <mat-label>Send To</mat-label>
+                                    <select matNativeControl name="location" id="location" >
+                                        <!-- [(ngModel)]="theTicketUpdate.agencyId" (ngModelChange)="agencyListBindUpdate()" -->
+                                        <option value="Agency">
+                                            {{agency.name} | {{agency.managerId}
+                                        </option>
+                                    </select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Condition</mat-label>
+                                    <mat-select matInput name="condition" id="condition" ngModel="status">
+                                        <mat-option value="OPERATIVE">OPERATIVE</mat-option>
+                                        <mat-option value="BROKEN">BROKEN</mat-option>
+                                        <mat-option value="WARRANTY">WARRANTY</mat-option>
+                                        <mat-option value="LOST">LOST</mat-option>
+                                        <mat-option value="PENDING">PENDING</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                </ng-container>
+               </mat-card>
+
+
             <div style="height: 30px;"></div>
             <mat-card>
                 <mat-card-title>Technical review notes:</mat-card-title>
@@ -259,7 +328,7 @@
                 
 
 
-                <ng-container class="row" *ngIf="theTicketData.version == 5">
+                <ng-container class="row" *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                     <mat-form-field class="col-12">
                         <mat-label>Write your observations: </mat-label>
                         <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="theResolvedTicketUpdate.assigned_tags">
@@ -290,13 +359,13 @@
                     <div class="col">
                         <button  mat-raised-button  (click)="rptDownload()">DOWNLOAD REPORT</button>
                     </div>
-                    <div class="col" *ngIf="theTicketData.version == 5">
+                    <div class="col" *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                         <button mat-raised-button color="accent" #tooltip="matTooltip" matTooltip="Finalize Ticket Process" (click)="resolved(theTicketData.id); resolvedImagesroute(theTicketData.id)" [disabled]="theResolvedTicketUpdate.assigned_tags == '' || theResolvedTicketUpdate.assigned_tags == null">TICKET RESOLVED</button>
                     </div>  
                     <!-- <div class="col">
                         <button (click)="resolvedImagesroute(theTicketData.id)">Prueba names</button>
                     </div> -->
-                    <div class="col" *ngIf="theTicketData.version == 5">
+                    <div class="col" *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                         <button mat-raised-button color="warn" (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
                     </div>
                 </div>

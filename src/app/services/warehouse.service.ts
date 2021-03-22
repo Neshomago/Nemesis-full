@@ -17,8 +17,8 @@ trackingItem(val:any): Observable<any>{
 }
 
 //Tracking Info Get
-getTrackingData(id:any):Observable<any>{
-  return this.http.get<any[]>(`${APIUrl}/warehouse/tracking/${id}`);
+getTrackingData(serial:any):Observable<any>{
+  return this.http.get<any[]>(`${APIUrl}/warehouse/tracking/${serial}`);
 }
 
   //update item info
