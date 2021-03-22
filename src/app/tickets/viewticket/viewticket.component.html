@@ -4,7 +4,7 @@
         <mat-vertical-stepper [linear]="isLinear" #stepper>
 
         <!-- PASO 1 -->
-        <mat-step [stepControl]="firstFormGroup">
+        <mat-step [stepControl]="firstFormGroup" *ngIf="!zRoleT">
             <ng-template matStepLabel>Ticket general Information</ng-template>
             <mat-card class="example-card">
                 <mat-card-header>
@@ -256,7 +256,7 @@
         </mat-step>
 
         <!-- PASO 2 -->
-        <mat-step [stepControl]="secondFormGroup">
+        <mat-step [stepControl]="secondFormGroup" *ngIf="!zRoleT">
             <ng-template matStepLabel>Aditional Equipment to select</ng-template>
         <div>
             <!-- <additionalequipment></additionalequipment> -->
@@ -493,7 +493,7 @@
         </mat-step>
         
         <!-- PASO 4 -->
-        <mat-step [stepControl]="fourthFormGroup">
+        <mat-step [stepControl]="fourthFormGroup" *ngIf="!zRoleT">
           <ng-template matStepLabel>Technician Assigned</ng-template>
           <mat-card>
               <mat-card-title>Technician Assigned:
@@ -656,16 +656,16 @@
 <div class="rectanglecover">
 </div>
 <div class="ddt" *ngIf="theTicketData">
-    <div id="dataPdf">
+    <div id="dataPdf" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
     <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
 
-        <table border="1">
+        <div style="border: 1px solid; display: flex; flex-direction: column; align-items: center;">
             <!-- encabezado PDF -->
             <tr style="border-top: 3px solid gray;">
-                <td>
+                <td style="vertical-align: middle;">
                     <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
                 </td>
-                <td style="font-size: 12px; line-height: 15px;">
+                <td style="font-size: 12px; line-height: 15px; vertical-align: middle;">
                     Via Selva Di Sotto Snc, Località Cese <br>
                     San Salvatore Telesino -Telese- 82030 (BN) Italy <br>
                     Telefono: +39-0824-948243 <br>
@@ -673,8 +673,8 @@
                     P.IVA / C.F. 03949540615 <br>
                     email: info@lumiasrl.com <br>
                 </td>
-                <td colspan="2">
-                    <table width="450">
+                <td colspan="2" style="vertical-align: middle;">
+                    <table width="300" style="padding: 10px;">
                         <tr>
                             <td style="text-align: right;">
                                 Doc. Transport: 
@@ -764,17 +764,20 @@
         </td>
     </tr>
     <tr>
-        <td style="padding-left: 20px;" colspan="1">Qty.</td>
-        <td colspan="5">Item</td>
-    </tr>
-    <tr *ngFor="let tag of unserialTags; let indice = index">
-            <td style="padding-left: 20px;" colspan="1">
-                    {{tag.quantity}}
-            </td>
-            <td colspan="5">
-                    {{tag.item}}
-                    <br>{{tag.item_serial}}
-            </td>
+        <table style="width: 19mm;">
+            <tr>
+                <td style="padding-left: 20px;" colspan="1">Qty.</td>
+                <td colspan="5">Item</td>
+            </tr>
+            <tr *ngFor="let tag of unserialTags; let indice = index">
+                <td style="padding-left: 20px;" colspan="1">
+                        {{tag.quantity}}
+                </td>
+                <td colspan="5">
+                        {{tag.item}}
+                        <br>{{tag.item_serial}}
+                </td>
+        </table>
     </tr>
     <tr style="flex: 1; overflow: auto;"></tr>
     <tr>
@@ -818,14 +821,14 @@
             non ci riteniamo responsavili per eventuali errori.
         </td>
     </tr>
-</table>
+</div>
 </div>
 </div>
 
 <!-- REPORT PDF -->
 <div class="ddt" *ngIf="theTicketData">
 
-    <div id="dataPdfReport" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
+    <div id="dataPdfReport" style="width: 210mm; height: 297mm;display: flex; min-height: 100%; display: none !important;">
 
         <div style="border: 1px solid; display: flex; flex-direction: column;">
             <div style="border-top: 3px solid gray;">
@@ -937,7 +940,7 @@
                     Date and time finished intervention:
                 </td>
                 <td>
-
+                    {{theTicketData.closedDate}}
                 </td>
             </tr>
         </td>
@@ -980,7 +983,7 @@
             <div>
                         <div style="display:inline-flex; padding-top: 20px;">
                                 <div class="border border-1" style="padding: 20px;">
-                                    <span style="font-size: 12px; color: grey; width: 200px;">Technician name:__{{theTicketData.tech_assign}</span>
+                                    <span style="font-size: 12px; color: grey; width: 200px;">Technician name:__{{theTicketData.tech_assign}}</span>
                                     <br>
                                     <br>
                                     <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
@@ -1010,7 +1013,7 @@
     </div>
     </div>
 
-    <!-- <div id="dataPdfReport">
+    <div id="dataPdfReport">
 
         <table border="1" style="height: 297mm;">
             
@@ -1180,5 +1183,5 @@
         </td>
     </tr>
 </table>
-</div> -->
+</div>
 </div>

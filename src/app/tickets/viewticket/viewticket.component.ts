@@ -153,6 +153,7 @@ export class ViewticketComponent implements OnInit {
       this.serialOk();
       // this.getTicketInfotoUpdate(ticketId);
 
+
     //formgroup for steps
     this.firstFormGroup = this._formBuilder.group({
         firstCtrl: ['', Validators.required]
@@ -542,7 +543,7 @@ export class ViewticketComponent implements OnInit {
   @ViewChild('dataPdf')
   
   
-  filename= "_tid_";
+  filename = "_tid_";
 
   ddtDownload(): void{
     const DATA = document.getElementById('dataPdf') as HTMLDivElement;
@@ -558,7 +559,7 @@ export class ViewticketComponent implements OnInit {
         PDF.internal.scaleFactor = 30;
         PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
         
-        PDF.save('DDT_NMTCK'+ this.filename +this.theTicketData.id+'.pdf');
+        PDF.save('DDT_'+this.theTicketData.code+this.theTicketData.id+'.pdf');
     });     
   }
 
@@ -576,7 +577,7 @@ export class ViewticketComponent implements OnInit {
         PDF.internal.scaleFactor = 30;
         PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
         
-        PDF.save('RPT_'+this.theTicketData.code+ this.filename +this.theTicketData.id+'.pdf');
+        PDF.save('RPT_'+this.theTicketData.code+this.theTicketData.id+'.pdf');
     });     
   }
   
