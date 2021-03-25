@@ -29,9 +29,9 @@
     </div>
     <mat-nav-list class="background-nemesis">
       <a mat-list-item routerLink="/main" *ngIf="zRoleA || zRoleT" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >home</span> Home</a>
-      <a mat-list-item routerLink="/contact" *ngIf="zRoleA" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >contacts</span>Users</a>
+      <a mat-list-item routerLink="/contact" *ngIf="zRoleA|| zRoleC" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >contacts</span>Users</a>
       <a mat-list-item routerLink="/adminpanel" *ngIf="zRoleA" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >admin_panel_settings</span>Admin</a>
-      <a mat-list-item routerLink="/customers" *ngIf="zRoleA || zRoleC" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >person_pin</span>Customers</a>
+      <a mat-list-item routerLink="/customers" *ngIf="zRoleA " routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >person_pin</span>Customers</a>
       <a mat-list-item routerLink="/tickets" *ngIf="zRoleA || zRoleC || zRoleE" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >local_play</span>Ticketing</a>
       <a mat-list-item routerLink="/viewtickettech" *ngIf="zRoleT" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >local_play</span>Tickets</a>
       <a mat-list-item routerLink="/agency" *ngIf="zRoleA || zRoleC || zRoleE" routerLinkActive="active-link"><span class="material-icons" style="padding-right: 20px;" >store_mall_directory</span>Agency</a>

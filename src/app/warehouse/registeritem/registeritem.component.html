@@ -77,10 +77,17 @@
                     <mat-form-field class="full-width">
                         <mat-label>Location</mat-label>
                         <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.warehouseId">
-                            <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
-                                <ng-container>
+                            <mat-option disabled>Warehouse</mat-option>
+                            <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+                                <!-- <ng-container *ngIf="warehouse.owner == customerId"> -->
                                     {{warehouse.name}}
-                                </ng-container>
+                                <!-- </ng-container> -->
+                            </mat-option>
+                            <mat-option disabled>Agency</mat-option>
+                            <mat-option *ngFor="let agency of agencies" [value]="agency.id">
+                                <!-- <ng-container *ngIf="agency.customerId == customerId"> -->
+                                    {{agency.name}}
+                                <!-- </ng-container> -->
                             </mat-option>
                             <!-- <mat-option value="8">Lumia Warehouse</mat-option>
                             <mat-option value="4">Client Warehouse</mat-option> -->

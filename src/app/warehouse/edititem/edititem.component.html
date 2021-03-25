@@ -289,7 +289,13 @@
                         </div>
                     </td>
                     <td>
-                        {{track.userId}}
+                        {{track.userId}} -
+                        <ng-container *ngFor="let user of UserList; let i = index">
+                            <ng-container *ngIf="user.id == track.userId">
+                                {{user.name}} {{user.surname}}
+                            </ng-container>
+                        </ng-container>
+                        
                     </td>
                 </tr>
             </tbody>

@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
     Swal.fire({
       allowOutsideClick: false,
-      text: 'espere por favor...'
+      text: 'Please Wait...'
     });
     Swal.showLoading();
 
@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('surname', xresp['surname']);
             localStorage.setItem('address', xresp['address']);
             localStorage.setItem('phone', xresp['phone']);
+            localStorage.setItem('customerId', xresp['customerId']);
             this.userService.publishSomeData({
               email: this.usuario.email,
               RoleA: xresp['RoleA'],

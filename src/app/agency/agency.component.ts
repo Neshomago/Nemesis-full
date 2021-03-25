@@ -13,6 +13,8 @@ export class AgencyComponent implements OnInit {
   
   AgencyList:any=[];
 
+  customerId = localStorage.getItem('customerId');
+
   currentAgency = null;
   currentIndex = -1;
   

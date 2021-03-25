@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ItemWarehouse } from 'src/app/tickets';
 import { WarehouseService } from 'src/app/services/warehouse.service';
+import { AgencyService } from 'src/app/services/agency.service';
 @Component({
   selector: 'app-registeritem',
   templateUrl: './registeritem.component.html',
@@ -20,6 +21,8 @@ export class RegisteritemComponent implements OnInit {
   userId: any;
 
   warehouses:any =[];
+
+  customerId = localStorage.getItem('customerId');
   
   invoiceDate=new Date();
     itemModel: any = {
@@ -65,7 +68,8 @@ export class RegisteritemComponent implements OnInit {
   }
 
 
-  constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService) { 
+  constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService,
+    private agencyService: AgencyService) { 
     if(localStorage.getItem('zRoleA')) {
       this.zRoleA = localStorage.getItem('zRoleA'); 
     }
@@ -117,11 +121,18 @@ export class RegisteritemComponent implements OnInit {
     this.getCategoryList();
   }
 
-
-
   getWarehouses(){
     this.service.getWarehouseList().subscribe(
       data => {this.warehouses = data}
+    );
+  }
+
+  agencies: any = [];
+  getAgencies(){
+    this.agencyService.getAgencyList().subscribe(
+      (data)=>{
+        this.agencies = data
+      }
     );
   }
   
@@ -154,13 +165,10 @@ export class RegisteritemComponent implements OnInit {
   }
 
   saveItemTrack() {
+    this.trackingInfo.userId = String(localStorage.getItem('id'));
     this.service.trackingItem(this.trackingInfo).subscribe(
       (data) => {
         this.itemModel.serial = this.trackingInfo.itemId;
-        this.userId = this.trackingInfo.userId.toString();
-
-        console.log('valor de trackingino: ', this.trackingInfo);
-        console.log('user info id:', this.userId);
         console.log(data);
       },
       error => {
@@ -168,8 +176,10 @@ export class RegisteritemComponent implements OnInit {
       }
     );
   }
+
   saveItem(){
     this.addItem();
+    this.saveItemTrack();
   }
 
 

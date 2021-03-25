@@ -2,6 +2,7 @@ import { ContentObserver } from '@angular/cdk/observers';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UsersService } from 'src/app/services/users.service';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 
 @Component({
@@ -39,6 +40,7 @@ export class EdititemComponent implements OnInit {
 
   constructor(
     private service: WarehouseService,
+    private userService: UsersService,
     private route:ActivatedRoute,
     private _snackBar: MatSnackBar,
   ) {
@@ -178,6 +180,12 @@ export class EdititemComponent implements OnInit {
     });
   }
 
+  UserList:any = [];
+  getUserNamebyId(){
+    this.userService.getContact().subscribe(
+      data => {this.UserList = data}
+    );
+  }
   
   getTrackingData(serial:any){
     this.service.getTrackingData(serial).subscribe(

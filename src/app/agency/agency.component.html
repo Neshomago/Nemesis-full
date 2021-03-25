@@ -19,7 +19,11 @@
             <tr *ngFor="let dataItem of AgencyList; let i = index"
             [class.active]="i == currentIndex"
             (click)="setCurrentAgency(dataItem, i)" [routerLink]="['viewagency/',dataItem.id]" style="cursor: pointer;"
-            > <ng-container *ngIf="dataItem.isDelete != 1">
+            > 
+        <ng-container *ngIf="dataItem.customerId == customerId">
+
+                
+                <ng-container *ngIf="dataItem.isDelete != 1">
                 <td>
                     <table>
                         <tr><td class="customer-name" style="font-weight: 400;">{{dataItem.name}}</td></tr>
@@ -35,7 +39,8 @@
                 <td class="customer-name">{{dataItem.certification}}</td>
                 <td class="customer-name">{{dataItem.managerId}}</td>
             </ng-container>
-            </tr>
+        </ng-container>
+        </tr>
         </tbody>
     </table>
 </ng-container>

@@ -33,6 +33,10 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.get<any[]>(APIUrl + '/warehousenames');
   }
 
+  getItemAgency(customerId: any, createdBy:any): Observable<any>{
+    return this.http.get<any[]>(`${APIUrl}/warehouseitagency`, customerId);
+  }
+
   // To see all warehouse items from warehouseitemtype
   getItemsListperType(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehouseitemspertype');

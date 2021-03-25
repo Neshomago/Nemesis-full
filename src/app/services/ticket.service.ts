@@ -48,7 +48,7 @@ export class TicketService {
   }
 
   getTicketAgency(agencyid:any): Observable<any>{
-    return this.http.get(`${APIUrl}/agency/${agencyid}`);
+    return this.http.get(`${APIUrl}/agencyid/${agencyid}`);
   }
 
   getAgencyList():Observable<any>{

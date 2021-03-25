@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AgencyService } from 'src/app/services/agency.service';
+import { WarehouseService } from 'src/app/services/warehouse.service';
 
 @Component({
   selector: 'app-viewagency',
@@ -13,11 +14,14 @@ export class ViewagencyComponent implements OnInit {
   edit = false;
   id: number | undefined;
 
-  constructor(private service: AgencyService, private route:ActivatedRoute, private _snackBar: MatSnackBar, private routerReturn: Router) { }
+  constructor(private service: AgencyService, private route:ActivatedRoute, private _snackBar: MatSnackBar, private routerReturn: Router, private warehouseItem: WarehouseService) { }
 
   ngOnInit(): void {
     this.id = +this.getAgencyIndividual(this.route.snapshot.paramMap.get('id'));
   }
+
+  customerId = localStorage.getItem('customerId');
+  createdBy = localStorage.getItem('id');
 
   changesAgency: any = {
     name:'',
@@ -30,6 +34,7 @@ export class ViewagencyComponent implements OnInit {
     moreInfo: '',
   }
   theAgencyData : any = [];
+  AgencyItems : any = [];
     
   getAgencyIndividual(id:any):any{
     this.service.getAgencyIso(id).subscribe((data)=> {
@@ -53,6 +58,14 @@ export class ViewagencyComponent implements OnInit {
     this.edit = !this.edit;
   }
 
+  getAgencyItems(){
+    let cus = this.customerId;
+    let cre = this.createdBy;
+
+    this.warehouseItem.getItemAgency(cus,cre).subscribe(
+      data => {this.AgencyItems = data}
+    );
+  }
 
   updateChanges(id:any){
     this.service.updateAgency(id, this.changesAgency).subscribe(
