@@ -11,6 +11,7 @@ export class AdminpanelComponent implements OnInit {
 
   toogleedit = false;
   technicianCount:any = [];
+  DataFromUsers:any = [];
 
 
   constructor(private user: UsersService, private ticketServ: TicketService) { }
@@ -31,6 +32,15 @@ export class AdminpanelComponent implements OnInit {
       console.log(this.technicianCount)}
     );
   }
+
+getTechnicianNames(){
+  this.user.getUsersData().subscribe(
+    data => {
+      this.DataFromUsers = data
+    }
+  );
+}
+
 
   ticketValueperType:any =[];
   getTicketValues(){

@@ -121,15 +121,38 @@
                                                 <mat-form-field class="full-width">
                                                     <mat-label>Location</mat-label>
                                                     <mat-select matInput name="location" id="location" [(ngModel)]="changesItem.location">
-                                                        <mat-option value="Agency">Agency [Id]</mat-option>
+                                                        <mat-option value="{{location.value}}" *ngFor="let location of locationSelect">{{location.viewValue}}</mat-option>
+                                                        <!-- <mat-option value="Agency">Agency [Id]</mat-option>
                                                         <mat-option value="Warehouse">Warehouse</mat-option>
-                                                        <mat-option value="Transport">Transport</mat-option>
+                                                        <mat-option value="Transport">Transport</mat-option> -->
                                                     </mat-select>
                                                 </mat-form-field>
 
-                                                <!-- <mat-form-field>
-                                                    <input matInput type="text" name="location" id="location" [(ngModel)]="changesItem.location">
-                                                </mat-form-field> -->
+                                                <mat-form-field class="full-width" *ngIf="changesItem.location == 'AGENCY'">
+                                                    <mat-label>Agency</mat-label>
+                                                    <mat-select matInput name="locationId" id="locationId" [(ngModel)]="changesItem.locationId">
+                                                        <mat-option *ngFor="let Agency of AgencyList" [value]="Agency.id">{{Agency.name}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                                <mat-form-field class="full-width" *ngIf="changesItem.location == 'WAREHOUSE'">
+                                                    <mat-label>Warehouse</mat-label>
+                                                    <mat-select matInput name="locationId" id="locationId" [(ngModel)]="changesItem.locationId">
+                                                        <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
+                                                            <ng-container>
+                                                                {{warehouse.name}}
+                                                            </ng-container>
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                                <mat-form-field class="full-width" *ngIf="changesItem.location == 'TRANSPORT'">
+                                                    <mat-label>Transport Car Plate</mat-label>
+                                                    <mat-form-field>
+                                                        <input matInput type="text" name="locationId" id="locationId" [(ngModel)]="changesItem.locationId">
+                                                    </mat-form-field>
+                                                </mat-form-field>
+
                                             </ng-container>
                                         </td>
                                     </tr>
@@ -173,6 +196,7 @@
                                     </tr>
                                 </table>
                             </div>
+                            {{ changesItem | json }}
                         </div>
 
                     </div><br>
@@ -290,7 +314,7 @@
                     </td>
                     <td>
                         {{track.userId}} -
-                        <ng-container *ngFor="let user of UserList; let i = index">
+                        <ng-container *ngFor="let user of userTrackingData; let j = index">
                             <ng-container *ngIf="user.id == track.userId">
                                 {{user.name}} {{user.surname}}
                             </ng-container>

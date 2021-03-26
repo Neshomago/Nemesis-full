@@ -118,9 +118,9 @@ export class HomeComponent implements OnInit {
         adminInt++;
     }
     }
-    TicketIns = ins * 100;
-    TicketDis = dis * 50;
-    TicketInt = int * 35;
+    TicketIns = ins;
+    TicketDis = dis;
+    TicketInt = int;
     let Total = TicketInt + TicketDis + TicketIns;
     this.ValueA = TicketIns;
     this.ValueB = TicketDis;

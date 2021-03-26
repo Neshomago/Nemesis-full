@@ -61,4 +61,8 @@ export class UsersService {
     return this.fooSubject;
   }
 
+  getUsersData(): Observable<any>{
+    return this.http.get<any>(`${APIUrl}/usersmailsanddata`);
+  }
+
 }

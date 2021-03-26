@@ -13,6 +13,7 @@ export class ViewagencyComponent implements OnInit {
   
   edit = false;
   id: number | undefined;
+  locationId = '';
 
   constructor(private service: AgencyService, private route:ActivatedRoute, private _snackBar: MatSnackBar, private routerReturn: Router, private warehouseItem: WarehouseService) { }
 
@@ -35,6 +36,8 @@ export class ViewagencyComponent implements OnInit {
   }
   theAgencyData : any = [];
   AgencyItems : any = [];
+
+
     
   getAgencyIndividual(id:any):any{
     this.service.getAgencyIso(id).subscribe((data)=> {
@@ -47,7 +50,8 @@ export class ViewagencyComponent implements OnInit {
       this.changesAgency.email = data[0].email;
       this.changesAgency.phone = data[0].phone;
       this.changesAgency.moreInfo= data[0].moreInfo;
-      console.log(data);
+      this.locationId = data[0].id;
+      this.getAgencyItems(this.locationId);
     },
     error =>{console.log(error);
     }
@@ -58,11 +62,15 @@ export class ViewagencyComponent implements OnInit {
     this.edit = !this.edit;
   }
 
-  getAgencyItems(){
-    let cus = this.customerId;
-    let cre = this.createdBy;
+  loc:any = {
+    locationId: 0,
+  }
+  getAgencyItems(id:any){
+    let customerId_look = this.customerId;
+    this.loc.locationId = id;    
+    let locationId = this.loc;
 
-    this.warehouseItem.getItemAgency(cus,cre).subscribe(
+    this.warehouseItem.getItemAgency(customerId_look,locationId).subscribe(
       data => {this.AgencyItems = data}
     );
   }

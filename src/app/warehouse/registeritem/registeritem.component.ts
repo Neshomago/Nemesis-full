@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ItemWarehouse } from 'src/app/tickets';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 import { AgencyService } from 'src/app/services/agency.service';
+import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-registeritem',
   templateUrl: './registeritem.component.html',
@@ -24,15 +25,20 @@ export class RegisteritemComponent implements OnInit {
 
   customerId = localStorage.getItem('customerId');
   
+ 
+
   invoiceDate=new Date();
     itemModel: any = {
       name: '',
       description:'',
       serial: '',
       warehouseId: 5,
+      location:'WAREHOUSE',
+      locationId:5,
       used: 0,
       warrantyPeriod: 12,
       categoryId: 0,
+      createdBy: localStorage.getItem('id'),
       // isMoving: 0,
       supplier: '',
       isDelete: 0,
@@ -58,14 +64,16 @@ export class RegisteritemComponent implements OnInit {
     userId:'',
     changes:'',
     type:'Register',
-    descriptionTrack:'New item to warehouse'
-    // rawData:'',
+    descriptionTrack:'New item to warehouse',
+    rawData: String(JSON.stringify(this.itemModel))
     // userTraza:''
   }
 
   category:any ={
     category_name:''
   }
+
+ selectedWarehouse = '';
 
 
   constructor(private _snackBar:MatSnackBar, private router:Router, private service:WarehouseService,
@@ -122,6 +130,7 @@ export class RegisteritemComponent implements OnInit {
   }
 
   getWarehouses(){
+    this.selectedWarehouse = this.itemModel.warehouseId;
     this.service.getWarehouseList().subscribe(
       data => {this.warehouses = data}
     );
@@ -166,15 +175,16 @@ export class RegisteritemComponent implements OnInit {
 
   saveItemTrack() {
     this.trackingInfo.userId = String(localStorage.getItem('id'));
+    this.trackingInfo.itemId = this.itemModel.serial;
     this.service.trackingItem(this.trackingInfo).subscribe(
       (data) => {
-        this.itemModel.serial = this.trackingInfo.itemId;
         console.log(data);
       },
       error => {
         console.log(error)
       }
     );
+    // console.log(this.trackingInfo);
   }
 
   saveItem(){

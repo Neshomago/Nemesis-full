@@ -2,6 +2,7 @@ import { ContentObserver } from '@angular/cdk/observers';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AgencyService } from 'src/app/services/agency.service';
 import { UsersService } from 'src/app/services/users.service';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 
@@ -24,6 +25,7 @@ export class EdititemComponent implements OnInit {
     warehouserId:5,
     used:0,
     location:'',
+    locationId:'',
     status:'',
     statusDescription:'',
     warranty_invoiceDate:'',
@@ -34,6 +36,13 @@ export class EdititemComponent implements OnInit {
 
   trackingData:any =[];
 
+  locationSelect:any = [
+    {value: 'AGENCY', viewValue:'Agency'},
+    {value: 'WAREHOUSE', viewValue:'Warehouse'},
+    {value: 'TRANSPORT', viewValue:'Transport'},
+  ]
+
+
   nombre: any;
   surname: any;
   useridfortrack: any;
@@ -43,6 +52,7 @@ export class EdititemComponent implements OnInit {
     private userService: UsersService,
     private route:ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private agencyService: AgencyService
   ) {
     if(localStorage.getItem('nombre')) {
       this.nombre = localStorage.getItem('nombre'); 
@@ -59,6 +69,8 @@ export class EdititemComponent implements OnInit {
     this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
     this.getCategoryList();
     this.getWarehouses();
+    this.getUserNamebyId();
+    this.getAgencyList();
   }
 
   editFields(){
@@ -76,6 +88,7 @@ export class EdititemComponent implements OnInit {
         this.changesItem.warehouseId = data[0].warehouseId;
         this.changesItem.used = data[0].used;
         this.changesItem.location = data[0].location;
+        this.changesItem.locationId = data[0].locationId;
         this.changesItem.status = data[0].status;
         this.changesItem.statusDescription = data[0].statusDescription;
         this.changesItem.warranty_invoiceDate = data[0].warranty_invoiceDate;
@@ -84,6 +97,7 @@ export class EdititemComponent implements OnInit {
         this.erase.isDelete = data[0].isDelete;
         console.log('tracking info: ', this.trackingInfo);
         this.getTrackingData(this.trackingInfo.itemId);
+        this.getusertrackingdata();
       },
       error => {console.log(error);
       });
@@ -101,6 +115,7 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.warehouseId = this.changesItem.warehouseId;
         this.theItemWarehouse.used = this.changesItem.used;
         this.theItemWarehouse.location = this.changesItem.location;
+        this.theItemWarehouse.locationId = this.changesItem.locationId;
         this.theItemWarehouse.status = this.changesItem.status;
         this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
         this.theItemWarehouse.warranty_invoiceDate = this.changesItem.warranty_invoiceDate;
@@ -109,6 +124,7 @@ export class EdititemComponent implements OnInit {
         this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
+      this.refreshPage();
   }
 
   erase:any= {
@@ -132,10 +148,12 @@ export class EdititemComponent implements OnInit {
     userId:'',
     changes:'',
     type:'Edit Item',
-    descriptionTrack:'Made Modifications on item details'
-    // rawData:'',
+    descriptionTrack:'Made Modifications on item details',
+    rawData: String(JSON.stringify(this.changesItem))
     // userTraza:''
   }
+
+
 
   setDefaultDate(){
     let year, month, day, hour, minute, second;
@@ -155,9 +173,6 @@ export class EdititemComponent implements OnInit {
       (data) => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
         this.useridfortrack.id = this.trackingInfo.userId.toString();
-
-        console.log('valor de trackingino: ', this.trackingInfo);
-        console.log('user info id:', this.useridfortrack);
         console.log(data);
       },
       error => {
@@ -182,15 +197,39 @@ export class EdititemComponent implements OnInit {
 
   UserList:any = [];
   getUserNamebyId(){
-    this.userService.getContact().subscribe(
-      data => {this.UserList = data}
+    this.userService.getContactList().subscribe(
+      data => {this.UserList = data;
+      console.log(this.UserList);}
     );
+  }
+
+  AgencyList: any = [];
+  getAgencyList(){
+    this.agencyService.getAgencyList().subscribe(
+      data => {this.AgencyList = data;}
+    )
   }
   
   getTrackingData(serial:any){
     this.service.getTrackingData(serial).subscribe(
-      (data) => { this.trackingData = data;}
+      (data) => { this.trackingData = data;
+      console.log("info de tracking data: ",this.trackingData)}
       );
+  }
+  
+  userTrackingData:any =[];
+  getusertrackingdata(){
+    let a = this.trackingData;
+    console.log(a);
+
+     this.service.getUserInfoTrackingHistory(this.trackingData.userId).subscribe(
+      data=> {this.userTrackingData = data}
+    );
+  }
+
+  refreshPage(){
+    setTimeout(
+      function(){window.location.reload()}, 800);
   }
 }
 

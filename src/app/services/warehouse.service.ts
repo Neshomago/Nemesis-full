@@ -21,6 +21,11 @@ getTrackingData(serial:any):Observable<any>{
   return this.http.get<any[]>(`${APIUrl}/warehouse/tracking/${serial}`);
 }
 
+// user tracking ingfo Get
+getUserInfoTrackingHistory(id:any):Observable<any>{
+  return this.http.get<any[]>(`${APIUrl}/warehouseusertrackinfo/${id}`);
+}
+
   //update item info
   updateWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.post(`${APIUrl}/warehouseitemup/${id}`, changes);
@@ -33,8 +38,8 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.get<any[]>(APIUrl + '/warehousenames');
   }
 
-  getItemAgency(customerId: any, createdBy:any): Observable<any>{
-    return this.http.get<any[]>(`${APIUrl}/warehouseitagency`, customerId);
+  getItemAgency(customerId:any, locationId:any): Observable<any>{
+    return this.http.get<any[]>(`${APIUrl}/warehouseitagency/${customerId}`, locationId);
   }
 
   // To see all warehouse items from warehouseitemtype

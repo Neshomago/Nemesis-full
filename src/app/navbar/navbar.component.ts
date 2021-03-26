@@ -99,6 +99,7 @@ export class NavbarComponent {
     this.zRoleE = '';
     this.zRoleT = '';
     this.auth.logout();
+    localStorage.clear();
     this.router.navigateByUrl('/login');
   }
   

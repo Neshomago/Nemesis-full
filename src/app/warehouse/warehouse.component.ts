@@ -67,17 +67,21 @@ export class WarehouseComponent implements OnInit {
     this.showstockedit = !this.showstockedit;
   }
 
+
+  //Function update value, no funciona aun.
   updateStock(){
     let i= 0;
-    this.categoryList.array.forEach((element:any) => {
+    this.categoryList.forEach((element:any) => {
       this.whsservice.categoryStock(element.id, element).subscribe(
         (data) => {console.log(data);
         if (this.categoryList.length == (i+1)){
-          this.categoryList(element.id);
+          // this.getCategoryList(element.id);
+          this.getCategoryList();
         }
         i++;
     });
-  })
+  });
+  this.stockEdit();
 }
 
 
@@ -88,20 +92,21 @@ export class WarehouseComponent implements OnInit {
       (item:any) => item.serial.toLowerCase().indexOf(
         this.filteredString.toLowerCase()) !== -1);
 
-      if (resp != null || resp != undefined || resp != "" || resp != []){
-        this.filter = true;
-        this.filteredResult = resp;
-        return resp;
-      } else /*if (resp === "" || resp == null || resp == undefined || resp === [])*/{
-        this.filteredResult = [];
-        this.filter = false;
-      }
+        if (resp != null || resp != undefined || resp != "" || resp != []){
+          this.filter = true;
+          this.filteredResult = resp;
+          // return resp;
+        }
+        if (resp == "" || resp == null || resp == undefined || resp === [] || resp==='' || resp=="clear"){
+            this.filteredResult = [];
+            this.filter = false;
+        }
   }
 
   //Filter Boxes
   onSelectedFilter(){
     this.filteredResult = this.TheGeneralList.filter(
-      (ticket:any) => (ticket.used === this.FilterValue || ticket.status == this.FilterValue || ticket.used == this.FilterValue));
+      (ticket:any) => (ticket.used === this.FilterValue || ticket.status == this.FilterValue || ticket.used == this.FilterValue || ticket.location == this.FilterValue));
     this.filter = true;
     if (this.FilterValue == "clear" || this.FilterValue == ''){
       this.filter = false;

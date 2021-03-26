@@ -24,6 +24,7 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';  
 import { catchError, map } from 'rxjs/operators';  
 import { UploadService } from  '../../../services/upload-files.service';
+import { AgencyService } from 'src/app/services/agency.service';
 
 
 @Component({
@@ -79,6 +80,7 @@ export class TickettoworkComponent implements OnInit {
     private whservice:WarehouseService,
     private _snackBar: MatSnackBar,
     private httpClient: HttpClient,
+    private agencyService: AgencyService
     ) { }
 
   ngOnInit(): void {
@@ -260,6 +262,19 @@ resolved(id: any){
       , 500);
 }
 
+AgencyListNames: any = [];
+getAgencyList(){
+  this.agencyService.getAgencyList().subscribe(
+    data => {this.AgencyListNames = data;}
+  )
+}
+
+warehouses:any=[];
+getWarehouses(){
+  this.whservice.getWarehouseList().subscribe(
+    data => {this.warehouses = data}
+  );
+}
 
 rutaFile:any = {
   file1: '',

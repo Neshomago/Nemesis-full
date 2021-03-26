@@ -15,7 +15,7 @@ export class CreateAgencyComponent implements OnInit {
     name:'',
     address:'',
     managerId:'',
-    customerId:'USER000582147ee7db00',
+    customerId: String(localStorage.getItem('customerId')),
     vat:'',
     email:'',
     phone:'',

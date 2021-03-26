@@ -1,7 +1,7 @@
 <div class="boxformcreate">
     <div class="forminmargin">
       <h1 class="h1-form">REGISTER NEW ITEM</h1>
-      <form #ticketForm="ngForm" (ngSubmit)="saveItem(); saveItemTrack()">
+      <form #ticketForm="ngForm" (ngSubmit)="saveItem();">
           <div class="row">
 
               <div class="col">
@@ -76,7 +76,7 @@
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>Location</mat-label>
-                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.warehouseId">
+                        <mat-select matInput name="condition" id="condition" [(ngModel)]="itemModel.warehouseId" [(value)]="selectedWarehouse">
                             <mat-option disabled>Warehouse</mat-option>
                             <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
                                 <!-- <ng-container *ngIf="warehouse.owner == customerId"> -->
