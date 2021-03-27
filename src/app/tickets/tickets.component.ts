@@ -63,11 +63,14 @@ export class TicketsComponent implements OnInit {
   filtering = false;
   onSelectedFilter(){
     this.FilteredResult = this.TicketList.filter(
-      (ticket:any) => (ticket.status === this.FilterValue || ticket.type == this.FilterValue || ticket.priority == this.FilterValue));
+      (ticket:any) => (ticket.status === this.FilterValue || ticket.type == this.FilterValue || ticket.priority == this.FilterValue || ticket.creationDate == this.FilterValue));
     this.filtering = true;
     if (this.FilterValue == "clear"){
       this.filtering = false;
       this.FilteredResult = [];
     }
+
+    let Month = this.TicketList.creationDate.getMonth();
+    console.log('Mes buscado:', Month);
   }
 }

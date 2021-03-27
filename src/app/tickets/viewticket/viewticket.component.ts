@@ -81,7 +81,7 @@ export class ViewticketComponent implements OnInit {
   };
 
   tickStatus ={ status:'ABORTED'};
-  customerId = 'CUSTOME581785f34f4f3';
+  customerId = localStorage.getItem('customerId');
   AgencyList: any = [];
   FilteredAgency: any = [];
 
@@ -89,6 +89,7 @@ export class ViewticketComponent implements OnInit {
   TechnicianModel: any = {
   tech_assign: '',
   assignedDate: '',
+  fechaPrueba:new Date(),
   version: 5,
   }
 
@@ -96,6 +97,7 @@ export class ViewticketComponent implements OnInit {
   technicianToUpdate:any ={
     tech_assign:'',
     assignedDate:'',
+    fechaPrueba:new Date(),
     version: 5,
   }
 
@@ -172,7 +174,8 @@ export class ViewticketComponent implements OnInit {
     // customerId = 'CUSTOME581785f34f4f3';
   // AgencyList: any = [];
   getAgencyListName(){
-    this.service.getAgencyName(this.customerId).subscribe(agency => {
+    let customer:any = this.customerId;
+    this.service.getAgencyName(customer).subscribe(agency => {
       this.AgencyList = agency;
     })
   }
@@ -188,6 +191,7 @@ export class ViewticketComponent implements OnInit {
   //   email:'',
   //   managerId:''
   // };
+
   getTicketIndividual(id:any):any{
     this.service.getTicketIso(id).subscribe((data)=> {
       this.theTicketData = data[0];
@@ -197,7 +201,17 @@ export class ViewticketComponent implements OnInit {
       this.theTicketUpdate.description = data[0].description;
       this.theTicketUpdate.priority = data[0].priority;
       this.technicianToUpdate.tech_assign = data[0].tech_assign;
-      // this.technicianToUpdate.assignedDate = data[0].assignedDate;
+      // console.log("fecha suscrita: ", data[0].assignedDate);
+      let datePrueba = new Date(data[0].assignedDate);
+      let fechastring = (datePrueba.getMonth()+1)+'/'+datePrueba.getDate()+'/'+datePrueba.getFullYear();
+      console.log("fecha en string: ",fechastring);
+      let fechanueva = new Date(fechastring);
+      // (datePrueba.getMonth()+1)+'/'+datePrueba.getFullYear()+'/'+datePrueba.getDate();
+      console.log("Fecha Nueva: ", fechanueva);
+      // console.log("Nueva fecha construida: ",datePrueba);
+      // this.technicianToUpdate.assignedDate = datePrueba;
+      this.technicianToUpdate.fechaPrueba = new Date(fechastring);
+      // console.log("Prueba de techinica date: ", this.technicianToUpdate.fechaPrueba);
       let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
       this.agencyToUpdate.name = agenciaSelected.name;
     },
@@ -249,6 +263,7 @@ export class ViewticketComponent implements OnInit {
 
   technicianAssignedtoTicket(id:any){
     this.setDefaultDate();
+    console.log("TechDate para insertar: ", this.techDate);
   this.service.assign_technician(id,this.TechnicianModel).subscribe(
     (data) => { 
       this.TechnicianModel = data;
@@ -495,16 +510,27 @@ export class ViewticketComponent implements OnInit {
   }
 
   updateTechnician(id:any){
-    this.setDateUpdate();
+    // this.setDateUpdate();
+    this.technicianToUpdate.assignedDate = 
+    (
+      (this.technicianToUpdate.fechaPrueba.getFullYear())+'-'+
+      (this.technicianToUpdate.fechaPrueba.getMonth()+1)+'-'+
+      (this.technicianToUpdate.fechaPrueba.getDate())
+      +' '+'0'+(this.technicianToUpdate.fechaPrueba.getHours())+':'
+      +'0'+(this.technicianToUpdate.fechaPrueba.getMinutes())+':'
+      +'0'+(this.technicianToUpdate.fechaPrueba.getSeconds())
+    );
+
+    console.warn("prueba de fecha to updat: ",this.technicianToUpdate.fechaPrueba);
     this.service.assign_technician(id,this.technicianToUpdate).subscribe(
       (data) => { 
         // this.technicianToUpdate.data;
         this.theTicketData.tech_assign = this.technicianToUpdate.tech_assign;
-        this.theTicketData.assignedDate = this.technicianToUpdate.assignedDate;
+        // this.theTicketData.assignedDate = this.technicianToUpdate.assignedDate;
         this._snackBar.open("Technician Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
-      
+      this.refreshPage();
   }
 
   categoryList:any =[];

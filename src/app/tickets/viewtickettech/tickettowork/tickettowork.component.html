@@ -210,30 +210,32 @@
                             <div class="col">
                                 <mat-form-field class="full-width">
                                 <mat-label>Checked Item: </mat-label>
-                                <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
-                                    <mat-option *ngFor="let tag of newtags" [value]="tag.name">
-                                    {{tag.description}
+                                <mat-select matNativeControl name="item" [(ngModel)]="obj.item">
+                                    <mat-option *ngFor="let tag of AgencyItems; let i = index" [value]="tag.name">
+                                    {{i}}{{tag.name}} - {{tag.description}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
                             </div>
 
                             <!--  -->
-                            <div class="col">
-                                From destination: {{item.from}
+                            <div class="col" *ngIf="AgencyItems">
+                                From destination: {{AgencyItems.locationId}}
                             </div>
 
 
                             <div class="col">
                                 <mat-form-field class="full-width" >
                                     <mat-label>Send To</mat-label>
-                                    <select matNativeControl name="location" id="location" >
+                                    <mat-select matNativeControl name="location" id="location" >
                                         <!-- [(ngModel)]="theTicketUpdate.agencyId" (ngModelChange)="agencyListBindUpdate()" -->
-                                        <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
-                                        <ng-container> {{warehouse.name}} </ng-container>
-                                    </mat-option>
-                                    <mat-option *ngFor="let Agency of AgencyList" [value]="Agency.id">{{Agency.name}}</mat-option>
-                                    </select>
+                                        <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+                                        <!-- <ng-container>  -->
+                                            {{warehouse.name}}
+                                         <!-- </ng-container> -->
+                                        </mat-option>
+                                    <mat-option *ngFor="let Agency of AgencyListNames" [value]="Agency.id">{{Agency.name}}</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
 

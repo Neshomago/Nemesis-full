@@ -164,13 +164,15 @@
                             <thead style="border-bottom: 2px solid gray; height: 40px;">
                                 <td colspan="3">Item Name</td>
                                 <td colspan="2">Item category</td>
-                                <td colspan="1">Quantity</td>
+                                <td colspan="1">Serial</td>
+                                <td colspan="1">Status</td>
                             </thead>
                             <ng-container *ngFor="let item of AgencyItems">
                                 <tr  style="border-bottom: 0.5px solid rgb(192, 192, 192); height: 40px;">
-                                    <td colspan="3">Item No.</td>
-                                    <td colspan="2">Item Categroy</td>
-                                    <td colspan="1">1</td>
+                                    <td colspan="3">{{item.id}}</td>
+                                    <td colspan="2">{{item.name}}</td>
+                                    <td colspan="1">{{item.serial}}</td>
+                                    <td colspan="1">{{item.status}}</td>
                                 </tr>
                             </ng-container>
                             <ng-container *ngIf="AgencyItems == []">

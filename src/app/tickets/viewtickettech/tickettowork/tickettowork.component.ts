@@ -86,6 +86,7 @@ export class TickettoworkComponent implements OnInit {
   ngOnInit(): void {
     const ticketId = this.route.snapshot.paramMap.get('id');
     this.getAgencyListName();
+    this.getWarehouses();
     this.getUnserializedItems(ticketId);
     this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
     this.Technicians_List();
@@ -119,6 +120,7 @@ export class TickettoworkComponent implements OnInit {
       this.theResolvedTicketUpdate.file12 = data[0].file12;
       // let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
       // this.agencyToUpdate.name = agenciaSelected.name;
+      this.getAgencyItems(this.theTicketData.agencyId);
     },
     error =>{console.log(error);
     });
@@ -200,6 +202,12 @@ saveEquipment(){
   this.tagsarray = [];
 }
 
+AgencyItems:any =[];
+getAgencyItems(id:any){
+  this.whservice.getItemAgency(id).subscribe(
+    data => {this.AgencyItems = data}
+  );
+}
 
 //update item to transfer
 updateEquipment(){

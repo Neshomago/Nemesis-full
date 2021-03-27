@@ -38,8 +38,8 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.get<any[]>(APIUrl + '/warehousenames');
   }
 
-  getItemAgency(customerId:any, locationId:any): Observable<any>{
-    return this.http.get<any[]>(`${APIUrl}/warehouseitagency/${customerId}`, locationId);
+  getItemAgency(locationId:any): Observable<any>{
+    return this.http.get<any[]>(`${APIUrl}/warehouseitagency/${locationId}`);
   }
 
   // To see all warehouse items from warehouseitemtype
@@ -73,7 +73,7 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
   }
 
   categoryStock(id:any,val:any):Observable<any>{
-    return this.http.post(`${APIUrl}/warehousecategory/stockppdate/${id}`, val);
+    return this.http.post(`${APIUrl}/warehousecategory/stockupdate/${id}`, val);
   }
   
   //category add

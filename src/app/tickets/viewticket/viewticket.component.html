@@ -545,7 +545,7 @@
                 <hr>
                 <div class="col-auto">
                   <button mat-raised-button
-                    (click)="technicianAssignedtoTicket(theTicketData.id); refreshPage()">Date
+                    (click)="technicianAssignedtoTicket(theTicketData.id)">Date
                     visit</button>
                 </div>
               </ng-container>
@@ -580,22 +580,23 @@
                 <mat-divider></mat-divider>
                 <h2>Date of visit: </h2>
                 <p>
-                    {{theTicketData.assignedDate | date:'MMMM dd, yyyy'}}
+                    {{theTicketData.assignedDate }}
                 </p>
                 <ng-container *ngIf="showEdit4">
                     <mat-form-field class="col-3">
                         <mat-label>Choose a new date</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="newtechdate">
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="technicianToUpdate.fechaPrueba">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                       <br>
-                      <button mat-raised-button (click)="updateTechnician(theTicketData.id); refreshPage()">
+                      <button mat-raised-button (click)="updateTechnician(theTicketData.id)">
                           <mat-icon>done</mat-icon> Update Technician Assignment
                         </button>
                     </ng-container>
                 </div>
               </ng-container>
+              {{technicianToUpdate | json}}
             <!-- </div> -->
           </mat-card>
         </mat-step>

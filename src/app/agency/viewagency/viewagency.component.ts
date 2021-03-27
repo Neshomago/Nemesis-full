@@ -66,11 +66,7 @@ export class ViewagencyComponent implements OnInit {
     locationId: 0,
   }
   getAgencyItems(id:any){
-    let customerId_look = this.customerId;
-    this.loc.locationId = id;    
-    let locationId = this.loc;
-
-    this.warehouseItem.getItemAgency(customerId_look,locationId).subscribe(
+    this.warehouseItem.getItemAgency(id).subscribe(
       data => {this.AgencyItems = data}
     );
   }
