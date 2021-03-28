@@ -30,6 +30,7 @@ export class EdititemComponent implements OnInit {
     statusDescription:'',
     warranty_invoiceDate:'',
     warranty_period:12,
+    fechaPrueba: new Date()
   };
 
   serialcheck ='';
@@ -95,6 +96,11 @@ export class EdititemComponent implements OnInit {
         this.changesItem.warranty_period = data[0].warranty_period;
         this.trackingInfo.itemId = data[0].serial;
         this.erase.isDelete = data[0].isDelete;
+        let datePrueba = new Date(data[0].warranty_invoiceDate);
+        let fechastring = (datePrueba.getMonth()+1)+'/'+datePrueba.getDate()+'/'+datePrueba.getFullYear();
+        console.log("fecha en string: ",fechastring);
+        this.changesItem.fechaPrueba = new Date(fechastring);
+
         console.log('tracking info: ', this.trackingInfo);
         this.getTrackingData(this.trackingInfo.itemId);
         this.getusertrackingdata();
@@ -105,7 +111,16 @@ export class EdititemComponent implements OnInit {
   }
 
   updateChanges(id:any){
-    this.setDefaultDate();
+    // this.setDefaultDate();
+    this.changesItem.warranty_invoiceDate = 
+    (
+      (this.changesItem.fechaPrueba.getFullYear())+'-'+
+      (this.changesItem.fechaPrueba.getMonth()+1)+'-'+
+      (this.changesItem.fechaPrueba.getDate())
+      +' '+'0'+(this.changesItem.fechaPrueba.getHours())+':'
+      +'0'+(this.changesItem.fechaPrueba.getMinutes())+':'
+      +'0'+(this.changesItem.fechaPrueba.getSeconds())
+    );
     this.service.updateWarehouseItem(id, this.changesItem).subscribe(
       (data)=>{
         this.theItemWarehouse.name = this.changesItem.name;
@@ -118,7 +133,7 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.locationId = this.changesItem.locationId;
         this.theItemWarehouse.status = this.changesItem.status;
         this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
-        this.theItemWarehouse.warranty_invoiceDate = this.changesItem.warranty_invoiceDate;
+        // this.theItemWarehouse.warranty_invoiceDate = this.changesItem.warranty_invoiceDate;
         this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
         this.changesItem = data;
         this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});

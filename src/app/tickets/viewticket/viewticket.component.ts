@@ -205,10 +205,6 @@ export class ViewticketComponent implements OnInit {
       let datePrueba = new Date(data[0].assignedDate);
       let fechastring = (datePrueba.getMonth()+1)+'/'+datePrueba.getDate()+'/'+datePrueba.getFullYear();
       console.log("fecha en string: ",fechastring);
-      let fechanueva = new Date(fechastring);
-      // (datePrueba.getMonth()+1)+'/'+datePrueba.getFullYear()+'/'+datePrueba.getDate();
-      console.log("Fecha Nueva: ", fechanueva);
-      // console.log("Nueva fecha construida: ",datePrueba);
       // this.technicianToUpdate.assignedDate = datePrueba;
       this.technicianToUpdate.fechaPrueba = new Date(fechastring);
       // console.log("Prueba de techinica date: ", this.technicianToUpdate.fechaPrueba);

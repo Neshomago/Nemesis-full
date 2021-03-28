@@ -580,7 +580,7 @@
                 <mat-divider></mat-divider>
                 <h2>Date of visit: </h2>
                 <p>
-                    {{theTicketData.assignedDate }}
+                    {{theTicketData.assignedDate | date:'yyyy-MM-dd'}}
                 </p>
                 <ng-container *ngIf="showEdit4">
                     <mat-form-field class="col-3">
@@ -596,7 +596,7 @@
                     </ng-container>
                 </div>
               </ng-container>
-              {{technicianToUpdate | json}}
+              <!-- {{technicianToUpdate | json}} -->
             <!-- </div> -->
           </mat-card>
         </mat-step>
