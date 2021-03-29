@@ -402,7 +402,7 @@
         </mat-step>
 
         <!-- PASO 3 -->
-        <mat-step [stepControl]="thirdFormGroup" *ngIf="zRoleE">
+        <mat-step [stepControl]="thirdFormGroup" *ngIf="zRoleE || zRoleA">
             <ng-template matStepLabel>Serialization of Equipment</ng-template>
             <div>
                 <!-- <app-equipmententry></app-equipmententry> -->
@@ -452,8 +452,8 @@
                                     </mat-form-field>
                                     <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
                                         <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" onchange="serialOk(tag.item_serial)" required/>
-                                        <mat-error *ngIf="tag.item_serial == itemSerial.serial">Serial incorrect or not exists</mat-error>
+                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" (ngModelChange)="serialOk($event)" required/>
+                                        <mat-error name="serialerror{{indice}}" *ngIf="itemSerial.length <= 0">Serial incorrect or not exists</mat-error>
                                     </mat-form-field>
                             </div>
                         </div>

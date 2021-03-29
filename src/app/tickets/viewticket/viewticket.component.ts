@@ -152,7 +152,6 @@ export class ViewticketComponent implements OnInit {
       this.getWarehouseStock();
       this.setDefaultDate();
       this.getCategoryList();
-      this.serialOk();
       // this.getTicketInfotoUpdate(ticketId);
 
 
@@ -540,10 +539,21 @@ export class ViewticketComponent implements OnInit {
   //   item_serial: ''
   // }
   itemSerial: any =[]
-  serialOk(){
-    this.service.getSerialEquipmentCheck().subscribe(
-      data => { this.itemSerial = data;}
-    );
+  serialOk(serial:any){
+    // let checker = {
+    //   serial: serial
+    // }
+    console.log("SERIALCHECK data enviada: ", serial);
+    // console.log("SERIALCHECK data enviada propiedad: ", checker.serial);
+    this.service.getSerialEquipmentCheck(serial).subscribe(
+      data => { console.log("SERIALCHECK datos recibidos: ", data);
+        this.itemSerial = data;
+      console.log("SERIALCHECK data en variable: ", this.itemSerial);
+  
+      if (this.itemSerial.length <= 0){
+        return;
+      }
+    });
   }
 
   filteredString: string = '';

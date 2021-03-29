@@ -37,10 +37,12 @@ export class UsersService {
     return this.http.delete(APIUrl + '/contact/delete',val);
   }
 
+  // getTechnicianList(): Observable<any>{
+  //   return this.http.get<any[]>(APIUrl + '/techn');
+  // }
   getTechnicianList(): Observable<any>{
-    return this.http.get<any[]>(APIUrl + '/techn');
+    return this.http.get<any[]>(APIUrl + '/usersmailsanddata');
   }
-
   getContactIso(id:any): Observable<any>{
     return this.http.get(`${APIUrl}/contactiso/${id}`);
   }
@@ -65,4 +67,7 @@ export class UsersService {
     return this.http.get<any>(`${APIUrl}/usersmailsanddata`);
   }
 
+  technicianUpdateAvailabe(id:any, val:any): Observable<any>{
+    return this.http.post(APIUrl + '/user/updateavailable/'+id, val);
+  }
 }

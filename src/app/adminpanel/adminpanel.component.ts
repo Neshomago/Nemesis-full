@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TicketService } from '../services/ticket.service';
 import { UsersService } from '../services/users.service';
 
@@ -29,18 +30,43 @@ export class AdminpanelComponent implements OnInit {
   technicians(){
     this.user.getTechnicianList().subscribe(
       data =>{ this.technicianCount = data;
-      console.log(this.technicianCount)}
+      console.log("info de tecnicos: ",this.technicianCount)}
     );
   }
 
 getTechnicianNames(){
   this.user.getUsersData().subscribe(
     data => {
-      this.DataFromUsers = data
+      this.DataFromUsers = data;
+      console.table(this.DataFromUsers);
     }
   );
 }
 
+toggleSlide = false;
+
+onChange(value: MatSlideToggleChange){
+    this.technicianCount.IsAvailable = value
+}
+// saveAvailable(){
+//   if(this.toggleSlide == true ){
+//     this.DataFromUsers.IsAvailable = 1;
+//   }
+//   else{
+//     this.DataFromUsers.IsAvailable = 0;
+//   };
+//   let i= 0;
+//   this.DataFromUsers.forEach((element:any) => {
+//     console.log(this.DataFromUsers);
+//     this.user.technicianUpdateAvailabe(element.id, element.IsAvailable).subscribe(
+//       (data) => {console.log(data);
+//       if (this.DataFromUsers.length == (i+1)){
+//         this.getTechnicianNames();
+//       }
+//       i++;
+//   });
+// });
+// }
 
   ticketValueperType:any =[];
   getTicketValues(){

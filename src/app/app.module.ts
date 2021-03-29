@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AgencyComponent } from './agency/agency.component';
@@ -123,6 +124,7 @@ import { AdminpanelComponent } from './adminpanel/adminpanel.component';
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatSlideToggleModule,
     MatPaginatorModule,
     MatTableModule,
     MatGridListModule,

@@ -18,12 +18,6 @@ import { ViewChild } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHandler } from '@angular/common/http';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 
-// To upload files
-import { /* ViewChild,*/ ElementRef  } from '@angular/core';
-import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';  
-import { catchError, map } from 'rxjs/operators';  
-import { UploadService } from  '../../../services/upload-files.service';
 import { AgencyService } from 'src/app/services/agency.service';
 
 
@@ -70,7 +64,8 @@ export class TickettoworkComponent implements OnInit {
   };
 
   tickStatus ={ status:'ABORTED'};
-  customerId = 'CUSTOME581785f34f4f3';
+  customerId = localStorage.getItem('customerId');
+  userId = localStorage.getItem('id');
   categoryList: any = [];
 
   constructor(private service:TicketService,
@@ -96,7 +91,8 @@ export class TickettoworkComponent implements OnInit {
   }
 
   getAgencyListName(){
-    this.service.getAgencyName(this.customerId).subscribe(agency => {
+    let customer = this.customerId;
+    this.service.getAgencyName(String(customer)).subscribe(agency => {
       this.AgencyList = agency;
     })
   }
@@ -170,21 +166,26 @@ export class TickettoworkComponent implements OnInit {
 
 // Seccion de incorporar items de las agencias a reemplazar y transportar
 addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
-  const equipment = {
+  let equipment:any = {
     item: '',
-    quantity: 1,
     ticketId: id,
+    quantity:1,
+    technicianAssigned: this.userId,
+    warehouseId:'',
+    status:''
   };
   this.tagsarray.push(equipment);
-  console.log(this.tagsarray);
 }
+
+showEdit2 = false;
+toogleEditstep2(){this.showEdit2 = !this.showEdit2;}
 
 //save item to transfer
 saveEquipment(){
   let i=0;
 
   this.tagsarray.forEach((element: any) => {
-    this.service.addequipment(element).subscribe(
+    this.service.addequipmentTechnicianView(element).subscribe(
       (data) => { console.log('Equipment added', data);
       this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
       if (this.tagsarray.length == (i+1)){

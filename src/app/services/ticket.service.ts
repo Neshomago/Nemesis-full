@@ -67,6 +67,10 @@ export class TicketService {
     return this.http.post(`${APIUrl}/ticket-equip/`,val);
   }
 
+  addequipmentTechnicianView(val: any): Observable<any>{
+    return this.http.post(`${APIUrl}/ticket-equip/techview/`,val);
+  }
+
   updateEquipment(id:any,val:any):Observable<any>{
     return this.http.post(`${APIUrl}/ticket-equip/update/${id}`,val);
   }
@@ -83,8 +87,8 @@ export class TicketService {
     return this.http.get<any>(`${APIUrl}/equipmentList/${ticketId}`);
   }
 
-  getSerialEquipmentCheck(): Observable<any>{
-    return this.http.get(`${APIUrl}/equipmentSerialCheck`);
+  getSerialEquipmentCheck(serial:any): Observable<any>{
+    return this.http.get(`${APIUrl}/equipmentSerialCheck/`+serial);
   }
 
   updateTicketVersion(id:any, val:any): Observable<any>{
