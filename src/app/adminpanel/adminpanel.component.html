@@ -164,24 +164,27 @@
                         <tbody>
                             <tr *ngFor="let technician of technicianCount; let i=index">
                                 <td>    
-                                    {{technician.id}}
+                                    {{technician.bid}}
                                 </td>
                                 <td>
                                     {{technician.name}} {{technician.surname}}
                                 </td>
                                 <td>{{technician.email}}</td>
                                 <td >
-                                    <mat-slide-toggle (change)="onChange($event)" [(ngModel)]="technician.IsAvailable"></mat-slide-toggle>
-                                    <ng-container *ngIf="technician.IsAvailable == 1; else elseTemplate" >
-                                        <span style="color: green;">
-                                            Available
-                                        </span>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
-                                        Not Available
-                                    </ng-template>
-                                    </td>                                
-                                    {{technician | json}}
+                                    <mat-slide-toggle name="slide{{i}}" (change)="onChange($event)" [(ngModel)]="technician.IsAvailable">
+                                        <ng-container *ngIf="technician.IsAvailable == 1; else elseTemplate" >
+                                            <span style="color: green;">
+                                                Available
+                                            </span>
+                                        </ng-container>
+                                        <ng-template #elseTemplate>
+                                            Not Available
+                                        </ng-template>
+                                    </mat-slide-toggle>
+                                </td>                                
+                                    <!-- {{technician | json}} -->
+
+                                    <!-- {{DataFromUsers | json}} -->
                             </tr>
                         </tbody>
                     </table>
@@ -190,7 +193,7 @@
 
               </mat-card-content>
               <mat-card-actions>
-                  <!-- <button mat-raised-button (click)="saveAvailable();">Save Technician Availability</button> -->
+                  <button mat-raised-button (click)="saveAvailable();">Save Technician Availability</button>
                   <!-- <button mat-button>Ok</button> -->
               </mat-card-actions>
           </mat-card>

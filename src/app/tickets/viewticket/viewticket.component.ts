@@ -540,19 +540,22 @@ export class ViewticketComponent implements OnInit {
   // }
   itemSerial: any =[]
   serialOk(serial:any){
-    // let checker = {
-    //   serial: serial
-    // }
+    let checker = {
+      nserial: '7894'
+    }
+    
     console.log("SERIALCHECK data enviada: ", serial);
     // console.log("SERIALCHECK data enviada propiedad: ", checker.serial);
     this.service.getSerialEquipmentCheck(serial).subscribe(
       data => { console.log("SERIALCHECK datos recibidos: ", data);
-        this.itemSerial = data;
-      console.log("SERIALCHECK data en variable: ", this.itemSerial);
+        this.itemSerial = data[0];
+        this.itemSerial.seriales = data[0].seriales;
+      console.log("SERIALCHECK data en variable: ", this.itemSerial.seriales);
   
-      if (this.itemSerial.length <= 0){
-        return;
-      }
+      // if (this.itemSerial.length <= 0 ){
+      //   this.itemSerial = checker;
+      //   console.log("condicion en serialOk: ",this.itemSerial.nserial);
+      // }
     });
   }
 

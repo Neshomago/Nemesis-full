@@ -68,6 +68,7 @@ export class UsersService {
   }
 
   technicianUpdateAvailabe(id:any, val:any): Observable<any>{
+    console.log("contenido del val: ",val);
     return this.http.post(APIUrl + '/user/updateavailable/'+id, val);
   }
 }

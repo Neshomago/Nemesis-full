@@ -452,8 +452,19 @@
                                     </mat-form-field>
                                     <mat-form-field class="col" *ngIf="theTicketData.version == 3 || showEdit3">
                                         <mat-label>Serial Number</mat-label>
-                                        <input matInput type="text" name="serial{{indice}}" [(ngModel)]="tag.item_serial" (ngModelChange)="serialOk($event)" required/>
-                                        <mat-error name="serialerror{{indice}}" *ngIf="itemSerial.length <= 0">Serial incorrect or not exists</mat-error>
+                                        <input matInput type="text" name="serial{{indice}}" 
+                                        [(ngModel)]="tag.item_serial" 
+                                        (ngModelChange)="serialOk($event)" 
+                                        required/>
+                                        <mat-error name="serialerrorempty{{indice}}" 
+                                        *ngIf="itemSerial.seriales === 0">
+                                        ERROR Empty serial field.
+                                        </mat-error>
+                                        <!-- <mat-error name="serialerror{{indice}}" 
+                                        *ngIf="itemSerial.seriales === 1">
+                                        Serial correct or not exists
+                                        </mat-error> -->
+                                    {{itemSerial | json}}
                                     </mat-form-field>
                             </div>
                         </div>

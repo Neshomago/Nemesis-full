@@ -21,6 +21,7 @@ export class AdminpanelComponent implements OnInit {
     this.technicians();
     this.getTicketValues();
     this.no_tickets();
+    this.getTechnicianNames();
   }
 
   edit(){
@@ -29,8 +30,7 @@ export class AdminpanelComponent implements OnInit {
 
   technicians(){
     this.user.getTechnicianList().subscribe(
-      data =>{ this.technicianCount = data;
-      console.log("info de tecnicos: ",this.technicianCount)}
+      data =>{ this.technicianCount = data;}
     );
   }
 
@@ -38,7 +38,7 @@ getTechnicianNames(){
   this.user.getUsersData().subscribe(
     data => {
       this.DataFromUsers = data;
-      console.table(this.DataFromUsers);
+      // console.table(this.DataFromUsers);
     }
   );
 }
@@ -46,33 +46,38 @@ getTechnicianNames(){
 toggleSlide = false;
 
 onChange(value: MatSlideToggleChange){
-    this.technicianCount.IsAvailable = value
+    this.technicianCount.IsAvailable = value;
+    this.DataFromUsers.IsAvailable = value;
 }
-// saveAvailable(){
-//   if(this.toggleSlide == true ){
-//     this.DataFromUsers.IsAvailable = 1;
-//   }
-//   else{
-//     this.DataFromUsers.IsAvailable = 0;
-//   };
-//   let i= 0;
-//   this.DataFromUsers.forEach((element:any) => {
-//     console.log(this.DataFromUsers);
-//     this.user.technicianUpdateAvailabe(element.id, element.IsAvailable).subscribe(
-//       (data) => {console.log(data);
-//       if (this.DataFromUsers.length == (i+1)){
-//         this.getTechnicianNames();
-//       }
-//       i++;
-//   });
-// });
-// }
+saveAvailable(){
+  let i= 0;
+  this.technicianCount.forEach((element:any) => {
+    console.log("datos de element: ", element);
+    
+    if(element.IsAvailable){
+      element.IsAvailable = 1;
+    }
+    else{      element.IsAvailable = 0;    };
+
+    let availability ={
+      IsAvailable: element.IsAvailable,
+    }
+    this.user.technicianUpdateAvailabe(element.bid, availability).subscribe(
+      (data) => {console.log("respuesta del suscribe: ",data);
+      if (this.technicianCount.length == (i+1)){
+        this.getTechnicianNames();
+      }
+      i++;
+  });
+});
+}
 
   ticketValueperType:any =[];
   getTicketValues(){
     this.ticketServ.ticketValues().subscribe(
       data => {this.ticketValueperType = data;
-      console.log("TICKET VALUES: ",this.ticketValueperType)}
+      // console.log("TICKET VALUES: ",this.ticketValueperType)
+    }
     )
   }
 
@@ -115,10 +120,10 @@ onChange(value: MatSlideToggleChange){
       else if (this.ticketCount[i].type == 'DIS'){
         if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'DIS') {
           dis++;
-          console.log("dis technician: "+dis);
+          // console.log("dis technician: "+dis);
         }
         adminDis++;
-        console.log("Total Dis: "+adminDis);
+        // console.log("Total Dis: "+adminDis);
       }
       else if(this.ticketCount[i].type == 'INT'){
         if(this.ticketCount[i].status == 'RESOLVED' && this.ticketCount[i].type == 'INT') {
