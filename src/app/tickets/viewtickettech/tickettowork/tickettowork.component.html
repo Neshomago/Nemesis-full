@@ -179,28 +179,32 @@
               </mat-card>
               <div style="height: 30px;"></div>
                <mat-card>
-                <h2>Items from technical review:
-                    <ng-container class="col-md-3 ms-md-auto">
+                           <h2>Items from technical review: 
+                               <span>
+                                   <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
+                               </span>
+                        </h2>
+                        <!-- <ng-container *ngIf="theTicketData.status != 'RESOLVED'">
+                            <span *ngIf="theTicketData.version >= 2">
+                                <button mat-icon-button style="color:orange;"
+                                *ngIf="!showEdit2" (click)="toogleEditstep2()">
+                                    <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
+                                </button>
+                                
+                                <button mat-icon-button style="color:orange;"
+                                *ngIf="showEdit2" (click)="toogleEditstep2()">
+                                    <mat-icon style="font-size: 18px;">west</mat-icon>
+                                </button>
+                            </span>
+                        </ng-container> -->
 
-                        <div class="col-auto">
-                            <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
-                        </div>
-                        <div class="col-md-3 ms-md-auto">
-                                <button mat-icon-button [disabled]="tagsarray == ''"><mat-icon>save</mat-icon>Confirm Items</button>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="theTicketData.status != 'RESOLVED'">
-                        <span *ngIf="theTicketData.version >= 2">
-                            <button mat-icon-button style="color:orange;" *ngIf="!showEdit2" (click)="toogleEditstep2()">
-                                <mat-icon style="font-size: 18px;">edit</mat-icon> Edit
-                            </button>
-                            <button mat-icon-button  style="color:orange;" *ngIf="showEdit2" (click)="toogleEditstep2()">
-                                <mat-icon style="font-size: 18px;">west</mat-icon>
-                            </button>
-                        </span>
-                    </ng-container>
-                </h2>
-
+                            <!-- {{theTicketData | json}}
+                            <br>
+                            <hr>
+                            {{ AgencyListNames[0] | json}}
+                            <br> -->
+                            <hr>
+                            {{ tagsarray_techreview | json }}
                 <ng-container *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                         <div class="row" *ngFor="let obj of tagsarray; let i = index">
                             <div class="col-auto">
@@ -225,15 +229,21 @@
                                 </mat-select>
                                 </mat-form-field>
                             </div>
-
+                            
                             <div class="col">
                                 <mat-form-field class="full-width" >
                                     <mat-label>Send To</mat-label>
                                     <mat-select matNativeControl name="warehouseId" id="warehouseId" [(ngModel)]="obj.warehouseId">
+                                        <mat-option disabled>WAREHOUSE</mat-option>
                                         <mat-option *ngFor="let warehouse of warehouses" value="{{warehouse.id}}">
-                                            {{warehouse.name}}
+                                        {{warehouse.name}}
                                         </mat-option>
-                                    <mat-option *ngFor="let Agency of AgencyListNames" value="Agency.id">{{Agency.name}}</mat-option>
+                                        <mat-option disabled>AGENCY</mat-option>
+                                        <ng-container *ngFor="let Agency of AgencyListNames">
+                                                <mat-option *ngIf="theTicketData.acid == Agency.customerId" value="{{Agency.id}}">
+                                                   {{Agency.name}}
+                                                </mat-option>
+                                        </ng-container>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -253,7 +263,10 @@
                         </div>
                         {{tagsarray | json}}
                 </ng-container>
-                <ng-container>
+                <div>
+                    <button mat-icon-button [disabled]="tagsarray == ''"><mat-icon>save</mat-icon>Confirm Items</button>
+                </div>
+                <mat-container *ngIf="tagsarray != ''">
                     <div *ngFor="let obj of tagsarray">
                         <div class="row">
                             {{obj.name}} 
@@ -266,7 +279,7 @@
                         </div>
                     </div>
 
-                </ng-container>
+                </mat-container>
                 
                </mat-card>
 

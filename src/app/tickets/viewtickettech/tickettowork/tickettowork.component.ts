@@ -81,6 +81,7 @@ export class TickettoworkComponent implements OnInit {
   ngOnInit(): void {
     const ticketId = this.route.snapshot.paramMap.get('id');
     this.getAgencyListName();
+    this.getAgencyList();
     this.getWarehouses();
     this.getUnserializedItems(ticketId);
     this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
@@ -163,7 +164,7 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
-
+tagsarray_techreview:any=[];
 // Seccion de incorporar items de las agencias a reemplazar y transportar
 addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
   let equipment:any = {
@@ -174,12 +175,45 @@ addItem(id:any){//método para añadir item en el viewticket.html de Additional 
     warehouseId:'',
     status:''
   };
+  let technician_itemregisteritem ={
+    item:equipment.item,
+		item_serial:'',
+		ticketId:id,
+		customerId:'',
+		location:'',
+		locationId:'',
+		tech_assignedId:this.userId,
+		notes_item:'',
+		ticketviewversion:1}
   this.tagsarray.push(equipment);
+  this.tagsarray_techreview.push(technician_itemregisteritem);
 }
 
 showEdit2 = false;
 toogleEditstep2(){this.showEdit2 = !this.showEdit2;}
 
+trackingInfo: any ={
+  itemId:'',
+  userId:'',
+  changes:'',
+  type:'Change from location',
+  descriptionTrack:'Made Modifications on item details',
+  rawData: String(JSON.stringify(this.tagsarray_techreview))
+  // userTraza:''
+}
+
+saveItemTrack() {
+  this.whservice.trackingItem(this.trackingInfo).subscribe(
+    (data) => {
+      this.AgencyItems.serial = this.trackingInfo.itemId;
+      this.userId = this.trackingInfo.userId.toString();
+      console.log(data);
+    },
+    error => {
+      console.log(error)
+    }
+  );
+}
 //save item to transfer
 saveEquipment(){
   let i=0;
@@ -206,8 +240,13 @@ saveEquipment(){
 AgencyItems:any =[];
 getAgencyItems(id:any){
   this.whservice.getItemAgency(id).subscribe(
-    data => {this.AgencyItems = data}
-  );
+    data => {this.AgencyItems = data;
+    // this.AgencyItems.forEach(element => {
+    //   console.log("datos de agencia, items: ",element.serial)}
+      
+    // );
+    }
+    )
 }
 
 //update item to transfer
@@ -217,21 +256,16 @@ updateEquipment(){
   this.equipmentArrayData.forEach((element: any) => {
     this.service.updateEquipment(element.id, element).subscribe(
       (data) => { 
-        // this.equipmentArrayData.item = this.equipmentArrayData.item;
-        // this.equipmentArrayData.ticketId = this.equipmentArrayData.ticketId;
-        // console.log('Equipment updated', data);
       this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
       if (this.equipmentArrayData.length == (i+1)){
-
         this.allestimentoTicketList(element.ticketId);
       }
       i++;
     },
     (error) => { console.log('Failed to add equipment', error);
     this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
-    
-    )
-    console.warn(element);  
+    );
+    console.warn(element);
   });
   // this.showEdit2 = false;
   this.saveEquipment();
@@ -239,7 +273,10 @@ updateEquipment(){
 
 
 //delete item to transfer
-removeItem(index:any){this.tagsarray.splice(index, 1); }
+removeItem(index:any){
+  this.tagsarray.splice(index, 1);
+  this.tagsarray_techreview.splice(index, 1); }
+
 deleteOneItemEquipment(id:number){
   this.service.deleteItemEquipment(id).subscribe(
     response => {
@@ -274,8 +311,9 @@ resolved(id: any){
 AgencyListNames: any = [];
 getAgencyList(){
   this.agencyService.getAgencyList().subscribe(
-    data => {this.AgencyListNames = data;}
-  )
+    data => {this.AgencyListNames = data;
+    console.log("lista de agencias: ",this.AgencyListNames);
+  })
 }
 
 warehouses:any=[];
