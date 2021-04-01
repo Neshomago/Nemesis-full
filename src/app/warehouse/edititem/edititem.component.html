@@ -262,14 +262,14 @@
                     <button mat-fab
                     #tooltip="matTooltip"
                       matTooltip="Save changes"
-                      (click)="updateChanges(theItemWarehouse.id); saveItemTrack(); editFields()"
+                      (click)="saveItemTrack(); editFields()"
                     ><mat-icon>save</mat-icon></button>
                 </div>
                 <div style="padding-bottom: 20px;">
                     <button mat-fab
                     #tooltip="matTooltip"
                       matTooltip="Erase Button"
-                      (click)=" saveItemTrack(); deleteItem(theItemWarehouse.id);"
+                      (click)="saveItemTrack(); deleteItem(theItemWarehouse.id);"
                     ><mat-icon>delete_forever</mat-icon></button>
                 </div>
                 <div>
@@ -295,7 +295,7 @@
                 <td width="20%">User</td>
             </thead>
             <tbody>
-                <tr *ngFor="let track of trackingData; let i = index">
+                <tr *ngFor="let track of trackingData; let i = index" style="border-bottom: 1px solid gray;">
                     <td>
                         {{track.date}}
                     </td>

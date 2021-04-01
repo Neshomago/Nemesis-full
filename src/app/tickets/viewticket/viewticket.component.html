@@ -534,8 +534,8 @@
                   <mat-label>Technicians</mat-label>
                   <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="TechnicianModel.tech_assign">
                     <mat-option>None</mat-option>
-                    <mat-option *ngFor="let tech of TechnicianList" [value]="tech.username">
-                      <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.username}} |
+                    <mat-option *ngFor="let tech of TechnicianList" [value]="tech.id" [disabled]="tech.IsAvailable == 0">
+                      <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.name}} {{tech.surname}}
                         <div *ngIf="tech.IsAvailable === 1" style="color: green; font-weight: 500;"><span
                             class="material-icons" style="font-size: 12px;">
                             event_available
@@ -567,16 +567,22 @@
                   <h2>Technician code: </h2>
                   <div>
                       <div>
-                          {{theTicketData.tech_assign}}
+                          {{theTicketData.tech_assign}} - 
+                          <ng-container  *ngFor="let tech of TechnicianList; let i=index">
+                            <ng-container *ngIf="theTicketData.tech_assign == tech.id">
+                                {{tech.name}} {{tech.surname}}
+                            </ng-container>  
+                          </ng-container>
+                          
                       </div>
 
                       <div *ngIf="showEdit4">
                           <mat-form-field class="col-auto">
                             <mat-label>Replace Technician with:</mat-label>
-                            <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="TechnicianModel.tech_assign">
+                            <mat-select matNativeControl name="priority" id="priority" [(ngModel)]="technicianToUpdate.tech_assign">
                               <mat-option>None</mat-option>
-                              <mat-option *ngFor="let tech of TechnicianList" [(value)]="tech.username">
-                                <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.username}} |
+                              <mat-option *ngFor="let tech of TechnicianList" [value]="tech.id">
+                                <div style="line-height: 12px; font-weight: 400;">{{tech.id}} - {{tech.name}} {{tech.surname}}
                                   <div *ngIf="tech.IsAvailable === 1" style="color: green; font-weight: 500;"><span
                                       class="material-icons" style="font-size: 12px;">
                                       event_available
@@ -591,7 +597,7 @@
                 <mat-divider></mat-divider>
                 <h2>Date of visit: </h2>
                 <p>
-                    {{theTicketData.assignedDate | date:'yyyy-MM-dd'}}
+                    {{theTicketData.assignedDate | date:'yyyy-MMMM-dd'}}
                 </p>
                 <ng-container *ngIf="showEdit4">
                     <mat-form-field class="col-3">
@@ -630,6 +636,7 @@
                 <button mat-raised-button
                 #tooltip="matTooltip"
                 matTooltip="Start Process, notify technician"
+                routerLink="/tickets"
                 >BEGIN TO PROCESS</button>
             </div>
             <div class="col" *ngIf="theTicketData.version>=6">

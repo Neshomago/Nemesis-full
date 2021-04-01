@@ -224,7 +224,7 @@ export class ViewticketComponent implements OnInit {
   // TechnicianList: any = [];
   Technicians_List(){
     this.usersService.getTechnicianList().subscribe(
-      data => this.TechnicianList = data
+      data => {this.TechnicianList = data;}
       );
   }
 
@@ -541,7 +541,7 @@ export class ViewticketComponent implements OnInit {
   itemSerial: any =[]
   serialOk(serial:any){
     let checker = {
-      nserial: '7894'
+      nserial: ''
     }
     
     console.log("SERIALCHECK data enviada: ", serial);

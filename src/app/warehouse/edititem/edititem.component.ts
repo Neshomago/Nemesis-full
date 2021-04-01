@@ -43,6 +43,26 @@ export class EdititemComponent implements OnInit {
     {value: 'TRANSPORT', viewValue:'Transport'},
   ]
 
+  modification='Made Modifications on item.';
+  trackingDataChanges: any ={
+    warehouse:'',
+    location:'',
+    locationId:'',
+    status:'',
+    statusDetails:'',
+  };
+  invoiceDate=new Date();
+  trackingInfo: any ={
+    itemId:'',
+    userId:String(localStorage.getItem('id')),
+    changes:'',
+    type:'Edit Item',
+    descriptionTrack:'',
+    rawData: String(JSON.stringify(this.changesItem))
+    // userTraza:''
+  }
+
+  userTrackingData:any =[];
 
   nombre: any;
   surname: any;
@@ -68,6 +88,7 @@ export class EdititemComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = +this.getWarehouseItemIso(this.route.snapshot.paramMap.get('id'));
+    this.getusertrackingdata();
     this.getCategoryList();
     this.getWarehouses();
     this.getUserNamebyId();
@@ -95,15 +116,16 @@ export class EdititemComponent implements OnInit {
         this.changesItem.warranty_invoiceDate = data[0].warranty_invoiceDate;
         this.changesItem.warranty_period = data[0].warranty_period;
         this.trackingInfo.itemId = data[0].serial;
+        this.trackingDataChanges.warehouse = data[0].warehouseId;
+        this.trackingDataChanges.location = data[0].location;
+        this.trackingDataChanges.locationId = data[0].locationId;
+        this.trackingDataChanges.status= data[0].status;
+        this.trackingDataChanges.statusDescription= data[0].statusDescription;
         this.erase.isDelete = data[0].isDelete;
         let datePrueba = new Date(data[0].warranty_invoiceDate);
         let fechastring = (datePrueba.getMonth()+1)+'/'+datePrueba.getDate()+'/'+datePrueba.getFullYear();
-        console.log("fecha en string: ",fechastring);
         this.changesItem.fechaPrueba = new Date(fechastring);
-
-        console.log('tracking info: ', this.trackingInfo);
         this.getTrackingData(this.trackingInfo.itemId);
-        this.getusertrackingdata();
       },
       error => {console.log(error);
       });
@@ -133,17 +155,15 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.locationId = this.changesItem.locationId;
         this.theItemWarehouse.status = this.changesItem.status;
         this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
-        // this.theItemWarehouse.warranty_invoiceDate = this.changesItem.warranty_invoiceDate;
         this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
         this.changesItem = data;
         this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });
-      this.refreshPage();
+      // this.refreshPage();
   }
 
-  erase:any= {
-    
+  erase:any= {   
   };
   deleteItem(id:any){
     this.service.deleteWarehouseItem(id, this.erase).subscribe(
@@ -156,19 +176,6 @@ export class EdititemComponent implements OnInit {
       });
 
   }
-
-  invoiceDate=new Date();
-  trackingInfo: any ={
-    itemId:'',
-    userId:'',
-    changes:'',
-    type:'Edit Item',
-    descriptionTrack:'Made Modifications on item details',
-    rawData: String(JSON.stringify(this.changesItem))
-    // userTraza:''
-  }
-
-
 
   setDefaultDate(){
     let year, month, day, hour, minute, second;
@@ -184,11 +191,25 @@ export class EdititemComponent implements OnInit {
   }
   
   saveItemTrack() {
+
+    this.trackingDataChanges.warehouse = this.changesItem.warehouseId;
+    this.trackingDataChanges.location = this.changesItem.location;
+    this.trackingDataChanges.locationId = this.changesItem.locationId;
+    this.trackingDataChanges.status = this.changesItem.status;
+    this.trackingDataChanges.statusDetails= this.changesItem.statusDescription;
+    console.log("tracking a grabar: ",this.trackingDataChanges);
+    this.trackingInfo.changes = 'WarehouseId: '+String(this.trackingDataChanges.warehouse)+
+    '- Location: '+String(this.trackingDataChanges.location)+
+    '- LocationId: '+String(this.trackingDataChanges.locationId)+
+    '- Status: '+String(this.trackingDataChanges.status);
+    this.trackingInfo.descriptionTrack = this.modification;
+
+    console.log("trancking info Final: ", this.trackingInfo);
+
     this.service.trackingItem(this.trackingInfo).subscribe(
       (data) => {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
-        this.useridfortrack.id = this.trackingInfo.userId.toString();
-        console.log(data);
+        console.log(data + "Data a grabar Tracking Info: ", this.trackingInfo + data);
       },
       error => {
         console.log(error)
@@ -213,8 +234,7 @@ export class EdititemComponent implements OnInit {
   UserList:any = [];
   getUserNamebyId(){
     this.userService.getContactList().subscribe(
-      data => {this.UserList = data;
-      console.log(this.UserList);}
+      data => {this.UserList = data;}
     );
   }
 
@@ -224,21 +244,26 @@ export class EdititemComponent implements OnInit {
       data => {this.AgencyList = data;}
     )
   }
+
+  UserCompleteList:any=[];
+  getUserCompleteinfo(){
+    this.userService.getContactList().subscribe(
+      (data)=> {
+        this.UserCompleteList = data;
+      }
+    );
+  }
   
   getTrackingData(serial:any){
     this.service.getTrackingData(serial).subscribe(
       (data) => { this.trackingData = data;
-      console.log("info de tracking data: ",this.trackingData)}
-      );
+      });
   }
   
-  userTrackingData:any =[];
-  getusertrackingdata(){
-    let a = this.trackingData;
-    console.log(a);
 
-     this.service.getUserInfoTrackingHistory(this.trackingData.userId).subscribe(
-      data=> {this.userTrackingData = data}
+  getusertrackingdata(){
+     this.userService.getUserNameEmailList().subscribe(
+      data=> {this.userTrackingData = data;}
     );
   }
 

@@ -115,6 +115,12 @@ export class TickettoworkComponent implements OnInit {
       this.theResolvedTicketUpdate.file10 = data[0].file10;
       this.theResolvedTicketUpdate.file11 = data[0].file11;
       this.theResolvedTicketUpdate.file12 = data[0].file12;
+      this.trackingInfo.itemId = data[0].serial;
+        this.trackingDataChanges.warehouse = data[0].warehouseId;
+        this.trackingDataChanges.location = data[0].location;
+        this.trackingDataChanges.locationId = data[0].locationId;
+        this.trackingDataChanges.status= data[0].status;
+        this.trackingDataChanges.statusDescription= data[0].statusDescription;
       // let agenciaSelected:any = this.AgencyList.find((a:any) => a.id === parseInt(this.theTicketUpdate.agencyId, 10));
       // this.agencyToUpdate.name = agenciaSelected.name;
       this.getAgencyItems(this.theTicketData.agencyId);
@@ -192,28 +198,52 @@ addItem(id:any){//método para añadir item en el viewticket.html de Additional 
 showEdit2 = false;
 toogleEditstep2(){this.showEdit2 = !this.showEdit2;}
 
+trackingDataChanges: any ={
+  warehouse:'',
+  location:'',
+  locationId:'',
+  status:'',
+  statusDetails:'',
+};
+
+invoiceDate=new Date();
 trackingInfo: any ={
   itemId:'',
-  userId:'',
+  userId:String(localStorage.getItem('id')),
   changes:'',
   type:'Change from location',
-  descriptionTrack:'Made Modifications on item details',
+  descriptionTrack:'',
   rawData: String(JSON.stringify(this.tagsarray_techreview))
   // userTraza:''
 }
 
+userTrackingData:any =[];
+
+
 saveItemTrack() {
+
+  this.trackingDataChanges.warehouse = this.tagsarray.warehouseId;
+  this.trackingDataChanges.location = this.AgencyItems.location;
+  this.trackingDataChanges.locationId = this.AgencyItems.locationId;
+  this.trackingDataChanges.status = this.AgencyItems.status;
+  console.log("tracking a grabar: ",this.trackingDataChanges);
+  this.trackingInfo.changes = 'WarehouseId: '+String(this.trackingDataChanges.warehouse)+
+  '- Location: '+String(this.trackingDataChanges.location)+
+  '- LocationId: '+String(this.trackingDataChanges.locationId)+
+  '- Status: '+String(this.trackingDataChanges.status);
+
+  console.log("trancking info Final: ", this.trackingInfo);
+
   this.whservice.trackingItem(this.trackingInfo).subscribe(
     (data) => {
-      this.AgencyItems.serial = this.trackingInfo.itemId;
-      this.userId = this.trackingInfo.userId.toString();
-      console.log(data);
+      console.log(data + "Data a grabar Tracking Info: ", this.trackingInfo + data);
     },
     error => {
       console.log(error)
     }
   );
 }
+
 //save item to transfer
 saveEquipment(){
   let i=0;

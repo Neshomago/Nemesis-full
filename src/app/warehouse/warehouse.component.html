@@ -70,13 +70,13 @@
         >
           <div>
             <div *ngIf="contar(item.id) >= 0">{{contar(item.id)}} Units</div>
-            <span *ngIf="contar(item.id) >= 20" style="color:green; line-height: 9px; font-size: 10px;">
+            <span *ngIf="contar(item.id) >= item.minimumStock" style="color:green; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">done</span> Good Stock
           </span>
-          <span *ngIf="contar(item.id) < 20 && contar(item.id) >= 10" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
+          <span *ngIf="contar(item.id) < item.minimumStock && contar(item.id) >= (item.minimumStock-5)" style="color: darkgoldenrod; line-height: 9px; font-size: 10px;">
               <span style="font-size: 13px;" class="material-icons">info</span> Low stock
           </span>    
-          <span *ngIf="contar(item.id) > 0 && contar(item.id) < 9" style="color: salmon;line-height: 9px; font-size: 10px;">
+          <span *ngIf="contar(item.id) > 0 && contar(item.id) < 2" style="color: salmon;line-height: 9px; font-size: 10px;">
             <span style="font-size: 13px;" class="material-icons">report</span> Urgent restock
         </span>
           <span *ngIf="contar(item.id) == 0" style="color: salmon;line-height: 9px; font-size: 10px;">
