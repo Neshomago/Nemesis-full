@@ -68,6 +68,12 @@ export class TickettoworkComponent implements OnInit {
   userId = localStorage.getItem('id');
   categoryList: any = [];
 
+  locationSelect:any = [
+    {value: 'AGENCY', viewValue:'Agency'},
+    {value: 'WAREHOUSE', viewValue:'Warehouse'},
+    {value: 'TRANSPORT', viewValue:'Transport'},
+  ]
+  
   constructor(private service:TicketService,
     private usersService: UsersService,
     private route:ActivatedRoute,
@@ -80,9 +86,11 @@ export class TickettoworkComponent implements OnInit {
 
   ngOnInit(): void {
     const ticketId = this.route.snapshot.paramMap.get('id');
+    console.log("valor de ticket:", ticketId);
     this.getAgencyListName();
     this.getAgencyList();
     this.getWarehouses();
+    this.getTechnicianReviewItems(ticketId);
     this.getUnserializedItems(ticketId);
     this.id = +this.getTicketIndividual(this.route.snapshot.paramMap.get('id'));
     this.Technicians_List();
@@ -170,29 +178,42 @@ export class TickettoworkComponent implements OnInit {
       }
 }
 
-tagsarray_techreview:any=[];
 // Seccion de incorporar items de las agencias a reemplazar y transportar
+tagsarray_techreview:any=[];
 addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
-  let equipment:any = {
+  const equipment:any = {
     item: '',
+    serial:'',
     ticketId: id,
     quantity:1,
     technicianAssigned: this.userId,
-    warehouseId:'',
-    status:''
+    location:'',
+    locationId:'',
+    status:'',
+    ticketviewversion:1
+    // customerId:''
   };
-  let technician_itemregisteritem ={
-    item:equipment.item,
-		item_serial:'',
-		ticketId:id,
-		customerId:'',
-		location:'',
-		locationId:'',
-		tech_assignedId:this.userId,
-		notes_item:'',
-		ticketviewversion:1}
+  
+  // let technician_itemregisteritem ={
+  //   id:0,
+  //   item:equipment.item,
+  //   item_serial:'',
+  //   ticketId:id,
+  //   customerId:equipment.customerId,
+  //   location:equipment.location,
+  //   locationId:equipment.locationId,
+  //   tech_assignedId:this.userId,
+  //   notes_item:'',
+  //   ticketviewversion:1}
+
+    // technician_itemregisteritem.item = equipment.item;
+    // technician_itemregisteritem.item_serial = equipment.serial;
+    // technician_itemregisteritem.location = equipment.locationId;
+    // technician_itemregisteritem.notes_item = equipment.status;
   this.tagsarray.push(equipment);
-  this.tagsarray_techreview.push(technician_itemregisteritem);
+  // this.tagsarray_techreview.push(technician_itemregisteritem);
+  console.log("Arreglo uno para grabar: ",this.tagsarray);
+  // console.log("Arreglo dos para grabar: ",this.tagsarray_techreview);
 }
 
 showEdit2 = false;
@@ -244,6 +265,53 @@ saveItemTrack() {
   );
 }
 
+updateChangesItem(){
+  // this.setDefaultDate();
+  // this.changesItem.warranty_invoiceDate = 
+  // (
+  //   (this.changesItem.fechaPrueba.getFullYear())+'-'+
+  //   (this.changesItem.fechaPrueba.getMonth()+1)+'-'+
+  //   (this.changesItem.fechaPrueba.getDate())
+  //   +' '+'0'+(this.changesItem.fechaPrueba.getHours())+':'
+  //   +'0'+(this.changesItem.fechaPrueba.getMinutes())+':'
+  //   +'0'+(this.changesItem.fechaPrueba.getSeconds())
+  // );
+this.tagsarray.forEach((element:any) => {
+  console.log("grabando: ", element);
+  this.whservice.AddItemAgencyReview(element).subscribe(
+    (data)=>{ console.log("datos guardados." ,data)},
+    error =>{ console.log("Problemas al grabar", error)}
+  );
+
+
+  // this.whservice.updateWarehouseItem(element.id, itemchange).subscribe(
+  //   (data)=>{
+  //     // this.theItemWarehouse.name = this.changesItem.name;
+  //     // this.theItemWarehouse.categoryId = this.changesItem.categoryId;
+  //     // this.theItemWarehouse.serial = this.changesItem.serial;
+  //     // this.theItemWarehouse.activation = this.changesItem.activation;
+  //     // this.theItemWarehouse.warehouseId = this.changesItem.warehouseId;
+  //     // this.theItemWarehouse.used = this.changesItem.used;
+  //     // this.theItemWarehouse.location = this.changesItem.location;
+  //     // this.theItemWarehouse.locationId = this.changesItem.locationId;
+  //     // this.theItemWarehouse.status = this.changesItem.status;
+  //     // this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
+  //     // this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
+  //     console.log(data);
+  //     this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
+  //     console.log(data);
+    });
+    // this.refreshPage();
+  // });
+}
+
+infoTechReview:any=[];
+getTechnicianReviewItems(id:any){
+  this.whservice.GetItemAgencyReview(id).subscribe(
+    data => {this.infoTechReview = data}
+  );
+}
+
 //save item to transfer
 saveEquipment(){
   let i=0;
@@ -272,11 +340,11 @@ getAgencyItems(id:any){
   this.whservice.getItemAgency(id).subscribe(
     data => {this.AgencyItems = data;
     // this.AgencyItems.forEach(element => {
-    //   console.log("datos de agencia, items: ",element.serial)}
+      console.log("datos de agencia, items: ",this.AgencyItems)
       
     // );
     }
-    )
+    );
 }
 
 //update item to transfer
@@ -439,7 +507,7 @@ rptDownload(): void{
       PDF.internal.scaleFactor = 30;
       PDF.addImage(FILEURI, 'PNG',5,position,fileWidth-(fileWidth * 0.05), fileHeight-(fileHeight * 0.05));
       
-      PDF.save('RPT_'+this.theTicketData.code+ this.filename +this.theTicketData.id+'.pdf');
+      PDF.save('RPT_'+this.theTicketData.code+ this.theTicketData.id+'.pdf');
   });     
 }
 

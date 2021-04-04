@@ -13,7 +13,7 @@
                   <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; border-right: 1px solid black; padding-right: 20px; border-right-style: dashed;">
                       Ticket Status:
                       <div>
-                          <div style="width: 90px;" [ngClass]="{'TicketResolved' : theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
+                          <div style="width: 90px;" [ngClass]="{'TicketResolved' : theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || theTicketData.status === 'WORKING'}">
                             <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
                                 {{theTicketData.status}}
                             </div>
@@ -292,7 +292,7 @@
                                 <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="col-md-3 ms-md-auto" *ngIf="showEdit2">
-                                <ng-container *ngIf="tagsarray == []">
+                                <ng-container>
                                     <button mat-icon-button (click)="updateTicketStatus2(theTicketData.id); updateEquipment(); refreshPage()"><mat-icon>save</mat-icon>Update changes</button>
                                 </ng-container>
                             </div>
@@ -464,7 +464,7 @@
                                         *ngIf="itemSerial.seriales === 1">
                                         Serial correct or not exists
                                         </mat-error> -->
-                                    {{itemSerial | json}}
+                                    <!-- {{itemSerial | json}} -->
                                     </mat-form-field>
                             </div>
                         </div>
@@ -474,14 +474,14 @@
                         <div class="alert alert-secondary">
                                 Advice: The Items must be serialized to assign the technician.
                         </div>
-                        <ng-container *ngIf="!unserialTags">
+                        <ng-container *ngIf="unserialTags != ''">
                             <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id); saveSerials()"
                                         #tooltip="matTooltip"
                                         matTooltip="Save serials, proceed to assign Technician"
                                         [disabled]="unserialTags[0].item_serial == null || unserialTags[0].item_serial == ''"
                                         >Save Serials. Continue Ticket Process</button>
                         </ng-container>
-                        <ng-container *ngIf="unserialTags">
+                        <ng-container *ngIf="unserialTags == ''">
                             <button mat-raised-button  (click)="updateTicketStatus4(theTicketData.id)"
                                         #tooltip="matTooltip"
                                         matTooltip="proceed to assign Technician"
@@ -655,6 +655,9 @@
         <div class="row" *ngIf="theTicketData.status != 'RESOLVED'">
                 <button mat-raised-button (click)="deleteTicket(theTicketData.id)">ABORT TICKET</button>
         </div>
+        
+        <p>&nbsp;</p>
+        <div style="bottom: 0; height: 30px;"></div>
     </div>
     </div>
 </div>
@@ -674,10 +677,10 @@
 <!-- SECCION DE PDF NO MOSTRADA -->
 <div class="rectanglecover">
 <div class="ddt" *ngIf="theTicketData">
-    <div id="dataPdf" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
+    <div id="dataPdf">
     <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
-
-        <div style="border: 1px solid; display: flex; flex-direction: column; align-items: center;">
+    <div id="borderA4" style="width: 195mm; height: 287mm;border: 1px solid;">
+        <div style="display: flex; flex-direction: column;">
             <!-- encabezado PDF -->
             <tr style="border-top: 3px solid gray;">
                 <td style="vertical-align: middle;">
@@ -722,7 +725,7 @@
                                 Page No.: 
                             </td>
                             <td style="text-align: left; border: 1px solid;">
-                                Data from table
+                                <!-- Data from table -->
                             </td>
                         </tr>
                     </table>
@@ -781,26 +784,25 @@
             </h2>
         </td>
     </tr>
-    <tr>
+    <div>
         <table style="align-items: flex-start;">
             <tr>
-                <td style="padding-left: 20px; width: 150px;">Qty.</td>
-                <td>Item</td>
-                <td>&nbsp;</td>
+                <td style="padding-left: 20px; text-align: center; width: 150px;">Qty.</td>
+                <td style="text-align: center; width: 200px;">Item</td>
+                <td style="text-align: center; width: 120px;">Serial</td>
             </tr>
             <tr *ngFor="let tag of unserialTags; let indice = index">
-                <td style="padding-left: 20px; width: 150px;">
+                <td style="padding-left: 20px; text-align: center; width: 150px;">
                         {{tag.quantity}}
                 </td>
-                <td>
+                <td style="text-align: center; width: 200px;">
                         {{tag.item}}
-                        <br>{{tag.item_serial}}
                 </td>
-                <td>&nbsp;</td>
+                <td style="text-align: center; width: 120px;">{{tag.item_serial}}</td>
         </table>
-    </tr>
-    <tr style="flex: 1; overflow: auto;"></tr>
-    <tr>
+    </div>
+    <div style="flex: 1; overflow: auto;height: 100%;"></div>
+    <div>
         <td colspan="6" style="padding: 20px;">
                 <div class="d-flex">
                         <div class="flex-fill p-2  border border-1">
@@ -833,14 +835,15 @@
                         </div>
                 </div>
         </td>
-    </tr>
-    <tr>
+    </div>
+    <div>
         <td colspan="4" style="font-size: 10px; line-height: 10px; text-align: center;">
             Ai sensi del D.Lgs 196/2003, Vi informiamo che i vs dati saranno utilizzati esclusivamente per i fini connessi ai rapporti commerciali tra di noi in essere. <br>
             Vi preghiamo di controllare i Vs dati anagrafici, la partita IVA ed il Codice fiscale. <br>
             non ci riteniamo responsavili per eventuali errori.
         </td>
-    </tr>
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -849,9 +852,10 @@
 <div class="rectanglecover">
 <div class="ddt" *ngIf="theTicketData" style="padding-top: 100px;">
 
-    <div id="dataPdfReport" style="width: 210mm; height: 297mm;display: flex; min-height: 100%;">
+    <div id="dataPdfReport">
 
-        <div style="border: 1px solid; display: flex; flex-direction: column;">
+        <div id="borderA4" style="left:0; top:0; width: 195mm; height: 287mm;border: 1px solid; ">
+        <div style="display: flex; flex-direction: column;">
             <div style="border-top: 3px solid gray;">
                 <div style="display: inline-block;">
                     <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
@@ -870,7 +874,7 @@
                             <td style="text-align: right;">
                                 Installation Report: 
                             </td>
-                            <td style="text-align: left; border: 1px solid; width: 250px;">
+                            <td style="text-align: left; border: 1px solid; width: 200px;">
                                 {{theTicketData.tech_assign}} / 
                             </td>
                         </tr>
@@ -993,6 +997,21 @@
                         <td style="text-align: center;">{{tag.item_serial}}</td>
                         <td style="text-align: center;">OPERATIVE</td>
                 </tr>
+                <tr *ngFor="let info of infoTechReview; let indice = index">
+                    <td style="text-align: center;">
+                         {{theTicketData.type}}
+                    </td>
+                    <td style="padding-left: 20px; text-align: center;">
+                            {{info.item}}
+                    </td>
+                    <td style="text-align: center;">{{info.item_serial}}</td>
+                    <td style="text-align: center;">
+                        {{info.status}}
+                        <div>
+                            {{info.location}} - {{info.locationId}}
+                        </div>
+                    </td>
+            </tr>
             </table>
         </div>
         <!--white space -->
@@ -1033,5 +1052,6 @@
     
     </div>
     </div>
+</div>
 </div>
 </div>

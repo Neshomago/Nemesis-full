@@ -9,7 +9,7 @@
                       <div style="border-left: 1px solid black; padding-left: 20px; border-left-style: dashed; padding-right: 20px;">
                           Ticket Status:
                           <div>
-                              <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || 'WORKING'}">
+                              <div style="width: 90px;" [ngClass]="{'TicketResolved':theTicketData.status === 'RESOLVED', 'TicketAborted': theTicketData.status === 'ABORTED', 'TicketManaged': theTicketData.status === 'MANAGING', 'TicketOpened':theTicketData.status ==='OPENED' || theTicketData.status === 'WORKING'}">
                                 <div style="display: flexbox; flex-flow: row; justify-self: center; text-align: center; align-self: center; padding-top: 5px;">
                                     {{theTicketData.status}}
                                 </div>
@@ -126,7 +126,7 @@
                                 <h2>Equipment: 
                                 </h2>
                         </div>
-                        <div>
+                        <div  *ngIf="unserialTags != ''; else sinItems">
                             <table>
                                 <tr style="border-bottom: 2px solid gray; height: 40px;">
                                     <th width="25%">
@@ -152,6 +152,12 @@
                                 </tr>
                             </table>
                         </div>
+                        <ng-template #sinItems>
+                            <div>
+                                <h3>No Items were assigned to this Ticket.</h3>
+                            </div>
+                        </ng-template>
+                        
                         <br>
                     <!-- </div> -->
                     </mat-card>
@@ -185,7 +191,7 @@
               <div style="height: 30px;"></div>
                <mat-card>
                            <h2>Items from technical review: 
-                               <span>
+                               <span *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                                    <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                                </span>
                         </h2>
@@ -209,15 +215,15 @@
                             {{ AgencyListNames[0] | json}}
                             <br> -->
                             <hr>
-                            {{ tagsarray_techreview | json }}
+                            <!-- {{ tagsarray_techreview | json }} -->
                 <ng-container *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                         <div class="row" *ngFor="let obj of tagsarray; let i = index">
-                            <div class="col-auto">
+                            <div class="col-1">
                                 <button mat-icon-button (click)="addItem(theTicketData.id)">
                                 <mat-icon>add</mat-icon>
                                 </button>
                             </div>
-                            <div class="col-auto">
+                            <div class="col-1">
                                 <button mat-icon-button (click)="removeItem(i)">
                                 <mat-icon>delete</mat-icon>
                                 </button>
@@ -226,17 +232,59 @@
                             <!-- Item from agency -->
                             <div class="col">
                                 <mat-form-field class="full-width">
-                                <mat-label>Checked Item: </mat-label>
-                                <mat-select matNativeControl name="item" [(ngModel)]="obj.item">
-                                    <mat-option *ngFor="let tag of AgencyItems; let i = index" [value]="tag.name">
-                                        {{tag.name}} - {{tag.description}} | {{tag.location}}
-                                    </mat-option>
-                                </mat-select>
-                                </mat-form-field>
+                                    <mat-label>Checked Item: </mat-label>
+                                    <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
+                                            <ng-container *ngFor="let tag of AgencyItems; let i = index" >
+                                            <mat-option [value]="tag.name">
+                                                {{tag.name}} | {{tag.location}}
+                                            </mat-option>
+                                            <input matInput [value]="tag.serial" [(ngModel)]="obj.serial">
+                                        </ng-container>
+                                    </mat-select>
+                                    </mat-form-field>
                             </div>
                             
                             <div class="col">
-                                <mat-form-field class="full-width" >
+
+                                <mat-form-field class="full-width">
+                                    <mat-label>Send to Location: </mat-label>
+                                    <mat-select matInput name="location" id="location" [(ngModel)]="obj.location">
+                                        <mat-option value="{{location.value}}" *ngFor="let location of locationSelect">{{location.viewValue}}</mat-option>
+                                        <!-- <mat-option value="Agency">Agency [Id]</mat-option>
+                                        <mat-option value="Warehouse">Warehouse</mat-option>
+                                        <mat-option value="Transport">Transport</mat-option> -->
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="full-width" *ngIf="obj.location == 'AGENCY'">
+                                    <mat-label>Agency</mat-label>
+                                    <mat-select matInput name="locationId" id="locationId" [(ngModel)]="obj.locationId">
+                                        <mat-option *ngFor="let Agency of AgencyList" [value]="Agency.id">{{Agency.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="full-width" *ngIf="obj.location == 'WAREHOUSE'">
+                                    <mat-label>Warehouse</mat-label>
+                                    <mat-select matInput name="locationId" id="locationId" [(ngModel)]="obj.locationId">
+                                        <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">
+                                            <ng-container>
+                                                {{warehouse.name}}
+                                            </ng-container>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="full-width" *ngIf="obj.location == 'TRANSPORT'">
+                                    <mat-label>Transport Car Plate</mat-label>
+                                    <mat-form-field>
+                                        <input matInput type="text" name="locationId" id="locationId" [(ngModel)]="obj.locationId">
+                                    </mat-form-field>
+                                </mat-form-field>
+
+
+
+
+                                <!-- <mat-form-field class="full-width" >
                                     <mat-label>Send To</mat-label>
                                     <mat-select matNativeControl name="warehouseId" id="warehouseId" [(ngModel)]="obj.warehouseId">
                                         <mat-option disabled>WAREHOUSE</mat-option>
@@ -250,7 +298,7 @@
                                                 </mat-option>
                                         </ng-container>
                                     </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
                             </div>
 
                             <div class="col">
@@ -265,22 +313,62 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
+                                <!-- <mat-form-field>
+                                    <input matInput placeholder="label" value="value" [(ngModel)]="obj.customerId">
+                                </mat-form-field> -->
                         </div>
-                        {{tagsarray | json}}
+                        <!-- {{tagsarray | json}} -->
                 </ng-container>
-                <div>
-                    <button mat-icon-button [disabled]="tagsarray == ''"><mat-icon>save</mat-icon>Confirm Items</button>
+                <div *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
+                    <button mat-icon-button [disabled]="tagsarray == ''" (click)="updateChangesItem()"><mat-icon>save</mat-icon>Confirm Items</button>
                 </div>
-                <mat-container *ngIf="tagsarray != ''">
-                    <div *ngFor="let obj of tagsarray">
+                <mat-container *ngIf="theTicketData.status == 'RESOLVED'">
+                    <table>
+                        <tr style="border-bottom: 2px solid gray; height: 40px;">
+                            <th width="30%">
+                                Item
+                            </th>
+                            <th width="50%">
+                                Location
+                            </th>
+                            <th width="20%">
+                                Status
+                            </th>
+                        </tr>
+                        <tr *ngFor="let info of infoTechReview" style="border-bottom: 0.5px solid rgb(192, 192, 192); height: 40px;">
+                            <td width="30%">
+                                {{info.item}}
+                                <!-- <div>
+                                    <div>•<span *ngFor="let category of categoryList">
+                                        <span *ngIf="tag.item_description == category.id">{{category.category_name}}</span>
+                                    </span></div>
+                                </div> -->
+                            </td>
+                            <td  width="50%">
+                                <ng-container *ngIf="info.location == 'AGENCY'; else warehouse">
+                                    <ng-container *ngFor="let Agency of AgencyList; let a = index">
+                                        <ng-container *ngIf="Agency.id == info.locationId">
+                                            {{Agency.name}}
+                                        </ng-container>
+                                    </ng-container>                            
+                                </ng-container>
+                            
+                            <ng-template #warehouse>
+                                <ng-container *ngFor="let warehouse of warehouses; let w = index">
+                                    <ng-container *ngIf="warehouse.id == info.locationId">
+                                        {{warehouse.name}}
+                                    </ng-container>
+                                </ng-container>
+                            </ng-template>
+                             </td>    
+                            <td  width="20%">{{info.notes_item}}</td>
+                        </tr>
+                    </table>
+
+                    <div >
                         <div class="row">
-                            {{obj.name}} 
-                            <ng-container *ngFor="let warehouse of warehouses">
-                                <div *ngIf="warehouse.id == obj.warehouseId">
-                                    {{warehouse.name}}
-                                </div>
-                            </ng-container>
-                             - {{obj.status}}
+                            
+                            
                         </div>
                     </div>
 
@@ -434,174 +522,203 @@
     <div class="ddt" *ngIf="theTicketData">
         <div id="dataPdfReport">
         <!-- style="width: 95%; height: 100%; align-self: center; padding: 20px;" -->
-    
-            <table border="1">
-                <!-- encabezado PDF -->
-                <tr style="border-top: 3px solid gray;">
-                    <td>
-                        <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
-                    </td>
-                    <td style="font-size: 12px; line-height: 15px;" colspan="3">
-                        Via Selva Di Sotto Snc, Località Cese <br>
-                        San Salvatore Telesino -Telese- 82030 (BN) Italy <br>
-                        Telefono: +39-0824-948243 <br>
-                        Fax: +39-0824-948243 <br>
-                        P.IVA / C.F. 03949540615 <br>
-                        email: info@lumiasrl.com <br>
-                    </td>
-                    <td colspan="2">
-                        <table width="450">
-                            <tr>
-                                <td style="text-align: right;">
-                                    Installation Report: 
-                                </td>
-                                <td style="text-align: left; border: 1px solid;">
-                                    {{theTicketData.tech_assign}} / 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                    Installation: 
-                                </td>
-                                <td style="text-align: left; border: 1px solid;">
-                                    {{theTicketData.userId}} - Ticket: {{theTicketData.id}}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-        </tr>
-        <tr style="border-top: 3px solid gray; width: 95%;">
-            <td style="padding-left: 20px;">
-                <h2>
-                    Client
-                </h2>
-            </td>
-        </tr>
-        <tr style="border-top: 1.5px solid gray; width: 95%;">
-            <td colspan="4" style="padding-left: 40px;">
-                <tr>
-                    <td>
-                        Agency Code: {{theTicketData.managerId}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Fiscal Code: 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Certification: {{theTicketData.certification}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Address: {{theTicketData.address}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Phone: {{theTicketData.phone}}
-                    </td>
-                </tr>
-                <tr *ngIf="theTicketData.email">
-                    <td>
-                        Email: {{theTicketData.email}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        IVA: 
-                    </td>
-                </tr>
-            </td>
-        </tr>
-        <tr style="border-top: 3px solid gray; width: 95%;">
-            <td style="padding-left: 20px;">
-                <h2>
-                    Intervento
-                </h2>
-            </td>
-        </tr>
-        <tr style="border-top: 1.5px solid gray; width: 95%;">
-            <td colspan="6" style="padding-left: 40px;">
-                <tr>
-                    <td>
-                        Date e hora di apertura:
-                    </td>
-                    <td>
-                        {{theTicketData.creationDate}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Date and time of intervention: 
-                    </td>
-                    <td>
-    
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Date and time finished intervention:
-                    </td>
-                    <td>
-                        {{theTicketData.closedDate}}
-                    </td>
-                </tr>
-            </td>
-        </tr>
-        <tr style="border-top: 3px solid silver; width: 95%;">
-            <td  style="padding-left: 20px;" colspan="6">
-                <h2>
-                    REPORT: 
-                </h2>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-left: 20px; text-align: center;" colspan="1">Operation</td>
-            <td colspan="2" style="text-align: center;">Item</td>
-            <td colspan="2" style="text-align: center;">Serial number</td>
-            <td colspan="1" style="text-align: center;">Item Status</td>
-        </tr>
-        <tr *ngFor="let tag of unserialTags; let indice = index">
-                <td colspan="1" style="text-align: center;">
-                    {{theTicketData.type}}
+    <div id="bordeA4" style="left: 0; top: 0; width:195mm; height:287mm;border: 1px solid;">
+        <div style=" display: flex; flex-direction: column;">
+            <div style="border-top: 3px solid gray;">
+                <div style="display: inline-block;">
+                    <img src="assets/img/logo-lumia-2.png" alt="Logo Lumia" height="100px">
+                </div>
+                <div style="font-size: 12px; line-height: 15px; display: inline-block; vertical-align: middle;">
+                    Via Selva Di Sotto Snc, Località Cese <br>
+                    San Salvatore Telesino -Telese- 82030 (BN) Italy <br>
+                    Telefono: +39-0824-948243 <br>
+                    Fax: +39-0824-948243 <br>
+                    P.IVA / C.F. 03949540615 <br>
+                    email: info@lumiasrl.com <br>
+                </div>
+                <div style="display: inline-block; vertical-align:middle; padding-left: 30px;">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation Report: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid; width: 200px;">
+                                {{theTicketData.tech_assign}} / 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                Installation: 
+                            </td>
+                            <td style="text-align: left; border: 1px solid;">
+                                {{theTicketData.userId}} - Ticket: {{theTicketData.id}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    <div style="border-top: 3px solid gray; width: 95%;">
+        <td style="padding-left: 20px;">
+            <h2>
+                Client
+            </h2>
+        </td>
+    </div>
+    <div style="border-top: 1.5px solid gray; width: 95%;">
+        <td colspan="4" style="padding-left: 40px;">
+            <tr>
+                <td>
+                    Agency Code: {{theTicketData.managerId}}
                 </td>
-                <td style="padding-left: 20px; text-align: center;" colspan="2">
-                        {{tag.item}}
+            </tr>
+            <tr>
+                <td>
+                    Fiscal Code: 
                 </td>
-                <td colspan="2" style="text-align: center;">{{tag.item_serial}}</td>
-                <td colspan="1" style="text-align: center;">OPERATIVE</td>
-        </tr>
-        <tr style="flex: 1; overflow: auto;"></tr>
-        <tr>
-            <td colspan="6" style="padding: 20px;">
-                    <div class="d-flex">
-                            <div class="flex-fill p-2 border border-1">
-                                <span style="font-size: 12px; color: grey;">Technician name: </span><span style="font-weight: 500; color: black;"> {{theTicketData.tech_assign}}</span>
-                                <br>
-                                <br>
-                                <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
-                                <br>
+            </tr>
+            <tr>
+                <td>
+                    Certification: {{theTicketData.certification}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Address: {{theTicketData.address}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Phone: {{theTicketData.phone}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email: {{theTicketData.email}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    IVA: 
+                </td>
+            </tr>
+        </td>
+    </div>
+    <div style="border-top: 3px solid gray; width: 95%;">
+        <td style="padding-left: 20px;">
+            <h2>
+                Intervento
+            </h2>
+        </td>
+    </div>
+    <div style="border-top: 1.5px solid gray; width: 95%;">
+        <td colspan="6" style="padding-left: 40px;">
+            <tr>
+                <td>
+                    Date e hora di apertura:
+                </td>
+                <td>
+                    {{theTicketData.creationDate}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date and time of intervention: 
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date and time finished intervention:
+                </td>
+                <td>
+                    {{theTicketData.closedDate}}
+                </td>
+            </tr>
+        </td>
+    </div>
+    <div style="border-top: 3px solid silver; width: 95%;">
+        <td  style="padding-left: 20px;" colspan="6">
+            <h2>
+                REPORT: 
+            </h2>
+        </td>
+    </div>
+    <div style="display: flex;flex-direction: column;"> <!--Container -->
+        <!--Table of item data -->
+        <div style="align-items: flex-start;">
+            <table>
+                <tr>
+                    <td style="padding-left: 20px; text-align: center; width: 150px;">Operation</td>
+                    <td style="text-align: center; width: 200px;">Item</td>
+                    <td style="text-align: center; width: 120px;">Serial number</td>
+                    <td style="text-align: center; width: 120px;">Item Status</td>
+                </tr>
+                <tr *ngFor="let tag of unserialTags; let indice = index">
+                        <td style="text-align: center;">
+                             {{theTicketData.type}}
+                        </td>
+                        <td style="padding-left: 20px; text-align: center;">
+                                {{tag.item}}
+                        </td>
+                        <td style="text-align: center;">{{tag.item_serial}}</td>
+                        <td style="text-align: center;">OPERATIVE</td>
+                </tr>
+                <tr *ngFor="let info of infoTechReview; let indice = index">
+                        <td style="text-align: center;">
+                             {{theTicketData.type}}
+                        </td>
+                        <td style="padding-left: 20px; text-align: center;">
+                                {{info.item}}
+                        </td>
+                        <td style="text-align: center;">{{info.item_serial}}</td>
+                        <td style="text-align: center;">
+                            {{info.status}}
+                            <div>
+                                {{info.location}} - {{info.locationId}}
                             </div>
-                            <div class="flex-fill p-2 border border-1">
-                                <span style="font-size: 12px; color: grey;">Timbro e firma del cliente</span>
+                        </td>
+                </tr>
+            </table>
+        </div>
+        <!--white space -->
+        <div style="flex:1; height: calc(100% - 30px)">
+        </div>
+
+        <!--footer -->
+        <div style="bottom: 0; margin-left: 10%; margin-right: 10%; position: sticky;">
+            <div>
+                        <div style="display:inline-flex; padding-top: 20px;">
+                                <div class="border border-1" style="padding: 20px;">
+                                    <span style="font-size: 12px; color: grey; width: 200px;">Technician name:__{{theTicketData.tech_assign}}</span>
+                                    <br>
+                                    <br>
+                                    <span style="font-size: 12px; color: grey;">Technician Signature:________________________________</span>
+                                    <br>
+                                </div>
+                                <div class="border border-1" style="width: 300px; text-align: center;">
+                                    <span style="font-size: 12px; color: grey;">Timbro e firma del cliente</span>
+                                    <br>
+                                </div>
+                        </div>
+            </div>        
+            <div>
+                        <td colspan="6" style="font-size: 10px; line-height: 10px; text-align: center; padding: 20px;">
+                                Documento Interno Amministrativo. Interventi tecnici presso clienti. Il materiale sopra descritto, fornito dal nostro tecnico nel suo intervento, è esonerato da
+                                DDT (DPR 627/78) ai sensi C.M. 5/360586 del 12/12/76
+                    
                                 <br>
-                            </div>
-                    </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="6" style="font-size: 10px; line-height: 10px; text-align: center;">
-                Documento Interno Amministrativo. Interventi tecnici presso clienti. Il materiale sopra descritto, fornito dal nostro tecnico nel suo intervento, è esonerato da
-                DDT (DPR 627/78) ai sensi C.M. 5/360586 del 12/12/76
+                                SCHEDAORDINE RAPPORTOINTERVENTO
+                                rev.2 del 17/12/2016
+                        </td>
+            </div>
+        </div>
+    </div>
     
-                <br>
-                SCHEDAORDINE RAPPORTOINTERVENTO
-                rev.2 del 17/12/2016
-            </td>
-        </tr>
-    </table>
+
+
+    </div>
+    </div>
     </div>
     </div>

@@ -42,6 +42,14 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.get<any[]>(`${APIUrl}/warehouseitagency/${locationId}`);
   }
 
+  AddItemAgencyReview(val:any): Observable<any>{
+    return this.http.post(`${APIUrl}/warehouseitagencyticket`,val);
+  }
+
+  GetItemAgencyReview(ticketId:any): Observable<any>{
+    return this.http.get(`${APIUrl}/warehouseitagencyticket/${ticketId}`);
+  }
+
   // To see all warehouse items from warehouseitemtype
   getItemsListperType(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehouseitemspertype');

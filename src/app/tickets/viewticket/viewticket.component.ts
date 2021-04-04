@@ -152,6 +152,7 @@ export class ViewticketComponent implements OnInit {
       this.getWarehouseStock();
       this.setDefaultDate();
       this.getCategoryList();
+      this.getTechnicianReviewItems(ticketId);
       // this.getTicketInfotoUpdate(ticketId);
 
 
@@ -421,6 +422,13 @@ export class ViewticketComponent implements OnInit {
         console.log('Ticket is now been worked. Status updated', data)    }
     );
   }
+
+  infoTechReview:any=[];
+getTechnicianReviewItems(id:any){
+  this.whservice.GetItemAgencyReview(id).subscribe(
+    data => {this.infoTechReview = data}
+  );
+}
 
   confirmResolved(id: any){
     const version = {
