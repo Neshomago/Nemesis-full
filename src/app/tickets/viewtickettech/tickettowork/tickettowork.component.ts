@@ -65,7 +65,7 @@ export class TickettoworkComponent implements OnInit {
 
   tickStatus ={ status:'ABORTED'};
   customerId = localStorage.getItem('customerId');
-  userId = localStorage.getItem('id');
+  userId:any = localStorage.getItem('id');
   categoryList: any = [];
 
   locationSelect:any = [
@@ -191,25 +191,8 @@ addItem(id:any){//método para añadir item en el viewticket.html de Additional 
     locationId:'',
     status:'',
     ticketviewversion:1
-    // customerId:''
   };
   
-  // let technician_itemregisteritem ={
-  //   id:0,
-  //   item:equipment.item,
-  //   item_serial:'',
-  //   ticketId:id,
-  //   customerId:equipment.customerId,
-  //   location:equipment.location,
-  //   locationId:equipment.locationId,
-  //   tech_assignedId:this.userId,
-  //   notes_item:'',
-  //   ticketviewversion:1}
-
-    // technician_itemregisteritem.item = equipment.item;
-    // technician_itemregisteritem.item_serial = equipment.serial;
-    // technician_itemregisteritem.location = equipment.locationId;
-    // technician_itemregisteritem.notes_item = equipment.status;
   this.tagsarray.push(equipment);
   // this.tagsarray_techreview.push(technician_itemregisteritem);
   console.log("Arreglo uno para grabar: ",this.tagsarray);
@@ -235,7 +218,6 @@ trackingInfo: any ={
   type:'Change from location',
   descriptionTrack:'',
   rawData: String(JSON.stringify(this.tagsarray_techreview))
-  // userTraza:''
 }
 
 userTrackingData:any =[];
@@ -266,16 +248,6 @@ saveItemTrack() {
 }
 
 updateChangesItem(){
-  // this.setDefaultDate();
-  // this.changesItem.warranty_invoiceDate = 
-  // (
-  //   (this.changesItem.fechaPrueba.getFullYear())+'-'+
-  //   (this.changesItem.fechaPrueba.getMonth()+1)+'-'+
-  //   (this.changesItem.fechaPrueba.getDate())
-  //   +' '+'0'+(this.changesItem.fechaPrueba.getHours())+':'
-  //   +'0'+(this.changesItem.fechaPrueba.getMinutes())+':'
-  //   +'0'+(this.changesItem.fechaPrueba.getSeconds())
-  // );
 this.tagsarray.forEach((element:any) => {
   console.log("grabando: ", element);
   this.whservice.AddItemAgencyReview(element).subscribe(

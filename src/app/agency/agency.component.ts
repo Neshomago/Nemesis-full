@@ -14,6 +14,8 @@ export class AgencyComponent implements OnInit {
   AgencyList:any=[];
 
   customerId = localStorage.getItem('customerId');
+  zRoleA = localStorage.getItem('zRoleA');
+  zRoleE = localStorage.getItem('zRoleE');
 
   currentAgency = null;
   currentIndex = -1;

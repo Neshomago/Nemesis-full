@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar} from '@angular/material/snack-bar';
 
 import { Router} from '@angular/router';
+import { AgencyService } from '../services/agency.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -29,7 +30,9 @@ export class CreateTicketComponent implements OnInit {
     code:'',
   }
   
-  constructor(private ticketService:TicketService, private _snackBar:MatSnackBar, private router:Router) {
+  constructor(private ticketService:TicketService,
+    private agencyService: AgencyService,
+    private _snackBar:MatSnackBar, private router:Router) {
     if(localStorage.getItem('id')) {
       this.creatorId = localStorage.getItem('id');
     }
@@ -44,10 +47,15 @@ export class CreateTicketComponent implements OnInit {
   AgencyList: any = [];
 
   getAgencyName(){
-    this.ticketService.getAgencyName(String(this.customerId)).subscribe(agency => {
-      this.AgencyList = agency;
-    })
-
+    let zrole = localStorage.getItem('zRoleA');
+    if(!zrole){
+      this.ticketService.getAgencyName(String(this.customerId)).subscribe(agency => {
+        this.AgencyList = agency;
+      });
+    } else {
+        this.agencyService.getAgencyList().subscribe(data => 
+          { this.AgencyList = data;});
+    }
   }
     
   addTicket(){

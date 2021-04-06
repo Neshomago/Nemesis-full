@@ -233,12 +233,12 @@
                             <div class="col">
                                 <mat-form-field class="full-width">
                                     <mat-label>Checked Item: </mat-label>
-                                    <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item">
+                                    <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item" >
                                             <ng-container *ngFor="let tag of AgencyItems; let i = index" >
-                                            <mat-option [value]="tag.name">
+                                            <mat-option value="{{tag.name}}">
                                                 {{tag.name}} | {{tag.location}}
                                             </mat-option>
-                                            <input matInput [value]="tag.serial" [(ngModel)]="obj.serial">
+                                            
                                         </ng-container>
                                     </mat-select>
                                     </mat-form-field>
@@ -250,9 +250,6 @@
                                     <mat-label>Send to Location: </mat-label>
                                     <mat-select matInput name="location" id="location" [(ngModel)]="obj.location">
                                         <mat-option value="{{location.value}}" *ngFor="let location of locationSelect">{{location.viewValue}}</mat-option>
-                                        <!-- <mat-option value="Agency">Agency [Id]</mat-option>
-                                        <mat-option value="Warehouse">Warehouse</mat-option>
-                                        <mat-option value="Transport">Transport</mat-option> -->
                                     </mat-select>
                                 </mat-form-field>
 
@@ -317,7 +314,7 @@
                                     <input matInput placeholder="label" value="value" [(ngModel)]="obj.customerId">
                                 </mat-form-field> -->
                         </div>
-                        <!-- {{tagsarray | json}} -->
+                        {{tagsarray | json}}
                 </ng-container>
                 <div *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
                     <button mat-icon-button [disabled]="tagsarray == ''" (click)="updateChangesItem()"><mat-icon>save</mat-icon>Confirm Items</button>

@@ -157,6 +157,7 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
         this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
         this.changesItem = data;
+        console.warn('datos guardados: ',this.changesItem);
         this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
         console.log(data);
       });

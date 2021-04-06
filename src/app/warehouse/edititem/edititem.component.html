@@ -262,7 +262,7 @@
                     <button mat-fab
                     #tooltip="matTooltip"
                       matTooltip="Save changes"
-                      (click)="saveItemTrack(); editFields()"
+                      (click)="updateChanges(theItemWarehouse.id); saveItemTrack(); editFields()"
                     ><mat-icon>save</mat-icon></button>
                 </div>
                 <div style="padding-bottom: 20px;">
