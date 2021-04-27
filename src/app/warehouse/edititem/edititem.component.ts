@@ -192,16 +192,22 @@ export class EdititemComponent implements OnInit {
   }
   
   saveItemTrack() {
-
+    let resultadoAg:any;
+    let warehouseName:any = this.warehouses.find( (identificadorw:any) => identificadorw.id == this.trackingDataChanges.warehouse );
+    if (this.trackingDataChanges.location === 'AGENCY'){
+      resultadoAg = this.AgencyList.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+    } else if (this.trackingDataChanges.location === 'WAREHOUSE'){
+      resultadoAg = this.warehouses.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+    }
     this.trackingDataChanges.warehouse = this.changesItem.warehouseId;
     this.trackingDataChanges.location = this.changesItem.location;
     this.trackingDataChanges.locationId = this.changesItem.locationId;
     this.trackingDataChanges.status = this.changesItem.status;
     this.trackingDataChanges.statusDetails= this.changesItem.statusDescription;
     console.log("tracking a grabar: ",this.trackingDataChanges);
-    this.trackingInfo.changes = 'WarehouseId: '+String(this.trackingDataChanges.warehouse)+
+    this.trackingInfo.changes = 'WarehouseId: '+String(this.trackingDataChanges.warehouse)+" "+warehouseName.name+
     '- Location: '+String(this.trackingDataChanges.location)+
-    '- LocationId: '+String(this.trackingDataChanges.locationId)+
+    '- LocationId: '+String(this.trackingDataChanges.locationId)+" "+resultadoAg.name+
     '- Status: '+String(this.trackingDataChanges.status);
     this.trackingInfo.descriptionTrack = this.modification;
 
@@ -212,8 +218,7 @@ export class EdititemComponent implements OnInit {
         this.theItemWarehouse.serial = this.trackingInfo.itemId;
         console.log(data + "Data a grabar Tracking Info: ", this.trackingInfo + data);
       },
-      error => {
-        console.log(error)
+      error => { console.log(error)
       }
     );
   }
@@ -221,7 +226,8 @@ export class EdititemComponent implements OnInit {
   warehouses:any=[];
   getWarehouses(){
     this.service.getWarehouseList().subscribe(
-      data => {this.warehouses = data}
+      data => {this.warehouses = data;
+      console.log("bodegas: ",this.warehouses);}
     );
   }
 
@@ -242,7 +248,8 @@ export class EdititemComponent implements OnInit {
   AgencyList: any = [];
   getAgencyList(){
     this.agencyService.getAgencyList().subscribe(
-      data => {this.AgencyList = data;}
+      data => {this.AgencyList = data;
+      console.log("agencias: ", this.AgencyList);}
     )
   }
 

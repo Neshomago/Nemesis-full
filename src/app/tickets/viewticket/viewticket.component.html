@@ -640,7 +640,8 @@
                 >BEGIN TO PROCESS</button>
             </div>
             <div class="col" *ngIf="theTicketData.version>=6">
-                <button mat-raised-button color="accent" (click)="confirmResolved(theTicketData.id)">CONFIRM RESOLVED</button>
+                <!-- <button mat-raised-button color="accent" (click)="confirmResolved(theTicketData.id)">CONFIRM RESOLVED</button> -->
+                <button mat-raised-button color="accent" (click)="closeTicketItem()">CONFIRM RESOLVED</button>
             </div>
             <!-- <div class="col-auto" *ngIf="theTicketData.version < 5">
                 <button mat-raised-button

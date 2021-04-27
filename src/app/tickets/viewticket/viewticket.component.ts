@@ -101,6 +101,8 @@ export class ViewticketComponent implements OnInit {
     version: 5,
   }
 
+  itemsToConfirm:any = [];
+
   constructor(private service:TicketService,
     private usersService: UsersService,
     private whservice:WarehouseService,
@@ -153,7 +155,7 @@ export class ViewticketComponent implements OnInit {
       this.setDefaultDate();
       this.getCategoryList();
       this.getTechnicianReviewItems(ticketId);
-      // this.getTicketInfotoUpdate(ticketId);
+      this.GetItemsToConfirmTicket(ticketId);
 
 
     //formgroup for steps
@@ -433,13 +435,85 @@ getTechnicianReviewItems(id:any){
   confirmResolved(id: any){
     const version = {
       version: 8,
+      status: 'RESOLVED',
     };
     this.service.updateTicketVersion(id, version).subscribe(
       (data) => { this.theTicketData.version = 8;
         this._snackBar.open("Ticket is now in Working status.", "OK", { duration:3500, panelClass: "success",});
         console.log('Ticket is now been worked. Status updated', data)    }
     );
+    this.refreshPage();
   }
+
+  
+  GetItemsToConfirmTicket(legacyId:any){
+    this.whservice.GetItemsToConfirmTicket(legacyId).subscribe(
+      info => {this.itemsToConfirm = info;
+      console.log("items para confirmar: ", info);}
+    )
+  }
+
+  
+  closeTicketItem(){
+    this.itemsToConfirm.forEach((element:any) => {
+      let itemLocation:any ={
+       id: element.id,
+       item: element.name,
+       item_serial: element.serial,
+       version:2,
+       legacyId: element.legacyId,
+       location: element.location,
+       locationId: element.locationId,
+       partOf:'',
+       slot:'',
+       statusDescription: 'Complete move. Item '+ element.name +' is in '+ element.location + ' - ' + element.locationId
+      }
+      console.warn("Item a grabar data model: ", itemLocation);
+      
+
+      let finalCheckResolved:any = {
+        id:itemLocation.id,
+        version:itemLocation.version,
+        legacyId:element.legacyId,
+        partOf:'',
+        slot:''
+      };
+      console.log(finalCheckResolved);
+      
+      this.whservice.closeTicketAdmin(element.id, finalCheckResolved).subscribe(
+        (check) => {
+          finalCheckResolved = check;
+          console.log("datos grabados en update de item: ", location);
+        }
+      );
+
+      let trackingItem:any = {
+        itemId:element.serial,
+        userId:this.technicianToUpdate.tech_assign,
+        change:itemLocation.statusDescription,
+        type:'Ticket Close',
+        descriptionTrack:'Item moved to destination by technician',
+        rawData:'',
+      }
+      this.whservice.trackingItem(trackingItem).subscribe(
+        (track) => {
+          trackingItem.rawData = String(JSON.stringify(trackingItem));
+          console.log(track+". Data a grabar Tracking Info: ", trackingItem);
+        },
+        error => {console.log(error)}
+        );
+      
+        // let resultadoAg:any;
+        // let warehouseName:any = this.warehouses.find( (identificadorw:any) => identificadorw.id == this.trackingDataChanges.warehouse );
+        // if (this.trackingDataChanges.location === 'AGENCY'){
+        //   resultadoAg = this.AgencyList.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+        // } else if (this.trackingDataChanges.location === 'WAREHOUSE'){
+        //   resultadoAg = this.warehouses.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+        // }
+        });
+        // this.refreshPage();
+      // });
+    }
 
   //Toggle Edition fields in Html view
   toogleEditstep1(){ this.showEdit1 = !this.showEdit1;}

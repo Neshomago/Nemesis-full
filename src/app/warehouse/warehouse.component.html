@@ -50,7 +50,7 @@
 
 <!-- START OF TABLE -->
 <!--  -->
-<ng-container *ngIf="!filter">
+<ng-container *ngIf="!filter || filteredString == '' || filteredResult == null">
   <table class="full-width table-stripped table-hover">
     <thead>
       <th>Resolved Warehouse Item</th>
@@ -160,17 +160,19 @@
           <span>
             <ng-container *ngIf="dataItem.location == 'AGENCY'">
               <ng-container *ngIf="dataItem.warehouseId != 0 && dataItem.isDelete != 0">
-                <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
+                <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.locationId}}
               </ng-container>
             </ng-container>
             <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
               <ng-container *ngIf="dataItem.warehouseId != 0">
-                <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
+                <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.locationId}}
               </ng-container>
             </ng-container>
             
-            <ng-container *ngIf="dataItem.isMoving == 1">
-              <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
+            <ng-container *ngIf="dataItem.partOf == 'TRANSPORT' && dataItem.version == 1">
+              <ng-container *ngIf="dataItem.warehouseId != 0">
+                <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.slot}}
+              </ng-container>
             </ng-container>
           </span>
         </td>

@@ -43,10 +43,10 @@
           </mat-form-field>
           &nbsp;
           <div class="col-auto">
-            <button mat-icon-button routerLink="/create-ticket"
+            <button mat-icon-button 
             #tooltip="matTooltip"
             matTooltip="Download ticket report"
-            ><mat-icon>cloud_download</mat-icon></button>
+            ><mat-icon>backspace</mat-icon></button>
         </div>
     </div>
 </div>
@@ -71,7 +71,8 @@
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
             >
-                <td class="col-1" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED' || dataItem.version == 7" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
+            <ng-container *ngIf="dataItem.tech_assign == techId">
+            <td class="col-1" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED' || dataItem.version == 7" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
                         <div>{{dataItem.id}}</div>
                 </td>
                     <td class="row" *ngIf="dataItem.status == 'WORKING' && dataItem.version == 5 || dataItem.status == 'RESOLVED' || dataItem.version == 7" (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['tickettowork/',dataItem.id]" style="cursor: pointer;">
@@ -105,6 +106,7 @@
 
                         </div>
                     </td>
+                </ng-container>
                 </tr>
         </tbody>
     </table>

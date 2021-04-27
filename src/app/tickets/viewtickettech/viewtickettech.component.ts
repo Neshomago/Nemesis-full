@@ -4,6 +4,7 @@ import {AgencyService} from 'src/app/services/agency.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-viewtickettech',
@@ -29,9 +30,12 @@ export class ViewtickettechComponent implements OnInit {
   iniciales:any;
   surname: any;
 
+  techId = localStorage.getItem('bid');
+
   theTicketData : any;
 
   constructor(private service:TicketService, private agencyService: AgencyService,
+    private userService:UsersService,
     public dialog:MatDialog, private _snackBar: MatSnackBar) {
       
       if(localStorage.getItem('zRoleA')) {
@@ -69,17 +73,28 @@ export class ViewtickettechComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTicketList();
+    console.log(this.techId);
+    this.Technicians_List();
   }
-
+  
   refreshTicketList(){
     this.service.getTicketList().subscribe(data => 
       {
-       this.TicketList=data; 
+        this.TicketList=data;
+        console.log(this.TicketList);
       }),
-    this.agencyService.getAgencyList().subscribe(agency=>
-      {
-        this.AgencyList = agency;
-      });
+      this.agencyService.getAgencyList().subscribe(agency=>
+        {
+          this.AgencyList = agency;
+        });
+      }
+      
+      TechnicianList:any=[];
+      Technicians_List(){
+        this.userService.getTechnicianList().subscribe(
+          data => {this.TechnicianList = data;
+          console.log(this.TechnicianList);}
+      );
   }
 
   refresh():void{

@@ -182,6 +182,7 @@ export class TickettoworkComponent implements OnInit {
 tagsarray_techreview:any=[];
 addItem(id:any){//método para añadir item en el viewticket.html de Additional Equipment
   const equipment:any = {
+    id:'',
     item: '',
     serial:'',
     ticketId: id,
@@ -190,6 +191,7 @@ addItem(id:any){//método para añadir item en el viewticket.html de Additional 
     location:'',
     locationId:'',
     status:'',
+    notes:'',
     ticketviewversion:1
   };
   
@@ -247,31 +249,71 @@ saveItemTrack() {
   );
 }
 
-updateChangesItem(){
+/* METODO ACTUAL*/
+nameandSerial:any = {
+  id:'',
+  name:'',
+  serial:''
+};
+updateChangesItem(id:any){
 this.tagsarray.forEach((element:any) => {
   console.log("grabando: ", element);
-  this.whservice.AddItemAgencyReview(element).subscribe(
-    (data)=>{ console.log("datos guardados." ,data)},
-    error =>{ console.log("Problemas al grabar", error)}
-  );
+  this.whservice.GetItemnameSerialbyId(element.id).subscribe( data => { this.nameandSerial = data;
+    this.nameandSerial.name  = data.name;
+    this.nameandSerial.serial = data.serial;
+    this.nameandSerial.id = data.id;
+    
+    element.item = this.nameandSerial.name;
+    element.serial = this.nameandSerial.serial;
 
+     let itemLocation:any ={
+      item: this.nameandSerial.name,
+      item_serial: this.nameandSerial.serial,
+      version:1,
+      legacyId: id,
+      location:element.location,
+      locationId:element.locationId,
+      partOf:"TRANSPORT",
+      slot:this.theResolvedTicketUpdate.tech_assign,
+      status:element.status,
+      statusDescription: 'Item '+ this.nameandSerial.name +' is in TRANSPORT with technician '+ this.theResolvedTicketUpdate.tech_assign +', it\'s final destination is '+ element.location + ' - ' + element.locationId
+    }
 
-  // this.whservice.updateWarehouseItem(element.id, itemchange).subscribe(
-  //   (data)=>{
-  //     // this.theItemWarehouse.name = this.changesItem.name;
-  //     // this.theItemWarehouse.categoryId = this.changesItem.categoryId;
-  //     // this.theItemWarehouse.serial = this.changesItem.serial;
-  //     // this.theItemWarehouse.activation = this.changesItem.activation;
-  //     // this.theItemWarehouse.warehouseId = this.changesItem.warehouseId;
-  //     // this.theItemWarehouse.used = this.changesItem.used;
-  //     // this.theItemWarehouse.location = this.changesItem.location;
-  //     // this.theItemWarehouse.locationId = this.changesItem.locationId;
-  //     // this.theItemWarehouse.status = this.changesItem.status;
-  //     // this.theItemWarehouse.statusDescription = this.changesItem.statusDescription;
-  //     // this.theItemWarehouse.warranty_period = this.changesItem.warranty_period;
-  //     console.log(data);
-  //     this._snackBar.open("Item Updated Succesfully", "OK", { duration:3500, panelClass: "success",});
-  //     console.log(data);
+    console.log(`Datos del Item a mover: ${element.id}`, itemLocation);
+
+    this.whservice.AddItemAgencyReview(element).subscribe(
+       (agencyreview)=>{ 
+        console.log("datos guardados. ",agencyreview)},
+       error =>{ console.log("Problemas al grabar", error)}
+     );
+
+    // let resultadoAg:any;
+    // let warehouseName:any = this.warehouses.find( (identificadorw:any) => identificadorw.id == this.trackingDataChanges.warehouse );
+    // if (this.trackingDataChanges.location === 'AGENCY'){
+    //   resultadoAg = this.AgencyList.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+    // } else if (this.trackingDataChanges.location === 'WAREHOUSE'){
+    //   resultadoAg = this.warehouses.find( (identificador:any) => identificador.id == this.trackingDataChanges.locationId );
+    // }
+
+     this.whservice.UpdateItemLocationfromTicket(element.id, itemLocation).subscribe(
+       (location) => {
+         console.log("datos a grabar en update de item: ", location);
+         itemLocation = location;}
+     );
+     
+      this.trackingInfo.itemId = this.nameandSerial.serial;
+      this.trackingInfo.changes = itemLocation.statusDescription;
+
+      console.log("trancking info Final: ", this.trackingInfo);
+
+      this.whservice.trackingItem(this.trackingInfo).subscribe(
+        (track) => {
+          console.log(track + "Data a grabar Tracking Info: ", this.trackingInfo);
+        },
+        error => {console.log(error)}
+        );
+
+      });
     });
     // this.refreshPage();
   // });
@@ -285,27 +327,27 @@ getTechnicianReviewItems(id:any){
 }
 
 //save item to transfer
-saveEquipment(){
-  let i=0;
+// saveEquipment(){
+//   let i=0;
 
-  this.tagsarray.forEach((element: any) => {
-    this.service.addequipmentTechnicianView(element).subscribe(
-      (data) => { console.log('Equipment added', data);
-      this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
-      if (this.tagsarray.length == (i+1)){
+//   this.tagsarray.forEach((element: any) => {
+//     this.service.addequipmentTechnicianView(element).subscribe(
+//       (data) => { console.log('Equipment added', data);
+//       this._snackBar.open("Equipment added Succesfully", "OK", { duration:3500, panelClass: "success",});
+//       if (this.tagsarray.length == (i+1)){
 
-        this.allestimentoTicketList(element.ticketId);
-      }
-      i++;
-    },
-    (error) => { console.log('Failed to add equipment', error);
-    this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+//         this.allestimentoTicketList(element.ticketId);
+//       }
+//       i++;
+//     },
+//     (error) => { console.log('Failed to add equipment', error);
+//     this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
     
-    )
-    console.warn(element);  
-  });
-  this.tagsarray = [];
-}
+//     )
+//     console.warn(element);  
+//   });
+//   this.tagsarray = [];
+// }
 
 AgencyItems:any =[];
 getAgencyItems(id:any){
@@ -320,26 +362,26 @@ getAgencyItems(id:any){
 }
 
 //update item to transfer
-updateEquipment(){
-  let i=0;
+// updateEquipment(){
+//   let i=0;
 
-  this.equipmentArrayData.forEach((element: any) => {
-    this.service.updateEquipment(element.id, element).subscribe(
-      (data) => { 
-      this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
-      if (this.equipmentArrayData.length == (i+1)){
-        this.allestimentoTicketList(element.ticketId);
-      }
-      i++;
-    },
-    (error) => { console.log('Failed to add equipment', error);
-    this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
-    );
-    console.warn(element);
-  });
+//   this.equipmentArrayData.forEach((element: any) => {
+//     this.service.updateEquipment(element.id, element).subscribe(
+//       (data) => { 
+//       this._snackBar.open(data, "OK", { duration:3500, panelClass: "success",});
+//       if (this.equipmentArrayData.length == (i+1)){
+//         this.allestimentoTicketList(element.ticketId);
+//       }
+//       i++;
+//     },
+//     (error) => { console.log('Failed to add equipment', error);
+//     this._snackBar.open("Failed to add equipment", "OK", { duration:3500, panelClass: "error",}); },
+//     );
+//     console.warn(element);
+//   });
   // this.showEdit2 = false;
-  this.saveEquipment();
-}
+  // this.saveEquipment();
+// }
 
 
 //delete item to transfer

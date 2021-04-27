@@ -89,10 +89,10 @@
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
                                                 <div *ngIf="theItemWarehouse.used == 1">
-                                                    <mat-icon style="vertical-align: middle;">check_box</mat-icon>
+                                                    <mat-icon style="vertical-align: middle;">check_box</mat-icon> YES
                                                 </div>
                                                 <div *ngIf="theItemWarehouse.used == 0">
-                                                    <mat-icon style="vertical-align: middle;">check_box_outline_blank</mat-icon>
+                                                    <mat-icon style="vertical-align: middle;">check_box_outline_blank</mat-icon> NO
                                                 </div>
                                             </ng-container>
                                             <ng-container *ngIf="edit">
@@ -116,6 +116,40 @@
                                         <td colspan="1">
                                             <ng-container *ngIf="!edit">
                                                 {{theItemWarehouse.location}}
+                                                <span>
+                                                    <ng-container *ngIf="theItemWarehouse.location === 'AGENCY'">
+                                                      <ng-container *ngIf="theItemWarehouse.warehouseId != 0">
+                                                          <span class="material-icons" style="vertical-align: middle;">store</span>
+                                                          <span style="font-size: 11px;">
+                                                            {{theItemWarehouse.warehouseId}}
+                                                            <ng-container *ngFor="let agency of AgencyList; let i=index">
+                                                              <ng-container *ngIf="agency.id == theItemWarehouse.locationId">
+                                                                {{agency.name}}
+                                                              </ng-container>
+                                                            </ng-container>
+                                                          </span>
+                                                      </ng-container>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="theItemWarehouse.location === 'WAREHOUSE'">
+                                                      <ng-container *ngIf="theItemWarehouse.warehouseId != 0">
+                                                        <span class="material-icons" style="vertical-align: middle;">home_work</span>
+                                                        <span style="font-size: 11px;">
+                                                          {{theItemWarehouse.warehouseId}}
+                                                          <ng-container *ngFor="let item of warehouses; let i=index">
+                                                            <ng-container *ngIf="item.id == theItemWarehouse.locationId">
+                                                              {{item.name}}
+                                                            </ng-container>
+                                                          </ng-container>  
+                                                        </span>
+                                                      </ng-container>
+                                                    </ng-container>
+                                                    
+                                                      <ng-container *ngIf="theItemWarehouse.isMoving == 1">
+                                                          <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{theItemWarehouse.assignedTechId}}
+                                                      </ng-container>
+                                                  </span>
+
                                             </ng-container>
                                             <ng-container *ngIf="edit">
                                                 <mat-form-field class="full-width">
@@ -128,14 +162,14 @@
                                                     </mat-select>
                                                 </mat-form-field>
 
-                                                <mat-form-field class="full-width" *ngIf="changesItem.location == 'AGENCY'">
+                                                <mat-form-field class="full-width" *ngIf="changesItem.location === 'AGENCY'">
                                                     <mat-label>Agency</mat-label>
                                                     <mat-select matInput name="locationId" id="locationId" [(ngModel)]="changesItem.locationId">
                                                         <mat-option *ngFor="let Agency of AgencyList" [value]="Agency.id">{{Agency.name}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
 
-                                                <mat-form-field class="full-width" *ngIf="changesItem.location == 'WAREHOUSE'">
+                                                <mat-form-field class="full-width" *ngIf="changesItem.location === 'WAREHOUSE'">
                                                     <mat-label>Warehouse</mat-label>
                                                     <mat-select matInput name="locationId" id="locationId" [(ngModel)]="changesItem.locationId">
                                                         <mat-option *ngFor="let warehouse of warehouses; let i = index" [value]="warehouse.id">

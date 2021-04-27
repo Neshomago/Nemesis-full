@@ -191,7 +191,7 @@
               <div style="height: 30px;"></div>
                <mat-card>
                            <h2>Items from technical review: 
-                               <span *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
+                               <span *ngIf="(theTicketData.version == 5 || theTicketData.version == 7) && theTicketData.status !== 'ABORTED'">
                                    <button mat-icon-button (click)="addItem(theTicketData.id)"><mat-icon>add</mat-icon></button>
                                </span>
                         </h2>
@@ -216,7 +216,7 @@
                             <br> -->
                             <hr>
                             <!-- {{ tagsarray_techreview | json }} -->
-                <ng-container *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
+                <ng-container *ngIf="(theTicketData.version == 5 || theTicketData.version == 7) && theTicketData.status !== 'ABORTED'">
                         <div class="row" *ngFor="let obj of tagsarray; let i = index">
                             <div class="col-1">
                                 <button mat-icon-button (click)="addItem(theTicketData.id)">
@@ -232,20 +232,21 @@
                             <!-- Item from agency -->
                             <div class="col">
                                 <mat-form-field class="full-width">
-                                    <mat-label>Checked Item: </mat-label>
-                                    <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.item" >
+                                    <div class="col">
+                                        <mat-label>Checked Item: </mat-label>
+                                        <mat-select matNativeControl name="item{{i}}" [(ngModel)]="obj.id" >
                                             <ng-container *ngFor="let tag of AgencyItems; let i = index" >
-                                            <mat-option value="{{tag.name}}">
-                                                {{tag.name}} | {{tag.location}}
-                                            </mat-option>
-                                            
-                                        </ng-container>
-                                    </mat-select>
+                                                <mat-option value="{{tag.id}}">
+                                                    {{tag.name}} | {{tag.location}}
+                                                </mat-option>
+                                                
+                                            </ng-container>
+                                        </mat-select>
+                                    </div>
                                     </mat-form-field>
                             </div>
                             
                             <div class="col">
-
                                 <mat-form-field class="full-width">
                                     <mat-label>Send to Location: </mat-label>
                                     <mat-select matInput name="location" id="location" [(ngModel)]="obj.location">
@@ -279,23 +280,6 @@
                                 </mat-form-field>
 
 
-
-
-                                <!-- <mat-form-field class="full-width" >
-                                    <mat-label>Send To</mat-label>
-                                    <mat-select matNativeControl name="warehouseId" id="warehouseId" [(ngModel)]="obj.warehouseId">
-                                        <mat-option disabled>WAREHOUSE</mat-option>
-                                        <mat-option *ngFor="let warehouse of warehouses" value="{{warehouse.id}}">
-                                        {{warehouse.name}}
-                                        </mat-option>
-                                        <mat-option disabled>AGENCY</mat-option>
-                                        <ng-container *ngFor="let Agency of AgencyListNames">
-                                                <mat-option *ngIf="theTicketData.acid == Agency.customerId" value="{{Agency.id}}">
-                                                   {{Agency.name}}
-                                                </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field> -->
                             </div>
 
                             <div class="col">
@@ -310,14 +294,11 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                                <!-- <mat-form-field>
-                                    <input matInput placeholder="label" value="value" [(ngModel)]="obj.customerId">
-                                </mat-form-field> -->
                         </div>
                         {{tagsarray | json}}
                 </ng-container>
-                <div *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
-                    <button mat-icon-button [disabled]="tagsarray == ''" (click)="updateChangesItem()"><mat-icon>save</mat-icon>Confirm Items</button>
+                <div *ngIf="(theTicketData.version == 5 || theTicketData.version == 7) && theTicketData.status !== 'ABORTED'">
+                    <button mat-icon-button [disabled]="tagsarray == ''" (click)="updateChangesItem(theTicketData.id)"><mat-icon>save</mat-icon>Confirm Items</button>
                 </div>
                 <mat-container *ngIf="theTicketData.status == 'RESOLVED'">
                     <table>
@@ -377,7 +358,7 @@
             <div style="height: 30px;"></div>
             <mat-card>
                 <mat-card-title>Technical review notes:</mat-card-title>
-                <ng-container *ngIf="theTicketData.version == 6">
+                <ng-container *ngIf="theTicketData.version == 6  || theTicketData.status == 'ABORTED'">
                     <div>
                         {{theTicketData.assigned_tags}}
                     </div>
@@ -456,7 +437,7 @@
                 
 
 
-                <ng-container class="row" *ngIf="theTicketData.version == 5 || theTicketData.version == 7">
+                <ng-container class="row" *ngIf="(theTicketData.version == 5 || theTicketData.version == 7) && theTicketData.status !== 'ABORTED'">
                     <mat-form-field class="col-12">
                         <mat-label>Write your observations: </mat-label>
                         <textarea matInput name="notes" id="notes" placeholder="Notes of the ticket work" [(ngModel)]="theResolvedTicketUpdate.assigned_tags">
@@ -482,7 +463,7 @@
             </mat-card>
             <div style="height: 30px;"></div>
             <!-- FOOTER BOTTOM SECTION -->
-            <div class="container">
+            <div class="container" *ngIf=" theTicketData.status !== 'ABORTED'">
                 <div class="row">
                     <div class="col">
                         <button  mat-raised-button  (click)="rptDownload()">DOWNLOAD REPORT</button>
