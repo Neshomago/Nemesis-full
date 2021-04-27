@@ -44,18 +44,45 @@
                 <span>
                   <ng-container *ngIf="dataItem.location == 'AGENCY'">
                     <ng-container *ngIf="dataItem.warehouseId != 0">
-                        <span class="material-icons" style="vertical-align: middle;">store</span> {{dataItem.warehouseId}}
+                        <span class="material-icons" style="vertical-align: middle;">store</span>
+                        <span style="font-size: 11px;">
+                          {{dataItem.warehouseId}}
+                          <ng-container *ngFor="let item of AgencyList; let i=index">
+                            <ng-container *ngIf="item.id == dataItem.locationId">
+                              {{item.name}}
+                            </ng-container>
+                          </ng-container>
+                        </span>
+                        
                     </ng-container>
                   </ng-container>
                   <ng-container *ngIf="dataItem.location =='WAREHOUSE'">
                     <ng-container *ngIf="dataItem.warehouseId != 0">
-                      <span class="material-icons" style="vertical-align: middle;">home_work</span> {{dataItem.warehouseId}}
+                      <span class="material-icons" style="vertical-align: middle;">home_work</span>
+                      <span style="font-size: 11px;">
+                        {{dataItem.warehouseId}}
+                        <ng-container *ngFor="let item of warehouses; let i=index">
+                          <ng-container *ngIf="item.id == dataItem.locationId">
+                            {{item.name}}
+                          </ng-container>
+                        </ng-container>  
+                      </span>
                     </ng-container>
                   </ng-container>
                   
-                    <ng-container *ngIf="dataItem.isMoving == 1">
-                        <span class="material-icons" style="vertical-align: middle;">local_shipping</span> {{dataItem.assignedTechId}}
+                  <ng-container *ngIf="dataItem.location == 'TRANSPORT' && dataItem.version == 1">
+                    <ng-container *ngIf="dataItem.warehouseId != 0">
+                      <span class="material-icons" style="vertical-align: middle;">local_shipping</span>
+                      <span style="font-size: 11px;">
+                        {{dataItem.locationId}}
+                        <!-- <ng-container *ngFor="let item of warehouses; let i=index">
+                          <ng-container *ngIf="item.id == dataItem.locationId">
+                            {{item.name}}
+                          </ng-container>
+                        </ng-container>   -->
+                      </span>
                     </ng-container>
+                  </ng-container>
                 </span>
             </td>
             <td>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AgencyService } from 'src/app/services/agency.service';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 
 @Component({
@@ -17,10 +18,13 @@ export class ViewitemsetComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private wrhsService: WarehouseService,
+    private agencyService: AgencyService,
   ) { }
 
   ngOnInit(): void {
     this.id = +this.getitemIndividualDistrubitionList(this.route.snapshot.paramMap.get('id'));
+    this.getWarehouses();
+    this.getAgencyList();
   }
 
   getitemIndividualDistrubitionList(id: any): any{
@@ -29,6 +33,22 @@ export class ViewitemsetComponent implements OnInit {
         this.itemListtotal = data;
         console.log(this.itemListtotal);
       }
+    );
+  }
+
+  AgencyList: any = [];
+  getAgencyList(){
+    this.agencyService.getAgencyList().subscribe(
+      data => {this.AgencyList = data;
+      console.log("agencias: ", this.AgencyList);}
+    )
+  }
+
+  warehouses:any=[];
+  getWarehouses(){
+    this.wrhsService.getWarehouseList().subscribe(
+      data => {this.warehouses = data;
+      console.log("bodegas: ",this.warehouses);}
     );
   }
 

@@ -50,6 +50,23 @@ deleteWarehouseItem(id:any, changes: any): Observable<any> {
     return this.http.get(`${APIUrl}/warehouseitagencyticket/${ticketId}`);
   }
 
+  GetItemsToConfirmTicket(ticketId:any): Observable<any>{
+    return this.http.get(`${APIUrl}/wrhsitmrslvtckt/${ticketId}`);
+  }
+
+  GetItemnameSerialbyId(id:any):Observable<any>{
+    return this.http.get(APIUrl+'/warehouseitname/'+id);
+  }
+
+  UpdateItemLocationfromTicket(id: any, val:any): Observable<any>{
+    return this.http.post(APIUrl+'/warehouseitemuptickettech/'+id, val);
+  }
+
+  // The items selected by the technician will be confirmed by this route
+  closeTicketAdmin(id: any, val:any): Observable<any>{
+    return this.http.post(APIUrl+'/warehouseitemupticketview/'+id, val);
+  }
+
   // To see all warehouse items from warehouseitemtype
   getItemsListperType(): Observable<any>{
     return this.http.get<any[]>(APIUrl + '/warehouseitemspertype');
