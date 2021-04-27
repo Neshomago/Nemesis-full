@@ -38,6 +38,8 @@ export class TicketsComponent implements OnInit {
     this.service.getTicketList().subscribe(data => 
       {
        this.TicketList=data;
+       let result = this.TicketList.map((a:any) => a.creationDate);
+       console.log("solo fechas: ", result);
       }),
     this.agencyService.getAgencyList().subscribe(agency=>
       {
@@ -63,14 +65,68 @@ export class TicketsComponent implements OnInit {
   filtering = false;
   onSelectedFilter(){
     this.FilteredResult = this.TicketList.filter(
-      (ticket:any) => (ticket.status === this.FilterValue || ticket.type == this.FilterValue || ticket.priority == this.FilterValue || ticket.creationDate == this.FilterValue));
+      (ticket:any) => (ticket.status === this.FilterValue
+        || ticket.type == this.FilterValue 
+        || ticket.priority == this.FilterValue 
+        || ticket.creationDate == this.FilterValue
+        
+        ));
     this.filtering = true;
     if (this.FilterValue == "clear"){
       this.filtering = false;
       this.FilteredResult = [];
     }
-
-    let Month = this.TicketList.creationDate.getMonth();
-    console.log('Mes buscado:', Month);
   }
+
+  onSelectedMonth(){
+    
+    this.FilterValue == "jan"
+    this.FilterValue == "feb"
+    this.FilterValue == "mar"
+    this.FilterValue == "apr"
+    this.FilterValue == "may"
+    this.FilterValue == "jun"
+    this.FilterValue == "jul"
+    this.FilterValue == "aug"
+    this.FilterValue == "sep"
+    this.FilterValue == "oct"
+    this.FilterValue == "nov"
+    this.FilterValue == "dec"
+
+    let a = this.TicketList[0].creationDate;
+    console.log("mes a mostrar general: ",a);
+
+  }
+
+  limpiarFiltro(){
+    this.filtering = false;
+    this.FilterValue="";  
+    this.FilteredResult = [];
+  }
+
+  onValueChange(date:Date) {
+    var monthData = this.TicketList.filter(
+      (x:any) => x.currentDate &&  new Date(x.date).getMonth() == date.getMonth()
+    );
+    console.log(monthData);
+
+    // this.getDisplayData(monthData);
+  }
+
+  // getDisplayData(inputData) {
+  //   this.resultData = [];
+  //   let data = new Set(
+  //     inputData.map(item => this.datePipe.transform(item.date, "yyyy-MM"))
+  //   );
+  //   Array.from(data)
+  //     .sort()
+  //     .forEach(date => {
+  //       this.resultData.push({
+  //         date: date,
+  //         bug: this.products.filter(
+  //           i => this.datePipe.transform(i.date, "yyyy-MM") === date
+  //         )
+  //       });
+  //     });
+  // }
 }

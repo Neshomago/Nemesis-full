@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
           console.log('Base de datos: ', xresp);
           if(xresp['email']==this.usuario.email) {
             localStorage.setItem('id', xresp['id']);
+            localStorage.setItem('bid', xresp['bid']);
             localStorage.setItem('RoleA', xresp['RoleA']);
             localStorage.setItem('RoleC', xresp['RoleC']); 
             localStorage.setItem('RoleE', xresp['RoleE']);

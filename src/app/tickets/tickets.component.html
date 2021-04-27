@@ -1,18 +1,8 @@
-<!-- {{TicketList[3] | json}} -->
-<!-- <h1>Ticketing</h1> -->
 <div class="filterboxes">
-    <!-- <div class="row">
-        &nbsp;
-        <mat-form-field class="col-12" appearance="fill">
-          <mat-label>Search</mat-label>
-          <input matInput placeholder="Search the ticket">
-        </mat-form-field>
-    </div> -->
     <div class="row">
         <mat-form-field class="col" >
             <mat-label>Filter by Status:</mat-label>
             <mat-select matNativeControl id="status" name="status" [(ngModel)]="FilterValue" (selectionChange)="onSelectedFilter()">
-                <mat-option value="clear">Clear filter</mat-option>
                 <mat-option value="OPENED">OPENED</mat-option>
               <mat-option value="MANAGING">MANAGING</mat-option>
               <mat-option value="PROCESSING">PROCESSING</mat-option>
@@ -46,7 +36,7 @@
           &nbsp;
           <mat-form-field class="col" >
             <mat-label>Filter by Month:</mat-label>
-            <mat-select matNativeControl id="type" name="type" [(ngModel)]="FilterValue" (selectionChange)="onSelectedFilter()">
+            <mat-select matNativeControl id="type" name="type" [(ngModel)]="FilterValue" (selectionChange)="onSelectedMonth()">
               <mat-option value="jan">January</mat-option>
               <mat-option value="feb">February</mat-option>
               <mat-option value="mar">March</mat-option>
@@ -61,24 +51,11 @@
               <mat-option value="dec">December</mat-option>
             </mat-select>
           </mat-form-field>
-          <!-- <mat-form-field class="col-auto" appearance="fill">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-              <input matStartDate formControlName="start" placeholder="Start date">
-              <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          
-            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-          </mat-form-field>
-          &nbsp; -->
           <div class="col-auto">
-            <button mat-icon-button routerLink="/create-ticket"
+            <button mat-icon-button (click)="limpiarFiltro()"
             #tooltip="matTooltip"
             matTooltip="Download ticket report"
-            ><mat-icon>cloud_download</mat-icon></button>
+            ><mat-icon>backspace</mat-icon></button>
         </div>
     </div>
 </div>
