@@ -96,7 +96,7 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="edit">
                                                     <mat-form-field>
-                                                        <input matInput type="text" name="phone" id="phone" [(ngModel)]="changes.email" autofocus>
+                                                        <input matInput type="text" name="email" id="email" [(ngModel)]="changes.email" autofocus>
                                                     </mat-form-field>
                                                 </ng-container>
                                             </td>
@@ -124,6 +124,103 @@
                                                     {{theUserData.customerId}}
                                             </td>
                                         </tr>
+    
+                                    </table>
+                                </div>
+                    </div>
+<br>
+
+                    <ng-container style="padding-top: 20px;">
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <mat-divider></mat-divider>
+                    <div><br>
+                            <h2>User Login Data</h2>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td colspan="1">Login ID</td>
+                                            <td>:</td>
+                                            <td colspan="1">
+                                                <ng-container>
+                                                    {{theUserData.bid}}
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">Login Email</td>
+                                            <td>:</td>
+                                            <td colspan="1">
+                                                <ng-container>
+                                                    {{theUserData.email}}
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td colspan="1">New Password</td>
+                                            <td>:</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="!edit">
+                                                    *******
+                                                </ng-container>
+                                                <ng-container *ngIf="edit">
+                                                    <mat-form-field>
+                                                        <input matInput type="password" name="password" id="password" [(ngModel)]="passwordModel.password" autofocus>
+                                                    </mat-form-field>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="1">User Role: </td>
+                                            <td>:</td>
+                                            <td colspan="1">
+                                                <ng-container *ngIf="loginData[0].RoleA == 1">
+                                                    Administrator -
+                                                </ng-container>
+                                                <ng-container *ngIf="loginData[0].RoleE == 1">
+                                                    Warehouse -
+                                                </ng-container>
+                                                <ng-container *ngIf="loginData[0].RoleT == 1">
+                                                    Technician -
+                                                </ng-container>
+                                                <ng-container *ngIf="loginData[0].RoleC == 1">
+                                                    Customer
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="edit">
+                                            <td colspan="3">
+                                                <form id="miForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+                                                    <div>
+                                                    <section id="rol" name="rol" class="checksection">
+                                                        <mat-checkbox class="checkleftmargin" name="RoleA" [(ngModel)]="passwordModel.RoleA">Administrator</mat-checkbox>
+                                                        <mat-checkbox class="checkleftmargin" name="RoleT" [(ngModel)]="passwordModel.RoleT">Technician</mat-checkbox>
+                                                        <mat-checkbox class="checkleftmargin" name="RoleC" [(ngModel)]="passwordModel.RoleC">Customer</mat-checkbox>
+                                                        <mat-checkbox class="checkleftmargin" name="RoleE" [(ngModel)]="passwordModel.RoleE">Warehouse</mat-checkbox>
+                                                    </section>
+                                                    </div>
+                                                    <!-- <p>
+                                                      <mat-form-field class="full-width">
+                                                        <mat-label>Username</mat-label>
+                                                        <input matInput id="name" name="name" placeholder="Username" [(ngModel)]="nuevousuario.username" required>
+                                                      </mat-form-field>
+                                                    </p> -->
+                                                  
+                                                  <!-- {{contactModel | json}} -->
+                                                  <!-- <div class="btncenter">
+                                                    <div>
+                                                      <button mat-raised-button class="cancel" [routerLink]="['/contacts']"><span class="material-icons">clear</span>Cancel</button>
+                                                    </div>
+                                                    <div>
+                                                      <button mat-raised-button class="savebtn" type="submit"><span class="material-icons">done</span> Save</button>
+                                                    </div>
+                                                  </div> -->
+                                                </form>
+                                            </td>
+                                        </tr>
+                                            
     
                                     </table>
                                 </div>

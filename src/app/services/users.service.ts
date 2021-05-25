@@ -79,4 +79,14 @@ export class UsersService {
     console.log("contenido del val: ",val);
     return this.http.post(APIUrl + '/user/updateavailable/'+id, val);
   }
+
+    // metodo para obtener los datos del usuario a acutualizar
+  getUsertoUpdate(id:any):Observable<any>{
+    return this.http.get<any[]>(`${APIUrl}/users/tomodify/${id}`);
+  }
+
+  // metodo para obtener los datos del usuario a acutualizar
+  UpdatePasswordAndRole(id:any, val:any):Observable<any>{
+    return this.http.post(`${APIUrl}/users/tomodify/${id}`, val);
+  }
 }
