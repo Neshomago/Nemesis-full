@@ -3,9 +3,12 @@ import { TicketService} from '../services/ticket.service';
 import { Tickets} from '../tickets';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar} from '@angular/material/snack-bar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { Router} from '@angular/router';
 import { AgencyService } from '../services/agency.service';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-ticket',
@@ -29,6 +32,14 @@ export class CreateTicketComponent implements OnInit {
     version: 1,
     code:'',
   }
+
+  valueSelected:any;
+
+  myControl = new FormControl();
+  AgencyList: any = [];
+  arregloAutocompletar:any = [];
+
+  filteredOptions!: Observable<any[]>;
   
   constructor(private ticketService:TicketService,
     private agencyService: AgencyService,
@@ -41,21 +52,82 @@ export class CreateTicketComponent implements OnInit {
   ngOnInit(): void {
     this.getAgencyName();
     console.log("customerId al crear ticket: ",this.customerId);
+    // this.filteredOptions = this.myControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value))
+    // );
   }
-
-  myControl = new FormControl();
-  AgencyList: any = [];
 
   getAgencyName(){
     let zrole = localStorage.getItem('zRoleA');
     if(!zrole){
       this.ticketService.getAgencyName(String(this.customerId)).subscribe(agency => {
         this.AgencyList = agency;
+        this.arregloAutocompletar = this.AgencyList;
+        console.log("Not: ", this.AgencyList);
       });
     } else {
         this.agencyService.getAgencyList().subscribe(data => 
-          { this.AgencyList = data;});
+          { this.AgencyList = data;
+            this.arregloAutocompletar = this.AgencyList;
+            console.log("Yes: ",this.AgencyList);
+          });
     }
+  }
+
+  // private _filter(value: any): any[] {
+  //   const filterValue = value.toLowerCase();
+  //   console.log(this.AgencyList);
+
+  //   return this.AgencyList.filter((option:any) => 
+  //   option.name.toLowerCase().includes(filterValue) || 
+  //   option.id.toLowerCase().includes(filterValue) ||
+  //   option.managerId.toLowerCase().includes(filterValue)
+  //   );
+  // }
+
+  filteredString: string = '';
+  filter = false;
+  filteredResult: any = [];
+  onSearchTerm(agency:any){
+
+    const busqueda = agency;
+    console.log("data agencia: ",busqueda);
+
+    
+    if (this.valueSelected == 'NAME'){
+      let resp: any = this.AgencyList.filter( (option:any) => 
+      option.name.toLowerCase().includes(busqueda.toLowerCase()));
+      if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filter = true;
+        this.filteredResult = resp;
+        return resp;
+      }
+      // console.log("respu: ",resp);
+    } else if (this.valueSelected ==='AAMS'){
+      let resp: any = this.AgencyList.filter( (option:any) => 
+      option.managerId.toLowerCase().includes(busqueda));
+      if (resp != null || resp != undefined || resp != "" || resp != []){
+        this.filter = true;
+        this.filteredResult = resp;
+        return resp;
+      }
+      // console.log("respu: ",resp);
+    }
+
+    // let resp: any = this.arregloAutocompletar.filter(
+    //   (item:any) => item.name.toLowerCase().indexOf(this.filteredString.toLowerCase()) !== -1);
+
+    //     if (resp != null || resp != undefined || resp != "" || resp != []){
+    //       this.filter = true;
+    //       this.filteredResult = resp;
+    //       // return resp;
+    //     }
+    //     if (resp == "" || resp == null || resp == undefined || resp === [] || resp==='' || resp=="clear"){
+    //         this.filteredResult = [];
+    //         this.filter = false;
+    //     }
   }
     
   addTicket(){
