@@ -80,7 +80,10 @@
             <tr *ngFor="let dataItem of TicketList; let i = index" 
             [class.active]="i == currentIndex"
             (clic)="setCurrentTicket(dataItem, i)" [routerLink]="['viewticket/',dataItem.id]" style="cursor: pointer;">
-                <td class="col-1" *ngIf="dataItem.status != 'ABORTED'" >
+            <ng-container *ngIf="(dataItem.customerId == customerId && zRoleC)">
+
+               
+            <td class="col-1" *ngIf="dataItem.status != 'ABORTED'" >
                         <div>{{dataItem.id}}</div>
                 </td>
                     <td class="row" *ngIf="dataItem.status != 'ABORTED'"  >
@@ -126,7 +129,8 @@
                     <td class="med-text" *ngIf="dataItem.status != 'ABORTED'" ><span>{{dataItem.description}}</span>
                     <br><span class="xs-text" [ngStyle]="{'color': dataItem.priority === 'LOW'? 'green':'black'}">Priority: {{dataItem.priority}}</span></td>
                     <td class="med-text" *ngIf="dataItem.status != 'ABORTED'" >{{dataItem.creationDate | date: 'M/d/yy, h:mm a'}}</td>
-                </tr>
+            </ng-container>     
+            </tr>
         </tbody>
     </table>
 </ng-container>

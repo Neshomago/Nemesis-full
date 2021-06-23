@@ -17,6 +17,10 @@ export class TicketsComponent implements OnInit {
   constructor(private service:TicketService, private agencyService: AgencyService,
     public dialog:MatDialog) { }
 
+  customerId = localStorage.getItem('customerId');
+  zRoleA = localStorage.getItem('RoleA');
+  zRoleC = localStorage.getItem('RoleC');
+  
   TicketList:any=[];
   AgencyList:any=[];
   currentTicket = null;
@@ -33,13 +37,14 @@ export class TicketsComponent implements OnInit {
   ngOnInit(): void {
     this.refreshTicketList();
   }
-
+  
   refreshTicketList(){
     this.service.getTicketList().subscribe(data => 
       {
-       this.TicketList=data;
+        this.TicketList=data;
+        console.log(this.TicketList);
        let result = this.TicketList.map((a:any) => a.creationDate);
-       console.log("solo fechas: ", result);
+       //console.log("solo fechas: ", result);
       }),
     this.agencyService.getAgencyList().subscribe(agency=>
       {
@@ -108,7 +113,7 @@ export class TicketsComponent implements OnInit {
     var monthData = this.TicketList.filter(
       (x:any) => x.currentDate &&  new Date(x.date).getMonth() == date.getMonth()
     );
-    console.log(monthData);
+    //console.log(monthData);
 
     // this.getDisplayData(monthData);
   }

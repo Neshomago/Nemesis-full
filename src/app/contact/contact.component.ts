@@ -13,6 +13,10 @@ export class ContactComponent implements OnInit {
 
   Contact:any = [];
 
+  customerId = localStorage.getItem('customerId');
+  zRoleA = localStorage.getItem('RoleA');
+  zRoleC = localStorage.getItem('RoleC');
+
   currentUser = null;
   currentIndex = -1;
 

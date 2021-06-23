@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~11.0.6",
     "@angular/router": "~11.0.6",
     "file-upload-angular": "^1.4.0",
+    "html2pdf.js": "^0.9.3",
     "jspdf": "^2.3.0",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",

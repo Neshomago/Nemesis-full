@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent {
 
+  language = '';
   xRoleA: boolean = false;
   xRoleC: boolean = false; 
   xRoleE: boolean = false;
@@ -101,6 +102,14 @@ export class NavbarComponent {
     this.auth.logout();
     localStorage.clear();
     this.router.navigateByUrl('/login');
+  }
+
+  setLanguage(){
+    if (this.language == 'english'){
+      this.language = 'italiano';
+    } else {
+      this.language = 'english';
+    }
   }
   
   openDialogSettingsBox(){
