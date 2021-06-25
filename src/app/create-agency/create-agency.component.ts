@@ -23,7 +23,7 @@ export class CreateAgencyComponent implements OnInit {
     version:1,
     moreInfo:'',
     ids:'',    
-  } //('','','','','','','',1,'','AgencytestID','USERTEST');
+  }
 
   constructor(private agencyService:AgencyService, 
     private router:Router, 
